@@ -41,6 +41,12 @@ public class CustomListFragment extends ListFragment implements OnItemClickListe
         } else if (getResources().getStringArray(R.array.arr)[position].equals("Concrete")) {
             Intent intent = new Intent(this.getActivity(), ConcreteActivity.class);
             startActivity(intent);
+        } else if (getResources().getStringArray(R.array.arr)[position].equals("Framing")) {
+            Intent intent = new Intent(this.getActivity(), FramingActivity.class);
+            startActivity(intent);
+        }  else if (getResources().getStringArray(R.array.arr)[position].equals("Conclusion")) {
+            Intent intent = new Intent(this.getActivity(), ConclusionActivity.class);
+            startActivity(intent);
         }
     }
 }

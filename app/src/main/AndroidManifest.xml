@@ -38,6 +38,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nicco.inspectionReviewManager.MainActivity" />
         </activity>
+        <activity
+            android:name="com.example.nicco.inspectionReviewManager.FramingActivity"
+            android:parentActivityName="com.example.nicco.inspectionReviewManager.MainActivity"
+            android:launchMode="singleTask" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nicco.inspectionReviewManager.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.example.nicco.inspectionReviewManager.ConclusionActivity"
+            android:parentActivityName="com.example.nicco.inspectionReviewManager.MainActivity"
+            android:launchMode="singleTask" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nicco.inspectionReviewManager.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
