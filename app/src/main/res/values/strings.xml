@@ -3,20 +3,20 @@
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
     <string name="name">Name</string>
-    <string name="tab_title_1">Tab 1</string>
-    <string name="tab_title_2">Tab 2</string>
-    <string name="tab_title_3">Tab 3</string>
-    <string name="tab_title_4">Tab 4</string>
-    <string name="tab_title_5">Tab 5</string>
+
+    <string name="date">Date</string>
+    <string name="project">Project</string>
+    <string name="concrete">Concrete</string>
+    <string name="framing">Framing</string>
+    <string name="conclusion">Conclusion</string>
 
     <string-array name="arr">
-        <item>Date</item>
-        <item>Location</item>
-        <item>Concrete</item>
-        <item>Framing</item>
-        <item>Conclusion</item>
+        <item>@string/date</item>
+        <item>@string/project</item>
+        <item>@string/concrete</item>
+        <item>@string/framing</item>
+        <item>@string/conclusion</item>
     </string-array>
-
 
     <string-array name="cityProv">
         <item>Coquitlam, BC</item>

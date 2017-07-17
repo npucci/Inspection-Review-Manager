@@ -8,6 +8,7 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.TimePicker.*;
 
+import java.text.DateFormatSymbols;
 import java.util.Calendar;
 
 /**
@@ -32,7 +33,7 @@ public class DateActivity extends AppCompatActivity {
                 @Override
                 public void onDateChanged(DatePicker datePicker, int year, int month, int dayOfMonth) {
                     model.updateDay("" + dayOfMonth);
-                    model.updateMonth("" + (month + 1));
+                    model.updateMonth(new DateFormatSymbols().getMonths()[month]);
                     model.updateYear("" + year);
                 }
             }

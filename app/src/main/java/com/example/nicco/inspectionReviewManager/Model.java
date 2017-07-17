@@ -8,7 +8,7 @@ import android.app.Application;
 
 public class Model extends Application {
     // inputs
-    private String project = "";
+    private String address = "";
     private String projectNumber = "";
     private String cityProv = "";
     private String year = "";
@@ -68,7 +68,7 @@ public class Model extends Application {
     }
 
     public void reset() {
-        project = "";
+        address = "";
         projectNumber = "";
         cityProv = "";
         year = "";
@@ -122,9 +122,13 @@ public class Model extends Application {
         reportGrading = "";
     }
 
-    public void updateProject(String project) {
-        System.out.println("project = " + project);
-        this.project = project;
+    public void updateAddress(String address) {
+        System.out.println("address = " + address);
+        this.address = address;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public void updateProjectNumber(String projectNumber) {
@@ -132,9 +136,17 @@ public class Model extends Application {
         this.projectNumber = projectNumber;
     }
 
+    public String getProjectNumber() {
+        return projectNumber;
+    }
+
     public void updateCityProv(String cityProv) {
         System.out.println("cityProv = " + cityProv);
         this.cityProv = cityProv;
+    }
+
+    public String getCityProv() {
+        return cityProv;
     }
 
     public void updateYear(String year) {

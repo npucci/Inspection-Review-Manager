@@ -2,6 +2,7 @@ package com.example.nicco.inspectionReviewManager;
 
 import android.app.ListFragment;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ public class CustomListFragment extends ListFragment implements OnItemClickListe
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.list_fragment, container, false);
+
         return view;
     }
 
@@ -28,23 +30,28 @@ public class CustomListFragment extends ListFragment implements OnItemClickListe
         getListView().setOnItemClickListener(this);
     }
 
+//    private void changeListItemBackground() {
+//        getListView().getChildAt(0).setBackgroundColor(Color.RED);
+//    }
+//
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(getActivity(), getResources().getStringArray(R.array.arr)[position],
                 Toast.LENGTH_SHORT).show();
-        if (getResources().getStringArray(R.array.arr)[position].equals("Location")) {
-            Intent intent = new Intent(this.getActivity(), LocationActivity.class);
-            startActivity(intent);
-        } else if (getResources().getStringArray(R.array.arr)[position].equals("Date")) {
+       if (getResources().getStringArray(R.array.arr)[position].equals(getString(R.string.date))) {
             Intent intent = new Intent(this.getActivity(), DateActivity.class);
             startActivity(intent);
-        } else if (getResources().getStringArray(R.array.arr)[position].equals("Concrete")) {
+        } else if (getResources().getStringArray(R.array.arr)[position].equals(getString(R.string.project))) {
+            Intent intent = new Intent(this.getActivity(), LocationActivity.class);
+            startActivity(intent);
+        } else if (getResources().getStringArray(R.array.arr)[position].equals(getString(R.string.concrete))) {
             Intent intent = new Intent(this.getActivity(), ConcreteActivity.class);
             startActivity(intent);
-        } else if (getResources().getStringArray(R.array.arr)[position].equals("Framing")) {
+        } else if (getResources().getStringArray(R.array.arr)[position].equals(getString(R.string.framing))) {
             Intent intent = new Intent(this.getActivity(), FramingActivity.class);
             startActivity(intent);
-        }  else if (getResources().getStringArray(R.array.arr)[position].equals("Conclusion")) {
+        }  else if (getResources().getStringArray(R.array.arr)[position].equals(getString(R.string.conclusion))) {
             Intent intent = new Intent(this.getActivity(), ConclusionActivity.class);
             startActivity(intent);
         }
