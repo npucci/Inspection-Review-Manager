@@ -30,36 +30,32 @@
             android:focusableInTouchMode="true">
 
             <TextView
-                android:id="@+id/textView11"
+                android:id="@+id/textViewTrussSpec"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Is conformance with truss spec?"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:text="Is conformance with truss spec?" />
 
             <RadioGroup
-                android:id="@+id/radioGroup"
+                android:id="@+id/radioGroupTrussSpec"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView12">
+                android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radioButton6"
+                    android:id="@+id/radioButtonTrussSpecReviewed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="Reviewed" />
 
                 <RadioButton
-                    android:id="@+id/radioButton7"
+                    android:id="@+id/radioButtonTrussSpecNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -67,62 +63,50 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/textView17"
+                android:id="@+id/textViewTrussSpecInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup3" />
+                android:text="Instructions" />
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView3"
+                android:id="@+id/autoCompleteTrussSpecInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView15"
-                app:layout_constraintHorizontal_bias="0.504"
-                app:layout_constraintLeft_toRightOf="@+id/textView15"
-                app:layout_constraintRight_toRightOf="parent"
-                tools:layout_constraintLeft_creator="1"
-                tools:layout_constraintRight_creator="1" />
+                android:layout_marginStart="8dp" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/textViewIJoist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Is in conformance with I-joist shop drawing?"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView3" />
+                android:text="Is in conformance with I-joist shop drawing?" />
 
             <RadioGroup
-                android:id="@+id/radioGroup5"
+                android:id="@+id/radioGroupIJoist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView14">
+                android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radioButton9"
+                    android:id="@+id/radioButtonIJoistReviewed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Reviewed" />
 
                 <RadioButton
-                    android:id="@+id/radioButton8"
+                    android:id="@+id/radioButtonIJoistNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -130,61 +114,50 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/textView18"
+                android:id="@+id/textViewIJoistInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup5" />
+                android:text="Instructions" />
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView4"
+                android:id="@+id/autoCompleteIJoistInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView16"
-                app:layout_constraintLeft_toRightOf="@+id/textView16"
-                app:layout_constraintRight_toRightOf="parent"
-                tools:layout_constraintLeft_creator="1"
-                tools:layout_constraintRight_creator="1" />
+                android:layout_marginStart="8dp" />
 
             <TextView
-                android:id="@+id/textView14"
+                android:id="@+id/textViewBearing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Checked beam and girder bearing?"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView5" />
+                android:text="Checked beam and girder bearing?" />
 
             <RadioGroup
-                android:id="@+id/radioGroup2"
+                android:id="@+id/radioGroupBearing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView11">
+                android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radioButton3"
+                    android:id="@+id/radioButtonBearingReviewed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="Reviewed" />
 
                 <RadioButton
-                    android:id="@+id/radioButton2"
+                    android:id="@+id/radioButtonBearingNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -192,62 +165,50 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/textView15"
+                android:id="@+id/textViewBearingInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
+                android:text="Instructions" />
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView6"
+                android:id="@+id/autoCompleteBearingInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView18"
-                app:layout_constraintHorizontal_bias="0.47"
-                app:layout_constraintLeft_toRightOf="@+id/textView18"
-                app:layout_constraintRight_toRightOf="parent"
-                tools:layout_constraintLeft_creator="1"
-                tools:layout_constraintRight_creator="1" />
+                android:layout_marginStart="8dp" />
 
             <TextView
-                android:id="@+id/textView19"
+                android:id="@+id/textViewTopPlates"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Checked continuity of top plates?"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView4" />
+                android:text="Checked continuity of top plates?" />
 
             <RadioGroup
-                android:id="@+id/radioGroup4"
+                android:id="@+id/radioGroupTopPlates"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13">
+                android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radioButton10"
+                    android:id="@+id/radioButtonTopPlatesReviewed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Reviewed" />
 
                 <RadioButton
-                    android:id="@+id/radioButton11"
+                    android:id="@+id/radioButtonTopPlatesNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -255,62 +216,50 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/textView20"
+                android:id="@+id/textViewTopPlatesInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+                android:text="Instructions" />
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView7"
+                android:id="@+id/autoCompleteTopPlatesInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView17"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintLeft_toRightOf="@+id/textView17"
-                app:layout_constraintRight_toRightOf="parent"
-                tools:layout_constraintLeft_creator="1"
-                tools:layout_constraintRight_creator="1" />
+                android:layout_marginStart="8dp" />
 
             <TextView
-                android:id="@+id/textView13"
+                android:id="@+id/textViewLintels"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Checked lintels/openings?"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView4" />
+                android:text="Checked lintels/openings?" />
 
             <RadioGroup
-                android:id="@+id/radioGroup3"
+                android:id="@+id/radioGroupLintels"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13">
+                android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radioButton5"
+                    android:id="@+id/radioButtonLintelsReviewed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Reviewed" />
 
                 <RadioButton
-                    android:id="@+id/radioButton4"
+                    android:id="@+id/radioButtonLintelsNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -318,61 +267,49 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/textView16"
+                android:id="@+id/textViewLintelsInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+                android:text="Instructions" />
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView5"
+                android:id="@+id/autoCompleteLintelsInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView17"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintLeft_toRightOf="@+id/textView17"
-                app:layout_constraintRight_toRightOf="parent"
-                tools:layout_constraintLeft_creator="1"
-                tools:layout_constraintRight_creator="1" />
+                android:layout_marginStart="8dp" />
             <TextView
-                android:id="@+id/textView21"
+                android:id="@+id/textViewShearwalls"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Checked shearwalls/fastening/hold downs?"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView4" />
+                android:text="Checked shearwalls/fastening/hold downs?" />
 
             <RadioGroup
-                android:id="@+id/radioGroup6"
+                android:id="@+id/radioGroupShearwalls"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13">
+                android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radioButton16"
+                    android:id="@+id/radioButtonShearwallsReviewed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Reviewed" />
 
                 <RadioButton
-                    android:id="@+id/radioButton17"
+                    android:id="@+id/radioButtonShearwallsNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -380,62 +317,50 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/textView22"
+                android:id="@+id/textViewShearwallsInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+                android:text="Instructions" />
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView8"
+                android:id="@+id/autoCompleteShearwallsInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView17"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintLeft_toRightOf="@+id/textView17"
-                app:layout_constraintRight_toRightOf="parent"
-                tools:layout_constraintLeft_creator="1"
-                tools:layout_constraintRight_creator="1" />
+                android:layout_marginStart="8dp" />
 
             <TextView
-                android:id="@+id/textView23"
+                android:id="@+id/textViewTallWalls"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Checked continuity of tall walls?"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView4" />
+                android:text="Checked continuity of tall walls?" />
 
             <RadioGroup
-                android:id="@+id/radioGroup7"
+                android:id="@+id/radioGroupTallWalls"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13">
+                android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radioButton23"
+                    android:id="@+id/radioButtonTallWallsReviewed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Reviewed" />
 
                 <RadioButton
-                    android:id="@+id/radioButton24"
+                    android:id="@+id/radioButtonTallWallsNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -443,62 +368,50 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/textView24"
+                android:id="@+id/textViewTallWallsInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+                android:text="Instructions" />
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView9"
+                android:id="@+id/autoCompleteTallWallsInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView17"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintLeft_toRightOf="@+id/textView17"
-                app:layout_constraintRight_toRightOf="parent"
-                tools:layout_constraintLeft_creator="1"
-                tools:layout_constraintRight_creator="1" />
+                android:layout_marginStart="8dp" />
 
             <TextView
-                android:id="@+id/textView26"
+                android:id="@+id/textViewBlocking"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Checked blocking in floor system for point loads?"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView4" />
+                android:text="Checked blocking in floor system for point loads?" />
 
             <RadioGroup
-                android:id="@+id/radioGroup8"
+                android:id="@+id/radioGroupBlocking"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13">
+                android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radioButton25"
+                    android:id="@+id/radioButtonBlockingReview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Reviewed" />
 
                 <RadioButton
-                    android:id="@+id/radioButton26"
+                    android:id="@+id/radioButtonBlockingNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -506,62 +419,50 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/textView25"
+                android:id="@+id/textViewBlockingInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+                android:text="Instructions" />
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView11"
+                android:id="@+id/autoCompleteBlockingInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView17"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintLeft_toRightOf="@+id/textView17"
-                app:layout_constraintRight_toRightOf="parent"
-                tools:layout_constraintLeft_creator="1"
-                tools:layout_constraintRight_creator="1" />
+                android:layout_marginStart="8dp" />
 
             <TextView
-                android:id="@+id/textView27"
+                android:id="@+id/textViewSheathing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Checked wall sheathing?"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView4" />
+                android:text="Checked wall sheathing?" />
 
             <RadioGroup
-                android:id="@+id/radioGroup9"
+                android:id="@+id/radioGroupSheathing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13">
+                android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radioButton27"
+                    android:id="@+id/radioButtonSheathingReviewed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Reviewed" />
 
                 <RadioButton
-                    android:id="@+id/radioButton28"
+                    android:id="@+id/radioButtonSheathingNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -569,62 +470,50 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/textView28"
+                android:id="@+id/textViewSheathingInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+                android:text="Instructions" />
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView10"
+                android:id="@+id/autoCompleteSheathingInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView17"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintLeft_toRightOf="@+id/textView17"
-                app:layout_constraintRight_toRightOf="parent"
-                tools:layout_constraintLeft_creator="1"
-                tools:layout_constraintRight_creator="1" />
+                android:layout_marginStart="8dp" />
 
             <TextView
-                android:id="@+id/textView29"
+                android:id="@+id/textViewWindGirts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Checked wind girts?"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView4" />
+                android:text="Checked wind girts?" />
 
             <RadioGroup
-                android:id="@+id/radioGroup10"
+                android:id="@+id/radioGroupWindGirts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13">
+                android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radioButton29"
+                    android:id="@+id/radioButtonWindGirtsReviewed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Reviewed" />
 
                 <RadioButton
-                    android:id="@+id/radioButton30"
+                    android:id="@+id/radioButtonWindGirtsNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -632,30 +521,22 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/textView30"
+                android:id="@+id/textViewWindGirtsInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+                android:text="Instructions" />
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView12"
+                android:id="@+id/autoCompleteWindGirtsInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView17"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintLeft_toRightOf="@+id/textView17"
-                app:layout_constraintRight_toRightOf="parent"
-                tools:layout_constraintLeft_creator="1"
-                tools:layout_constraintRight_creator="1" />
+                android:layout_marginStart="8dp" />
         </LinearLayout>
     </ScrollView>
 

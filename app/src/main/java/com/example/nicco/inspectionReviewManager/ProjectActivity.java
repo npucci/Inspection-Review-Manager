@@ -33,31 +33,31 @@ public class ProjectActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_selectable_list_item, getResources().getStringArray(R.array.cityProv));
         address.setAdapter(adapter);
-        if(model.getAddress() != null && !model.getAddress().equals("")) address.setText(model.getAddress());
+        if(model.getAddress() != null) address.setText(model.getAddress());
 
         // CITY/PROV
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         cityProv.setAdapter(adapter);
-        if(model.getCityProv() != null && !model.getCityProv().equals("")) cityProv.setText(model.getCityProv());
+        if(model.getCityProv() != null) cityProv.setText(model.getCityProv());
 
         // PROJECT NUMBER
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         projectNumber.setAdapter(adapter);
-        if(model.getProjectNumber() != null && !model.getProjectNumber().equals("")) projectNumber.setText(model.getProjectNumber());
+        if(model.getProjectNumber() != null) projectNumber.setText(model.getProjectNumber());
 
         // DEVELOPER
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         developer.setAdapter(adapter);
-        if(model.getDeveloper() != null && !model.getDeveloper().equals("")) developer.setText(model.getDeveloper());
+        if(model.getDeveloper() != null) developer.setText(model.getDeveloper());
 
         // CONTRACTOR
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         contractor.setAdapter(adapter);
-        if(model.getContractor() != null && !model.getContractor().equals("")) contractor.setText(model.getContractor());
+        if(model.getContractor() != null) contractor.setText(model.getContractor());
 
         // FOOTINGS
         footings.setChecked(model.getFootings());
@@ -129,7 +129,6 @@ public class ProjectActivity extends AppCompatActivity {
         // FOOTINGS
         if(footings.isChecked()) model.updateFootings(Model.SpecialValues.YES);
         else model.updateFootings(Model.SpecialValues.NO);
-        Log.v("PUCCI", "footings = " + footings.isChecked());
 
         // FOUNDATION WALLS
         if(foundationWalls.isChecked()) model.updateFoundationWalls(Model.SpecialValues.YES);

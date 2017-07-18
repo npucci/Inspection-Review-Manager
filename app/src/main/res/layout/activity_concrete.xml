@@ -30,7 +30,7 @@
             android:focusableInTouchMode="true">
 
             <TextView
-                android:id="@+id/rebar_position_textView"
+                android:id="@+id/textViewRebarPosition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -39,7 +39,7 @@
                 android:text="Is rebar in correct position?" />
 
             <RadioGroup
-                android:id="@+id/rebar_position_radioGroup"
+                android:id="@+id/radioGroupRebarPosition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -49,14 +49,14 @@
                 app:layout_constraintLeft_toLeftOf="parent">
 
                 <RadioButton
-                    android:id="@+id/radioButton6"
+                    android:id="@+id/radioButtonRebarPositionReviewed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="Reviewed" />
 
                 <RadioButton
-                    android:id="@+id/radioButton7"
+                    android:id="@+id/radioButtonRebarPositionNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -64,7 +64,7 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/rebar_position_instructions_textView"
+                android:id="@+id/textViewRebarPositionInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -73,7 +73,7 @@
                 android:text="Instructions" />
 
             <AutoCompleteTextView
-                android:id="@+id/rebar_position_instructions_autoCompleteTextView"
+                android:id="@+id/autoCompleteRebarPositionInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -82,7 +82,7 @@
                 android:layout_marginStart="8dp" />
 
             <TextView
-                android:id="@+id/rebar_size_textView"
+                android:id="@+id/textViewRebarSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -91,7 +91,7 @@
                 android:text="Does rebar have right size and spacing?" />
 
             <RadioGroup
-                android:id="@+id/radioGroup5"
+                android:id="@+id/radioGroupRebarSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -100,14 +100,14 @@
                 android:orientation="horizontal" >
 
                 <RadioButton
-                    android:id="@+id/radioButton9"
+                    android:id="@+id/radioButtonRebarSizeReviewed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Reviewed" />
 
                 <RadioButton
-                    android:id="@+id/radioButton8"
+                    android:id="@+id/radioButtonRebarSizeNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -115,7 +115,7 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/rebar_size_instruction_textView"
+                android:id="@+id/textViewRebarSizeInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -124,7 +124,7 @@
                 android:text="Instructions" />
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView4"
+                android:id="@+id/autoCompleteRebarSizeInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -133,7 +133,7 @@
                 android:layout_marginStart="8dp" />
 
             <TextView
-                android:id="@+id/formwork_textView"
+                android:id="@+id/textViewFormwork"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -142,7 +142,7 @@
                 android:text="Is formwork generally as per plan?" />
 
             <RadioGroup
-                android:id="@+id/radioGroup2"
+                android:id="@+id/radioGroupFormwork"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -151,14 +151,14 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radioButton3"
+                    android:id="@+id/radioButtonFormworkReviewed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="Reviewed" />
 
                 <RadioButton
-                    android:id="@+id/radioButton2"
+                    android:id="@+id/radioButtonFormworkNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -166,7 +166,7 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/formwork_instruction_textView"
+                android:id="@+id/textViewFormworkInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -175,7 +175,7 @@
                 android:text="Instructions" />
 
             <AutoCompleteTextView
-                android:id="@+id/formwork_autoCompleteTextView"
+                android:id="@+id/autoCompleteFormworkInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -184,7 +184,7 @@
                 android:layout_marginStart="8dp" />
 
             <TextView
-                android:id="@+id/anchorage_textView"
+                android:id="@+id/textViewAnchorage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -193,7 +193,7 @@
                 android:text="Is hold down anchorage in place?" />
 
             <RadioGroup
-                android:id="@+id/radioGroup3"
+                android:id="@+id/radioGroupAnchorage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -202,14 +202,14 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radioButton5"
+                    android:id="@+id/radioButtonAnchorageReviewed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Reviewed" />
 
                 <RadioButton
-                    android:id="@+id/radioButton4"
+                    android:id="@+id/radioButtonAnchorageNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -217,7 +217,7 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/anchorage_instruction_textView"
+                android:id="@+id/textViewAnchorageInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -226,7 +226,7 @@
                 android:text="Instructions" />
 
             <AutoCompleteTextView
-                android:id="@+id/anchorage_instruction_autoCompleteTextView"
+                android:id="@+id/autoCompleteAnchorageInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"

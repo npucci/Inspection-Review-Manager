@@ -30,13 +30,17 @@ public class Model extends Application {
     private String other = "";
     private String otherInput = "";
     // CONCRETE:
-    private String rebarPosition = "";
+    private String rebarPositionReviewed = "";
+    private String rebarPositionNA = "";
     private String rebarPositionInstruction = "";
-    private String rebarSizeSpacing = "";
-    private String rebarSizeSpacingInstruction = "";
-    private String anchorage = "";
+    private String rebarSizeReviewed = "";
+    private String rebarSizeNA = "";
+    private String rebarSizeInstruction = "";
+    private String anchorageReviewed = "";
+    private String anchorageNA = "";
     private String anchorageInstruction = "";
-    private String formwork = "";
+    private String formworkReviewed = "";
+    private String formworkNA = "";
     private String formworkInstruction = "";
     // FRAMING:
     private String trussSpec = "";
@@ -65,8 +69,7 @@ public class Model extends Application {
     private String reportGrading = "";
     private String inspectorName = "";
 
-    public Model() {
-    }
+    public Model() {}
 
     public void reset() {
         address = "";
@@ -82,20 +85,24 @@ public class Model extends Application {
         contractor = "";
         weather = "";
         temperature = "";
-//            footingsReview = "";
-//            foundationWallsReview = "";
-//            sheathingReview = "";
-//            framingReview = "";
-//            otherReview = "";
-//            otherInput = "";
+        footings = "";
+        foundationWalls = "";
+        sheathing = "";
+        framing = "";
+        other = "";
+        otherInput = "";
         // CONCRETE:
-        rebarPosition = "";
+        rebarPositionReviewed = "";
+        rebarPositionNA = "";
         rebarPositionInstruction = "";
-        rebarSizeSpacing = "";
-        rebarSizeSpacingInstruction = "";
-        anchorage = "";
+        rebarSizeReviewed = "";
+        rebarSizeNA = "";
+        rebarSizeInstruction = "";
+        anchorageReviewed = "";
+        anchorageNA = "";
         anchorageInstruction = "";
-        formwork = "";
+        formworkReviewed = "";
+        formworkNA = "";
         formworkInstruction = "";
         // FRAMING:
         trussSpec = "";
@@ -171,56 +178,56 @@ public class Model extends Application {
 
     // PROJECT ACTIVITY - FOOTINGS
     public void updateFootings(SpecialValues footings) {
-        Log.v("PUCCI", "footings = " + footings.value);
-        this.footings = footings.value;
+        Log.v("PUCCI", "footings = " + footings.toString());
+        this.footings = footings.toString();
     }
 
     public boolean getFootings() {
-        if(footings.equals(SpecialValues.YES.value)) return true;
+        if(footings.equals(SpecialValues.YES.toString())) return true;
         return false;
     }
 
     // PROJECT ACTIVITY - FOUNDATION WALLS
     public void updateFoundationWalls(SpecialValues foundationWalls) {
-        Log.v("PUCCI", "foundationWalls = " + foundationWalls.value);
-        this.foundationWalls = foundationWalls.value;
+        Log.v("PUCCI", "foundationWalls = " + foundationWalls.toString());
+        this.foundationWalls = foundationWalls.toString();
     }
 
     public boolean getFoundationWalls() {
-        if(foundationWalls.equals(SpecialValues.YES.value)) return true;
+        if(foundationWalls.equals(SpecialValues.YES.toString())) return true;
         return false;
     }
 
     // PROJECT ACTIVITY - SHEATHING
     public void updateSheathing(SpecialValues sheathing) {
-        Log.v("PUCCI", "sheathing = " + sheathing.value);
-        this.sheathing = sheathing.value;
+        Log.v("PUCCI", "sheathing = " + sheathing.toString());
+        this.sheathing = sheathing.toString();
     }
 
     public boolean getSheathing() {
-        if(sheathing.equals(SpecialValues.YES.value)) return true;
+        if(sheathing.equals(SpecialValues.YES.toString())) return true;
         return false;
     }
 
     // PROJECT ACTIVITY - FRAMING
     public void updateFraming(SpecialValues framing) {
-        Log.v("PUCCI", "framing = " + framing.value);
-        this.framing = framing.value;
+        Log.v("PUCCI", "framing = " + framing.toString());
+        this.framing = framing.toString();
     }
 
     public boolean getFraming() {
-        if(framing.equals(SpecialValues.YES.value)) return true;
+        if(framing.equals(SpecialValues.YES.toString())) return true;
         return false;
     }
 
     // PROJECT ACTIVITY - OTHER
     public void updateOther(SpecialValues other) {
-        Log.v("PUCCI", "other = " + other.value);
-        this.other = other.value;
+        Log.v("PUCCI", "other = " + other.toString());
+        this.other = other.toString();
     }
 
     public boolean getOther() {
-        if(other.equals(SpecialValues.YES.value)) return true;
+        if(other.equals(SpecialValues.YES.toString())) return true;
         return false;
     }
 
@@ -280,14 +287,136 @@ public class Model extends Application {
         this.temperature = temperature;
     }
 
+    // CONCRETE ACTIVITY - REBAR POSITION
+    public void updateRebarPositionReviewed(SpecialValues rebarPositionReviewed) {
+        Log.v("PUCCI", "rebarPositionReviewed = " + rebarPositionReviewed.toString());
+        this.rebarPositionReviewed = rebarPositionReviewed.toString();
+    }
+
+    public boolean getRebarPositionReviewed() {
+        if(rebarPositionReviewed.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateRebarPositionNA(SpecialValues rebarPositionNA) {
+        Log.v("PUCCI", "rebarPositionNA = " + rebarPositionNA.toString());
+        this.rebarPositionNA = rebarPositionNA.toString();
+    }
+
+    public boolean getRebarPositionNA() {
+        if(rebarPositionNA.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateRebarPositionInstruction(String rebarPositionInstruction) {
+        Log.v("PUCCI", "rebarPositionInstruction = " + rebarPositionInstruction);
+        this.rebarPositionInstruction = rebarPositionInstruction;
+    }
+
+    public String getRebarPositionInstruction(){ return rebarPositionInstruction; }
+
+    // CONCRETE ACTIVITY - REBAR SIZE REVIEWED
+    public void updateRebarSizeReviewed(SpecialValues rebarSizeReviewed) {
+        Log.v("PUCCI", "rebarSizeReviewed = " + rebarSizeReviewed.toString());
+        this.rebarSizeReviewed = rebarSizeReviewed.toString();
+    }
+
+    public boolean getRebarSizeReviewed() {
+        if(rebarSizeReviewed.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    // CONCRETE ACTIVITY - REBAR SIZE NA
+    public void updateRebarSizeNA(SpecialValues rebarSizeNA) {
+        Log.v("PUCCI", "rebarSizeNA = " + rebarSizeNA.toString());
+        this.rebarSizeNA = rebarSizeNA.toString();
+    }
+
+    public boolean getRebarSizeNA() {
+        if(rebarSizeNA.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    // CONCRETE ACTIVITY - REBAR SIZE INSTRUCTION
+    public void updateRebarSizeInstruction(String rebarSizeInstruction) {
+        Log.v("PUCCI", "rebarSizeInstruction = " + rebarSizeInstruction);
+        this.rebarSizeInstruction = rebarSizeInstruction;
+    }
+
+    public String getRebarSizeInstruction(){ return rebarSizeInstruction; }
+
+    // CONCRETE ACTIVITY - FORMWORK REVIEWED
+    public void updateFormworkReviewed(SpecialValues formworkReviewed) {
+        Log.v("PUCCI", "formworkReviewed = " + formworkReviewed.toString());
+        this.formworkReviewed = formworkReviewed.toString();
+    }
+
+    public boolean getFormworkReviewed() {
+        if(formworkReviewed.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    // CONCRETE ACTIVITY - FORMWORK NA
+    public void updateFormworkNA(SpecialValues formworkNA) {
+        Log.v("PUCCI", "formworkNA = " + formworkNA.toString());
+        this.formworkNA = formworkNA.toString();
+    }
+
+    public boolean getFormworkNA() {
+        if(formworkNA.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    // CONCRETE ACTIVITY - FORMWORK INSTRUCTION
+    public void updateFormworkInstruction(String formworkInstruction) {
+        Log.v("PUCCI", "formworkInstruction = " + formworkInstruction);
+        this.formworkInstruction = formworkInstruction;
+    }
+
+    public String getFormworkInstruction(){ return formworkInstruction; }
+
+    // CONCRETE ACTIVITY - ANCHORAGE REVIEWED
+    public void updateAnchorageReviewed(SpecialValues anchorageReviewed) {
+        Log.v("PUCCI", "anchorageReviewed = " + anchorageReviewed.toString());
+        this.anchorageReviewed = anchorageReviewed.toString();
+    }
+
+    public boolean getAnchorageReviewed() {
+        if(anchorageReviewed.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    // CONCRETE ACTIVITY - ANCHORAGE NA
+    public void updateAnchorageNA(SpecialValues anchorageNA) {
+        Log.v("PUCCI", "anchorageNA = " + anchorageNA.toString());
+        this.anchorageNA = anchorageNA.toString();
+    }
+
+    public boolean getAnchorageNA() {
+        if(anchorageNA.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    // CONCRETE ACTIVITY - ANCHORAGE INSTRUCTION
+    public void updateAnchorageInstruction(String anchorageInstruction) {
+        Log.v("PUCCI", "anchorageInstruction = " + anchorageInstruction);
+        this.anchorageInstruction = anchorageInstruction;
+    }
+
+    public String getAnchorageInstruction(){ return anchorageInstruction; }
+
     public enum SpecialValues {
         YES ("Yes"),
         NO ("No"),
         NA ("N/A"),
+        NONE("None"),
         EMPTY ("");
         private String value;
-        SpecialValues(String value) {
-            this.value = value;
+        SpecialValues(String value) { this.value = value; }
+
+        @Override
+        public String toString() {
+            return value;
         }
     }
 }
