@@ -91,6 +91,7 @@ public class ProjectActivity extends AppCompatActivity {
         else otherInput.setEnabled(false);
     }
 
+    // initialize all referenced fields
     private void init() {
         model = (Model) getApplicationContext();
         address = (AutoCompleteTextView) findViewById(R.id.autocompleteAddress);

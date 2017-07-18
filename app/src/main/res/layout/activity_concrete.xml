@@ -26,29 +26,27 @@
             android:orientation="vertical"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="8dp"
-            android:weightSum="1">
+            android:weightSum="1"
+            android:focusableInTouchMode="true">
 
             <TextView
-                android:id="@+id/textView11"
+                android:id="@+id/rebar_position_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Is rebar in correct position?"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:text="Is rebar in correct position?" />
 
             <RadioGroup
-                android:id="@+id/radioGroup"
+                android:id="@+id/rebar_position_radioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView12">
+                app:layout_constraintLeft_toLeftOf="parent">
 
                 <RadioButton
                     android:id="@+id/radioButton6"
@@ -66,41 +64,31 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/textView17"
+                android:id="@+id/rebar_position_instructions_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup3" />
+                android:text="Instructions" />
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView3"
+                android:id="@+id/rebar_position_instructions_autoCompleteTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView15"
-                app:layout_constraintHorizontal_bias="0.504"
-                app:layout_constraintLeft_toRightOf="@+id/textView15"
-                app:layout_constraintRight_toRightOf="parent"
-                tools:layout_constraintLeft_creator="1"
-                tools:layout_constraintRight_creator="1" />
+                android:layout_marginStart="8dp" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/rebar_size_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Does rebar have right size and spacing?"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView3" />
+                android:text="Does rebar have right size and spacing?" />
 
             <RadioGroup
                 android:id="@+id/radioGroup5"
@@ -109,9 +97,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView14">
+                android:orientation="horizontal" >
 
                 <RadioButton
                     android:id="@+id/radioButton9"
@@ -129,15 +115,13 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/textView18"
+                android:id="@+id/rebar_size_instruction_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup5" />
+                android:text="Instructions" />
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextView4"
@@ -146,23 +130,16 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView16"
-                app:layout_constraintLeft_toRightOf="@+id/textView16"
-                app:layout_constraintRight_toRightOf="parent"
-                tools:layout_constraintLeft_creator="1"
-                tools:layout_constraintRight_creator="1" />
+                android:layout_marginStart="8dp" />
 
             <TextView
-                android:id="@+id/textView14"
+                android:id="@+id/formwork_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Is formwork generally as per plan?"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView5" />
+                android:text="Is formwork generally as per plan?" />
 
             <RadioGroup
                 android:id="@+id/radioGroup2"
@@ -171,9 +148,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView11">
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/radioButton3"
@@ -191,41 +166,31 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/textView15"
+                android:id="@+id/formwork_instruction_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
+                android:text="Instructions" />
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView6"
+                android:id="@+id/formwork_autoCompleteTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView18"
-                app:layout_constraintHorizontal_bias="0.47"
-                app:layout_constraintLeft_toRightOf="@+id/textView18"
-                app:layout_constraintRight_toRightOf="parent"
-                tools:layout_constraintLeft_creator="1"
-                tools:layout_constraintRight_creator="1" />
+                android:layout_marginStart="8dp" />
 
             <TextView
-                android:id="@+id/textView13"
+                android:id="@+id/anchorage_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Is hold down anchorage in place?"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView4" />
+                android:text="Is hold down anchorage in place?" />
 
             <RadioGroup
                 android:id="@+id/radioGroup3"
@@ -234,9 +199,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13">
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/radioButton5"
@@ -254,30 +217,22 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/textView16"
+                android:id="@+id/anchorage_instruction_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+                android:text="Instructions" />
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView5"
+                android:id="@+id/anchorage_instruction_autoCompleteTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView17"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintLeft_toRightOf="@+id/textView17"
-                app:layout_constraintRight_toRightOf="parent"
-                tools:layout_constraintLeft_creator="1"
-                tools:layout_constraintRight_creator="1" />
+                android:layout_marginStart="8dp" />
 
         </LinearLayout>
     </ScrollView>

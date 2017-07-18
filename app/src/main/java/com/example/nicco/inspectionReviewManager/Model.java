@@ -34,8 +34,8 @@ public class Model extends Application {
     private String rebarPositionInstruction = "";
     private String rebarSizeSpacing = "";
     private String rebarSizeSpacingInstruction = "";
-    private String holdDownAnchorage = "";
-    private String holdDownAnchorageInstruction = "";
+    private String anchorage = "";
+    private String anchorageInstruction = "";
     private String formwork = "";
     private String formworkInstruction = "";
     // FRAMING:
@@ -93,8 +93,8 @@ public class Model extends Application {
         rebarPositionInstruction = "";
         rebarSizeSpacing = "";
         rebarSizeSpacingInstruction = "";
-        holdDownAnchorage = "";
-        holdDownAnchorageInstruction = "";
+        anchorage = "";
+        anchorageInstruction = "";
         formwork = "";
         formworkInstruction = "";
         // FRAMING:

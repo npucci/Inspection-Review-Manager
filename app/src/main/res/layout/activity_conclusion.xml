@@ -26,7 +26,8 @@
             android:orientation="vertical"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="8dp"
-            android:weightSum="1">
+            android:weightSum="1"
+            android:focusableInTouchMode="true">
 
             <TextView
                 android:id="@+id/textView11"
