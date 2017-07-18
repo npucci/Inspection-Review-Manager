@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.nicco.inspectionReviewManager.LocationActivity">
+    tools:context="com.example.nicco.inspectionReviewManager.ProjectActivity">
 
     <TextView
         android:id="@+id/textView5"
@@ -127,7 +127,7 @@
         app:layout_constraintTop_toBottomOf="@+id/autoCompleteContractor" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/footings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -137,53 +137,53 @@
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <CheckBox
-        android:id="@+id/checkBox2"
+        android:id="@+id/foundation_walls"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
         android:text="Foundation Walls"
-        app:layout_constraintTop_toTopOf="@+id/checkBox"
-        app:layout_constraintLeft_toRightOf="@+id/checkBox"
+        app:layout_constraintTop_toTopOf="@+id/footings"
+        app:layout_constraintLeft_toRightOf="@+id/footings"
         android:layout_marginLeft="8dp" />
 
     <CheckBox
-        android:id="@+id/checkBox3"
+        android:id="@+id/sheathing"
         android:layout_width="109dp"
         android:layout_height="32dp"
         android:layout_marginTop="0dp"
         android:text="Sheathing"
-        app:layout_constraintTop_toTopOf="@+id/checkBox"
-        app:layout_constraintLeft_toRightOf="@+id/checkBox2"
+        app:layout_constraintTop_toTopOf="@+id/footings"
+        app:layout_constraintLeft_toRightOf="@+id/foundation_walls"
         android:layout_marginLeft="8dp" />
 
     <CheckBox
-        android:id="@+id/checkBox4"
+        android:id="@+id/framing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="0dp"
         android:text="Framing"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+        app:layout_constraintTop_toBottomOf="@+id/footings" />
 
     <CheckBox
-        android:id="@+id/checkBox5"
+        android:id="@+id/other"
         android:layout_width="80dp"
         android:layout_height="34dp"
         android:layout_marginTop="0dp"
         android:text="*Other"
-        app:layout_constraintTop_toTopOf="@+id/checkBox4"
+        app:layout_constraintTop_toTopOf="@+id/framing"
         android:layout_marginLeft="0dp"
-        app:layout_constraintLeft_toLeftOf="@+id/checkBox2" />
+        app:layout_constraintLeft_toLeftOf="@+id/foundation_walls" />
 
     <AutoCompleteTextView
         android:id="@+id/autoCompleteOther"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toRightOf="@+id/checkBox5"
+        app:layout_constraintLeft_toRightOf="@+id/other"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="16dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintBaseline_toBaselineOf="@+id/checkBox5" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/other" />
 </android.support.constraint.ConstraintLayout>

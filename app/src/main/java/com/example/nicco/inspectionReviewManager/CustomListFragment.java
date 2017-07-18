@@ -2,7 +2,6 @@ package com.example.nicco.inspectionReviewManager;
 
 import android.app.ListFragment;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +42,7 @@ public class CustomListFragment extends ListFragment implements OnItemClickListe
             Intent intent = new Intent(this.getActivity(), DateActivity.class);
             startActivity(intent);
         } else if (getResources().getStringArray(R.array.arr)[position].equals(getString(R.string.project))) {
-            Intent intent = new Intent(this.getActivity(), LocationActivity.class);
+            Intent intent = new Intent(this.getActivity(), ProjectActivity.class);
             startActivity(intent);
         } else if (getResources().getStringArray(R.array.arr)[position].equals(getString(R.string.concrete))) {
             Intent intent = new Intent(this.getActivity(), ConcreteActivity.class);

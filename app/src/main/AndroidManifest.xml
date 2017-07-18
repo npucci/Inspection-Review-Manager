@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.nicco.inspectionReviewManager.LocationActivity"
+            android:name="com.example.nicco.inspectionReviewManager.ProjectActivity"
             android:parentActivityName="com.example.nicco.inspectionReviewManager.MainActivity"
             android:launchMode="singleTask" >
             <meta-data

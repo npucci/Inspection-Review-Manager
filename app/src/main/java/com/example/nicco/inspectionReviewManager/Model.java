@@ -1,6 +1,7 @@
 package com.example.nicco.inspectionReviewManager;
 
 import android.app.Application;
+import android.util.Log;
 
 /**
  * Created by Nicco on 2017-07-17.
@@ -22,12 +23,12 @@ public class Model extends Application {
     private String weather = "";
     private String temperature = "";
     // TYPE OF REVIEW:
-//        private String footingsReview = DatabaseUtilities.NO_VALUE;
-//        private String foundationWallsReview = DatabaseUtilities.NO_VALUE;
-//        private String sheathingReview = DatabaseUtilities.NO_VALUE;
-//        private String framingReview = DatabaseUtilities.NO_VALUE;
-//        private String otherReview = DatabaseUtilities.NO_VALUE;
-//        private String otherInput = DatabaseUtilities.NO_VALUE;
+    private String footings = "";
+    private String foundationWalls = "";
+    private String sheathing = "";
+    private String framing = "";
+    private String other = "";
+    private String otherInput = "";
     // CONCRETE:
     private String rebarPosition = "";
     private String rebarPositionInstruction = "";
@@ -122,8 +123,9 @@ public class Model extends Application {
         reportGrading = "";
     }
 
+    // PROJECT ACTIVITY - ADDRESS
     public void updateAddress(String address) {
-        System.out.println("address = " + address);
+        Log.v("PUCCI", "address = " + address);
         this.address = address;
     }
 
@@ -131,8 +133,9 @@ public class Model extends Application {
         return address;
     }
 
+    // PROJECT ACTIVITY - PROJECT NUMBER
     public void updateProjectNumber(String projectNumber) {
-        System.out.println("projectNumber = " + projectNumber);
+        Log.v("PUCCI", "projectNumber = " + projectNumber);
         this.projectNumber = projectNumber;
     }
 
@@ -140,8 +143,9 @@ public class Model extends Application {
         return projectNumber;
     }
 
+    // PROJECT ACTIVITY - CITY/PROV
     public void updateCityProv(String cityProv) {
-        System.out.println("cityProv = " + cityProv);
+        Log.v("PUCCI", "cityProv = " + cityProv);
         this.cityProv = cityProv;
     }
 
@@ -149,53 +153,141 @@ public class Model extends Application {
         return cityProv;
     }
 
-    public void updateYear(String year) {
-        System.out.println("year = " + year);
-        this.year = year;
-    }
-
-    public void updateMonth(String month) {
-        System.out.println("month = " + month);
-        this.month = month;
-    }
-
-    public void updateDay(String day) {
-        System.out.println("day = " + day);
-        this.day = day;
-    }
-
-    public void updateHour(String hour) {
-        System.out.println("hour = " + hour);
-        this.hour = hour;
-    }
-
-    public void updateMinute(String minute) {
-        System.out.println("minute = " + minute);
-        this.minute = minute;
-    }
-
-    public void updateTimePeriod(String timePeriod) {
-        System.out.println("timePeriod = " + timePeriod);
-        this.timePeriod = timePeriod;
-    }
-
+    // PROJECT ACTIVITY - DEVELOPER
     public void updateDeveloper(String developer) {
-        System.out.println("developer = " + developer);
+        Log.v("PUCCI", "developer = " + developer);
         this.developer = developer;
     }
 
+    public String getDeveloper() { return developer; }
+
+    // PROJECT ACTIVITY - CONTRACTOR
     public void updateContractor(String contractor) {
-        System.out.println("contractor = " + contractor);
+        Log.v("PUCCI", "contractor = " + contractor);
         this.contractor = contractor;
     }
 
+    public String getContractor() { return contractor; }
+
+    // PROJECT ACTIVITY - FOOTINGS
+    public void updateFootings(SpecialValues footings) {
+        Log.v("PUCCI", "footings = " + footings.value);
+        this.footings = footings.value;
+    }
+
+    public boolean getFootings() {
+        if(footings.equals(SpecialValues.YES.value)) return true;
+        return false;
+    }
+
+    // PROJECT ACTIVITY - FOUNDATION WALLS
+    public void updateFoundationWalls(SpecialValues foundationWalls) {
+        Log.v("PUCCI", "foundationWalls = " + foundationWalls.value);
+        this.foundationWalls = foundationWalls.value;
+    }
+
+    public boolean getFoundationWalls() {
+        if(foundationWalls.equals(SpecialValues.YES.value)) return true;
+        return false;
+    }
+
+    // PROJECT ACTIVITY - SHEATHING
+    public void updateSheathing(SpecialValues sheathing) {
+        Log.v("PUCCI", "sheathing = " + sheathing.value);
+        this.sheathing = sheathing.value;
+    }
+
+    public boolean getSheathing() {
+        if(sheathing.equals(SpecialValues.YES.value)) return true;
+        return false;
+    }
+
+    // PROJECT ACTIVITY - FRAMING
+    public void updateFraming(SpecialValues framing) {
+        Log.v("PUCCI", "framing = " + framing.value);
+        this.framing = framing.value;
+    }
+
+    public boolean getFraming() {
+        if(framing.equals(SpecialValues.YES.value)) return true;
+        return false;
+    }
+
+    // PROJECT ACTIVITY - OTHER
+    public void updateOther(SpecialValues other) {
+        Log.v("PUCCI", "other = " + other.value);
+        this.other = other.value;
+    }
+
+    public boolean getOther() {
+        if(other.equals(SpecialValues.YES.value)) return true;
+        return false;
+    }
+
+    // PROJECT ACTIVITY - OTHER INPUT
+    public void updateOtherInput(String otherInput) {
+        Log.v("PUCCI", "otherInput input = " + otherInput);
+        this.otherInput = otherInput;
+    }
+
+    public String getOtherInput() { return otherInput; }
+
+    // DATE ACTIVITY - YEAR
+    public void updateYear(String year) {
+        Log.v("PUCCI", "year = " + year);
+        this.year = year;
+    }
+
+    // DATE ACTIVITY - MONTH
+    public void updateMonth(String month) {
+        Log.v("PUCCI", "month = " + month);
+        this.month = month;
+    }
+
+    // DATE ACTIVITY - DAY
+    public void updateDay(String day) {
+        Log.v("PUCCI", "day = " + day);
+        this.day = day;
+    }
+
+    // DATE ACTIVITY - HOUR
+    public void updateHour(String hour) {
+        Log.v("PUCCI", "hour = " + hour);
+        this.hour = hour;
+    }
+
+    // DATE ACTIVITY - MINUTE
+    public void updateMinute(String minute) {
+        Log.v("PUCCI", "minute = " + minute);
+        this.minute = minute;
+    }
+
+    // DATE ACTIVITY - TIME PERIOD
+    public void updateTimePeriod(String timePeriod) {
+        Log.v("PUCCI", "timePeriod = " + timePeriod);
+        this.timePeriod = timePeriod;
+    }
+
+    // DATE ACTIVITY - WEATHER
     public void updateWeather(String weather) {
-        System.out.println("weather = " + weather);
+        Log.v("PUCCI", "weather = " + weather);
         this.weather = weather;
     }
 
+    // DATE ACTIVITY - TEMPERATURE
     public void updateTemperature(String temperature) {
-        System.out.println("temperature = " + temperature);
+        Log.v("DEBUG", "temperature = " + temperature);
         this.temperature = temperature;
+    }
+
+    public enum SpecialValues {
+        YES ("Yes"),
+        NO ("No"),
+        NA ("N/A"),
+        EMPTY ("");
+        private String value;
+        SpecialValues(String value) {
+            this.value = value;
+        }
     }
 }
