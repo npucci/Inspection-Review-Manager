@@ -16,7 +16,7 @@
             android:focusableInTouchMode="true">
 
             <fragment
-                android:id="@+id/fragment1"
+                android:id="@+id/fragment"
                 android:name="com.example.nicco.inspectionReviewManager.CustomListFragment"
                 android:layout_width="match_parent"
                 android:layout_height="514dp" />

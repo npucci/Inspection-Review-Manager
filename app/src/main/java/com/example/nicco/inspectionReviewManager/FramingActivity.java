@@ -399,147 +399,147 @@ public class FramingActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStop() {
+    protected void onStop() {
         super.onStop();
 
         // TRUSS SPEC
         if(trussSpecReviewed.isChecked()) {
-            model.updateTrussSpecReviewed(Model.SpecialValues.YES);
-            model.updateTrussSpecNA(Model.SpecialValues.NO);
+            model.updateTrussSpecReviewed(Model.SpecialValue.YES);
+            model.updateTrussSpecNA(Model.SpecialValue.NO);
             if(trussSpecInstruction.getText().toString().equals(""))
-                model.updateTrussSpecInstruction(Model.SpecialValues.NONE.toString());
+                model.updateTrussSpecInstruction(Model.SpecialValue.NONE.toString());
             else
                 model.updateTrussSpecInstruction(trussSpecInstruction.getText().toString());
         } else if(trussSpecNA.isChecked()) {
-            model.updateTrussSpecReviewed(Model.SpecialValues.NO);
-            model.updateTrussSpecNA(Model.SpecialValues.YES);
-            model.updateTrussSpecInstruction(Model.SpecialValues.NA.toString());
+            model.updateTrussSpecReviewed(Model.SpecialValue.NO);
+            model.updateTrussSpecNA(Model.SpecialValue.YES);
+            model.updateTrussSpecInstruction(Model.SpecialValue.NA.toString());
         }
 
         // IJOIST
         if(iJoistReviewed.isChecked()) {
-            model.updateIJoistReviewed(Model.SpecialValues.YES);
-            model.updateIJoistNA(Model.SpecialValues.NO);
+            model.updateIJoistReviewed(Model.SpecialValue.YES);
+            model.updateIJoistNA(Model.SpecialValue.NO);
             if(iJoistInstruction.getText().toString().equals(""))
-                model.updateIJoistInstruction(Model.SpecialValues.NONE.toString());
+                model.updateIJoistInstruction(Model.SpecialValue.NONE.toString());
             else
                 model.updateIJoistInstruction(iJoistInstruction.getText().toString());
         } else if(iJoistNA.isChecked()) {
-            model.updateIJoistReviewed(Model.SpecialValues.NO);
-            model.updateIJoistNA(Model.SpecialValues.YES);
-            model.updateIJoistInstruction(Model.SpecialValues.NA.toString());
+            model.updateIJoistReviewed(Model.SpecialValue.NO);
+            model.updateIJoistNA(Model.SpecialValue.YES);
+            model.updateIJoistInstruction(Model.SpecialValue.NA.toString());
         }
 
         // BEARING
         if(bearingReviewed.isChecked()) {
-            model.updateBearingReviewed(Model.SpecialValues.YES);
-            model.updateBearingNA(Model.SpecialValues.NO);
+            model.updateBearingReviewed(Model.SpecialValue.YES);
+            model.updateBearingNA(Model.SpecialValue.NO);
             if(bearingInstruction.getText().toString().equals(""))
-                model.updateBearingInstruction(Model.SpecialValues.NONE.toString());
+                model.updateBearingInstruction(Model.SpecialValue.NONE.toString());
             else
                 model.updateBearingInstruction(bearingInstruction.getText().toString());
         } else if(bearingNA.isChecked()) {
-            model.updateBearingReviewed(Model.SpecialValues.NO);
-            model.updateBearingNA(Model.SpecialValues.YES);
-            model.updateBearingInstruction(Model.SpecialValues.NA.toString());
+            model.updateBearingReviewed(Model.SpecialValue.NO);
+            model.updateBearingNA(Model.SpecialValue.YES);
+            model.updateBearingInstruction(Model.SpecialValue.NA.toString());
         }
 
         // TOP PLATES
         if(topPlatesReviewed.isChecked()) {
-            model.updateTopPlatesReviewed(Model.SpecialValues.YES);
-            model.updateTopPlatesNA(Model.SpecialValues.NO);
+            model.updateTopPlatesReviewed(Model.SpecialValue.YES);
+            model.updateTopPlatesNA(Model.SpecialValue.NO);
             if(topPlatesInstruction.getText().toString().equals(""))
-                model.updateTopPlatesInstruction(Model.SpecialValues.NONE.toString());
+                model.updateTopPlatesInstruction(Model.SpecialValue.NONE.toString());
             else
                 model.updateTopPlatesInstruction(topPlatesInstruction.getText().toString());
         } else if(topPlatesNA.isChecked()) {
-            model.updateTopPlatesReviewed(Model.SpecialValues.NO);
-            model.updateTopPlatesNA(Model.SpecialValues.YES);
-            model.updateTopPlatesInstruction(Model.SpecialValues.NA.toString());
+            model.updateTopPlatesReviewed(Model.SpecialValue.NO);
+            model.updateTopPlatesNA(Model.SpecialValue.YES);
+            model.updateTopPlatesInstruction(Model.SpecialValue.NA.toString());
         }
 
         // LINTELS
         if(lintelsReviewed.isChecked()) {
-            model.updateLintelsReviewed(Model.SpecialValues.YES);
-            model.updateLintelsNA(Model.SpecialValues.NO);
+            model.updateLintelsReviewed(Model.SpecialValue.YES);
+            model.updateLintelsNA(Model.SpecialValue.NO);
             if(lintelsInstruction.getText().toString().equals(""))
-                model.updateLintelsInstruction(Model.SpecialValues.NONE.toString());
+                model.updateLintelsInstruction(Model.SpecialValue.NONE.toString());
             else
                 model.updateLintelsInstruction(lintelsInstruction.getText().toString());
         } else if(lintelsNA.isChecked()) {
-            model.updateLintelsReviewed(Model.SpecialValues.NO);
-            model.updateLintelsNA(Model.SpecialValues.YES);
-            model.updateLintelsInstruction(Model.SpecialValues.NA.toString());
+            model.updateLintelsReviewed(Model.SpecialValue.NO);
+            model.updateLintelsNA(Model.SpecialValue.YES);
+            model.updateLintelsInstruction(Model.SpecialValue.NA.toString());
         }
 
         // SHEARWALLS
         if(shearwallsReviewed.isChecked()) {
-            model.updateShearwallsReviewed(Model.SpecialValues.YES);
-            model.updateShearwallsNA(Model.SpecialValues.NO);
+            model.updateShearwallsReviewed(Model.SpecialValue.YES);
+            model.updateShearwallsNA(Model.SpecialValue.NO);
             if(shearwallsInstruction.getText().toString().equals(""))
-                model.updateShearwallsInstruction(Model.SpecialValues.NONE.toString());
+                model.updateShearwallsInstruction(Model.SpecialValue.NONE.toString());
             else
                 model.updateShearwallsInstruction(shearwallsInstruction.getText().toString());
         } else if(shearwallsNA.isChecked()) {
-            model.updateShearwallsReviewed(Model.SpecialValues.NO);
-            model.updateShearwallsNA(Model.SpecialValues.YES);
-            model.updateShearwallsInstruction(Model.SpecialValues.NA.toString());
+            model.updateShearwallsReviewed(Model.SpecialValue.NO);
+            model.updateShearwallsNA(Model.SpecialValue.YES);
+            model.updateShearwallsInstruction(Model.SpecialValue.NA.toString());
         }
 
         // TALL WALLS
         if(tallWallsReviewed.isChecked()) {
-            model.updateTallWallsReviewed(Model.SpecialValues.YES);
-            model.updateTallWallsNA(Model.SpecialValues.NO);
+            model.updateTallWallsReviewed(Model.SpecialValue.YES);
+            model.updateTallWallsNA(Model.SpecialValue.NO);
             if(tallWallsInstruction.getText().toString().equals(""))
-                model.updateTallWallsInstruction(Model.SpecialValues.NONE.toString());
+                model.updateTallWallsInstruction(Model.SpecialValue.NONE.toString());
             else
                 model.updateTallWallsInstruction(tallWallsInstruction.getText().toString());
         } else if(tallWallsNA.isChecked()) {
-            model.updateTallWallsReviewed(Model.SpecialValues.NO);
-            model.updateTallWallsNA(Model.SpecialValues.YES);
-            model.updateTallWallsInstruction(Model.SpecialValues.NA.toString());
+            model.updateTallWallsReviewed(Model.SpecialValue.NO);
+            model.updateTallWallsNA(Model.SpecialValue.YES);
+            model.updateTallWallsInstruction(Model.SpecialValue.NA.toString());
         }
 
         // BLOCKING
         if(blockingReviewed.isChecked()) {
-            model.updateBlockingReviewed(Model.SpecialValues.YES);
-            model.updateBlockingNA(Model.SpecialValues.NO);
+            model.updateBlockingReviewed(Model.SpecialValue.YES);
+            model.updateBlockingNA(Model.SpecialValue.NO);
             if(blockingInstruction.getText().toString().equals(""))
-                model.updateBlockingInstruction(Model.SpecialValues.NONE.toString());
+                model.updateBlockingInstruction(Model.SpecialValue.NONE.toString());
             else
                 model.updateBlockingInstruction(blockingInstruction.getText().toString());
         } else if(blockingNA.isChecked()) {
-            model.updateBlockingReviewed(Model.SpecialValues.NO);
-            model.updateBlockingNA(Model.SpecialValues.YES);
-            model.updateBlockingInstruction(Model.SpecialValues.NA.toString());
+            model.updateBlockingReviewed(Model.SpecialValue.NO);
+            model.updateBlockingNA(Model.SpecialValue.YES);
+            model.updateBlockingInstruction(Model.SpecialValue.NA.toString());
         }
 
         // WALL SHEATHING
         if(wallSheathingReviewed.isChecked()) {
-            model.updateWallSheathingReviewed(Model.SpecialValues.YES);
-            model.updateWallSheathingNA(Model.SpecialValues.NO);
+            model.updateWallSheathingReviewed(Model.SpecialValue.YES);
+            model.updateWallSheathingNA(Model.SpecialValue.NO);
             if(wallSheathingInstruction.getText().toString().equals(""))
-                model.updateWallSheathingInstruction(Model.SpecialValues.NONE.toString());
+                model.updateWallSheathingInstruction(Model.SpecialValue.NONE.toString());
             else
                 model.updateWallSheathingInstruction(wallSheathingInstruction.getText().toString());
         } else if(wallSheathingNA.isChecked()) {
-            model.updateWallSheathingReviewed(Model.SpecialValues.NO);
-            model.updateWallSheathingNA(Model.SpecialValues.YES);
-            model.updateWallSheathingInstruction(Model.SpecialValues.NA.toString());
+            model.updateWallSheathingReviewed(Model.SpecialValue.NO);
+            model.updateWallSheathingNA(Model.SpecialValue.YES);
+            model.updateWallSheathingInstruction(Model.SpecialValue.NA.toString());
         }
 
         // WIND GIRTS
         if(windGirtsReviewed.isChecked()) {
-            model.updateWindGirtsReviewed(Model.SpecialValues.YES);
-            model.updateWindGirtsNA(Model.SpecialValues.NO);
+            model.updateWindGirtsReviewed(Model.SpecialValue.YES);
+            model.updateWindGirtsNA(Model.SpecialValue.NO);
             if(windGirtsInstruction.getText().toString().equals(""))
-                model.updateWindGirtsInstruction(Model.SpecialValues.NONE.toString());
+                model.updateWindGirtsInstruction(Model.SpecialValue.NONE.toString());
             else
                 model.updateWindGirtsInstruction(windGirtsInstruction.getText().toString());
         } else if(windGirtsNA.isChecked()) {
-            model.updateWindGirtsReviewed(Model.SpecialValues.NO);
-            model.updateWindGirtsNA(Model.SpecialValues.YES);
-            model.updateWindGirtsInstruction(Model.SpecialValues.NA.toString());
+            model.updateWindGirtsReviewed(Model.SpecialValue.NO);
+            model.updateWindGirtsNA(Model.SpecialValue.YES);
+            model.updateWindGirtsInstruction(Model.SpecialValue.NA.toString());
         }
     }
 }

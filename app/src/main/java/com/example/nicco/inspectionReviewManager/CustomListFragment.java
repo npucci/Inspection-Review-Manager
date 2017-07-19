@@ -1,21 +1,29 @@
 package com.example.nicco.inspectionReviewManager;
 
 import android.app.ListFragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class CustomListFragment extends ListFragment implements OnItemClickListener {
+    private Model model;
+    private boolean finished = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.list_fragment, container, false);
+        View view = inflater.inflate(R.layout.custom_list_fragment, container, false);
 
         return view;
     }
@@ -23,16 +31,23 @@ public class CustomListFragment extends ListFragment implements OnItemClickListe
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.arr, android.R.layout.simple_list_item_1);
-        setListAdapter(adapter);
-        getListView().setOnItemClickListener(this);
-    }
 
-//    private void changeListItemBackground() {
-//        getListView().getChildAt(0).setBackgroundColor(Color.RED);
-//    }
-//
+        getListView().setOnItemClickListener(this);
+        model = (Model) getActivity().getApplicationContext();
+
+        model.checkDateActivityStatus();
+        model.checkProjectActivityStatus();
+        model.checkConcreteActivityStatus();
+        model.checkFramingActivityStatus();
+        model.checkConclusionActivityStatus();
+
+        ListView list = (ListView) getListView();
+        String[] arr = getResources().getStringArray(R.array.arr);
+        CustomArrayAdapter adapter = new CustomArrayAdapter(getActivity(),
+                android.R.layout.simple_list_item_1, arr);
+
+        list.setAdapter(adapter);
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -53,6 +68,35 @@ public class CustomListFragment extends ListFragment implements OnItemClickListe
         }  else if (getResources().getStringArray(R.array.arr)[position].equals(getString(R.string.conclusion))) {
             Intent intent = new Intent(this.getActivity(), ConclusionActivity.class);
             startActivity(intent);
+        }
+    }
+
+    private class CustomArrayAdapter extends ArrayAdapter<String> {
+        //private View convertView;
+        private ViewGroup parent;
+
+        public CustomArrayAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull String[] objects) {
+            super(context, resource, objects);
+        }
+
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            //this.convertView = convertView;
+            this.parent = parent;
+            TextView textView = (TextView) super.getView(position, convertView, parent);
+            //textView.setTextColor(model.getTextColor(textView.getText().toString()));
+            textView.setBackgroundColor(model.getBackgroundColor(textView.getText().toString()));
+            return textView;
+        }
+
+        public void setTextColor(TextView textView, int color) {
+
+        }
+
+        public void setBackgroundColor(int position, View convertView, int color) {
+            TextView textView = (TextView) super.getView(position, convertView, parent);
+            textView.setBackgroundColor(color);
         }
     }
 }
