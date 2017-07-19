@@ -43,25 +43,35 @@ public class Model extends Application {
     private String formworkNA = "";
     private String formworkInstruction = "";
     // FRAMING:
-    private String trussSpec = "";
+    private String trussSpecReviewed = "";
+    private String trussSpecNA = "";
     private String trussSpecInstruction = "";
-    private String ljoist = "";
-    private String ljoistInstruction = "";
-    private String bearing = "";
+    private String iJoistReviewed = "";
+    private String iJoistNA = "";
+    private String iJoistInstruction = "";
+    private String bearingReviewed = "";
+    private String bearingNA = "";
     private String bearingInstruction = "";
-    private String topPlates = "";
+    private String topPlatesReviewed = "";
+    private String topPlatesNA = "";
     private String topPlatesInstruction = "";
-    private String openings = "";
-    private String openingsInstruction = "";
-    private String fastening = "";
-    private String fasteningInstruction = "";
-    private String tallWalls = "";
+    private String lintelsReviewed = "";
+    private String lintelsNA = "";
+    private String lintelsInstruction = "";
+    private String shearwallsReviewed = "";
+    private String shearwallsNA = "";
+    private String shearwallsInstruction = "";
+    private String tallWallsReviewed = "";
+    private String tallWallsNA = "";
     private String tallWallsInstruction = "";
-    private String blocking = "";
+    private String blockingReviewed = "";
+    private String blockingNA = "";
     private String blockingInstruction = "";
-    private String wallSheathing = "";
+    private String wallSheathingReviewed = "";
+    private String wallSheathingNA = "";
     private String wallSheathingInstruction = "";
-    private String windGirts = "";
+    private String windGirtsReviewed = "";
+    private String windGirtsNA = "";
     private String windGirtsInstruction = "";
     // REVIEW CONCLUSION:
     private String observations = "";
@@ -105,25 +115,35 @@ public class Model extends Application {
         formworkNA = "";
         formworkInstruction = "";
         // FRAMING:
-        trussSpec = "";
+        trussSpecReviewed = "";
+        trussSpecNA = "";
         trussSpecInstruction = "";
-        ljoist = "";
-        ljoistInstruction = "";
-        bearing = "";
+        iJoistReviewed = "";
+        iJoistNA = "";
+        iJoistInstruction = "";
+        bearingReviewed = "";
+        bearingNA = "";
         bearingInstruction = "";
-        topPlates = "";
+        topPlatesReviewed = "";
+        topPlatesNA = "";
         topPlatesInstruction = "";
-        openings = "";
-        openingsInstruction = "";
-        fastening = "";
-        fasteningInstruction = "";
-        tallWalls = "";
+        lintelsReviewed = "";
+        lintelsNA = "";
+        lintelsInstruction = "";
+        shearwallsReviewed = "";
+        shearwallsNA = "";
+        shearwallsInstruction = "";
+        tallWallsReviewed = "";
+        tallWallsNA = "";
         tallWallsInstruction = "";
-        blocking = "";
+        blockingReviewed = "";
+        blockingNA = "";
         blockingInstruction = "";
-        wallSheathing = "";
+        wallSheathingReviewed = "";
+        wallSheathingNA = "";
         wallSheathingInstruction = "";
-        windGirts = "";
+        windGirtsReviewed = "";
+        windGirtsNA = "";
         windGirtsInstruction = "";
         observations = "";
         comments = "";
@@ -315,7 +335,7 @@ public class Model extends Application {
 
     public String getRebarPositionInstruction(){ return rebarPositionInstruction; }
 
-    // CONCRETE ACTIVITY - REBAR SIZE REVIEWED
+    // CONCRETE ACTIVITY - REBAR SIZE
     public void updateRebarSizeReviewed(SpecialValues rebarSizeReviewed) {
         Log.v("PUCCI", "rebarSizeReviewed = " + rebarSizeReviewed.toString());
         this.rebarSizeReviewed = rebarSizeReviewed.toString();
@@ -326,7 +346,6 @@ public class Model extends Application {
         return false;
     }
 
-    // CONCRETE ACTIVITY - REBAR SIZE NA
     public void updateRebarSizeNA(SpecialValues rebarSizeNA) {
         Log.v("PUCCI", "rebarSizeNA = " + rebarSizeNA.toString());
         this.rebarSizeNA = rebarSizeNA.toString();
@@ -337,7 +356,6 @@ public class Model extends Application {
         return false;
     }
 
-    // CONCRETE ACTIVITY - REBAR SIZE INSTRUCTION
     public void updateRebarSizeInstruction(String rebarSizeInstruction) {
         Log.v("PUCCI", "rebarSizeInstruction = " + rebarSizeInstruction);
         this.rebarSizeInstruction = rebarSizeInstruction;
@@ -345,7 +363,7 @@ public class Model extends Application {
 
     public String getRebarSizeInstruction(){ return rebarSizeInstruction; }
 
-    // CONCRETE ACTIVITY - FORMWORK REVIEWED
+    // CONCRETE ACTIVITY - FORMWORK
     public void updateFormworkReviewed(SpecialValues formworkReviewed) {
         Log.v("PUCCI", "formworkReviewed = " + formworkReviewed.toString());
         this.formworkReviewed = formworkReviewed.toString();
@@ -356,7 +374,6 @@ public class Model extends Application {
         return false;
     }
 
-    // CONCRETE ACTIVITY - FORMWORK NA
     public void updateFormworkNA(SpecialValues formworkNA) {
         Log.v("PUCCI", "formworkNA = " + formworkNA.toString());
         this.formworkNA = formworkNA.toString();
@@ -367,7 +384,6 @@ public class Model extends Application {
         return false;
     }
 
-    // CONCRETE ACTIVITY - FORMWORK INSTRUCTION
     public void updateFormworkInstruction(String formworkInstruction) {
         Log.v("PUCCI", "formworkInstruction = " + formworkInstruction);
         this.formworkInstruction = formworkInstruction;
@@ -375,7 +391,7 @@ public class Model extends Application {
 
     public String getFormworkInstruction(){ return formworkInstruction; }
 
-    // CONCRETE ACTIVITY - ANCHORAGE REVIEWED
+    // CONCRETE ACTIVITY - ANCHORAGE
     public void updateAnchorageReviewed(SpecialValues anchorageReviewed) {
         Log.v("PUCCI", "anchorageReviewed = " + anchorageReviewed.toString());
         this.anchorageReviewed = anchorageReviewed.toString();
@@ -386,7 +402,6 @@ public class Model extends Application {
         return false;
     }
 
-    // CONCRETE ACTIVITY - ANCHORAGE NA
     public void updateAnchorageNA(SpecialValues anchorageNA) {
         Log.v("PUCCI", "anchorageNA = " + anchorageNA.toString());
         this.anchorageNA = anchorageNA.toString();
@@ -397,13 +412,292 @@ public class Model extends Application {
         return false;
     }
 
-    // CONCRETE ACTIVITY - ANCHORAGE INSTRUCTION
     public void updateAnchorageInstruction(String anchorageInstruction) {
         Log.v("PUCCI", "anchorageInstruction = " + anchorageInstruction);
         this.anchorageInstruction = anchorageInstruction;
     }
 
     public String getAnchorageInstruction(){ return anchorageInstruction; }
+
+    // FRAMING ACTIVITY - TRUSS SPEC
+    public void updateTrussSpecReviewed(SpecialValues trussSpecReviewed) {
+        Log.v("PUCCI", "trussSpecReviewed = " + trussSpecReviewed.toString());
+        this.trussSpecReviewed = trussSpecReviewed.toString();
+    }
+
+    public boolean getTrussSpecReviewed() {
+        if(trussSpecReviewed.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateTrussSpecNA(SpecialValues trussSpecNA) {
+        Log.v("PUCCI", "trussSpecNA = " + trussSpecNA.toString());
+        this.trussSpecNA = trussSpecNA.toString();
+    }
+
+    public boolean getTrussSpecNA() {
+        if(trussSpecNA.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateTrussSpecInstruction(String trussSpecInstruction) {
+        Log.v("PUCCI", "trussSpecInstruction = " + trussSpecInstruction);
+        this.trussSpecInstruction = trussSpecInstruction;
+    }
+
+    public String getTrussSpecInstruction(){ return trussSpecInstruction; }
+
+    // FRAMING ACTIVITY - IJOIST
+    public void updateIJoistReviewed(SpecialValues iJoistReviewed) {
+        Log.v("PUCCI", "iJoistReviewed = " + iJoistReviewed.toString());
+        this.iJoistReviewed = iJoistReviewed.toString();
+    }
+
+    public boolean getIJoistReviewed() {
+        if(iJoistReviewed.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateIJoistNA(SpecialValues iJoistNA) {
+        Log.v("PUCCI", "iJoistNA = " + iJoistNA.toString());
+        this.iJoistNA = iJoistNA.toString();
+    }
+
+    public boolean getIJoistNA() {
+        if(iJoistNA.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateIJoistInstruction(String iJoistInstruction) {
+        Log.v("PUCCI", "iJoistInstruction = " + iJoistInstruction);
+        this.iJoistInstruction = iJoistInstruction;
+    }
+
+    public String getIJoistInstruction(){ return iJoistInstruction; }
+
+    // FRAMING ACTIVITY - BEARING
+    public void updateBearingReviewed(SpecialValues bearingReviewed) {
+        Log.v("PUCCI", "bearingReviewed = " + bearingReviewed.toString());
+        this.bearingReviewed = bearingReviewed.toString();
+    }
+
+    public boolean getBearingReviewed() {
+        if(bearingReviewed.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateBearingNA(SpecialValues bearingNA) {
+        Log.v("PUCCI", "bearingNA = " + bearingNA.toString());
+        this.bearingNA = bearingNA.toString();
+    }
+
+    public boolean getBearingNA() {
+        if(bearingNA.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateBearingInstruction(String bearingInstruction) {
+        Log.v("PUCCI", "bearingInstruction = " + bearingInstruction);
+        this.bearingInstruction = bearingInstruction;
+    }
+
+    public String getBearingInstruction(){ return bearingInstruction; }
+
+    // FRAMING ACTIVITY - TOP PLATES
+    public void updateTopPlatesReviewed(SpecialValues topPlatesReviewed) {
+        Log.v("PUCCI", "topPlatesReviewed = " + topPlatesReviewed.toString());
+        this.topPlatesReviewed = topPlatesReviewed.toString();
+    }
+
+    public boolean getTopPlatesReviewed() {
+        if(topPlatesReviewed.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateTopPlatesNA(SpecialValues topPlatesNA) {
+        Log.v("PUCCI", "topPlatesNA = " + topPlatesNA.toString());
+        this.topPlatesNA = topPlatesNA.toString();
+    }
+
+    public boolean getTopPlatesNA() {
+        if(topPlatesNA.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateTopPlatesInstruction(String topPlatesInstruction) {
+        Log.v("PUCCI", "topPlatesInstruction = " + topPlatesInstruction);
+        this.topPlatesInstruction = topPlatesInstruction;
+    }
+
+    public String getTopPlatesInstruction(){ return topPlatesInstruction; }
+
+    // FRAMING ACTIVITY - LINTELS
+    public void updateLintelsReviewed(SpecialValues lintelsReviewed) {
+        Log.v("PUCCI", "lintelsReviewed = " + lintelsReviewed.toString());
+        this.lintelsReviewed = lintelsReviewed.toString();
+    }
+
+    public boolean getLintelsReviewed() {
+        if(lintelsReviewed.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateLintelsNA(SpecialValues lintelsNA) {
+        Log.v("PUCCI", "lintelsNA = " + lintelsNA.toString());
+        this.lintelsNA = lintelsNA.toString();
+    }
+
+    public boolean getLintelsNA() {
+        if(lintelsNA.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateLintelsInstruction(String lintelsInstruction) {
+        Log.v("PUCCI", "lintelsInstruction = " + lintelsInstruction);
+        this.lintelsInstruction = lintelsInstruction;
+    }
+
+    public String getLintelsInstruction(){ return lintelsInstruction; }
+
+    // FRAMING ACTIVITY - TALL WALLS
+    public void updateTallWallsReviewed(SpecialValues tallWallsReviewed) {
+        Log.v("PUCCI", "tallWallsReviewed = " + tallWallsReviewed.toString());
+        this.tallWallsReviewed = tallWallsReviewed.toString();
+    }
+
+    public boolean getTallWallsReviewed() {
+        if(tallWallsReviewed.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateTallWallsNA(SpecialValues tallWallsNA) {
+        Log.v("PUCCI", "tallWallsNA = " + tallWallsNA.toString());
+        this.tallWallsNA = tallWallsNA.toString();
+    }
+
+    public boolean getTallWallsNA() {
+        if(tallWallsNA.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateTallWallsInstruction(String tallWallsInstruction) {
+        Log.v("PUCCI", "tallWallsInstruction = " + tallWallsInstruction);
+        this.tallWallsInstruction = tallWallsInstruction;
+    }
+
+    public String getTallWallsInstruction(){ return tallWallsInstruction; }
+
+    // FRAMING ACTIVITY - SHEARWALLS
+    public void updateShearwallsReviewed(SpecialValues shearwallsReviewed) {
+        Log.v("PUCCI", "shearwallsReviewed = " + shearwallsReviewed.toString());
+        this.shearwallsReviewed = shearwallsReviewed.toString();
+    }
+
+    public boolean getShearwallsReviewed() {
+        if(shearwallsReviewed.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateShearwallsNA(SpecialValues shearwallsNA) {
+        Log.v("PUCCI", "shearwallsNA = " + shearwallsNA.toString());
+        this.shearwallsNA = shearwallsNA.toString();
+    }
+
+    public boolean getShearwallsNA() {
+        if(shearwallsNA.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateShearwallsInstruction(String shearwallsInstruction) {
+        Log.v("PUCCI", "shearwallsInstruction = " + shearwallsInstruction);
+        this.shearwallsInstruction = shearwallsInstruction;
+    }
+
+    public String getShearwallsInstruction(){ return shearwallsInstruction; }
+
+    // FRAMING ACTIVITY - BLOCKING
+    public void updateBlockingReviewed(SpecialValues blockingReviewed) {
+        Log.v("PUCCI", "blockingReviewed = " + blockingReviewed.toString());
+        this.blockingReviewed = blockingReviewed.toString();
+    }
+
+    public boolean getBlockingReviewed() {
+        if(blockingReviewed.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateBlockingNA(SpecialValues blockingNA) {
+        Log.v("PUCCI", "blockingNA = " + blockingNA.toString());
+        this.blockingNA = blockingNA.toString();
+    }
+
+    public boolean getBlockingNA() {
+        if(blockingNA.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateBlockingInstruction(String blockingInstruction) {
+        Log.v("PUCCI", "blockingInstruction = " + blockingInstruction);
+        this.blockingInstruction = blockingInstruction;
+    }
+
+    public String getBlockingInstruction(){ return blockingInstruction; }
+
+    // FRAMING ACTIVITY - WALL SHEATHING
+    public void updateWallSheathingReviewed(SpecialValues wallSheathingReviewed) {
+        Log.v("PUCCI", "wallSheathingReviewed = " + wallSheathingReviewed.toString());
+        this.wallSheathingReviewed = wallSheathingReviewed.toString();
+    }
+
+    public boolean getWallSheathingReviewed() {
+        if(wallSheathingReviewed.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateWallSheathingNA(SpecialValues wallSheathingNA) {
+        Log.v("PUCCI", "wallSheathingNA = " + wallSheathingNA.toString());
+        this.wallSheathingNA = wallSheathingNA.toString();
+    }
+
+    public boolean getWallSheathingNA() {
+        if(wallSheathingNA.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateWallSheathingInstruction(String wallSheathingInstruction) {
+        Log.v("PUCCI", "wallSheathingInstruction = " + wallSheathingInstruction);
+        this.wallSheathingInstruction = wallSheathingInstruction;
+    }
+
+    public String getWallSheathingInstruction(){ return wallSheathingInstruction; }
+
+    // FRAMING ACTIVITY - WIND GIRTS
+    public void updateWindGirtsReviewed(SpecialValues windGirtsReviewed) {
+        Log.v("PUCCI", "windGirtsReviewed = " + windGirtsReviewed.toString());
+        this.windGirtsReviewed = windGirtsReviewed.toString();
+    }
+
+    public boolean getWindGirtsReviewed() {
+        if(windGirtsReviewed.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateWindGirtsNA(SpecialValues windGirtsNA) {
+        Log.v("PUCCI", "windGirtsNA = " + windGirtsNA.toString());
+        this.windGirtsNA = windGirtsNA.toString();
+    }
+
+    public boolean getWindGirtsNA() {
+        if(windGirtsNA.equals(SpecialValues.YES.toString())) return true;
+        return false;
+    }
+
+    public void updateWindGirtsInstruction(String windGirtsInstruction) {
+        Log.v("PUCCI", "windGirtsInstruction = " + windGirtsInstruction);
+        this.windGirtsInstruction = windGirtsInstruction;
+    }
+
+    public String getWindGirtsInstruction(){ return windGirtsInstruction; }
 
     public enum SpecialValues {
         YES ("Yes"),

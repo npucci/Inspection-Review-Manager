@@ -404,7 +404,7 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radioButtonBlockingReview"
+                    android:id="@+id/radioButtonBlockingReviewed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -437,7 +437,7 @@
                 android:layout_marginStart="8dp" />
 
             <TextView
-                android:id="@+id/textViewSheathing"
+                android:id="@+id/textViewWallSheathing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -446,7 +446,7 @@
                 android:text="Checked wall sheathing?" />
 
             <RadioGroup
-                android:id="@+id/radioGroupSheathing"
+                android:id="@+id/radioGroupWallSheathing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -455,14 +455,14 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radioButtonSheathingReviewed"
+                    android:id="@+id/radioButtonWallSheathingReviewed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Reviewed" />
 
                 <RadioButton
-                    android:id="@+id/radioButtonSheathingNA"
+                    android:id="@+id/radioButtonWallSheathingNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -470,7 +470,7 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/textViewSheathingInstruction"
+                android:id="@+id/textViewWallSheathingInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -479,7 +479,7 @@
                 android:text="Instructions" />
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteSheathingInstruction"
+                android:id="@+id/autoCompleteWallSheathingInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"

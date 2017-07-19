@@ -15,6 +15,7 @@ import android.widget.RadioButton;
 
 public class ConcreteActivity extends AppCompatActivity {
     private Model model;
+
     // REBAR POSITION
     private RadioButton rebarPositionReviewed;
     private RadioButton rebarPositionNA;
