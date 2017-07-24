@@ -42,7 +42,7 @@ public class ConcreteActivity extends AppCompatActivity {
         init();
 
         // REBAR POSITION
-        rebarPositionReviewed.setChecked(model.getRebarPositionReviewed());
+        rebarPositionReviewed.setChecked(model.isChecked(Model.Keys.REBAR_POSITION_REVIEWED));
         rebarPositionReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,7 +50,7 @@ public class ConcreteActivity extends AppCompatActivity {
             }
         });
 
-        rebarPositionNA.setChecked(model.getRebarPositionNA());
+        rebarPositionNA.setChecked(model.isChecked(Model.Keys.REBAR_POSITION_NA));
         rebarPositionNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,14 +62,12 @@ public class ConcreteActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         rebarPositionInstruction.setAdapter(adapter);
         if(rebarPositionReviewed.isChecked()) {
-            if(model.getRebarPositionInstruction() != null) {
-                rebarPositionInstruction.setText(model.getRebarPositionInstruction());
-            }
+            rebarPositionInstruction.setText(model.getValue(Model.Keys.REBAR_POSITION_INSTRUCTION));
         }
         else rebarPositionInstruction.setEnabled(false);
 
         // REBAR SIZE
-        rebarSizeReviewed.setChecked(model.getRebarSizeReviewed());
+        rebarSizeReviewed.setChecked(model.isChecked(Model.Keys.REBAR_SIZE_REVIEWED));
         rebarSizeReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,7 +75,7 @@ public class ConcreteActivity extends AppCompatActivity {
             }
         });
 
-        rebarSizeNA.setChecked(model.getRebarSizeNA());
+        rebarSizeNA.setChecked(model.isChecked(Model.Keys.REBAR_SIZE_NA));
         rebarSizeNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,14 +87,12 @@ public class ConcreteActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         rebarSizeInstruction.setAdapter(adapter);
         if(rebarSizeReviewed.isChecked()) {
-            if(model.getRebarSizeInstruction() != null) {
-                rebarSizeInstruction.setText(model.getRebarSizeInstruction());
-            }
+            rebarSizeInstruction.setText(model.getValue(Model.Keys.REBAR_SIZE_INSTRUCTION));
         }
         else rebarSizeInstruction.setEnabled(false);
 
         // FORMWORK
-        formworkReviewed.setChecked(model.getFormworkReviewed());
+        formworkReviewed.setChecked(model.isChecked(Model.Keys.FORMWORK_REVIEWED));
         formworkReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,7 +100,7 @@ public class ConcreteActivity extends AppCompatActivity {
             }
         });
 
-        formworkNA.setChecked(model.getFormworkNA());
+        formworkNA.setChecked(model.isChecked(Model.Keys.FORMWORK_NA));
         formworkNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,14 +112,12 @@ public class ConcreteActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         formworkInstruction.setAdapter(adapter);
         if(formworkReviewed.isChecked()) {
-            if(model.getFormworkInstruction() != null) {
-                formworkInstruction.setText(model.getFormworkInstruction());
-            }
+            formworkInstruction.setText(model.getValue(Model.Keys.FORMWORK_INSTRUCTION));
         }
         else formworkInstruction.setEnabled(false);
 
         // ANCHORAGE
-        anchorageReviewed.setChecked(model.getAnchorageReviewed());
+        anchorageReviewed.setChecked(model.isChecked(Model.Keys.ANCHORAGE_REVIEWED));
         anchorageReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,7 +125,7 @@ public class ConcreteActivity extends AppCompatActivity {
             }
         });
 
-        anchorageNA.setChecked(model.getAnchorageNA());
+        anchorageNA.setChecked(model.isChecked(Model.Keys.ANCHORAGE_NA));
         anchorageNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,9 +137,7 @@ public class ConcreteActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         anchorageInstruction.setAdapter(adapter);
         if(anchorageReviewed.isChecked()) {
-            if(model.getAnchorageInstruction() != null) {
-                anchorageInstruction.setText(model.getAnchorageInstruction());
-            }
+            anchorageInstruction.setText(model.getValue(Model.Keys.ANCHORAGE_INSTRUCTION));
         }
         else anchorageInstruction.setEnabled(false);
     }
@@ -180,58 +172,58 @@ public class ConcreteActivity extends AppCompatActivity {
 
         // REBAR POSITION
         if(rebarPositionReviewed.isChecked()) {
-            model.updateRebarPositionReviewed(Model.SpecialValue.YES);
-            model.updateRebarPositionNA(Model.SpecialValue.NO);
+            model.updateValue(Model.Keys.REBAR_POSITION_REVIEWED, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.REBAR_POSITION_NA, Model.SpecialValue.NO.toString());
             if(rebarPositionInstruction.getText().toString().equals(""))
-                model.updateRebarPositionInstruction(Model.SpecialValue.NONE.toString());
+                model.updateValue(Model.Keys.REBAR_POSITION_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateRebarPositionInstruction(rebarPositionInstruction.getText().toString());
+                model.updateValue(Model.Keys.REBAR_POSITION_INSTRUCTION, rebarPositionInstruction.getText().toString());
         } else if(rebarPositionNA.isChecked()) {
-            model.updateRebarPositionReviewed(Model.SpecialValue.NO);
-            model.updateRebarPositionNA(Model.SpecialValue.YES);
-            model.updateRebarPositionInstruction(Model.SpecialValue.NA.toString());
+            model.updateValue(Model.Keys.REBAR_POSITION_REVIEWED, Model.SpecialValue.NO.toString());
+            model.updateValue(Model.Keys.REBAR_POSITION_NA, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.REBAR_POSITION_INSTRUCTION, Model.SpecialValue.NA.toString());
         }
 
         // REBAR SIZE
         if(rebarSizeReviewed.isChecked()) {
-            model.updateRebarSizeReviewed(Model.SpecialValue.YES);
-            model.updateRebarSizeNA(Model.SpecialValue.NO);
+            model.updateValue(Model.Keys.REBAR_SIZE_REVIEWED, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.REBAR_SIZE_NA, Model.SpecialValue.NO.toString());
             if(rebarSizeInstruction.getText().toString().equals(""))
-                model.updateRebarSizeInstruction(Model.SpecialValue.NONE.toString());
+                model.updateValue(Model.Keys.REBAR_SIZE_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateRebarSizeInstruction(rebarSizeInstruction.getText().toString());
+                model.updateValue(Model.Keys.REBAR_SIZE_INSTRUCTION, rebarSizeInstruction.getText().toString());
         } else if (rebarSizeNA.isChecked()) {
-            model.updateRebarSizeReviewed(Model.SpecialValue.NO);
-            model.updateRebarSizeNA(Model.SpecialValue.YES);
-            model.updateRebarSizeInstruction(Model.SpecialValue.NA.toString());
+            model.updateValue(Model.Keys.REBAR_SIZE_REVIEWED, Model.SpecialValue.NO.toString());
+            model.updateValue(Model.Keys.REBAR_SIZE_NA, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.REBAR_SIZE_INSTRUCTION, Model.SpecialValue.NA.toString());
         }
 
         // FORMWORK
         if(formworkReviewed.isChecked()) {
-            model.updateFormworkReviewed(Model.SpecialValue.YES);
-            model.updateFormworkNA(Model.SpecialValue.NO);
+            model.updateValue(Model.Keys.FORMWORK_REVIEWED, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.FORMWORK_NA, Model.SpecialValue.NO.toString());
             if(formworkInstruction.getText().toString().equals(""))
-                model.updateFormworkInstruction(Model.SpecialValue.NONE.toString());
+                model.updateValue(Model.Keys.FORMWORK_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateFormworkInstruction(formworkInstruction.getText().toString());
+                model.updateValue(Model.Keys.FORMWORK_INSTRUCTION, formworkInstruction.getText().toString());
         } else if (formworkNA.isChecked()) {
-            model.updateFormworkReviewed(Model.SpecialValue.NO);
-            model.updateFormworkNA(Model.SpecialValue.YES);
-            model.updateFormworkInstruction(Model.SpecialValue.NA.toString());
+            model.updateValue(Model.Keys.FORMWORK_REVIEWED, Model.SpecialValue.NO.toString());
+            model.updateValue(Model.Keys.FORMWORK_NA, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.FORMWORK_INSTRUCTION, Model.SpecialValue.NA.toString());
         }
 
         // ANCHORAGE
         if(anchorageReviewed.isChecked()) {
-            model.updateAnchorageReviewed(Model.SpecialValue.YES);
-            model.updateAnchorageNA(Model.SpecialValue.NO);
+            model.updateValue(Model.Keys.ANCHORAGE_REVIEWED, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.ANCHORAGE_NA, Model.SpecialValue.NO.toString());
             if(anchorageInstruction.getText().toString().equals(""))
-                model.updateAnchorageInstruction(Model.SpecialValue.NONE.toString());
+                model.updateValue(Model.Keys.ANCHORAGE_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateAnchorageInstruction(anchorageInstruction.getText().toString());
+                model.updateValue(Model.Keys.ANCHORAGE_INSTRUCTION, anchorageInstruction.getText().toString());
         } else if (anchorageNA.isChecked()) {
-            model.updateAnchorageReviewed(Model.SpecialValue.NO);
-            model.updateAnchorageNA(Model.SpecialValue.YES);
-            model.updateAnchorageInstruction(Model.SpecialValue.NA.toString());
+            model.updateValue(Model.Keys.ANCHORAGE_REVIEWED, Model.SpecialValue.NO.toString());
+            model.updateValue(Model.Keys.ANCHORAGE_NA, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.ANCHORAGE_INSTRUCTION, Model.SpecialValue.NA.toString());
         }
     }
 

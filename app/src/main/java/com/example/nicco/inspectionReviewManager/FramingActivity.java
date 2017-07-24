@@ -74,7 +74,7 @@ public class FramingActivity extends AppCompatActivity {
         init();
 
         // TRUSS SPEC
-        trussSpecReviewed.setChecked(model.getTrussSpecReviewed());
+        trussSpecReviewed.setChecked(model.isChecked(Model.Keys.TRUSS_SPEC_REVIEWED));
         trussSpecReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,7 +82,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        trussSpecNA.setChecked(model.getTrussSpecNA());
+        trussSpecNA.setChecked(model.isChecked(Model.Keys.TRUSS_SPEC_NA));
         trussSpecNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,14 +94,12 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         trussSpecInstruction.setAdapter(adapter);
         if(trussSpecReviewed.isChecked()) {
-            if(model.getTrussSpecInstruction() != null) {
-                trussSpecInstruction.setText(model.getTrussSpecInstruction());
-            }
+            trussSpecInstruction.setText(model.getValue(Model.Keys.TRUSS_SPEC_INSTRUCTION));
         }
         else trussSpecInstruction.setEnabled(false);
 
         // IJOIST SPEC
-        iJoistReviewed.setChecked(model.getIJoistReviewed());
+        iJoistReviewed.setChecked(model.isChecked(Model.Keys.IJOIST_REVIEWED));
         iJoistReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,7 +107,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        iJoistNA.setChecked(model.getIJoistNA());
+        iJoistNA.setChecked(model.isChecked(Model.Keys.IJOIST_NA));
         iJoistNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,14 +119,12 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         iJoistInstruction.setAdapter(adapter);
         if(iJoistReviewed.isChecked()) {
-            if(model.getIJoistInstruction() != null) {
-                iJoistInstruction.setText(model.getIJoistInstruction());
-            }
+            iJoistInstruction.setText(model.getValue(Model.Keys.IJOIST_INSTRUCTION));
         }
         else iJoistInstruction.setEnabled(false);
 
         // BEARING
-        bearingReviewed.setChecked(model.getBearingReviewed());
+        bearingReviewed.setChecked(model.isChecked(Model.Keys.BEARING_REVIEWED));
         bearingReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,7 +132,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        bearingNA.setChecked(model.getBearingNA());
+        bearingNA.setChecked(model.isChecked(Model.Keys.BEARING_NA));
         bearingNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,14 +144,12 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         bearingInstruction.setAdapter(adapter);
         if( bearingReviewed.isChecked()) {
-            if(model.getBearingInstruction() != null) {
-                bearingInstruction.setText(model.getBearingInstruction());
-            }
+            bearingInstruction.setText(model.getValue(Model.Keys.BEARING_INSTRUCTION));
         }
         else bearingInstruction.setEnabled(false);
 
         // TOP PLATES
-        topPlatesReviewed.setChecked(model.getTopPlatesReviewed());
+        topPlatesReviewed.setChecked(model.isChecked(Model.Keys.TOP_PLATES_REVIEWED));
         topPlatesReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,7 +157,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        topPlatesNA.setChecked(model.getTopPlatesNA());
+        topPlatesNA.setChecked(model.isChecked(Model.Keys.TOP_PLATES_NA));
         topPlatesNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -175,14 +169,12 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         topPlatesInstruction.setAdapter(adapter);
         if(topPlatesReviewed.isChecked()) {
-            if(model.getTopPlatesInstruction() != null) {
-                topPlatesInstruction.setText(model.getTopPlatesInstruction());
-            }
+                topPlatesInstruction.setText(model.getValue(Model.Keys.TOP_PLATES_INSTRUCTION));
         }
         else topPlatesInstruction.setEnabled(false);
 
         // LINTELS
-        lintelsReviewed.setChecked(model.getLintelsReviewed());
+        lintelsReviewed.setChecked(model.isChecked(Model.Keys.LINTELS_REVIEWED));
         lintelsReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -190,7 +182,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        lintelsNA.setChecked(model.getLintelsNA());
+        lintelsNA.setChecked(model.isChecked(Model.Keys.LINTELS_NA));
         lintelsNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -202,14 +194,12 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         lintelsInstruction.setAdapter(adapter);
         if(lintelsReviewed.isChecked()) {
-            if(model.getLintelsInstruction() != null) {
-                lintelsInstruction.setText(model.getLintelsInstruction());
-            }
+            lintelsInstruction.setText(model.getValue(Model.Keys.LINTELS_INSTRUCTION));
         }
         else lintelsInstruction.setEnabled(false);
 
         // SHEARWALLS
-        shearwallsReviewed.setChecked(model.getShearwallsReviewed());
+        shearwallsReviewed.setChecked(model.isChecked(Model.Keys.SHEARWALLS_REVIEWED));
         shearwallsReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -217,7 +207,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        shearwallsNA.setChecked(model.getShearwallsNA());
+        shearwallsNA.setChecked(model.isChecked(Model.Keys.SHEARWALLS_NA));
         shearwallsNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -229,14 +219,12 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         shearwallsInstruction.setAdapter(adapter);
         if(shearwallsReviewed.isChecked()) {
-            if(model.getShearwallsInstruction() != null) {
-                shearwallsInstruction.setText(model.getShearwallsInstruction());
-            }
+            shearwallsInstruction.setText(model.getValue(Model.Keys.SHEARWALLS_INSTRUCTION));
         }
         else shearwallsInstruction.setEnabled(false);
 
         // TALL WALLS
-        tallWallsReviewed.setChecked(model.getTallWallsReviewed());
+        tallWallsReviewed.setChecked(model.isChecked(Model.Keys.TALLWALLS_REVIEWED));
         tallWallsReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -244,7 +232,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        tallWallsNA.setChecked(model.getTallWallsNA());
+        tallWallsNA.setChecked(model.isChecked(Model.Keys.TALLWALLS_NA));
         tallWallsNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -256,14 +244,12 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         tallWallsInstruction.setAdapter(adapter);
         if(tallWallsReviewed.isChecked()) {
-            if(model.getTallWallsInstruction() != null) {
-                tallWallsInstruction.setText(model.getTallWallsInstruction());
-            }
+            tallWallsInstruction.setText(model.getValue(Model.Keys.SHEARWALLS_INSTRUCTION));
         }
         else tallWallsInstruction.setEnabled(false);
 
         // BLOCKING
-        blockingReviewed.setChecked(model.getBlockingReviewed());
+        blockingReviewed.setChecked(model.isChecked(Model.Keys.BLOCKING_REVIEWED));
         blockingReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -271,7 +257,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        blockingNA.setChecked(model.getBlockingNA());
+        blockingNA.setChecked(model.isChecked(Model.Keys.BLOCKING_NA));
         blockingNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -283,14 +269,12 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         blockingInstruction.setAdapter(adapter);
         if(blockingReviewed.isChecked()) {
-            if(model.getBlockingInstruction() != null) {
-                blockingInstruction.setText(model.getBlockingInstruction());
-            }
+                blockingInstruction.setText(model.getValue(Model.Keys.BLOCKING_INSTRUCTION));
         }
         else blockingInstruction.setEnabled(false);
 
         // WALL SHEATHING
-        wallSheathingReviewed.setChecked(model.getWallSheathingReviewed());
+        wallSheathingReviewed.setChecked(model.isChecked(Model.Keys.WALLSHEATHING_REVIEWED));
         wallSheathingReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -298,7 +282,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        wallSheathingNA.setChecked(model.getWallSheathingNA());
+        wallSheathingNA.setChecked(model.isChecked(Model.Keys.WALLSHEATHING_NA));
         wallSheathingNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -310,14 +294,12 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         wallSheathingInstruction.setAdapter(adapter);
         if(wallSheathingReviewed.isChecked()) {
-            if(model.getWallSheathingInstruction() != null) {
-                wallSheathingInstruction.setText(model.getWallSheathingInstruction());
-            }
+            wallSheathingInstruction.setText(model.getValue(Model.Keys.WALLSHEATHING_INSTRUCTION));
         }
         else wallSheathingInstruction.setEnabled(false);
 
         // WALL GIRTS
-        windGirtsReviewed.setChecked(model.getWindGirtsReviewed());
+        windGirtsReviewed.setChecked(model.isChecked(Model.Keys.WINDGIRTS_REVIEWED));
         windGirtsReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -325,7 +307,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        windGirtsNA.setChecked(model.getWindGirtsNA());
+        windGirtsNA.setChecked(model.isChecked(Model.Keys.WINDGIRTS_NA));
         windGirtsNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -337,9 +319,7 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         windGirtsInstruction.setAdapter(adapter);
         if(windGirtsReviewed.isChecked()) {
-            if(model.getWindGirtsInstruction() != null) {
-                windGirtsInstruction.setText(model.getWindGirtsInstruction());
-            }
+            windGirtsInstruction.setText(model.getValue(Model.Keys.WINDGIRTS_INSTRUCTION));
         }
         else windGirtsInstruction.setEnabled(false);
     }
@@ -404,142 +384,142 @@ public class FramingActivity extends AppCompatActivity {
 
         // TRUSS SPEC
         if(trussSpecReviewed.isChecked()) {
-            model.updateTrussSpecReviewed(Model.SpecialValue.YES);
-            model.updateTrussSpecNA(Model.SpecialValue.NO);
+            model.updateValue(Model.Keys.TRUSS_SPEC_REVIEWED, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.TRUSS_SPEC_NA, Model.SpecialValue.NO.toString());
             if(trussSpecInstruction.getText().toString().equals(""))
-                model.updateTrussSpecInstruction(Model.SpecialValue.NONE.toString());
+                model.updateValue(Model.Keys.TRUSS_SPEC_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateTrussSpecInstruction(trussSpecInstruction.getText().toString());
+                model.updateValue(Model.Keys.TRUSS_SPEC_INSTRUCTION, trussSpecInstruction.getText().toString());
         } else if(trussSpecNA.isChecked()) {
-            model.updateTrussSpecReviewed(Model.SpecialValue.NO);
-            model.updateTrussSpecNA(Model.SpecialValue.YES);
-            model.updateTrussSpecInstruction(Model.SpecialValue.NA.toString());
+            model.updateValue(Model.Keys.TRUSS_SPEC_REVIEWED, Model.SpecialValue.NO.toString());
+            model.updateValue(Model.Keys.TRUSS_SPEC_NA,Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.TRUSS_SPEC_INSTRUCTION, Model.SpecialValue.NA.toString());
         }
 
         // IJOIST
         if(iJoistReviewed.isChecked()) {
-            model.updateIJoistReviewed(Model.SpecialValue.YES);
-            model.updateIJoistNA(Model.SpecialValue.NO);
+            model.updateValue(Model.Keys.IJOIST_REVIEWED, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.IJOIST_NA, Model.SpecialValue.NO.toString());
             if(iJoistInstruction.getText().toString().equals(""))
-                model.updateIJoistInstruction(Model.SpecialValue.NONE.toString());
+                model.updateValue(Model.Keys.IJOIST_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateIJoistInstruction(iJoistInstruction.getText().toString());
+                model.updateValue(Model.Keys.IJOIST_INSTRUCTION, iJoistInstruction.getText().toString());
         } else if(iJoistNA.isChecked()) {
-            model.updateIJoistReviewed(Model.SpecialValue.NO);
-            model.updateIJoistNA(Model.SpecialValue.YES);
-            model.updateIJoistInstruction(Model.SpecialValue.NA.toString());
+            model.updateValue(Model.Keys.IJOIST_REVIEWED, Model.SpecialValue.NO.toString());
+            model.updateValue(Model.Keys.IJOIST_NA, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.IJOIST_INSTRUCTION, Model.SpecialValue.NA.toString());
         }
 
         // BEARING
         if(bearingReviewed.isChecked()) {
-            model.updateBearingReviewed(Model.SpecialValue.YES);
-            model.updateBearingNA(Model.SpecialValue.NO);
+            model.updateValue(Model.Keys.BEARING_REVIEWED, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.BEARING_NA, Model.SpecialValue.NO.toString());
             if(bearingInstruction.getText().toString().equals(""))
-                model.updateBearingInstruction(Model.SpecialValue.NONE.toString());
+                model.updateValue(Model.Keys.BEARING_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateBearingInstruction(bearingInstruction.getText().toString());
+                model.updateValue(Model.Keys.BEARING_INSTRUCTION, bearingInstruction.getText().toString());
         } else if(bearingNA.isChecked()) {
-            model.updateBearingReviewed(Model.SpecialValue.NO);
-            model.updateBearingNA(Model.SpecialValue.YES);
-            model.updateBearingInstruction(Model.SpecialValue.NA.toString());
+            model.updateValue(Model.Keys.BEARING_REVIEWED, Model.SpecialValue.NO.toString());
+            model.updateValue(Model.Keys.BEARING_NA, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.BEARING_INSTRUCTION, Model.SpecialValue.NA.toString());
         }
 
         // TOP PLATES
         if(topPlatesReviewed.isChecked()) {
-            model.updateTopPlatesReviewed(Model.SpecialValue.YES);
-            model.updateTopPlatesNA(Model.SpecialValue.NO);
+            model.updateValue(Model.Keys.TOP_PLATES_REVIEWED, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.TOP_PLATES_NA, Model.SpecialValue.NO.toString());
             if(topPlatesInstruction.getText().toString().equals(""))
-                model.updateTopPlatesInstruction(Model.SpecialValue.NONE.toString());
+                model.updateValue(Model.Keys.TOP_PLATES_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateTopPlatesInstruction(topPlatesInstruction.getText().toString());
+                model.updateValue(Model.Keys.TOP_PLATES_INSTRUCTION, topPlatesInstruction.getText().toString());
         } else if(topPlatesNA.isChecked()) {
-            model.updateTopPlatesReviewed(Model.SpecialValue.NO);
-            model.updateTopPlatesNA(Model.SpecialValue.YES);
-            model.updateTopPlatesInstruction(Model.SpecialValue.NA.toString());
+            model.updateValue(Model.Keys.TOP_PLATES_REVIEWED, Model.SpecialValue.NO.toString());
+            model.updateValue(Model.Keys.TOP_PLATES_NA, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.TOP_PLATES_INSTRUCTION, Model.SpecialValue.NA.toString());
         }
 
         // LINTELS
         if(lintelsReviewed.isChecked()) {
-            model.updateLintelsReviewed(Model.SpecialValue.YES);
-            model.updateLintelsNA(Model.SpecialValue.NO);
+            model.updateValue(Model.Keys.LINTELS_REVIEWED, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.LINTELS_NA, Model.SpecialValue.NO.toString());
             if(lintelsInstruction.getText().toString().equals(""))
-                model.updateLintelsInstruction(Model.SpecialValue.NONE.toString());
+                model.updateValue(Model.Keys.LINTELS_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateLintelsInstruction(lintelsInstruction.getText().toString());
+                model.updateValue(Model.Keys.LINTELS_INSTRUCTION, lintelsInstruction.getText().toString());
         } else if(lintelsNA.isChecked()) {
-            model.updateLintelsReviewed(Model.SpecialValue.NO);
-            model.updateLintelsNA(Model.SpecialValue.YES);
-            model.updateLintelsInstruction(Model.SpecialValue.NA.toString());
+            model.updateValue(Model.Keys.LINTELS_REVIEWED, Model.SpecialValue.NO.toString());
+            model.updateValue(Model.Keys.LINTELS_NA, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.LINTELS_INSTRUCTION, Model.SpecialValue.NA.toString());
         }
 
         // SHEARWALLS
         if(shearwallsReviewed.isChecked()) {
-            model.updateShearwallsReviewed(Model.SpecialValue.YES);
-            model.updateShearwallsNA(Model.SpecialValue.NO);
+            model.updateValue(Model.Keys.SHEARWALLS_REVIEWED, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.SHEARWALLS_NA, Model.SpecialValue.NO.toString());
             if(shearwallsInstruction.getText().toString().equals(""))
-                model.updateShearwallsInstruction(Model.SpecialValue.NONE.toString());
+                model.updateValue(Model.Keys.SHEARWALLS_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateShearwallsInstruction(shearwallsInstruction.getText().toString());
+                model.updateValue(Model.Keys.SHEARWALLS_INSTRUCTION, shearwallsInstruction.getText().toString());
         } else if(shearwallsNA.isChecked()) {
-            model.updateShearwallsReviewed(Model.SpecialValue.NO);
-            model.updateShearwallsNA(Model.SpecialValue.YES);
-            model.updateShearwallsInstruction(Model.SpecialValue.NA.toString());
+            model.updateValue(Model.Keys.SHEARWALLS_REVIEWED, Model.SpecialValue.NO.toString());
+            model.updateValue(Model.Keys.SHEARWALLS_NA, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.SHEARWALLS_INSTRUCTION, Model.SpecialValue.NA.toString());
         }
 
         // TALL WALLS
         if(tallWallsReviewed.isChecked()) {
-            model.updateTallWallsReviewed(Model.SpecialValue.YES);
-            model.updateTallWallsNA(Model.SpecialValue.NO);
+            model.updateValue(Model.Keys.TALLWALLS_INSTRUCTION, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.TALLWALLS_NA, Model.SpecialValue.NO.toString());
             if(tallWallsInstruction.getText().toString().equals(""))
-                model.updateTallWallsInstruction(Model.SpecialValue.NONE.toString());
+                model.updateValue(Model.Keys.TALLWALLS_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateTallWallsInstruction(tallWallsInstruction.getText().toString());
+                model.updateValue(Model.Keys.TALLWALLS_INSTRUCTION, tallWallsInstruction.getText().toString());
         } else if(tallWallsNA.isChecked()) {
-            model.updateTallWallsReviewed(Model.SpecialValue.NO);
-            model.updateTallWallsNA(Model.SpecialValue.YES);
-            model.updateTallWallsInstruction(Model.SpecialValue.NA.toString());
+            model.updateValue(Model.Keys.TALLWALLS_REVIEWED, Model.SpecialValue.NO.toString());
+            model.updateValue(Model.Keys.TALLWALLS_NA, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.TALLWALLS_INSTRUCTION, Model.SpecialValue.NA.toString());
         }
 
         // BLOCKING
         if(blockingReviewed.isChecked()) {
-            model.updateBlockingReviewed(Model.SpecialValue.YES);
-            model.updateBlockingNA(Model.SpecialValue.NO);
+            model.updateValue(Model.Keys.BLOCKING_REVIEWED, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.BLOCKING_NA, Model.SpecialValue.NO.toString());
             if(blockingInstruction.getText().toString().equals(""))
-                model.updateBlockingInstruction(Model.SpecialValue.NONE.toString());
+                model.updateValue(Model.Keys.BLOCKING_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateBlockingInstruction(blockingInstruction.getText().toString());
+                model.updateValue(Model.Keys.BLOCKING_INSTRUCTION, blockingInstruction.getText().toString());
         } else if(blockingNA.isChecked()) {
-            model.updateBlockingReviewed(Model.SpecialValue.NO);
-            model.updateBlockingNA(Model.SpecialValue.YES);
-            model.updateBlockingInstruction(Model.SpecialValue.NA.toString());
+            model.updateValue(Model.Keys.BLOCKING_REVIEWED, Model.SpecialValue.NO.toString());
+            model.updateValue(Model.Keys.BLOCKING_NA, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.BLOCKING_INSTRUCTION, Model.SpecialValue.NA.toString());
         }
 
         // WALL SHEATHING
         if(wallSheathingReviewed.isChecked()) {
-            model.updateWallSheathingReviewed(Model.SpecialValue.YES);
-            model.updateWallSheathingNA(Model.SpecialValue.NO);
+            model.updateValue(Model.Keys.WALLSHEATHING_REVIEWED, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.WALLSHEATHING_NA, Model.SpecialValue.NO.toString());
             if(wallSheathingInstruction.getText().toString().equals(""))
-                model.updateWallSheathingInstruction(Model.SpecialValue.NONE.toString());
+                model.updateValue(Model.Keys.WALLSHEATHING_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateWallSheathingInstruction(wallSheathingInstruction.getText().toString());
+                model.updateValue(Model.Keys.WALLSHEATHING_INSTRUCTION, wallSheathingInstruction.getText().toString());
         } else if(wallSheathingNA.isChecked()) {
-            model.updateWallSheathingReviewed(Model.SpecialValue.NO);
-            model.updateWallSheathingNA(Model.SpecialValue.YES);
-            model.updateWallSheathingInstruction(Model.SpecialValue.NA.toString());
+            model.updateValue(Model.Keys.WALLSHEATHING_REVIEWED, Model.SpecialValue.NO.toString());
+            model.updateValue(Model.Keys.WALLSHEATHING_NA, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.WALLSHEATHING_INSTRUCTION, Model.SpecialValue.NA.toString());
         }
 
         // WIND GIRTS
         if(windGirtsReviewed.isChecked()) {
-            model.updateWindGirtsReviewed(Model.SpecialValue.YES);
-            model.updateWindGirtsNA(Model.SpecialValue.NO);
+            model.updateValue(Model.Keys.WINDGIRTS_REVIEWED, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.WINDGIRTS_NA, Model.SpecialValue.NO.toString());
             if(windGirtsInstruction.getText().toString().equals(""))
-                model.updateWindGirtsInstruction(Model.SpecialValue.NONE.toString());
+                model.updateValue(Model.Keys.WINDGIRTS_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateWindGirtsInstruction(windGirtsInstruction.getText().toString());
+                model.updateValue(Model.Keys.WINDGIRTS_INSTRUCTION, windGirtsInstruction.getText().toString());
         } else if(windGirtsNA.isChecked()) {
-            model.updateWindGirtsReviewed(Model.SpecialValue.NO);
-            model.updateWindGirtsNA(Model.SpecialValue.YES);
-            model.updateWindGirtsInstruction(Model.SpecialValue.NA.toString());
+            model.updateValue(Model.Keys.WINDGIRTS_REVIEWED, Model.SpecialValue.NO.toString());
+            model.updateValue(Model.Keys.WINDGIRTS_NA, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.WINDGIRTS_INSTRUCTION, Model.SpecialValue.NA.toString());
         }
     }
 }

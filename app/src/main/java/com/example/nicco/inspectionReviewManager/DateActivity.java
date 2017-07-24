@@ -32,9 +32,9 @@ public class DateActivity extends AppCompatActivity {
             new DatePicker.OnDateChangedListener() {
                 @Override
                 public void onDateChanged(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                    model.updateDay("" + dayOfMonth);
-                    model.updateMonth(new DateFormatSymbols().getMonths()[month]);
-                    model.updateYear("" + year);
+                    model.updateValue(Model.Keys.DAY, "" + dayOfMonth);
+                    model.updateValue(Model.Keys.MONTH, "" + new DateFormatSymbols().getMonths()[month]);
+                    model.updateValue(Model.Keys.YEAR, "" + year);
                 }
             }
         );
@@ -52,9 +52,9 @@ public class DateActivity extends AppCompatActivity {
                     if(hourOfDay > 12) hour -= 12;
                 }
 
-                model.updateHour("" + hour);
-                model.updateMinute("" + minute);
-                model.updateTimePeriod("" + period);
+                model.updateValue(Model.Keys.HOUR, "" + hour);
+                model.updateValue(Model.Keys.MINUTE, "" + minute);
+                model.updateValue(Model.Keys.TIME_PERIOD, "" + period);
             }
         });
     }

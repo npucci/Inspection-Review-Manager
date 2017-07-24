@@ -30,13 +30,13 @@ public class ConclusionActivity extends AppCompatActivity {
         init();
 
         // OBSERVATIONS
-        observations.setText(model.getObservations());
+        observations.setText(model.getValue(Model.Keys.OBSERVATIONS));
 
         // COMMENTS
-        comments.setText(model.getComments());
+        comments.setText(model.getValue(Model.Keys.COMMENTS));
 
         // REVIEW STATUS
-        String reviewStatus = model.getReviewedStatus();
+        String reviewStatus = model.getValue(Model.Keys.REVIEW_STATUS);
         if(reviewStatus.equals(Model.ReviewStatusValue.APPROVED.toString())) {
             approved.setChecked(true);
         } else if(reviewStatus.equals(Model.ReviewStatusValue.NOT_APPROVED.toString())) {
@@ -49,8 +49,8 @@ public class ConclusionActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         reviewedBy.setAdapter(adapter);
-        if(model.getReviewedBy() != null) {
-            reviewedBy.setText(model.getReviewedBy());
+        if(model.validValue(model.getValue(Model.Keys.REVIEWED_BY))) {
+            reviewedBy.setText(model.getValue(Model.Keys.REVIEWED_BY));
         }
     }
 
@@ -69,21 +69,21 @@ public class ConclusionActivity extends AppCompatActivity {
         super.onStop();
 
         // OBSERVATIONS
-        model.updateObservations(observations.getText().toString());
+        model.updateValue(Model.Keys.OBSERVATIONS, observations.getText().toString());
 
         // COMMENTS
-        model.updateComments(comments.getText().toString());
+        model.updateValue(Model.Keys.COMMENTS, comments.getText().toString());
 
         // REVIEW STATUS
         if(approved.isChecked()) {
-            model.updateReviewStatus(Model.ReviewStatusValue.APPROVED);
+            model.updateValue(Model.Keys.REVIEW_STATUS, Model.ReviewStatusValue.APPROVED.toString());
         } else if(notApproved.isChecked()) {
-            model.updateReviewStatus(Model.ReviewStatusValue.NOT_APPROVED);
+            model.updateValue(Model.Keys.REVIEW_STATUS, Model.ReviewStatusValue.NOT_APPROVED.toString());
         } else if(reinspectionRequired.isChecked()) {
-            model.updateReviewStatus(Model.ReviewStatusValue.REINSPECTION_REQUIRED);
+            model.updateValue(Model.Keys.REVIEW_STATUS, Model.ReviewStatusValue.REINSPECTION_REQUIRED.toString());
         }
 
         // REVIEWED BY
-        model.updateReviewedBy(reviewedBy.getText().toString());
+        model.updateValue(Model.Keys.REVIEWED_BY, reviewedBy.getText().toString());
     }
 }

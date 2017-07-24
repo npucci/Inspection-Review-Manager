@@ -35,46 +35,56 @@ public class ProjectActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_selectable_list_item, getResources().getStringArray(R.array.cityProv));
         address.setAdapter(adapter);
-        if(model.getAddress() != null) address.setText(model.getAddress());
+
+        String value = model.getValue(Model.Keys.ADDRESS);
+        if(value != null) address.setText(value);
 
         // CITY/PROV
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         cityProv.setAdapter(adapter);
-        if(model.getCityProv() != null) cityProv.setText(model.getCityProv());
+
+        value = model.getValue(Model.Keys.CITY_PROV);
+        if(value != null) cityProv.setText(value);
 
         // PROJECT NUMBER
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         projectNumber.setAdapter(adapter);
-        if(model.getProjectNumber() != null) projectNumber.setText(model.getProjectNumber());
+
+        value = model.getValue(Model.Keys.PROJECT_NUMBER);
+        if(value != null) projectNumber.setText(value);
 
         // DEVELOPER
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         developer.setAdapter(adapter);
-        if(model.getDeveloper() != null) developer.setText(model.getDeveloper());
+
+        value = model.getValue(Model.Keys.DEVELOPER);
+        if(value != null) developer.setText(value);
 
         // CONTRACTOR
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
         contractor.setAdapter(adapter);
-        if(model.getContractor() != null) contractor.setText(model.getContractor());
+
+        value = model.getValue(Model.Keys.CONTRACTOR);
+        if(value != null) contractor.setText(value);
 
         // FOOTINGS
-        footings.setChecked(model.getFootings());
+        footings.setChecked(model.isChecked(Model.Keys.FOOTINGS));
 
         // FOUNDATION WALLS
-        foundationWalls.setChecked(model.getFoundationWalls());
+        foundationWalls.setChecked(model.isChecked(Model.Keys.FOUNDATION_WALLS));
 
         // SHEATHING
-        sheathing.setChecked(model.getSheathing());
+        sheathing.setChecked(model.isChecked(Model.Keys.SHEATHING));
 
         // FRAMING
-        framing.setChecked(model.getFraming());
+        framing.setChecked(model.isChecked(Model.Keys.FRAMING));
 
         // OTHER
-        other.setChecked(model.getOther());
+        other.setChecked(model.isChecked(Model.Keys.OTHER));
         other.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,7 +113,9 @@ public class ProjectActivity extends AppCompatActivity {
             other.setTextColor(Color.RED);
             descriptionTextView.setTextColor(Color.RED);
             description.setVisibility(View.VISIBLE);
-            if(model.getDescription() != null && !model.getDescription().equals("")) description.setText(model.getDescription());
+
+            value = model.getValue(Model.Keys.DESCRIPTION);
+            if(model.validValue(value)) description.setText(value);
         }
         else {
             descriptionTextView.setVisibility(View.INVISIBLE);
@@ -137,41 +149,41 @@ public class ProjectActivity extends AppCompatActivity {
         super.onStop();
 
         // ADDRESS
-        model.updateAddress(address.getText().toString());
+        model.updateValue(Model.Keys.ADDRESS, address.getText().toString());
 
         // CITY/PROV
-        model.updateCityProv(cityProv.getText().toString());
+        model.updateValue(Model.Keys.CITY_PROV, cityProv.getText().toString());
 
         // PROJECT NUMBER
-        model.updateProjectNumber(projectNumber.getText().toString());
+        model.updateValue(Model.Keys.PROJECT_NUMBER, projectNumber.getText().toString());
 
         // DEVELOPER
-        model.updateDeveloper(developer.getText().toString());
+        model.updateValue(Model.Keys.DEVELOPER, developer.getText().toString());
 
         // CONTRACTOR
-        model.updateContractor(contractor.getText().toString());
+        model.updateValue(Model.Keys.CONTRACTOR, contractor.getText().toString());
 
         // FOOTINGS
-        if(footings.isChecked()) model.updateFootings(Model.SpecialValue.YES);
-        else model.updateFootings(Model.SpecialValue.NO);
+        if(footings.isChecked()) model.updateValue(Model.Keys.FOOTINGS, Model.SpecialValue.YES.toString());
+        else model.updateValue(Model.Keys.FOOTINGS, Model.SpecialValue.NO.toString());
 
         // FOUNDATION WALLS
-        if(foundationWalls.isChecked()) model.updateFoundationWalls(Model.SpecialValue.YES);
-        else model.updateFoundationWalls(Model.SpecialValue.NO);
+        if(foundationWalls.isChecked()) model.updateValue(Model.Keys.FOUNDATION_WALLS, Model.SpecialValue.YES.toString());
+        else model.updateValue(Model.Keys.FOUNDATION_WALLS, Model.SpecialValue.NO.toString());
 
         // SHEATHING
-        if(sheathing.isChecked()) model.updateSheathing(Model.SpecialValue.YES);
-        else model.updateSheathing(Model.SpecialValue.NO);
+        if(sheathing.isChecked()) model.updateValue(Model.Keys.SHEATHING, Model.SpecialValue.YES.toString());
+        else model.updateValue(Model.Keys.SHEATHING, Model.SpecialValue.NO.toString());
 
         // FRAMING
-        if(framing.isChecked()) model.updateFraming(Model.SpecialValue.YES);
-        else model.updateFraming(Model.SpecialValue.NO);
+        if(framing.isChecked()) model.updateValue(Model.Keys.FRAMING, Model.SpecialValue.YES.toString());
+        else model.updateValue(Model.Keys.FRAMING, Model.SpecialValue.NO.toString());
 
         // OTHER
-        if(other.isChecked()) model.updateOther(Model.SpecialValue.YES);
-        else model.updateOther(Model.SpecialValue.NO);
+        if(other.isChecked()) model.updateValue(Model.Keys.OTHER, Model.SpecialValue.YES.toString());
+        else model.updateValue(Model.Keys.OTHER, Model.SpecialValue.NO.toString());
 
         // DESCRIPTION
-        model.updateDescription(description.getText().toString());
+        model.updateValue(Model.Keys.DESCRIPTION, description.getText().toString());
     }
 }
