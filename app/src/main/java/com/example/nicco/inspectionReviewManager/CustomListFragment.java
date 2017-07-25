@@ -85,7 +85,7 @@ public class CustomListFragment extends ListFragment implements OnItemClickListe
             //this.convertView = convertView;
             this.parent = parent;
             TextView textView = (TextView) super.getView(position, convertView, parent);
-            //textView.setTextColor(model.getTextColor(textView.getText().toString()));
+            textView.setTextColor(model.getTextColor(textView.getText().toString()));
             textView.setBackgroundColor(model.getBackgroundColor(textView.getText().toString()));
             return textView;
         }

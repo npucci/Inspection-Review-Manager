@@ -2,7 +2,6 @@ package com.example.nicco.inspectionReviewManager;
 
 import android.app.Application;
 import android.graphics.Color;
-import android.util.Log;
 
 import java.util.HashMap;
 
@@ -94,7 +93,9 @@ public class Model extends Application {
         NO ("No"),
         NA ("N/A"),
         NONE("None"),
-        EMPTY ("");
+        EMPTY (""),
+        PM("PM"),
+        AM("AM");
         private String value;
         SpecialValue(String value) { this.value = value; }
 
@@ -118,8 +119,10 @@ public class Model extends Application {
     }
 
     // COLORS
-    private int completeColor = Color.rgb(108, 249, 93);
-    private int incompleteColor = Color.WHITE; //Color.rgb(249, 93, 93);
+    private int completeBKGColor = Color.rgb(108, 249, 93);
+    private int incompleteBKGColor = Color.BLACK; //Color.rgb(249, 93, 93);
+    private int completeTextColor = Color.BLACK;
+    private int incompleteTextColor = Color.WHITE;
 
     // ACTIVITY COMPLETE FLAGS
     private boolean dateActivityComplete = false;
@@ -127,152 +130,6 @@ public class Model extends Application {
     private boolean concreteActivityComplete = false;
     private boolean framingActivityComplete = false;
     private boolean conclusionActivityComplete = false;
-
-//    public Model() {
-//        // DATE
-//        hashMap.put(Keys.ADDRESS, "");
-//        hashMap.put(month, "");
-//        hashMap.put(day, "");
-//        hashMap.put(hour, "");
-//        hashMap.put(minute, "");
-//        hashMap.put(timePeriod, "");
-//        hashMap.put(weather, "");
-//        hashMap.put(temperature, "");
-//        // PROJECT
-//        hashMap.put(address, "");
-//        hashMap.put(projectNumber, "");
-//        hashMap.put(cityProv, "");
-//        hashMap.put(developer, "");
-//        hashMap.put(contractor, "");
-//        hashMap.put(footings, "");
-//        hashMap.put(foundationWalls, "");
-//        hashMap.put(sheathing, "");
-//        hashMap.put(framing, "");
-//        hashMap.put(other, "");
-//        hashMap.put(description, "");
-//        // CONCRETE
-//        hashMap.put(rebarPositionReviewed, "");
-//        hashMap.put(rebarPositionNA, "");
-//        hashMap.put(rebarPositionInstruction, "");
-//        hashMap.put(rebarSizeReviewed, "");
-//        hashMap.put(rebarSizeNA, "");
-//        hashMap.put(rebarSizeInstruction, "");
-//        hashMap.put(anchorageReviewed, "");
-//        hashMap.put(anchorageNA, "");
-//        hashMap.put(anchorageInstruction, "");
-//        hashMap.put(formworkReviewed, "");
-//        hashMap.put(formworkNA, "");
-//        hashMap.put(formworkInstruction, "");
-//        // FRAMING
-//        hashMap.put(trussSpecReviewed, "");
-//        hashMap.put(trussSpecNA, "");
-//        hashMap.put(trussSpecInstruction, "");
-//        hashMap.put(iJoistReviewed, "");
-//        hashMap.put(iJoistNA, "");
-//        hashMap.put(iJoistInstruction, "");
-//        hashMap.put(bearingReviewed, "");
-//        hashMap.put(bearingNA, "");
-//        hashMap.put(bearingInstruction, "");
-//        hashMap.put(topPlatesReviewed, "");
-//        hashMap.put(topPlatesNA, "");
-//        hashMap.put(topPlatesInstruction, "");
-//        hashMap.put(lintelsReviewed, "");
-//        hashMap.put(lintelsNA, "");
-//        hashMap.put(lintelsInstruction, "");
-//        hashMap.put(shearwallsReviewed, "");
-//        hashMap.put(shearwallsNA, "");
-//        hashMap.put(shearwallsInstruction, "");
-//        hashMap.put(tallWallsReviewed, "");
-//        hashMap.put(tallWallsNA, "");
-//        hashMap.put(tallWallsInstruction, "");
-//        hashMap.put(blockingReviewed, "");
-//        hashMap.put(blockingNA, "");
-//        hashMap.put(blockingInstruction, "");
-//        hashMap.put(wallSheathingReviewed, "");
-//        hashMap.put(wallSheathingNA, "");
-//        hashMap.put(wallSheathingInstruction, "");
-//        hashMap.put(windGirtsReviewed, "");
-//        hashMap.put(windGirtsNA, "");
-//        hashMap.put(windGirtsInstruction, "");
-//        // REVIEW CONCLUSION
-//        hashMap.put(observations, "");
-//        hashMap.put(comments, "");
-//        hashMap.put(reviewStatus, "");
-//        hashMap.put(reviewedBy, "");
-//    }
-
-//    public void reset() {
-//        // DATE
-//        year = "";
-//        month = "";
-//        day = "";
-//        hour = "";
-//        minute = "";
-//        timePeriod = "";
-//        weather = "";
-//        temperature = "";
-//        // PROJECT
-//        address = "";
-//        projectNumber = "";
-//        cityProv = "";
-//        developer = "";
-//        contractor = "";
-//        footings = "";
-//        foundationWalls = "";
-//        sheathing = "";
-//        framing = "";
-//        other = "";
-//        description = "";
-//        // CONCRETE:
-//        rebarPositionReviewed = "";
-//        rebarPositionNA = "";
-//        rebarPositionInstruction = "";
-//        rebarSizeReviewed = "";
-//        rebarSizeNA = "";
-//        rebarSizeInstruction = "";
-//        anchorageReviewed = "";
-//        anchorageNA = "";
-//        anchorageInstruction = "";
-//        formworkReviewed = "";
-//        formworkNA = "";
-//        formworkInstruction = "";
-//        // FRAMING:
-//        trussSpecReviewed = "";
-//        trussSpecNA = "";
-//        trussSpecInstruction = "";
-//        iJoistReviewed = "";
-//        iJoistNA = "";
-//        iJoistInstruction = "";
-//        bearingReviewed = "";
-//        bearingNA = "";
-//        bearingInstruction = "";
-//        topPlatesReviewed = "";
-//        topPlatesNA = "";
-//        topPlatesInstruction = "";
-//        lintelsReviewed = "";
-//        lintelsNA = "";
-//        lintelsInstruction = "";
-//        shearwallsReviewed = "";
-//        shearwallsNA = "";
-//        shearwallsInstruction = "";
-//        tallWallsReviewed = "";
-//        tallWallsNA = "";
-//        tallWallsInstruction = "";
-//        blockingReviewed = "";
-//        blockingNA = "";
-//        blockingInstruction = "";
-//        wallSheathingReviewed = "";
-//        wallSheathingNA = "";
-//        wallSheathingInstruction = "";
-//        windGirtsReviewed = "";
-//        windGirtsNA = "";
-//        windGirtsInstruction = "";
-//        // CONCLUSION
-//        observations = "";
-//        comments = "";
-//        reviewStatus = "";
-//        reviewedBy = "";
-//    }
 
     public void updateValue(Keys key, String value) { hashMap.put(key, value); }
 
@@ -283,11 +140,11 @@ public class Model extends Application {
     }
 
     public int getBackgroundColor(String listItem) {
-        return  getColor(listItem, completeColor, incompleteColor);
+        return  getColor(listItem, completeBKGColor, incompleteBKGColor);
     }
 
     public int getTextColor(String listItem) {
-       return  getColor(listItem, completeColor, Color.BLACK);
+       return  getColor(listItem, completeTextColor, incompleteTextColor);
     }
 
     private int getColor(String listItem, int completeColor, int incompleteColor) {

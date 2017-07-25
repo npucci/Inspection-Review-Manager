@@ -145,8 +145,8 @@ public class ProjectActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
 
         // ADDRESS
         model.updateValue(Model.Keys.ADDRESS, address.getText().toString());
@@ -185,5 +185,10 @@ public class ProjectActivity extends AppCompatActivity {
 
         // DESCRIPTION
         model.updateValue(Model.Keys.DESCRIPTION, description.getText().toString());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 }

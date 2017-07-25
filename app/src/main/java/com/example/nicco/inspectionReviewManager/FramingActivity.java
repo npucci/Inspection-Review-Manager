@@ -379,8 +379,8 @@ public class FramingActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
 
         // TRUSS SPEC
         if(trussSpecReviewed.isChecked()) {
@@ -468,7 +468,7 @@ public class FramingActivity extends AppCompatActivity {
 
         // TALL WALLS
         if(tallWallsReviewed.isChecked()) {
-            model.updateValue(Model.Keys.TALLWALLS_INSTRUCTION, Model.SpecialValue.YES.toString());
+            model.updateValue(Model.Keys.TALLWALLS_REVIEWED, Model.SpecialValue.YES.toString());
             model.updateValue(Model.Keys.TALLWALLS_NA, Model.SpecialValue.NO.toString());
             if(tallWallsInstruction.getText().toString().equals(""))
                 model.updateValue(Model.Keys.TALLWALLS_INSTRUCTION, Model.SpecialValue.NONE.toString());
@@ -521,5 +521,10 @@ public class FramingActivity extends AppCompatActivity {
             model.updateValue(Model.Keys.WINDGIRTS_NA, Model.SpecialValue.YES.toString());
             model.updateValue(Model.Keys.WINDGIRTS_INSTRUCTION, Model.SpecialValue.NA.toString());
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 }

@@ -65,8 +65,8 @@ public class ConclusionActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
 
         // OBSERVATIONS
         model.updateValue(Model.Keys.OBSERVATIONS, observations.getText().toString());
@@ -85,5 +85,10 @@ public class ConclusionActivity extends AppCompatActivity {
 
         // REVIEWED BY
         model.updateValue(Model.Keys.REVIEWED_BY, reviewedBy.getText().toString());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 }
