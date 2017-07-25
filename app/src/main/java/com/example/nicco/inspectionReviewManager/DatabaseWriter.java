@@ -145,6 +145,8 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         }
 
         sql = sql + sqlColumns + " " + sqlValues;
+
+        Log.v("PUCCI", "INSERT sql = " + sql);
         database.execSQL(sql);
     }
 

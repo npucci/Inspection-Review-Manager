@@ -3,6 +3,7 @@ package com.example.nicco.inspectionReviewManager;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.util.Log;
 
 import java.text.DateFormatSymbols;
 import java.util.HashMap;
@@ -243,9 +244,16 @@ public class Model extends Application {
 
     public void insertDatabase() {
         HashMap<DatabaseWriter.DatabaseColumn, String> map = new HashMap<DatabaseWriter.DatabaseColumn, String>();
-
-        String date =  hashMap.get(Keys.YEAR) + "-" +  monthToInt(hashMap.get(Keys.MONTH)) + "-" + hashMap.get(Keys.DAY);
+        String date = hashMap.get(Keys.YEAR) + "-" +
+                formatDigitStr("" + monthToInt(hashMap.get(Keys.MONTH))) + "-" +
+                formatDigitStr(hashMap.get(Keys.DAY));
         map.put(DatabaseWriter.DatabaseColumn.DATE, date);
+        Log.v("PUCCI", "date = " + date);
+
+        String time = hashMap.get(Keys.HOUR) + ":" + hashMap.get(Keys.MINUTE);
+        map.put(DatabaseWriter.DatabaseColumn.DATE, date);
+        Log.v("PUCCI", "time = " + time);
+
         dbWriter.insertValues(map);
     }
 
@@ -257,4 +265,8 @@ public class Model extends Application {
         return -1;
     }
 
+    public String formatDigitStr(String num) {
+        if(num.length() < 2) return "0" + num;
+        return num;
+    }
 }
