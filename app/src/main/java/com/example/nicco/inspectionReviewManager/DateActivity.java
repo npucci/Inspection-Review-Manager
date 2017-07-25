@@ -30,7 +30,7 @@ public class DateActivity extends AppCompatActivity {
         String month = model.getValue(Model.Keys.MONTH);
         String day = model.getValue(Model.Keys.DAY);
         if(model.validValue(year) && model.validValue(month) && model.validValue(day))
-            datePicker.updateDate(Integer.parseInt(year), monthToInt(month), Integer.parseInt(day));
+            datePicker.updateDate(Integer.parseInt(year), model.monthToInt(month), Integer.parseInt(day));
 
         String hour = model.getValue(Model.Keys.HOUR);
         String minute = model.getValue(Model.Keys.MINUTE);
@@ -79,14 +79,6 @@ public class DateActivity extends AppCompatActivity {
                 model.updateValue(Model.Keys.TIME_PERIOD, "" + period);
             }
         });
-    }
-
-    private int monthToInt(String month) {
-        String[] months = new DateFormatSymbols().getMonths();
-        for(int i = 0; i < months.length; i++) {
-            if(month.equals(months[i])) return i;
-        }
-        return -1;
     }
 
     @Override

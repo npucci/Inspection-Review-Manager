@@ -1,9 +1,12 @@
 package com.example.nicco.inspectionReviewManager;
 
 import android.app.Application;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 
+import java.text.DateFormatSymbols;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Nicco on 2017-07-17.
@@ -11,6 +14,7 @@ import java.util.HashMap;
 
 public class Model extends Application {
     private HashMap<Keys, String> hashMap = new HashMap<Keys, String>();
+    private DatabaseWriter dbWriter;
     public enum Keys {
         // DATE
         YEAR,
@@ -96,6 +100,7 @@ public class Model extends Application {
         EMPTY (""),
         PM("PM"),
         AM("AM");
+
         private String value;
         SpecialValue(String value) { this.value = value; }
 
@@ -109,6 +114,7 @@ public class Model extends Application {
         APPROVED ("Approved"),
         NOT_APPROVED ("Not Approved"),
         REINSPECTION_REQUIRED ("Reinspection Required");
+
         private String value;
         ReviewStatusValue(String value) { this.value = value; }
 
@@ -130,6 +136,11 @@ public class Model extends Application {
     private boolean concreteActivityComplete = false;
     private boolean framingActivityComplete = false;
     private boolean conclusionActivityComplete = false;
+
+    public Model() {
+        super();
+        dbWriter = new DatabaseWriter(this);
+    }
 
     public void updateValue(Keys key, String value) { hashMap.put(key, value); }
 
@@ -229,5 +240,21 @@ public class Model extends Application {
     }
 
     public void checkConclusionActivityStatus() {}
+
+    public void insertDatabase() {
+        HashMap<DatabaseWriter.DatabaseColumn, String> map = new HashMap<DatabaseWriter.DatabaseColumn, String>();
+
+        String date =  hashMap.get(Keys.YEAR) + "-" +  monthToInt(hashMap.get(Keys.MONTH)) + "-" + hashMap.get(Keys.DAY);
+        map.put(DatabaseWriter.DatabaseColumn.DATE, date);
+        dbWriter.insertValues(map);
+    }
+
+    public int monthToInt(String month) {
+        String[] months = new DateFormatSymbols().getMonths();
+        for(int i = 0; i < months.length; i++) {
+            if(month.equals(months[i])) return i;
+        }
+        return -1;
+    }
 
 }

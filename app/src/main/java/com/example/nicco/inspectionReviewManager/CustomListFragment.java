@@ -31,7 +31,6 @@ public class CustomListFragment extends ListFragment implements OnItemClickListe
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         getListView().setOnItemClickListener(this);
         model = (Model) getActivity().getApplicationContext();
 
