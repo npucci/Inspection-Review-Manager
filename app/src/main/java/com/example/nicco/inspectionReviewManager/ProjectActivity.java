@@ -3,6 +3,7 @@ package com.example.nicco.inspectionReviewManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -12,7 +13,8 @@ import android.widget.TextView;
 public class ProjectActivity extends AppCompatActivity {
     private Model model;
     private AutoCompleteTextView address;
-    private AutoCompleteTextView cityProv;
+    private AutoCompleteTextView city;
+    private AutoCompleteTextView province;
     private AutoCompleteTextView projectNumber;
     private AutoCompleteTextView developer;
     private AutoCompleteTextView contractor;
@@ -33,23 +35,38 @@ public class ProjectActivity extends AppCompatActivity {
 
         // ADDRESS
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_selectable_list_item, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_selectable_list_item,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.ADDRESS, null, null));
         address.setAdapter(adapter);
 
         String value = model.getValue(Model.Keys.ADDRESS);
         if(value != null) address.setText(value);
 
-        // CITY/PROV
+        // CITY
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
-        cityProv.setAdapter(adapter);
+                android.R.layout.simple_dropdown_item_1line,
+                model.combineArrays(
+                    model.queryDatabase(DatabaseWriter.DatabaseColumn.CITY, null, null),
+                    getResources().getStringArray(R.array.cities)));
 
-        value = model.getValue(Model.Keys.CITY_PROV);
-        if(value != null) cityProv.setText(value);
+        city.setAdapter(adapter);
+
+        value = model.getValue(Model.Keys.CITY);
+        if(value != null) city.setText(value);
+
+        // PROVINCE
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.PROVINCE, null, null));
+        province.setAdapter(adapter);
+
+        value = model.getValue(Model.Keys.PROVINCE);
+        if(value != null) city.setText(value);
 
         // PROJECT NUMBER
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.PROJECT_NUMBER, null, null));
         projectNumber.setAdapter(adapter);
 
         value = model.getValue(Model.Keys.PROJECT_NUMBER);
@@ -57,7 +74,8 @@ public class ProjectActivity extends AppCompatActivity {
 
         // DEVELOPER
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.DEVELOPER, null, null));
         developer.setAdapter(adapter);
 
         value = model.getValue(Model.Keys.DEVELOPER);
@@ -65,7 +83,8 @@ public class ProjectActivity extends AppCompatActivity {
 
         // CONTRACTOR
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.CONTRACTOR, null, null));
         contractor.setAdapter(adapter);
 
         value = model.getValue(Model.Keys.CONTRACTOR);
@@ -106,7 +125,8 @@ public class ProjectActivity extends AppCompatActivity {
 
         // DESCRIPTION
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.OTHER_REVIEW_DESCRIPTION, null, null));
         description.setAdapter(adapter);
         if(other.isChecked()) {
             descriptionTextView.setVisibility(View.VISIBLE);
@@ -130,7 +150,8 @@ public class ProjectActivity extends AppCompatActivity {
     private void init() {
         model = (Model) getApplicationContext();
         address = (AutoCompleteTextView) findViewById(R.id.autocompleteAddress);
-        cityProv = (AutoCompleteTextView) findViewById(R.id.autoCompleteCityProv);
+        city = (AutoCompleteTextView) findViewById(R.id.autoCompleteCity);
+        province = (AutoCompleteTextView) findViewById(R.id.autoCompleteProvince);
         projectNumber = (AutoCompleteTextView) findViewById(R.id.autoCompleteProjectNumber);
         developer = (AutoCompleteTextView) findViewById(R.id.autoCompleteDeveloper);
         contractor = (AutoCompleteTextView) findViewById(R.id.autoCompleteContractor);
@@ -151,8 +172,11 @@ public class ProjectActivity extends AppCompatActivity {
         // ADDRESS
         model.updateValue(Model.Keys.ADDRESS, address.getText().toString());
 
-        // CITY/PROV
-        model.updateValue(Model.Keys.CITY_PROV, cityProv.getText().toString());
+        // CITY
+        model.updateValue(Model.Keys.CITY, city.getText().toString());
+
+        // PROV
+        model.updateValue(Model.Keys.PROVINCE, province.getText().toString());
 
         // PROJECT NUMBER
         model.updateValue(Model.Keys.PROJECT_NUMBER, projectNumber.getText().toString());

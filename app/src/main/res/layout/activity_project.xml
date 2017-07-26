@@ -50,16 +50,34 @@
                 android:layout_marginStart="8dp" />
 
             <TextView
-                android:id="@+id/textViewCityProv"
+                android:id="@+id/textViewCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="City, Province" />
+                android:text="City" />
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteCityProv"
+                android:id="@+id/autoCompleteCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp" />
+
+            <TextView
+                android:id="@+id/textViewProvince"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:text="Province" />
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteProvince"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"

@@ -47,7 +47,8 @@ public class ConclusionActivity extends AppCompatActivity {
 
         // REVIEWED BY
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.REVIEWED_BY, null, null));
         reviewedBy.setAdapter(adapter);
         if(model.validValue(model.getValue(Model.Keys.REVIEWED_BY))) {
             reviewedBy.setText(model.getValue(Model.Keys.REVIEWED_BY));

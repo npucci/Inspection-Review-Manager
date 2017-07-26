@@ -19,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class CustomListFragment extends ListFragment implements OnItemClickListener {
-    private Button finishedButton;
     private Model model;
     private boolean finished = false;
 
@@ -42,15 +41,6 @@ public class CustomListFragment extends ListFragment implements OnItemClickListe
         model.checkConcreteActivityStatus();
         model.checkFramingActivityStatus();
         model.checkConclusionActivityStatus();
-
-        finishedButton = (Button) getActivity().findViewById(R.id.buttonFinished);
-        finishedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // model.insertDatabase();
-               // Log.v("PUCCI", "TEST CLICK");
-            }
-        });
 
         ListView list = (ListView) getListView();
         String[] arr = getResources().getStringArray(R.array.arr);

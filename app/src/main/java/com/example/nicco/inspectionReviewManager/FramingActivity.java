@@ -91,7 +91,8 @@ public class FramingActivity extends AppCompatActivity {
         });
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.TRUSS_SPEC_INSTRUCTION, null, null));
         trussSpecInstruction.setAdapter(adapter);
         if(trussSpecReviewed.isChecked()) {
             trussSpecInstruction.setText(model.getValue(Model.Keys.TRUSS_SPEC_INSTRUCTION));
@@ -116,7 +117,8 @@ public class FramingActivity extends AppCompatActivity {
         });
 
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.IJOIST_INSTRUCTION, null, null));
         iJoistInstruction.setAdapter(adapter);
         if(iJoistReviewed.isChecked()) {
             iJoistInstruction.setText(model.getValue(Model.Keys.IJOIST_INSTRUCTION));
@@ -141,7 +143,8 @@ public class FramingActivity extends AppCompatActivity {
         });
 
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.BEARING_INSTRUCTION, null, null));
         bearingInstruction.setAdapter(adapter);
         if( bearingReviewed.isChecked()) {
             bearingInstruction.setText(model.getValue(Model.Keys.BEARING_INSTRUCTION));
@@ -166,7 +169,8 @@ public class FramingActivity extends AppCompatActivity {
         });
 
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.TOP_PLATES_INSTRUCTION, null, null));
         topPlatesInstruction.setAdapter(adapter);
         if(topPlatesReviewed.isChecked()) {
                 topPlatesInstruction.setText(model.getValue(Model.Keys.TOP_PLATES_INSTRUCTION));
@@ -191,7 +195,8 @@ public class FramingActivity extends AppCompatActivity {
         });
 
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.LINTELS_INSTRUCTION, null, null));
         lintelsInstruction.setAdapter(adapter);
         if(lintelsReviewed.isChecked()) {
             lintelsInstruction.setText(model.getValue(Model.Keys.LINTELS_INSTRUCTION));
@@ -216,7 +221,8 @@ public class FramingActivity extends AppCompatActivity {
         });
 
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.SHEARWALLS_INSTRUCTION, null, null));
         shearwallsInstruction.setAdapter(adapter);
         if(shearwallsReviewed.isChecked()) {
             shearwallsInstruction.setText(model.getValue(Model.Keys.SHEARWALLS_INSTRUCTION));
@@ -241,10 +247,11 @@ public class FramingActivity extends AppCompatActivity {
         });
 
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.TALL_WALLS_INSTRUCTION, null, null));
         tallWallsInstruction.setAdapter(adapter);
         if(tallWallsReviewed.isChecked()) {
-            tallWallsInstruction.setText(model.getValue(Model.Keys.SHEARWALLS_INSTRUCTION));
+            tallWallsInstruction.setText(model.getValue(Model.Keys.TALLWALLS_INSTRUCTION));
         }
         else tallWallsInstruction.setEnabled(false);
 
@@ -266,7 +273,8 @@ public class FramingActivity extends AppCompatActivity {
         });
 
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.BLOCKING_INSTRUCTION, null, null));
         blockingInstruction.setAdapter(adapter);
         if(blockingReviewed.isChecked()) {
                 blockingInstruction.setText(model.getValue(Model.Keys.BLOCKING_INSTRUCTION));
@@ -291,7 +299,8 @@ public class FramingActivity extends AppCompatActivity {
         });
 
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.WALL_SHEATHING_INSTRUCTION, null, null));
         wallSheathingInstruction.setAdapter(adapter);
         if(wallSheathingReviewed.isChecked()) {
             wallSheathingInstruction.setText(model.getValue(Model.Keys.WALLSHEATHING_INSTRUCTION));
@@ -316,7 +325,8 @@ public class FramingActivity extends AppCompatActivity {
         });
 
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.WIND_GIRTS_INSTRUCTION, null, null));
         windGirtsInstruction.setAdapter(adapter);
         if(windGirtsReviewed.isChecked()) {
             windGirtsInstruction.setText(model.getValue(Model.Keys.WINDGIRTS_INSTRUCTION));

@@ -1,13 +1,17 @@
 package com.example.nicco.inspectionReviewManager;
 
 import android.app.Application;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.util.Log;
 
 import java.text.DateFormatSymbols;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Nicco on 2017-07-17.
@@ -16,6 +20,8 @@ import java.util.Map;
 public class Model extends Application {
     private HashMap<Keys, String> hashMap = new HashMap<Keys, String>();
     private DatabaseWriter dbWriter;
+    private Context context;
+
     public enum Keys {
         // DATE
         YEAR,
@@ -26,11 +32,11 @@ public class Model extends Application {
         TIME_PERIOD,
         WEATHER,
         TEMPERATURE,
-
         // PROJECT
         ADDRESS,
         PROJECT_NUMBER,
-        CITY_PROV,
+        CITY,
+        PROVINCE,
         DEVELOPER,
         CONTRACTOR,
         FOOTINGS,
@@ -138,9 +144,10 @@ public class Model extends Application {
     private boolean framingActivityComplete = false;
     private boolean conclusionActivityComplete = false;
 
-    public Model() {
-        super();
-        dbWriter = new DatabaseWriter(this);
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        dbWriter = new DatabaseWriter(this.getBaseContext());
     }
 
     public void updateValue(Keys key, String value) { hashMap.put(key, value); }
@@ -180,7 +187,8 @@ public class Model extends Application {
         projectActivityComplete = false;
 
         if(!validValue(hashMap.get(Keys.ADDRESS))) return;
-        else if(!validValue(hashMap.get(Keys.CITY_PROV))) return;
+        else if(!validValue(hashMap.get(Keys.CITY))) return;
+        else if(!validValue(hashMap.get(Keys.PROVINCE))) return;
         else if(!validValue(hashMap.get(Keys.PROJECT_NUMBER))) return;
         else if(!validValue(hashMap.get(Keys.DEVELOPER))) return;
         else if(!validValue(hashMap.get(Keys.CONTRACTOR)))return;
@@ -251,10 +259,14 @@ public class Model extends Application {
         Log.v("PUCCI", "date = " + date);
 
         String time = hashMap.get(Keys.HOUR) + ":" + hashMap.get(Keys.MINUTE);
-        map.put(DatabaseWriter.DatabaseColumn.DATE, date);
+        map.put(DatabaseWriter.DatabaseColumn.TIME, time);
         Log.v("PUCCI", "time = " + time);
 
         dbWriter.insertValues(map);
+    }
+
+    public String[] queryDatabase(DatabaseWriter.DatabaseColumn column, String whereClause, String[] whereArgs) {
+        return dbWriter.query(column, whereClause, whereArgs);
     }
 
     public int monthToInt(String month) {
@@ -268,5 +280,12 @@ public class Model extends Application {
     public String formatDigitStr(String num) {
         if(num.length() < 2) return "0" + num;
         return num;
+    }
+
+    public String[] combineArrays(String[] arr1, String[] arr2) {
+        LinkedHashSet<String> combined = new LinkedHashSet<String>();
+        for(String s : arr1) combined.add(s);
+        for(String s : arr2) combined.add(s);
+        return combined.toArray(new String[combined.size()]);
     }
 }

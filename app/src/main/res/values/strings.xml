@@ -18,11 +18,34 @@
         <item>@string/conclusion</item>
     </string-array>
 
-    <string-array name="cityProv">
-        <item>Coquitlam, BC</item>
-        <item>Port Coquitlam, BC</item>
-        <item>Port Moody, BC</item>
-        <item>Maple Ridge, BC</item>
-        <item>Abbotsford, BC</item>
+    <string-array name="cities">
+        <item>Abbotsford</item>
+        <item>Anmore</item>
+        <item>Belcarra</item>
+        <item>Bowen Island</item>
+        <item>Burnaby</item>
+        <item>Chilliwack</item>
+        <item>Coquitlam</item>
+        <item>Delta</item>
+        <item>Fraser Valley</item>
+        <item>Kent</item>
+        <item>Langley</item>
+        <item>Maple Ridge</item>
+        <item>Mission</item>
+        <item>New Westminster</item>
+        <item>North Vancouver</item>
+        <item>Pitt Meadows</item>
+        <item>Port Moody</item>
+        <item>Port Coquitlam</item>
+        <item>Richmond</item>
+        <item>Squamish</item>
+        <item>Surrey</item>
+        <item>Thompson-Nicola</item>
+        <item>Vancouver</item>
+        <item>Victoria</item>
+        <item>West Vancouver</item>
+        <item>Whistler</item>
+        <item>White Rock</item>
+        <item>Lions Bay</item>
     </string-array>
 </resources>

@@ -59,7 +59,8 @@ public class ConcreteActivity extends AppCompatActivity {
         });
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.REBAR_POSITION_INSTRUCTION, null, null));
         rebarPositionInstruction.setAdapter(adapter);
         if(rebarPositionReviewed.isChecked()) {
             rebarPositionInstruction.setText(model.getValue(Model.Keys.REBAR_POSITION_INSTRUCTION));
@@ -84,7 +85,8 @@ public class ConcreteActivity extends AppCompatActivity {
         });
 
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.REBAR_SIZE_INSTRUCTION, null, null));
         rebarSizeInstruction.setAdapter(adapter);
         if(rebarSizeReviewed.isChecked()) {
             rebarSizeInstruction.setText(model.getValue(Model.Keys.REBAR_SIZE_INSTRUCTION));
@@ -109,7 +111,8 @@ public class ConcreteActivity extends AppCompatActivity {
         });
 
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.FORMWORK_INSTRUCTION, null, null));
         formworkInstruction.setAdapter(adapter);
         if(formworkReviewed.isChecked()) {
             formworkInstruction.setText(model.getValue(Model.Keys.FORMWORK_INSTRUCTION));
@@ -134,7 +137,8 @@ public class ConcreteActivity extends AppCompatActivity {
         });
 
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.cityProv));
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.ANCHORAGE_INSTRUCTION, null, null));
         anchorageInstruction.setAdapter(adapter);
         if(anchorageReviewed.isChecked()) {
             anchorageInstruction.setText(model.getValue(Model.Keys.ANCHORAGE_INSTRUCTION));
