@@ -47,7 +47,9 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="8dp"
+                android:inputType="text"
+                android:imeOptions="actionNext" />
 
             <TextView
                 android:id="@+id/textViewCity"
@@ -83,7 +85,9 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="8dp"
+                android:inputType="text"
+                android:imeOptions="actionNext" />
 
             <TextView
                 android:id="@+id/textViewProjectNumber"
@@ -101,7 +105,9 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="8dp"
+                android:inputType="text"
+                android:imeOptions="actionNext" />
 
             <TextView
                 android:id="@+id/textViewDeveloper"
@@ -119,7 +125,9 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="8dp"
+                android:inputType="text"
+                android:imeOptions="actionNext" />
 
             <TextView
                 android:id="@+id/textViewContractor"
@@ -137,7 +145,9 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="8dp"
+                android:inputType="text"
+                android:imeOptions="actionNext" />
 
             <TextView
                 android:id="@+id/textViewTypeOfReview"

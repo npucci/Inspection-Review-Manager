@@ -13,91 +13,16 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static com.example.nicco.inspectionReviewManager.R.string.maxSmallInputLength;
+
 /**
  * Created by Nicco on 2017-07-17.
  */
 
 public class Model extends Application {
-    private HashMap<Keys, String> hashMap = new HashMap<Keys, String>();
+    private HashMap<DatabaseWriter.DatabaseColumn, String> hashMap = new HashMap<DatabaseWriter.DatabaseColumn, String>();
     private DatabaseWriter dbWriter;
     private Context context;
-
-    public enum Keys {
-        // DATE
-        YEAR,
-        MONTH,
-        DAY,
-        HOUR,
-        MINUTE,
-        TIME_PERIOD,
-        WEATHER,
-        TEMPERATURE,
-        // PROJECT
-        ADDRESS,
-        PROJECT_NUMBER,
-        CITY,
-        PROVINCE,
-        DEVELOPER,
-        CONTRACTOR,
-        FOOTINGS,
-        FOUNDATION_WALLS,
-        SHEATHING,
-        FRAMING,
-        OTHER,
-        DESCRIPTION,
-
-        // CONCRETE
-        REBAR_POSITION_REVIEWED,
-        REBAR_POSITION_NA,
-        REBAR_POSITION_INSTRUCTION,
-        REBAR_SIZE_REVIEWED,
-        REBAR_SIZE_NA,
-        REBAR_SIZE_INSTRUCTION,
-        ANCHORAGE_REVIEWED,
-        ANCHORAGE_NA,
-        ANCHORAGE_INSTRUCTION,
-        FORMWORK_REVIEWED,
-        FORMWORK_NA,
-        FORMWORK_INSTRUCTION,
-
-        // FRAMING
-        TRUSS_SPEC_REVIEWED,
-        TRUSS_SPEC_NA,
-        TRUSS_SPEC_INSTRUCTION,
-        IJOIST_REVIEWED,
-        IJOIST_NA,
-        IJOIST_INSTRUCTION,
-        BEARING_REVIEWED,
-        BEARING_NA,
-        BEARING_INSTRUCTION,
-        TOP_PLATES_REVIEWED,
-        TOP_PLATES_NA,
-        TOP_PLATES_INSTRUCTION,
-        LINTELS_REVIEWED,
-        LINTELS_NA,
-        LINTELS_INSTRUCTION,
-        SHEARWALLS_REVIEWED,
-        SHEARWALLS_NA,
-        SHEARWALLS_INSTRUCTION,
-        TALLWALLS_REVIEWED,
-        TALLWALLS_NA,
-        TALLWALLS_INSTRUCTION,
-        BLOCKING_REVIEWED,
-        BLOCKING_NA,
-        BLOCKING_INSTRUCTION,
-        WALLSHEATHING_REVIEWED,
-        WALLSHEATHING_NA,
-        WALLSHEATHING_INSTRUCTION,
-        WINDGIRTS_REVIEWED,
-        WINDGIRTS_NA,
-        WINDGIRTS_INSTRUCTION,
-
-        // REVIEW CONCLUSION
-        OBSERVATIONS,
-        COMMENTS,
-        REVIEW_STATUS,
-        REVIEWED_BY;
-    }
 
     public enum SpecialValue {
         YES ("Yes"),
@@ -150,9 +75,9 @@ public class Model extends Application {
         dbWriter = new DatabaseWriter(this.getBaseContext());
     }
 
-    public void updateValue(Keys key, String value) { hashMap.put(key, value); }
+    public void updateValue(DatabaseWriter.DatabaseColumn key, String value) { hashMap.put(key, value); }
 
-    public String getValue(Keys key) {
+    public String getValue(DatabaseWriter.DatabaseColumn key) {
         String value = hashMap.get(key);
         if(value == null) value = "";
         return value;
@@ -181,88 +106,83 @@ public class Model extends Application {
         return incompleteColor;
     }
 
-    public void checkDateActivityStatus() {}
+    public boolean checkDateActivityStatus() {
+        dateActivityComplete = false;
 
-    public void checkProjectActivityStatus() {
+        // DATE ACTIVITY
+        if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.DATE))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.TIME))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.WEATHER)))return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.TEMPERATURE_CELSIUS)))return false;
+
+        dateActivityComplete = true;
+        return true;
+    }
+
+    public boolean checkProjectActivityStatus() {
         projectActivityComplete = false;
 
-        if(!validValue(hashMap.get(Keys.ADDRESS))) return;
-        else if(!validValue(hashMap.get(Keys.CITY))) return;
-        else if(!validValue(hashMap.get(Keys.PROVINCE))) return;
-        else if(!validValue(hashMap.get(Keys.PROJECT_NUMBER))) return;
-        else if(!validValue(hashMap.get(Keys.DEVELOPER))) return;
-        else if(!validValue(hashMap.get(Keys.CONTRACTOR)))return;
-        else if (isChecked(Keys.FOOTINGS)) projectActivityComplete = true;
-        else if (isChecked(Keys.FOUNDATION_WALLS)) projectActivityComplete = true;
-        else if (isChecked(Keys.SHEATHING)) projectActivityComplete = true;
-        else if (isChecked(Keys.FRAMING)) projectActivityComplete = true;
-        else if(isChecked(Keys.OTHER)) projectActivityComplete = validValue(hashMap.get(Keys.DESCRIPTION));
+        if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.ADDRESS))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.CITY))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.PROVINCE))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.PROJECT_NUMBER))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.DEVELOPER))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.CONTRACTOR)))return false;
+        else if (isChecked(DatabaseWriter.DatabaseColumn.FOOTINGS_REVIEW)) projectActivityComplete = true;
+        else if (isChecked(DatabaseWriter.DatabaseColumn.FOUNDATION_WALLS_REVIEW)) projectActivityComplete = true;
+        else if (isChecked(DatabaseWriter.DatabaseColumn.SHEATHING_REVIEW)) projectActivityComplete = true;
+        else if (isChecked(DatabaseWriter.DatabaseColumn.FRAMING_REVIEW)) projectActivityComplete = true;
+        else if(isChecked(DatabaseWriter.DatabaseColumn.OTHER_REVIEW)) projectActivityComplete = validValue(hashMap.get(DatabaseWriter.DatabaseColumn.OTHER_REVIEW_DESCRIPTION));
+        return true;
     }
 
-    public void checkConcreteActivityStatus() {
+    public boolean checkConcreteActivityStatus() {
         concreteActivityComplete = false;
 
-        if(!isChecked(Keys.REBAR_POSITION_REVIEWED) &&
-                !isChecked(Keys.REBAR_POSITION_NA)) return;
-        else if(!isChecked(Keys.REBAR_SIZE_REVIEWED) &&
-                !isChecked(Keys.REBAR_SIZE_NA)) return;
-        else if(!isChecked(Keys.ANCHORAGE_REVIEWED) &&
-                !isChecked(Keys.ANCHORAGE_NA)) return;
-        else if(!isChecked(Keys.FORMWORK_REVIEWED) &&
-                !isChecked(Keys.FORMWORK_NA)) return;
+        if(!isChecked(DatabaseWriter.DatabaseColumn.REBAR_POSITION)) return false;
+        else if(!isChecked(DatabaseWriter.DatabaseColumn.REBAR_SIZE)) return false;
+        else if(!isChecked(DatabaseWriter.DatabaseColumn.ANCHORAGE)) return false;
+        else if(!isChecked(DatabaseWriter.DatabaseColumn.FORMWORK)) return false;
 
         concreteActivityComplete = true;
+        return true;
     }
 
-    public void checkFramingActivityStatus() {
+    public boolean checkFramingActivityStatus() {
         framingActivityComplete = false;
 
-        if(!isChecked(Keys.TRUSS_SPEC_REVIEWED) &&
-                !isChecked(Keys.TRUSS_SPEC_NA)) return;
-        else if(!isChecked(Keys.IJOIST_REVIEWED) &&
-                !isChecked(Keys.IJOIST_NA)) return;
-        else if(!isChecked(Keys.BEARING_REVIEWED) &&
-                !isChecked(Keys.BEARING_NA)) return;
-        else if(!isChecked(Keys.TOP_PLATES_REVIEWED) &&
-                !isChecked(Keys.TOP_PLATES_NA)) return;
-        else if(!isChecked(Keys.LINTELS_REVIEWED) &&
-                !isChecked(Keys.LINTELS_NA)) return;
-        else if(!isChecked(Keys.SHEARWALLS_REVIEWED) &&
-                !isChecked(Keys.SHEARWALLS_NA)) return;
-        else if(!isChecked(Keys.TALLWALLS_REVIEWED) &&
-                !isChecked(Keys.TALLWALLS_NA)) return;
-        else if(!isChecked(Keys.BLOCKING_REVIEWED) &&
-                !isChecked(Keys.BLOCKING_NA)) return;
-        else if(!isChecked(Keys.WALLSHEATHING_REVIEWED) &&
-                !isChecked(Keys.WALLSHEATHING_NA)) return;
-        else if(!isChecked(Keys.WINDGIRTS_REVIEWED) &&
-                !isChecked(Keys.WINDGIRTS_NA)) return;
+        if(!isChecked(DatabaseWriter.DatabaseColumn.TRUSS_SPEC)) return false;
+        else if(!isChecked(DatabaseWriter.DatabaseColumn.IJOIST)) return false;
+        else if(!isChecked(DatabaseWriter.DatabaseColumn.BEARING)) return false;
+        else if(!isChecked(DatabaseWriter.DatabaseColumn.TOP_PLATES)) return false;
+        else if(!isChecked(DatabaseWriter.DatabaseColumn.LINTELS)) return false;
+        else if(!isChecked(DatabaseWriter.DatabaseColumn.SHEARWALLS)) return false;
+        else if(!isChecked(DatabaseWriter.DatabaseColumn.TALL_WALLS)) return false;
+        else if(!isChecked(DatabaseWriter.DatabaseColumn.BLOCKING)) return false;
+        else if(!isChecked(DatabaseWriter.DatabaseColumn.WALL_SHEATHING)) return false;
+        else if(!isChecked(DatabaseWriter.DatabaseColumn.WIND_GIRTS)) return false;
 
         framingActivityComplete = true;
+        return true;
+    }
+
+    public boolean checkConclusionActivityStatus() {
+        conclusionActivityComplete = false;
+
+        if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.OBSERVATIONS))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.COMMENTS))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.REVIEW_STATUS))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.REVIEWED_BY))) return false;
+
+        conclusionActivityComplete = true;
+        return true;
     }
 
     public boolean validValue(String value) { return value != null && !value.isEmpty(); }
 
-    public boolean isChecked(Keys key) {
+    public boolean isChecked(DatabaseWriter.DatabaseColumn key) {
         String value = getValue(key);
         return value != null && value.equals(SpecialValue.YES.toString());
-    }
-
-    public void checkConclusionActivityStatus() {}
-
-    public void insertDatabase() {
-        HashMap<DatabaseWriter.DatabaseColumn, String> map = new HashMap<DatabaseWriter.DatabaseColumn, String>();
-        String date = hashMap.get(Keys.YEAR) + "-" +
-                formatDigitStr("" + monthToInt(hashMap.get(Keys.MONTH))) + "-" +
-                formatDigitStr(hashMap.get(Keys.DAY));
-        map.put(DatabaseWriter.DatabaseColumn.DATE, date);
-        Log.v("PUCCI", "date = " + date);
-
-        String time = hashMap.get(Keys.HOUR) + ":" + hashMap.get(Keys.MINUTE);
-        map.put(DatabaseWriter.DatabaseColumn.TIME, time);
-        Log.v("PUCCI", "time = " + time);
-
-        dbWriter.insertValues(map);
     }
 
     public String[] queryDatabase(DatabaseWriter.DatabaseColumn column, String whereClause, String[] whereArgs) {
@@ -287,5 +207,18 @@ public class Model extends Application {
         for(String s : arr1) combined.add(s);
         for(String s : arr2) combined.add(s);
         return combined.toArray(new String[combined.size()]);
+    }
+
+     public boolean insertReviewToDatabase() {
+         HashMap<DatabaseWriter.DatabaseColumn, String> inputDataMap = new HashMap<DatabaseWriter.DatabaseColumn, String>();
+
+         dbWriter.insertValues(hashMap);
+
+        return true;
+    }
+
+    public boolean exportReviewToDoc() {
+
+        return false;
     }
 }

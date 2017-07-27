@@ -42,7 +42,7 @@ public class ConcreteActivity extends AppCompatActivity {
         init();
 
         // REBAR POSITION
-        rebarPositionReviewed.setChecked(model.isChecked(Model.Keys.REBAR_POSITION_REVIEWED));
+        rebarPositionReviewed.setChecked(model.isChecked(DatabaseWriter.DatabaseColumn.REBAR_POSITION));
         rebarPositionReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,7 +50,7 @@ public class ConcreteActivity extends AppCompatActivity {
             }
         });
 
-        rebarPositionNA.setChecked(model.isChecked(Model.Keys.REBAR_POSITION_NA));
+        rebarPositionNA.setChecked(!rebarPositionReviewed.isChecked());
         rebarPositionNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,12 +63,12 @@ public class ConcreteActivity extends AppCompatActivity {
                 model.queryDatabase(DatabaseWriter.DatabaseColumn.REBAR_POSITION_INSTRUCTION, null, null));
         rebarPositionInstruction.setAdapter(adapter);
         if(rebarPositionReviewed.isChecked()) {
-            rebarPositionInstruction.setText(model.getValue(Model.Keys.REBAR_POSITION_INSTRUCTION));
+            rebarPositionInstruction.setText(model.getValue(DatabaseWriter.DatabaseColumn.REBAR_POSITION_INSTRUCTION));
         }
         else rebarPositionInstruction.setEnabled(false);
 
         // REBAR SIZE
-        rebarSizeReviewed.setChecked(model.isChecked(Model.Keys.REBAR_SIZE_REVIEWED));
+        rebarSizeReviewed.setChecked(model.isChecked(DatabaseWriter.DatabaseColumn.REBAR_SIZE));
         rebarSizeReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,7 +76,7 @@ public class ConcreteActivity extends AppCompatActivity {
             }
         });
 
-        rebarSizeNA.setChecked(model.isChecked(Model.Keys.REBAR_SIZE_NA));
+        rebarSizeNA.setChecked(!rebarSizeReviewed.isChecked());
         rebarSizeNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,12 +89,12 @@ public class ConcreteActivity extends AppCompatActivity {
                 model.queryDatabase(DatabaseWriter.DatabaseColumn.REBAR_SIZE_INSTRUCTION, null, null));
         rebarSizeInstruction.setAdapter(adapter);
         if(rebarSizeReviewed.isChecked()) {
-            rebarSizeInstruction.setText(model.getValue(Model.Keys.REBAR_SIZE_INSTRUCTION));
+            rebarSizeInstruction.setText(model.getValue(DatabaseWriter.DatabaseColumn.REBAR_SIZE_INSTRUCTION));
         }
         else rebarSizeInstruction.setEnabled(false);
 
         // FORMWORK
-        formworkReviewed.setChecked(model.isChecked(Model.Keys.FORMWORK_REVIEWED));
+        formworkReviewed.setChecked(model.isChecked(DatabaseWriter.DatabaseColumn.FORMWORK));
         formworkReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,7 +102,7 @@ public class ConcreteActivity extends AppCompatActivity {
             }
         });
 
-        formworkNA.setChecked(model.isChecked(Model.Keys.FORMWORK_NA));
+        formworkNA.setChecked(!formworkReviewed.isChecked());
         formworkNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,12 +115,12 @@ public class ConcreteActivity extends AppCompatActivity {
                 model.queryDatabase(DatabaseWriter.DatabaseColumn.FORMWORK_INSTRUCTION, null, null));
         formworkInstruction.setAdapter(adapter);
         if(formworkReviewed.isChecked()) {
-            formworkInstruction.setText(model.getValue(Model.Keys.FORMWORK_INSTRUCTION));
+            formworkInstruction.setText(model.getValue(DatabaseWriter.DatabaseColumn.FORMWORK_INSTRUCTION));
         }
         else formworkInstruction.setEnabled(false);
 
         // ANCHORAGE
-        anchorageReviewed.setChecked(model.isChecked(Model.Keys.ANCHORAGE_REVIEWED));
+        anchorageReviewed.setChecked(model.isChecked(DatabaseWriter.DatabaseColumn.ANCHORAGE));
         anchorageReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,7 +128,7 @@ public class ConcreteActivity extends AppCompatActivity {
             }
         });
 
-        anchorageNA.setChecked(model.isChecked(Model.Keys.ANCHORAGE_NA));
+        anchorageNA.setChecked(!anchorageReviewed.isChecked());
         anchorageNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,7 +141,7 @@ public class ConcreteActivity extends AppCompatActivity {
                 model.queryDatabase(DatabaseWriter.DatabaseColumn.ANCHORAGE_INSTRUCTION, null, null));
         anchorageInstruction.setAdapter(adapter);
         if(anchorageReviewed.isChecked()) {
-            anchorageInstruction.setText(model.getValue(Model.Keys.ANCHORAGE_INSTRUCTION));
+            anchorageInstruction.setText(model.getValue(DatabaseWriter.DatabaseColumn.ANCHORAGE_INSTRUCTION));
         }
         else anchorageInstruction.setEnabled(false);
     }
@@ -176,59 +176,51 @@ public class ConcreteActivity extends AppCompatActivity {
 
         // REBAR POSITION
         if(rebarPositionReviewed.isChecked()) {
-            model.updateValue(Model.Keys.REBAR_POSITION_REVIEWED, Model.SpecialValue.YES.toString());
-            model.updateValue(Model.Keys.REBAR_POSITION_NA, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_POSITION, Model.SpecialValue.YES.toString());
             if(rebarPositionInstruction.getText().toString().equals(""))
-                model.updateValue(Model.Keys.REBAR_POSITION_INSTRUCTION, Model.SpecialValue.NONE.toString());
+                model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_POSITION_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateValue(Model.Keys.REBAR_POSITION_INSTRUCTION, rebarPositionInstruction.getText().toString());
+                model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_POSITION_INSTRUCTION, rebarPositionInstruction.getText().toString());
         } else if(rebarPositionNA.isChecked()) {
-            model.updateValue(Model.Keys.REBAR_POSITION_REVIEWED, Model.SpecialValue.NO.toString());
-            model.updateValue(Model.Keys.REBAR_POSITION_NA, Model.SpecialValue.YES.toString());
-            model.updateValue(Model.Keys.REBAR_POSITION_INSTRUCTION, Model.SpecialValue.NA.toString());
-        }
+            model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_POSITION, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_POSITION_INSTRUCTION, Model.SpecialValue.NA.toString());
+        } else model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_POSITION, Model.SpecialValue.EMPTY.toString());
 
         // REBAR SIZE
         if(rebarSizeReviewed.isChecked()) {
-            model.updateValue(Model.Keys.REBAR_SIZE_REVIEWED, Model.SpecialValue.YES.toString());
-            model.updateValue(Model.Keys.REBAR_SIZE_NA, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_SIZE, Model.SpecialValue.YES.toString());
             if(rebarSizeInstruction.getText().toString().equals(""))
-                model.updateValue(Model.Keys.REBAR_SIZE_INSTRUCTION, Model.SpecialValue.NONE.toString());
+                model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_SIZE_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateValue(Model.Keys.REBAR_SIZE_INSTRUCTION, rebarSizeInstruction.getText().toString());
+                model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_SIZE_INSTRUCTION, rebarSizeInstruction.getText().toString());
         } else if (rebarSizeNA.isChecked()) {
-            model.updateValue(Model.Keys.REBAR_SIZE_REVIEWED, Model.SpecialValue.NO.toString());
-            model.updateValue(Model.Keys.REBAR_SIZE_NA, Model.SpecialValue.YES.toString());
-            model.updateValue(Model.Keys.REBAR_SIZE_INSTRUCTION, Model.SpecialValue.NA.toString());
-        }
+            model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_SIZE, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_SIZE_INSTRUCTION, Model.SpecialValue.NA.toString());
+        } else model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_SIZE, Model.SpecialValue.EMPTY.toString());
 
         // FORMWORK
         if(formworkReviewed.isChecked()) {
-            model.updateValue(Model.Keys.FORMWORK_REVIEWED, Model.SpecialValue.YES.toString());
-            model.updateValue(Model.Keys.FORMWORK_NA, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.DatabaseColumn.FORMWORK, Model.SpecialValue.YES.toString());
             if(formworkInstruction.getText().toString().equals(""))
-                model.updateValue(Model.Keys.FORMWORK_INSTRUCTION, Model.SpecialValue.NONE.toString());
+                model.updateValue(DatabaseWriter.DatabaseColumn.FORMWORK_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateValue(Model.Keys.FORMWORK_INSTRUCTION, formworkInstruction.getText().toString());
+                model.updateValue(DatabaseWriter.DatabaseColumn.FORMWORK_INSTRUCTION, formworkInstruction.getText().toString());
         } else if (formworkNA.isChecked()) {
-            model.updateValue(Model.Keys.FORMWORK_REVIEWED, Model.SpecialValue.NO.toString());
-            model.updateValue(Model.Keys.FORMWORK_NA, Model.SpecialValue.YES.toString());
-            model.updateValue(Model.Keys.FORMWORK_INSTRUCTION, Model.SpecialValue.NA.toString());
-        }
+            model.updateValue(DatabaseWriter.DatabaseColumn.FORMWORK, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.DatabaseColumn.FORMWORK_INSTRUCTION, Model.SpecialValue.NA.toString());
+        }  else model.updateValue(DatabaseWriter.DatabaseColumn.FORMWORK, Model.SpecialValue.EMPTY.toString());
 
         // ANCHORAGE
         if(anchorageReviewed.isChecked()) {
-            model.updateValue(Model.Keys.ANCHORAGE_REVIEWED, Model.SpecialValue.YES.toString());
-            model.updateValue(Model.Keys.ANCHORAGE_NA, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.DatabaseColumn.ANCHORAGE, Model.SpecialValue.YES.toString());
             if(anchorageInstruction.getText().toString().equals(""))
-                model.updateValue(Model.Keys.ANCHORAGE_INSTRUCTION, Model.SpecialValue.NONE.toString());
+                model.updateValue(DatabaseWriter.DatabaseColumn.ANCHORAGE_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateValue(Model.Keys.ANCHORAGE_INSTRUCTION, anchorageInstruction.getText().toString());
+                model.updateValue(DatabaseWriter.DatabaseColumn.ANCHORAGE_INSTRUCTION, anchorageInstruction.getText().toString());
         } else if (anchorageNA.isChecked()) {
-            model.updateValue(Model.Keys.ANCHORAGE_REVIEWED, Model.SpecialValue.NO.toString());
-            model.updateValue(Model.Keys.ANCHORAGE_NA, Model.SpecialValue.YES.toString());
-            model.updateValue(Model.Keys.ANCHORAGE_INSTRUCTION, Model.SpecialValue.NA.toString());
-        }
+            model.updateValue(DatabaseWriter.DatabaseColumn.ANCHORAGE, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.DatabaseColumn.ANCHORAGE_INSTRUCTION, Model.SpecialValue.NA.toString());
+        }  else model.updateValue(DatabaseWriter.DatabaseColumn.ANCHORAGE, Model.SpecialValue.EMPTY.toString());
     }
 
     @Override

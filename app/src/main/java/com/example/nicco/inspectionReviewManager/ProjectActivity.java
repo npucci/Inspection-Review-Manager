@@ -39,7 +39,7 @@ public class ProjectActivity extends AppCompatActivity {
                 model.queryDatabase(DatabaseWriter.DatabaseColumn.ADDRESS, null, null));
         address.setAdapter(adapter);
 
-        String value = model.getValue(Model.Keys.ADDRESS);
+        String value = model.getValue(DatabaseWriter.DatabaseColumn.ADDRESS);
         if(value != null) address.setText(value);
 
         // CITY
@@ -51,7 +51,7 @@ public class ProjectActivity extends AppCompatActivity {
 
         city.setAdapter(adapter);
 
-        value = model.getValue(Model.Keys.CITY);
+        value = model.getValue(DatabaseWriter.DatabaseColumn.CITY);
         if(value != null) city.setText(value);
 
         // PROVINCE
@@ -60,8 +60,8 @@ public class ProjectActivity extends AppCompatActivity {
                 model.queryDatabase(DatabaseWriter.DatabaseColumn.PROVINCE, null, null));
         province.setAdapter(adapter);
 
-        value = model.getValue(Model.Keys.PROVINCE);
-        if(value != null) city.setText(value);
+        value = model.getValue(DatabaseWriter.DatabaseColumn.PROVINCE);
+        if(value != null) province.setText(value);
 
         // PROJECT NUMBER
         adapter = new ArrayAdapter<String>(this,
@@ -69,7 +69,7 @@ public class ProjectActivity extends AppCompatActivity {
                 model.queryDatabase(DatabaseWriter.DatabaseColumn.PROJECT_NUMBER, null, null));
         projectNumber.setAdapter(adapter);
 
-        value = model.getValue(Model.Keys.PROJECT_NUMBER);
+        value = model.getValue(DatabaseWriter.DatabaseColumn.PROJECT_NUMBER);
         if(value != null) projectNumber.setText(value);
 
         // DEVELOPER
@@ -78,7 +78,7 @@ public class ProjectActivity extends AppCompatActivity {
                 model.queryDatabase(DatabaseWriter.DatabaseColumn.DEVELOPER, null, null));
         developer.setAdapter(adapter);
 
-        value = model.getValue(Model.Keys.DEVELOPER);
+        value = model.getValue(DatabaseWriter.DatabaseColumn.DEVELOPER);
         if(value != null) developer.setText(value);
 
         // CONTRACTOR
@@ -87,23 +87,23 @@ public class ProjectActivity extends AppCompatActivity {
                 model.queryDatabase(DatabaseWriter.DatabaseColumn.CONTRACTOR, null, null));
         contractor.setAdapter(adapter);
 
-        value = model.getValue(Model.Keys.CONTRACTOR);
+        value = model.getValue(DatabaseWriter.DatabaseColumn.CONTRACTOR);
         if(value != null) contractor.setText(value);
 
         // FOOTINGS
-        footings.setChecked(model.isChecked(Model.Keys.FOOTINGS));
+        footings.setChecked(model.isChecked(DatabaseWriter.DatabaseColumn.FOOTINGS_REVIEW));
 
         // FOUNDATION WALLS
-        foundationWalls.setChecked(model.isChecked(Model.Keys.FOUNDATION_WALLS));
+        foundationWalls.setChecked(model.isChecked(DatabaseWriter.DatabaseColumn.FOUNDATION_WALLS_REVIEW));
 
         // SHEATHING
-        sheathing.setChecked(model.isChecked(Model.Keys.SHEATHING));
+        sheathing.setChecked(model.isChecked(DatabaseWriter.DatabaseColumn.SHEATHING_REVIEW));
 
         // FRAMING
-        framing.setChecked(model.isChecked(Model.Keys.FRAMING));
+        framing.setChecked(model.isChecked(DatabaseWriter.DatabaseColumn.FRAMING_REVIEW));
 
         // OTHER
-        other.setChecked(model.isChecked(Model.Keys.OTHER));
+        other.setChecked(model.isChecked(DatabaseWriter.DatabaseColumn.OTHER_REVIEW));
         other.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,7 +134,7 @@ public class ProjectActivity extends AppCompatActivity {
             descriptionTextView.setTextColor(Color.RED);
             description.setVisibility(View.VISIBLE);
 
-            value = model.getValue(Model.Keys.DESCRIPTION);
+            value = model.getValue(DatabaseWriter.DatabaseColumn.OTHER_REVIEW_DESCRIPTION);
             if(model.validValue(value)) description.setText(value);
         }
         else {
@@ -170,45 +170,45 @@ public class ProjectActivity extends AppCompatActivity {
         super.onPause();
 
         // ADDRESS
-        model.updateValue(Model.Keys.ADDRESS, address.getText().toString());
+        model.updateValue(DatabaseWriter.DatabaseColumn.ADDRESS, address.getText().toString());
 
         // CITY
-        model.updateValue(Model.Keys.CITY, city.getText().toString());
+        model.updateValue(DatabaseWriter.DatabaseColumn.CITY, city.getText().toString());
 
-        // PROV
-        model.updateValue(Model.Keys.PROVINCE, province.getText().toString());
+        // PROVINCE
+        model.updateValue(DatabaseWriter.DatabaseColumn.PROVINCE, province.getText().toString());
 
         // PROJECT NUMBER
-        model.updateValue(Model.Keys.PROJECT_NUMBER, projectNumber.getText().toString());
+        model.updateValue(DatabaseWriter.DatabaseColumn.PROJECT_NUMBER, projectNumber.getText().toString());
 
         // DEVELOPER
-        model.updateValue(Model.Keys.DEVELOPER, developer.getText().toString());
+        model.updateValue(DatabaseWriter.DatabaseColumn.DEVELOPER, developer.getText().toString());
 
         // CONTRACTOR
-        model.updateValue(Model.Keys.CONTRACTOR, contractor.getText().toString());
+        model.updateValue(DatabaseWriter.DatabaseColumn.CONTRACTOR, contractor.getText().toString());
 
         // FOOTINGS
-        if(footings.isChecked()) model.updateValue(Model.Keys.FOOTINGS, Model.SpecialValue.YES.toString());
-        else model.updateValue(Model.Keys.FOOTINGS, Model.SpecialValue.NO.toString());
+        if(footings.isChecked()) model.updateValue(DatabaseWriter.DatabaseColumn.FOOTINGS_REVIEW, Model.SpecialValue.YES.toString());
+        else model.updateValue(DatabaseWriter.DatabaseColumn.FOOTINGS_REVIEW, Model.SpecialValue.NO.toString());
 
         // FOUNDATION WALLS
-        if(foundationWalls.isChecked()) model.updateValue(Model.Keys.FOUNDATION_WALLS, Model.SpecialValue.YES.toString());
-        else model.updateValue(Model.Keys.FOUNDATION_WALLS, Model.SpecialValue.NO.toString());
+        if(foundationWalls.isChecked()) model.updateValue(DatabaseWriter.DatabaseColumn.FOUNDATION_WALLS_REVIEW, Model.SpecialValue.YES.toString());
+        else model.updateValue(DatabaseWriter.DatabaseColumn.FOUNDATION_WALLS_REVIEW, Model.SpecialValue.NO.toString());
 
         // SHEATHING
-        if(sheathing.isChecked()) model.updateValue(Model.Keys.SHEATHING, Model.SpecialValue.YES.toString());
-        else model.updateValue(Model.Keys.SHEATHING, Model.SpecialValue.NO.toString());
+        if(sheathing.isChecked()) model.updateValue(DatabaseWriter.DatabaseColumn.SHEATHING_REVIEW, Model.SpecialValue.YES.toString());
+        else model.updateValue(DatabaseWriter.DatabaseColumn.SHEATHING_REVIEW, Model.SpecialValue.NO.toString());
 
         // FRAMING
-        if(framing.isChecked()) model.updateValue(Model.Keys.FRAMING, Model.SpecialValue.YES.toString());
-        else model.updateValue(Model.Keys.FRAMING, Model.SpecialValue.NO.toString());
+        if(framing.isChecked()) model.updateValue(DatabaseWriter.DatabaseColumn.FRAMING_REVIEW, Model.SpecialValue.YES.toString());
+        else model.updateValue(DatabaseWriter.DatabaseColumn.FRAMING_REVIEW, Model.SpecialValue.NO.toString());
 
         // OTHER
-        if(other.isChecked()) model.updateValue(Model.Keys.OTHER, Model.SpecialValue.YES.toString());
-        else model.updateValue(Model.Keys.OTHER, Model.SpecialValue.NO.toString());
+        if(other.isChecked()) model.updateValue(DatabaseWriter.DatabaseColumn.OTHER_REVIEW, Model.SpecialValue.YES.toString());
+        else model.updateValue(DatabaseWriter.DatabaseColumn.OTHER_REVIEW, Model.SpecialValue.NO.toString());
 
         // DESCRIPTION
-        model.updateValue(Model.Keys.DESCRIPTION, description.getText().toString());
+        model.updateValue(DatabaseWriter.DatabaseColumn.OTHER_REVIEW_DESCRIPTION, description.getText().toString());
     }
 
     @Override

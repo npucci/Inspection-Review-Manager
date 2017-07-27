@@ -19,14 +19,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class CustomListFragment extends ListFragment implements OnItemClickListener {
-    private Model model;
     private boolean finished = false;
+    private Model model;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.custom_list_fragment, container, false);
-
+        model = (Model) getActivity().getApplicationContext();
         return view;
     }
 
@@ -34,13 +34,6 @@ public class CustomListFragment extends ListFragment implements OnItemClickListe
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getListView().setOnItemClickListener(this);
-        model = (Model) getActivity().getApplicationContext();
-
-        model.checkDateActivityStatus();
-        model.checkProjectActivityStatus();
-        model.checkConcreteActivityStatus();
-        model.checkFramingActivityStatus();
-        model.checkConclusionActivityStatus();
 
         ListView list = (ListView) getListView();
         String[] arr = getResources().getStringArray(R.array.arr);

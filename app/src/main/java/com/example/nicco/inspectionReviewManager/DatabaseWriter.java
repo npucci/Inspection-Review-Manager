@@ -27,61 +27,66 @@ public class DatabaseWriter extends SQLiteOpenHelper {
             DatabaseColumn.PROJECT_NUMBER.getValue() + ", " +
             DatabaseColumn.DATE.getValue() + ", " +
             DatabaseColumn.TIME.getValue() + ")";
+    private static final int maxXXLargeInputLength = 500;
+    private static final int maxXLargeInputLength = 300;
+    private static final int maxLargeInputLength = 100;
+    private static final int maxMediumInputLength = 50;
+    private static final int maxSmallInputLength = 10;
 
     public enum DatabaseColumn {
         // DATE ACTIVITY
         DATE("date", "DATE"),
         TIME("time", "TIME"),
-        WEATHER("weather", "VARCHAR(20)"),
+        WEATHER("weather", "VARCHAR(" + maxSmallInputLength + ")"),
         TEMPERATURE_CELSIUS("temperature_celsius", "REAL"),
         // PROJECT ACTIVITY
-        ADDRESS("address", "VARCHAR(100)"),
-        CITY("city", "VARCHAR(100)"),
-        PROVINCE("province", "VARCHAR(100)"),
-        PROJECT_NUMBER("project_number", "VARCHAR(50)"),
-        DEVELOPER("developer", "VARCHAR(100)"),
-        CONTRACTOR("contractor", "VARCHAR(100)"),
-        FOOTINGS_REVIEW("footings_review", "VARCHAR(10)"),
-        FOUNDATION_WALLS_REVIEW("foundation_walls_review", "VARCHAR(10)"),
-        SHEATHING_REVIEW("sheathing_review", "VARCHAR(10)"),
-        FRAMING_REVIEW("framing_review", "VARCHAR(10)"),
-        OTHER_REVIEW("other_review", "VARCHAR(10)"),
-        OTHER_REVIEW_DESCRIPTION("other_review_description", "VARCHAR(100)"),
+        ADDRESS("address", "VARCHAR(" + maxLargeInputLength + ")"),
+        CITY("city", "VARCHAR(" + maxLargeInputLength + ")"),
+        PROVINCE("province", "VARCHAR(" + maxLargeInputLength + ")"),
+        PROJECT_NUMBER("project_number", "VARCHAR(" + maxMediumInputLength + ")"),
+        DEVELOPER("developer", "VARCHAR(" + maxLargeInputLength + ")"),
+        CONTRACTOR("contractor", "VARCHAR(" + maxLargeInputLength + ")"),
+        FOOTINGS_REVIEW("footings_review", "VARCHAR(" + maxSmallInputLength + ")"),
+        FOUNDATION_WALLS_REVIEW("foundation_walls_review", "VARCHAR(" + maxSmallInputLength + ")"),
+        SHEATHING_REVIEW("sheathing_review", "VARCHAR(" + maxSmallInputLength + ")"),
+        FRAMING_REVIEW("framing_review", "VARCHAR(" + maxSmallInputLength + ")"),
+        OTHER_REVIEW("other_review", "VARCHAR(" + maxSmallInputLength + ")"),
+        OTHER_REVIEW_DESCRIPTION("other_review_description", "VARCHAR(" + maxLargeInputLength + ")"),
         // CONCRETE ACTIVITY
-        REBAR_POSITION("rebar_position", "VARCHAR(10)"),
-        REBAR_POSITION_INSTRUCTION("rebar_instruction", "VARCHAR(300)"),
-        REBAR_SIZE("rebar_size", "VARCHAR(20)"),
-        REBAR_SIZE_INSTRUCTION("rebar_size_instruction", "VARCHAR(300)"),
-        FORWORK("formwork", "VARCHAR(10)"),
-        FORMWORK_INSTRUCTION("formwork_instruction", "VARCHAR(300)"),
-        ANCHORAGE("anchorage", "VARCHAR(10)"),
-        ANCHORAGE_INSTRUCTION("anchorage_instruction", "VARCHAR(300)"),
+        REBAR_POSITION("rebar_position", "VARCHAR(" + maxSmallInputLength + ")"),
+        REBAR_POSITION_INSTRUCTION("rebar_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
+        REBAR_SIZE("rebar_size", "VARCHAR(" + maxMediumInputLength + ")"),
+        REBAR_SIZE_INSTRUCTION("rebar_size_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
+        FORMWORK("formwork", "VARCHAR(" + maxSmallInputLength + ")"),
+        FORMWORK_INSTRUCTION("formwork_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
+        ANCHORAGE("anchorage", "VARCHAR(" + maxSmallInputLength + ")"),
+        ANCHORAGE_INSTRUCTION("anchorage_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
         // FRAMING ACTIVITY
-        TRUSS_SPEC("truss_spec", "VARCHAR(10)"),
-        TRUSS_SPEC_INSTRUCTION("truss_spec_instruction", "VARCHAR(300)"),
-        IJOIST("ijoist", "VARCHAR(10)"),
-        IJOIST_INSTRUCTION("ijoist_instruction", "VARCHAR(300)"),
-        BEARING("bearing", "VARCHAR(10)"),
-        BEARING_INSTRUCTION("bearing_instruction", "VARCHAR(10)"),
-        TOP_PLATES("top_plates", "VARCHAR(10)"),
-        TOP_PLATES_INSTRUCTION("top_plates_instruction", "VARCHAR(300)"),
-        LINTELS("lintels", "VARCHAR(10)"),
-        LINTELS_INSTRUCTION("lintels_instruction", "VARCHAR(300)"),
-        SHEARWALLS("shearwalls", "VARCHAR(100)"),
-        SHEARWALLS_INSTRUCTION("shearwalls_instruction", "VARCHAR(300)"),
-        TALL_WALLS("tall_walls", "VARCHAR(10)"),
-        TALL_WALLS_INSTRUCTION("tall_walls_instruction", "VARCHAR(300)"),
-        BLOCKING("blocking", "VARCHAR(10)"),
-        BLOCKING_INSTRUCTION("blocking_instruction", "VARCHAR(300)"),
-        WALL_SHEATHING("wall_sheathing", "VARCHAR(10)"),
-        WALL_SHEATHING_INSTRUCTION("wall_sheathing_instruction", "VARCHAR(300)"),
-        WIND_GIRTS("wind_girts", "VARCHAR(10)"),
-        WIND_GIRTS_INSTRUCTION("wind_girts_instruction", "VARCHAR(300)"),
+        TRUSS_SPEC("truss_spec", "VARCHAR(" + maxSmallInputLength + ")"),
+        TRUSS_SPEC_INSTRUCTION("truss_spec_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
+        IJOIST("ijoist", "VARCHAR(" + maxSmallInputLength + ")"),
+        IJOIST_INSTRUCTION("ijoist_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
+        BEARING("bearing", "VARCHAR(" + maxSmallInputLength + ")"),
+        BEARING_INSTRUCTION("bearing_instruction", "VARCHAR(" + maxSmallInputLength + ")"),
+        TOP_PLATES("top_plates", "VARCHAR(" + maxSmallInputLength + ")"),
+        TOP_PLATES_INSTRUCTION("top_plates_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
+        LINTELS("lintels", "VARCHAR(" + maxSmallInputLength + ")"),
+        LINTELS_INSTRUCTION("lintels_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
+        SHEARWALLS("shearwalls", "VARCHAR(" + maxLargeInputLength + ")"),
+        SHEARWALLS_INSTRUCTION("shearwalls_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
+        TALL_WALLS("tall_walls", "VARCHAR(" + maxSmallInputLength + ")"),
+        TALL_WALLS_INSTRUCTION("tall_walls_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
+        BLOCKING("blocking", "VARCHAR(" + maxSmallInputLength + ")"),
+        BLOCKING_INSTRUCTION("blocking_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
+        WALL_SHEATHING("wall_sheathing", "VARCHAR(" + maxSmallInputLength + ")"),
+        WALL_SHEATHING_INSTRUCTION("wall_sheathing_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
+        WIND_GIRTS("wind_girts", "VARCHAR(" + maxSmallInputLength + ")"),
+        WIND_GIRTS_INSTRUCTION("wind_girts_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
         // CONCLUSION ACTIVITY
-        OBSERVATIONS("observation", "VARCHAR(500)"),
-        COMMENTS("comments", "VARCHAR(500)"),
-        REVIEW_STATUS("review_status", "VARCHAR(50)"),
-        REVIEWED_BY("reviewed_by", "VARCHAR(50)");
+        OBSERVATIONS("observation", "VARCHAR(" + maxXXLargeInputLength + ")"),
+        COMMENTS("comments", "VARCHAR(" + maxXXLargeInputLength + ")"),
+        REVIEW_STATUS("review_status", "VARCHAR(" + maxMediumInputLength + ")"),
+        REVIEWED_BY("reviewed_by", "VARCHAR(" + maxMediumInputLength + ")");
 
         private String value;
         private String dataType;
@@ -102,7 +107,6 @@ public class DatabaseWriter extends SQLiteOpenHelper {
 
     public DatabaseWriter(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        //SQLiteDatabase.openOrCreateDatabase(DATABASE_NAME, null);
         try {
             database = getWritableDatabase();
         } catch(Exception e) {

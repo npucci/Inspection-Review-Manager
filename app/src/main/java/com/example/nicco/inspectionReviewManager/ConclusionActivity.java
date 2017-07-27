@@ -30,13 +30,13 @@ public class ConclusionActivity extends AppCompatActivity {
         init();
 
         // OBSERVATIONS
-        observations.setText(model.getValue(Model.Keys.OBSERVATIONS));
+        observations.setText(model.getValue(DatabaseWriter.DatabaseColumn.OBSERVATIONS));
 
         // COMMENTS
-        comments.setText(model.getValue(Model.Keys.COMMENTS));
+        comments.setText(model.getValue(DatabaseWriter.DatabaseColumn.COMMENTS));
 
         // REVIEW STATUS
-        String reviewStatus = model.getValue(Model.Keys.REVIEW_STATUS);
+        String reviewStatus = model.getValue(DatabaseWriter.DatabaseColumn.REVIEW_STATUS);
         if(reviewStatus.equals(Model.ReviewStatusValue.APPROVED.toString())) {
             approved.setChecked(true);
         } else if(reviewStatus.equals(Model.ReviewStatusValue.NOT_APPROVED.toString())) {
@@ -46,12 +46,13 @@ public class ConclusionActivity extends AppCompatActivity {
         }
 
         // REVIEWED BY
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String>adapter = new ArrayAdapter<String>(
+                this,
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.DatabaseColumn.REVIEWED_BY, null, null));
         reviewedBy.setAdapter(adapter);
-        if(model.validValue(model.getValue(Model.Keys.REVIEWED_BY))) {
-            reviewedBy.setText(model.getValue(Model.Keys.REVIEWED_BY));
+        if(model.validValue(model.getValue(DatabaseWriter.DatabaseColumn.REVIEWED_BY))) {
+            reviewedBy.setText(model.getValue(DatabaseWriter.DatabaseColumn.REVIEWED_BY));
         }
     }
 
@@ -70,22 +71,22 @@ public class ConclusionActivity extends AppCompatActivity {
         super.onPause();
 
         // OBSERVATIONS
-        model.updateValue(Model.Keys.OBSERVATIONS, observations.getText().toString());
+        model.updateValue(DatabaseWriter.DatabaseColumn.OBSERVATIONS, observations.getText().toString());
 
         // COMMENTS
-        model.updateValue(Model.Keys.COMMENTS, comments.getText().toString());
+        model.updateValue(DatabaseWriter.DatabaseColumn.COMMENTS, comments.getText().toString());
 
         // REVIEW STATUS
         if(approved.isChecked()) {
-            model.updateValue(Model.Keys.REVIEW_STATUS, Model.ReviewStatusValue.APPROVED.toString());
+            model.updateValue(DatabaseWriter.DatabaseColumn.REVIEW_STATUS, Model.ReviewStatusValue.APPROVED.toString());
         } else if(notApproved.isChecked()) {
-            model.updateValue(Model.Keys.REVIEW_STATUS, Model.ReviewStatusValue.NOT_APPROVED.toString());
+            model.updateValue(DatabaseWriter.DatabaseColumn.REVIEW_STATUS, Model.ReviewStatusValue.NOT_APPROVED.toString());
         } else if(reinspectionRequired.isChecked()) {
-            model.updateValue(Model.Keys.REVIEW_STATUS, Model.ReviewStatusValue.REINSPECTION_REQUIRED.toString());
+            model.updateValue(DatabaseWriter.DatabaseColumn.REVIEW_STATUS, Model.ReviewStatusValue.REINSPECTION_REQUIRED.toString());
         }
 
         // REVIEWED BY
-        model.updateValue(Model.Keys.REVIEWED_BY, reviewedBy.getText().toString());
+        model.updateValue(DatabaseWriter.DatabaseColumn.REVIEWED_BY, reviewedBy.getText().toString());
     }
 
     @Override

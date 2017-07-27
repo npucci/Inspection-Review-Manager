@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.TimePicker.*;
@@ -19,6 +21,8 @@ public class DateActivity extends AppCompatActivity {
     private Model model;
     private DatePicker datePicker;
     private TimePicker timePicker;
+    private AutoCompleteTextView weather;
+    private AutoCompleteTextView temperature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,21 +30,52 @@ public class DateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_date);
         init();
 
-        String year = model.getValue(Model.Keys.YEAR);
-        String month = model.getValue(Model.Keys.MONTH);
-        String day = model.getValue(Model.Keys.DAY);
-        if(model.validValue(year) && model.validValue(month) && model.validValue(day))
-            datePicker.updateDate(Integer.parseInt(year), model.monthToInt(month), Integer.parseInt(day));
-
-        String hour = model.getValue(Model.Keys.HOUR);
-        String minute = model.getValue(Model.Keys.MINUTE);
-        String timePeriod = model.getValue(Model.Keys.TIME_PERIOD);
-        if(model.validValue(hour) && model.validValue(minute) && (model.validValue(timePeriod))) {
-            int convertTo24Hr = 0;
-            if(timePeriod.equals(Model.SpecialValue.PM.toString())) convertTo24Hr = 12;
-            timePicker.setCurrentHour(Integer.parseInt(hour) + convertTo24Hr);
-            timePicker.setCurrentMinute(Integer.parseInt(minute));
+        String value = model.getValue(DatabaseWriter.DatabaseColumn.DATE);
+        if(value != null) {
+            String[] split = value.split("-"); // DATE format "YYYY-MM-DD"
+            if (split.length == 3) {
+                String year = split[0];
+                String month = split[1];
+                String day = split[2];
+                if (model.validValue(year) && model.validValue(month) && model.validValue(day))
+                    datePicker.updateDate(Integer.parseInt(year), Integer.parseInt(month) - 1, Integer.parseInt(day));
+            }
         }
+
+        value = model.getValue(DatabaseWriter.DatabaseColumn.DATE);
+        if(value != null) {
+            String[] split = value.split(":"); // TIME format "HH:MM"
+            if (split.length == 2) {
+                String hour = split[0];
+                String minute = split[1];
+                if (model.validValue(hour) && model.validValue(minute)) {
+                    timePicker.setCurrentHour(Integer.parseInt(hour));
+                    timePicker.setCurrentMinute(Integer.parseInt(minute));
+                }
+            }
+        }
+
+        // WEATHER
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line,
+                model.combineArrays(
+                        model.queryDatabase(DatabaseWriter.DatabaseColumn.WEATHER, null, null),
+                        getResources().getStringArray(R.array.weather)));
+
+        weather.setAdapter(adapter);
+
+        value = model.getValue(DatabaseWriter.DatabaseColumn.WEATHER);
+        if(value != null) weather.setText(value);
+
+        // TEMPERATURE
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line,
+                model.queryDatabase(DatabaseWriter.DatabaseColumn.TEMPERATURE_CELSIUS, null, null));
+
+        temperature.setAdapter(adapter);
+
+        value = model.getValue(DatabaseWriter.DatabaseColumn.TEMPERATURE_CELSIUS);
+        if(value != null) temperature.setText(value);
     }
 
     private void init() {
@@ -48,42 +83,59 @@ public class DateActivity extends AppCompatActivity {
         datePicker = (DatePicker) findViewById(R.id.datePicker);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        datePicker.init(calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH),
-                new DatePicker.OnDateChangedListener() {
-                    @Override
-                    public void onDateChanged(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                        model.updateValue(Model.Keys.DAY, "" + dayOfMonth);
-                        model.updateValue(Model.Keys.MONTH, "" + new DateFormatSymbols().getMonths()[month]);
-                        model.updateValue(Model.Keys.YEAR, "" + year);
-                    }
-                }
-        );
+//        datePicker.init(calendar.get(Calendar.YEAR),
+//                calendar.get(Calendar.MONTH),
+//                calendar.get(Calendar.DAY_OF_MONTH),
+//                new DatePicker.OnDateChangedListener() {
+//                    @Override
+//                    public void onDateChanged(DatePicker datePicker, int year, int month, int dayOfMonth) {
+//                        model.updateValue(Model.Keys.DAY, "" + dayOfMonth);
+//                        model.updateValue(Model.Keys.MONTH, "" + new DateFormatSymbols().getMonths()[month]);
+//                        model.updateValue(Model.Keys.YEAR, "" + year);
+//                    }
+//                }
+//        );
 
         timePicker = (TimePicker) findViewById(R.id.timePicker);
-        timePicker.setOnTimeChangedListener(new OnTimeChangedListener() {
-            @Override
-            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                int hour = hourOfDay;
-                String period = "";
-                if(hourOfDay < 12) {
-                    period = Model.SpecialValue.AM.toString();
-                } else {
-                    period = Model.SpecialValue.PM.toString();
-                    if(hourOfDay > 12) hour -= 12;
-                }
+//        timePicker.setOnTimeChangedListener(new OnTimeChangedListener() {
+//            @Override
+//            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+//                int hour = hourOfDay;
+//                String timePeriod = "";
+//                if(hourOfDay < 12) {
+//                    timePeriod = Model.SpecialValue.AM.toString();
+//                } else {
+//                    timePeriod = Model.SpecialValue.PM.toString();
+//                    if(hourOfDay > 12) hour -= 12;
+//                }
+//
+//                model.updateValue(Model.Keys.HOUR, "" + hour);
+//                model.updateValue(Model.Keys.MINUTE, "" + minute);
+//                model.updateValue(Model.Keys.TIME_PERIOD, "" + timePeriod);
+//            }
+//        });
 
-                model.updateValue(Model.Keys.HOUR, "" + hour);
-                model.updateValue(Model.Keys.MINUTE, "" + minute);
-                model.updateValue(Model.Keys.TIME_PERIOD, "" + period);
-            }
-        });
+        weather = (AutoCompleteTextView) findViewById(R.id.autoCompleteWeather);
+        temperature = (AutoCompleteTextView) findViewById(R.id.editTextTemperature);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+
+        // DATE
+        String date = datePicker.getYear() + "-" + (datePicker.getMonth() + 1) + "-" + datePicker.getDayOfMonth();
+        model.updateValue(DatabaseWriter.DatabaseColumn.DATE, date);
+
+        // TIME
+        String time = timePicker.getCurrentHour() + ":" + timePicker.getCurrentMinute();
+        model.updateValue(DatabaseWriter.DatabaseColumn.TIME, time);
+
+        // WEATHER
+        model.updateValue(DatabaseWriter.DatabaseColumn.WEATHER, weather.getText().toString());
+
+        // TEMPERATURE
+        model.updateValue(DatabaseWriter.DatabaseColumn.TEMPERATURE_CELSIUS, temperature.getText().toString());
     }
 
     @Override
