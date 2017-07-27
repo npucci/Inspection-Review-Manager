@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -20,13 +21,15 @@ public class DatabaseWriter extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "InspectionReviews.db";
     private static final String TABLE_NAME = "Review";
-    private static final String TABLE_PRIMARY_KEY = "PRIMARY KEY (" +
-            DatabaseColumn.ADDRESS.getValue() + ", " +
-            DatabaseColumn.CITY.getValue() + ", " +
-            DatabaseColumn.PROVINCE.getValue() + ", " +
-            DatabaseColumn.PROJECT_NUMBER.getValue() + ", " +
-            DatabaseColumn.DATE.getValue() + ", " +
-            DatabaseColumn.TIME.getValue() + ")";
+    private static final ArrayList<DatabaseColumn> PRIMARY_KEYS = new ArrayList<DatabaseColumn>(
+        Arrays.asList(new DatabaseColumn[]{
+                DatabaseColumn.ADDRESS,
+                DatabaseColumn.CITY,
+                DatabaseColumn.PROVINCE,
+                DatabaseColumn.PROJECT_NUMBER,
+                DatabaseColumn.DATE,
+                DatabaseColumn.TIME}));
+    private static final String TABLE_PRIMARY_KEY = createPrimaryKeyStatement();
     private static final int maxXXLargeInputLength = 500;
     private static final int maxXLargeInputLength = 300;
     private static final int maxLargeInputLength = 100;
@@ -140,7 +143,33 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         return sql;
     }
 
-    public void insertValues(HashMap<DatabaseColumn, String> hashMap) {
+    public boolean existsInDatabase(HashMap<DatabaseColumn, String> hashMap) {
+        DatabaseColumn[] keys = PRIMARY_KEYS.toArray(new DatabaseColumn[PRIMARY_KEYS.size()]);
+        if(keys.length == 0) return false;
+
+        String sql = "";
+        String sqlSelect = "SELECT COUNT (" + keys[0].getValue() + ") FROM " + TABLE_NAME;
+        String sqlWhere = "WHERE ";
+        for(int i = 0; i < keys.length; i++) {
+            sqlWhere += keys[i].getValue() + " = " + "\"" + hashMap.get(keys[i]) + "\"";
+            if (i < keys.length - 1) sqlWhere += " AND ";
+        }
+        sql = sqlSelect + " " + sqlWhere;
+        int numResults = 0;
+        try {
+            Cursor cursor = database.rawQuery(sql, null);
+            if(cursor != null) {
+                cursor.moveToFirst();
+                numResults = cursor.getInt(0);
+            }
+        } catch(Exception e) {
+            Log.v("PUCCI", "QUERY Exception: " + e.getMessage());
+        }
+        Log.v("PUCCI", "numResults = " + numResults);
+        return numResults > 0;
+    }
+
+    public boolean insertValues(HashMap<DatabaseColumn, String> hashMap) {
         String sql = "INSERT INTO " + TABLE_NAME;
         String sqlColumns = "(";
         String sqlValues = "VALUES(";
@@ -164,7 +193,38 @@ public class DatabaseWriter extends SQLiteOpenHelper {
             database.execSQL(sql);
         } catch(Exception e) {
             Log.v("PUCCI", "EXCEPTION: " + e.getMessage());
+            updateValues(hashMap);
+            return false;
         }
+        return true;
+    }
+
+    public boolean updateValues(HashMap<DatabaseColumn, String> hashMap) {
+        String sql = "UPDATE " + TABLE_NAME;
+        String sqlSet = "SET ";
+        String sqlWhere = "WHERE ";
+        DatabaseColumn[] columnSet = hashMap.keySet().toArray(new DatabaseColumn[hashMap.keySet().size()]);
+        int countPrimaryKeys = 0;
+        for(int i = 0; i < columnSet.length; i++) {
+            if (PRIMARY_KEYS.contains(columnSet[i])) {
+                countPrimaryKeys++;
+                sqlWhere += columnSet[i].getValue() + " = " + "\"" + hashMap.get(columnSet[i]) + "\"";
+                if(countPrimaryKeys != PRIMARY_KEYS.size()) sqlWhere += " AND ";
+            } else {
+                sqlSet += columnSet[i].getValue() + " = " + "\"" + hashMap.get(columnSet[i]) + "\"";
+                if (i < columnSet.length - 1) sqlSet += ", ";
+            }
+        }
+
+        sql += " " + sqlSet + " " + sqlWhere;
+        Log.v("PUCCI", "UPDATE sql = " + sql);
+        try {
+            database.execSQL(sql);
+        } catch(Exception e) {
+            Log.v("PUCCI", "EXCEPTION: " + e.getMessage());
+            return false;
+        }
+        return true;
     }
 
     public String[] query(DatabaseColumn column, String whereClause, String[] whereArgs) {
@@ -185,6 +245,16 @@ public class DatabaseWriter extends SQLiteOpenHelper {
             Log.v("PUCCI", "QUERY Exception: " + e.getMessage());
         }
         return results.toArray(new String[results.size()]);
+    }
+
+    private static String createPrimaryKeyStatement() {
+        String primaryKey = "PRIMARY KEY (";
+        for(int i = 0; i < PRIMARY_KEYS.size(); i++) {
+            primaryKey += PRIMARY_KEYS.get(i).getValue();
+            if (i < PRIMARY_KEYS.size() - 1) primaryKey += ", ";
+            else primaryKey += ")";
+        }
+        return primaryKey;
     }
 
 }

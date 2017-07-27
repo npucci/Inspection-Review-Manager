@@ -57,7 +57,9 @@ public class ProjectActivity extends AppCompatActivity {
         // PROVINCE
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.DatabaseColumn.PROVINCE, null, null));
+                model.combineArrays(
+                        model.queryDatabase(DatabaseWriter.DatabaseColumn.PROVINCE, null, null),
+                        getResources().getStringArray(R.array.provinces)));
         province.setAdapter(adapter);
 
         value = model.getValue(DatabaseWriter.DatabaseColumn.PROVINCE);

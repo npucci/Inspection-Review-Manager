@@ -42,7 +42,7 @@ public class DateActivity extends AppCompatActivity {
             }
         }
 
-        value = model.getValue(DatabaseWriter.DatabaseColumn.DATE);
+        value = model.getValue(DatabaseWriter.DatabaseColumn.TIME);
         if(value != null) {
             String[] split = value.split(":"); // TIME format "HH:MM"
             if (split.length == 2) {
@@ -128,7 +128,7 @@ public class DateActivity extends AppCompatActivity {
         model.updateValue(DatabaseWriter.DatabaseColumn.DATE, date);
 
         // TIME
-        String time = timePicker.getCurrentHour() + ":" + timePicker.getCurrentMinute();
+        String time = timePicker.getCurrentHour() + ":" + model.formatDigitStr("" + timePicker.getCurrentMinute());
         model.updateValue(DatabaseWriter.DatabaseColumn.TIME, time);
 
         // WEATHER

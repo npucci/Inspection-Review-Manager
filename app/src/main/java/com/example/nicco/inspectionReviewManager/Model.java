@@ -1,10 +1,13 @@
 package com.example.nicco.inspectionReviewManager;
 
+import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.text.DateFormatSymbols;
 import java.util.HashMap;
@@ -139,10 +142,10 @@ public class Model extends Application {
     public boolean checkConcreteActivityStatus() {
         concreteActivityComplete = false;
 
-        if(!isChecked(DatabaseWriter.DatabaseColumn.REBAR_POSITION)) return false;
-        else if(!isChecked(DatabaseWriter.DatabaseColumn.REBAR_SIZE)) return false;
-        else if(!isChecked(DatabaseWriter.DatabaseColumn.ANCHORAGE)) return false;
-        else if(!isChecked(DatabaseWriter.DatabaseColumn.FORMWORK)) return false;
+        if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.REBAR_POSITION)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.REBAR_SIZE)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.ANCHORAGE)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.FORMWORK)) return false;
 
         concreteActivityComplete = true;
         return true;
@@ -151,16 +154,16 @@ public class Model extends Application {
     public boolean checkFramingActivityStatus() {
         framingActivityComplete = false;
 
-        if(!isChecked(DatabaseWriter.DatabaseColumn.TRUSS_SPEC)) return false;
-        else if(!isChecked(DatabaseWriter.DatabaseColumn.IJOIST)) return false;
-        else if(!isChecked(DatabaseWriter.DatabaseColumn.BEARING)) return false;
-        else if(!isChecked(DatabaseWriter.DatabaseColumn.TOP_PLATES)) return false;
-        else if(!isChecked(DatabaseWriter.DatabaseColumn.LINTELS)) return false;
-        else if(!isChecked(DatabaseWriter.DatabaseColumn.SHEARWALLS)) return false;
-        else if(!isChecked(DatabaseWriter.DatabaseColumn.TALL_WALLS)) return false;
-        else if(!isChecked(DatabaseWriter.DatabaseColumn.BLOCKING)) return false;
-        else if(!isChecked(DatabaseWriter.DatabaseColumn.WALL_SHEATHING)) return false;
-        else if(!isChecked(DatabaseWriter.DatabaseColumn.WIND_GIRTS)) return false;
+        if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.TRUSS_SPEC)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.IJOIST)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.BEARING)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.TOP_PLATES)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.LINTELS)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.SHEARWALLS)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.TALL_WALLS)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.BLOCKING)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.WALL_SHEATHING)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.WIND_GIRTS)) return false;
 
         framingActivityComplete = true;
         return true;
@@ -183,6 +186,11 @@ public class Model extends Application {
     public boolean isChecked(DatabaseWriter.DatabaseColumn key) {
         String value = getValue(key);
         return value != null && value.equals(SpecialValue.YES.toString());
+    }
+
+    public boolean isValidCheckValue(DatabaseWriter.DatabaseColumn key) {
+        String value = getValue(key);
+        return value != null && (value.equals(SpecialValue.YES.toString()) || value.equals(SpecialValue.NO.toString()));
     }
 
     public String[] queryDatabase(DatabaseWriter.DatabaseColumn column, String whereClause, String[] whereArgs) {
@@ -209,16 +217,14 @@ public class Model extends Application {
         return combined.toArray(new String[combined.size()]);
     }
 
-     public boolean insertReviewToDatabase() {
-         HashMap<DatabaseWriter.DatabaseColumn, String> inputDataMap = new HashMap<DatabaseWriter.DatabaseColumn, String>();
+     public boolean insertReviewToDatabase() { return dbWriter.insertValues(hashMap); }
 
-         dbWriter.insertValues(hashMap);
+    public boolean updateReviewToDatabase() { return dbWriter.updateValues(hashMap); }
 
-        return true;
-    }
+    public boolean reviewExistsInDatabase() { return dbWriter.existsInDatabase(hashMap); }
 
     public boolean exportReviewToDoc() {
-
+        
         return false;
     }
 }

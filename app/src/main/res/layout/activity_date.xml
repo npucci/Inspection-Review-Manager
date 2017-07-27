@@ -12,20 +12,22 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginRight="0dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="0dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="0dp"
-        android:fillViewport="true">
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textViewDate"
@@ -99,13 +101,13 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:imeOptions="actionNext"
+                android:inputType="text"
                 android:text=""
                 app:layout_constraintHorizontal_bias="0.502"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewWeather"
-                android:inputType="text"
-                android:imeOptions="actionNext" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewWeather" />
 
             <TextView
                 android:id="@+id/textViewTemperature"
@@ -114,7 +116,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
-                android:text="Temperature"
+                android:text="Temperature (Celsius)"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/autoCompleteWeather" />
 
@@ -127,8 +129,8 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:inputType="numberSigned|numberDecimal"
                 android:imeOptions="actionNext"
+                android:inputType="numberSigned|numberDecimal"
                 android:text=""
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintLeft_toLeftOf="parent"

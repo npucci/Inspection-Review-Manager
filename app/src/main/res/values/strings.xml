@@ -11,6 +11,11 @@
     <string name="framing">Framing</string>
     <string name="conclusion">Conclusion</string>
 
+    <string name="dialogue_message">Review Already On Record</string>
+    <string name="dialogue_title">Would you like to update the previous review?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
     <!-- SIZES -->
     <string name="maxXXLargeInputLength">500</string>
     <string name="maxXLargeInputLength">300</string>
@@ -67,7 +72,8 @@
         <item>Rain</item>
         <item>Sunny</item>
         <item>Cloudy</item>
-        <item>Snowing</item>
+        <item>Snow</item>
+        <item>Windy</item>
         <item>Clear</item>
     </string-array>
 </resources>
