@@ -1,9 +1,12 @@
 package com.example.nicco.inspectionReviewManager;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
@@ -69,5 +72,22 @@ public class MainActivity extends FragmentActivity {
         });
 
         finishedButton.setEnabled(ready);
+
+        /* DEBUG PURPOSES ONLY */
+        final Button testButton = (Button) findViewById(R.id.buttonTest);
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        1);
+                int permission = ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if(permission == PackageManager.PERMISSION_GRANTED) {
+                    Log.v("PUCCI", "PERMISSION TO WRITE GRANTED");
+                    model.exportReviewToDoc();
+                }
+                else Log.v("PUCCI", "ERROR: NO PERMISSION GRANTED TO WRITE TO EXTERNAL");
+            }
+        });
     }
 }

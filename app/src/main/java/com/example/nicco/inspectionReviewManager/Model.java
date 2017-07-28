@@ -1,11 +1,14 @@
 package com.example.nicco.inspectionReviewManager;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -224,7 +227,7 @@ public class Model extends Application {
     public boolean reviewExistsInDatabase() { return dbWriter.existsInDatabase(hashMap); }
 
     public boolean exportReviewToDoc() {
-        
+        FileIO.exportReportToDOC(getApplicationContext());
         return false;
     }
 }
