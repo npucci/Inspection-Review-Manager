@@ -21,13 +21,12 @@ import android.util.Log;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
-
 import java.io.IOException;
-import java.util.HashMap;
+import java.io.InputStream;
 
 public class FileIO {
 	private static final String OUTPUT_FOLDER = "output/";
@@ -154,24 +153,26 @@ public class FileIO {
 		return true;
 	}
 
-    public static boolean exportReportToDOC(final Context context) {
+    public static boolean exportInpsectionReviewToDOC(final Context context, String inspectionReviewName) {
 		// get directory of appropriate storage
         File storage = getAppropriateStorageDir(context);
-        //File templateSrc = new File(TEMPLATE_FOLDER + "/" + "SEL_Engineering_Limited_InspectionReportTemplate.doc");
-        File output = new File(storage.getPath(), "TestFile.doc");
-        try {
-            output.createNewFile();
-        } catch(Exception e) {
-            Log.v("PUCCI", "ERROR: The output file wasn't created\n= " + output.getPath());
-        }
+        //File templateSrc = new File(TEMPLATE_FOLDER + "/" + "sel_engineering_limited_inspection_report_templatete.doc");
+        File outputFile = newFileFromTemplate(context, storage, inspectionReviewName);
 
-        if(output.exists()) {
-            Log.v("PUCCI", "SUCCESS: The output file was created/exists\n= " + output.getPath());
-//            // open file
-//            openFile(context, output);
+//        try {
+//            output.createNewFile();
+//        } catch(Exception e) {
+//            Log.v("PUCCI", "ERROR: The output file wasn't created\n= " + output.getPath());
+//        }
+
+        if(outputFile == null) Log.v("PUCCI", "ERROR: The output file wasn't created\n= null");
+        else if(outputFile.exists()) {
+            Log.v("PUCCI", "SUCCESS: The output file was created/exists\n= " + outputFile.getPath());
+            // open file
+//          openFile(context, output);
         }
-        else Log.v("PUCCI", "ERROR: The output file wasn't created\n= " + output.getPath());
-        return output != null;
+        else Log.v("PUCCI", "ERROR: The output file wasn't created\n= " + outputFile.getPath());
+        return outputFile != null;
 	}
 
     private static File getAppropriateStorageDir(final Context context) {
@@ -189,7 +190,7 @@ public class FileIO {
                     Environment.DIRECTORY_DOCUMENTS).getPath(), "InspectionReviews");
             String path = storageDir.getPath();
             if(!storageDir.mkdirs() && !storageDir.exists()) Log.v("PUCCI", "ERROR: \ndirectory in EXTERNAL STORAGE not created\n= " + path);
-            else Log.v("PUCCI", "SUCCESS: \ndirectory in EXTERNAL STORAGE created/exists = " + path);
+            else Log.v("PUCCI", "SUCCESS: directory in EXTERNAL STORAGE created/exists\n= " + path);
         }
         return storageDir;
     }
@@ -197,7 +198,7 @@ public class FileIO {
     private static File getInternalCachedStorageDir(final Context context) {
         File storageDir = new File(context.getCacheDir().getPath());
         String path = storageDir.getPath();
-        if(!storageDir.mkdirs()) Log.v("PUCCI", "ERROR: directory in EXTERNAL STORAGE not created");
+        if(!storageDir.mkdirs()) Log.v("PUCCI", "ERROR: directory in INTERNAL STORAGE not created\n= " + path);
         else Log.v("PUCCI", "SUCCESS: directory in INTERNAL CACHED STORAGE created\n= " + path);
         internalCachedStorageCleanUp();
         return storageDir;
@@ -222,9 +223,37 @@ public class FileIO {
         context.startActivity(intent);
     }
 
+    private static File newFileFromTemplate(final Context context, final File destination, String fileName) {
+        File newFile = null;
+        InputStream inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_template);
+        FileOutputStream outputStream = null;
+        String newFilePath = destination.getPath() + "/" + fileName;
+        try {
+            outputStream = new FileOutputStream(newFilePath);
+            byte[] buffer = new byte[1024];
+            int length = 0;
+            while((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
+            newFile = new File(newFilePath);
+        } catch (FileNotFoundException e) {
+            Log.v("PUCCI", "ERROR: could not create the file " + fileName + ":\n" + e.getMessage());
+        } catch (IOException e) {
+            Log.v("PUCCI", "ERROR: could not create the file " + fileName + ":\n" + e.getMessage());
+        } finally {
+            try {
+                inputStream.close();
+                outputStream.close();
+            } catch (IOException e) {
+                Log.v("PUCCI", "ERROR: could not create the file " + fileName + ":\n" + e.getMessage());
+            }
+        }
+        return newFile;
+    }
+
 	
 //	public static boolean exportReportToDOC(Context context, HashMap<DatabaseWriter.DatabaseColumn, String> hashMap, String fileName, String year, String month) {
-//		File templateSrc = new File(TEMPLATE_FOLDER + "/" + "SEL_Engineering_Limited_InspectionReportTemplate.doc");
+//		File templateSrc = new File(TEMPLATE_FOLDER + "/" + "sel_engineering_limited_inspection_report_templatete.doc");
 //		File output = null;
 //		if((output = copyTemplateFile(templateSrc, fileName, year, month)) == null) return false;
 //		try {

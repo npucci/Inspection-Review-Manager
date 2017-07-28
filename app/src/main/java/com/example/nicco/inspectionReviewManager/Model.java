@@ -227,7 +227,7 @@ public class Model extends Application {
     public boolean reviewExistsInDatabase() { return dbWriter.existsInDatabase(hashMap); }
 
     public boolean exportReviewToDoc() {
-        FileIO.exportReportToDOC(getApplicationContext());
+        FileIO.exportInpsectionReviewToDOC(getApplicationContext(), "Text.txt");
         return false;
     }
 }
