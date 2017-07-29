@@ -9,7 +9,6 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Set;
 
 /**
  * Created by Nicco on 2017-07-25.
@@ -21,14 +20,14 @@ public class DatabaseWriter extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "InspectionReviews.db";
     private static final String TABLE_NAME = "Review";
-    private static final ArrayList<DatabaseColumn> PRIMARY_KEYS = new ArrayList<DatabaseColumn>(
-        Arrays.asList(new DatabaseColumn[]{
-                DatabaseColumn.ADDRESS,
-                DatabaseColumn.CITY,
-                DatabaseColumn.PROVINCE,
-                DatabaseColumn.PROJECT_NUMBER,
-                DatabaseColumn.DATE,
-                DatabaseColumn.TIME}));
+    private static final ArrayList<UIComponentInputValue> PRIMARY_KEYS = new ArrayList<UIComponentInputValue>(
+        Arrays.asList(new UIComponentInputValue[]{
+                UIComponentInputValue.ADDRESS,
+                UIComponentInputValue.CITY,
+                UIComponentInputValue.PROVINCE,
+                UIComponentInputValue.PROJECT_NUMBER,
+                UIComponentInputValue.DATE,
+                UIComponentInputValue.TIME}));
     private static final String TABLE_PRIMARY_KEY = createPrimaryKeyStatement();
     private static final int maxXXLargeInputLength = 500;
     private static final int maxXLargeInputLength = 300;
@@ -36,76 +35,101 @@ public class DatabaseWriter extends SQLiteOpenHelper {
     private static final int maxMediumInputLength = 50;
     private static final int maxSmallInputLength = 10;
 
-    public enum DatabaseColumn {
+    // used as keys that map directoy to their corresponding:
+    // 1. ui component values (in a HashTable within Model)
+    // 2. database columns *iff isDatabaseColumn() returns true
+    // and 3. tokens in the exported doc template
+    public enum UIComponentInputValue {
+        /* UI COMPONENT VALUES */
+        REBAR_POSITION_NA("rebar_position_na", "none", false),
+        REBAR_SIZE_NA("rebar_size_na", "none", false),
+        FORMWORK_NA("formwork_na", "none", false),
+        ANCHORAGE_NA("anchorage_na", "none", false),
+        TRUSS_SPEC_NA("truss_spec_na", "none", false),
+        IJOIST_NA("ijoist_na", "none", false),
+        BEARING_NA("bearing_na", "none", false),
+        TOP_PLATES_NA("top_plates_na", "Vnone", false),
+        LINTELS_NA("lintels_na", "none", false),
+        SHEARWALLS_NA("shearwalls_na", "none", false),
+        TALL_WALLS_NA("tall_walls_na", "none", false),
+        BLOCKING_NA("blocking_na", "none", false),
+        WALL_SHEATHING_NA("wall_sheathing_na", "none", false),
+        WIND_GIRTS_NA("wind_girts_na", "none", false),
+        REVIEW_STATUS_APPROVED("review_status_approved", "none", false),
+        REVIEW_STATUS_NOT_APPROVED("review_status_not_approved", "none", false),
+        REVIEW_STATUS_REINSPECTION_REQUIRED("review_status_reinspection_required", "none", false),
+
+        /* DATABASE COLUMNS */
         // DATE ACTIVITY
-        DATE("date", "DATE"),
-        TIME("time", "TIME"),
-        WEATHER("weather", "VARCHAR(" + maxSmallInputLength + ")"),
-        TEMPERATURE_CELSIUS("temperature_celsius", "REAL"),
+        DATE("date", "DATE", true),
+        TIME("time", "TIME", true),
+        WEATHER("weather", "VARCHAR(" + maxSmallInputLength + ")", true),
+        TEMPERATURE_CELSIUS("temperature_celsius", "REAL", true),
         // PROJECT ACTIVITY
-        ADDRESS("address", "VARCHAR(" + maxLargeInputLength + ")"),
-        CITY("city", "VARCHAR(" + maxLargeInputLength + ")"),
-        PROVINCE("province", "VARCHAR(" + maxLargeInputLength + ")"),
-        PROJECT_NUMBER("project_number", "VARCHAR(" + maxMediumInputLength + ")"),
-        DEVELOPER("developer", "VARCHAR(" + maxLargeInputLength + ")"),
-        CONTRACTOR("contractor", "VARCHAR(" + maxLargeInputLength + ")"),
-        FOOTINGS_REVIEW("footings_review", "VARCHAR(" + maxSmallInputLength + ")"),
-        FOUNDATION_WALLS_REVIEW("foundation_walls_review", "VARCHAR(" + maxSmallInputLength + ")"),
-        SHEATHING_REVIEW("sheathing_review", "VARCHAR(" + maxSmallInputLength + ")"),
-        FRAMING_REVIEW("framing_review", "VARCHAR(" + maxSmallInputLength + ")"),
-        OTHER_REVIEW("other_review", "VARCHAR(" + maxSmallInputLength + ")"),
-        OTHER_REVIEW_DESCRIPTION("other_review_description", "VARCHAR(" + maxLargeInputLength + ")"),
+        ADDRESS("address", "VARCHAR(" + maxLargeInputLength + ")", true),
+        CITY("city", "VARCHAR(" + maxLargeInputLength + ")", true),
+        PROVINCE("province", "VARCHAR(" + maxLargeInputLength + ")", true),
+        PROJECT_NUMBER("project_number", "VARCHAR(" + maxMediumInputLength + ")", true),
+        DEVELOPER("developer", "VARCHAR(" + maxLargeInputLength + ")", true),
+        CONTRACTOR("contractor", "VARCHAR(" + maxLargeInputLength + ")", true),
+        FOOTINGS_REVIEW("footings_review", "VARCHAR(" + maxSmallInputLength + ")", true),
+        FOUNDATION_WALLS_REVIEW("foundation_walls_review", "VARCHAR(" + maxSmallInputLength + ")", true),
+        SHEATHING_REVIEW("sheathing_review", "VARCHAR(" + maxSmallInputLength + ")", true),
+        FRAMING_REVIEW("framing_review", "VARCHAR(" + maxSmallInputLength + ")", true),
+        OTHER_REVIEW("other_review", "VARCHAR(" + maxSmallInputLength + ")", true),
+        OTHER_REVIEW_DESCRIPTION("other_review_description", "VARCHAR(" + maxLargeInputLength + ")", true),
         // CONCRETE ACTIVITY
-        REBAR_POSITION("rebar_position", "VARCHAR(" + maxSmallInputLength + ")"),
-        REBAR_POSITION_INSTRUCTION("rebar_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
-        REBAR_SIZE("rebar_size", "VARCHAR(" + maxMediumInputLength + ")"),
-        REBAR_SIZE_INSTRUCTION("rebar_size_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
-        FORMWORK("formwork", "VARCHAR(" + maxSmallInputLength + ")"),
-        FORMWORK_INSTRUCTION("formwork_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
-        ANCHORAGE("anchorage", "VARCHAR(" + maxSmallInputLength + ")"),
-        ANCHORAGE_INSTRUCTION("anchorage_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
+        REBAR_POSITION("rebar_position", "VARCHAR(" + maxSmallInputLength + ")", true),
+        REBAR_POSITION_INSTRUCTION("rebar_position_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
+        REBAR_SIZE("rebar_size", "VARCHAR(" + maxMediumInputLength + ")", true),
+        REBAR_SIZE_INSTRUCTION("rebar_size_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
+        FORMWORK("formwork", "VARCHAR(" + maxSmallInputLength + ")", true),
+        FORMWORK_INSTRUCTION("formwork_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
+        ANCHORAGE("anchorage", "VARCHAR(" + maxSmallInputLength + ")", true),
+        ANCHORAGE_INSTRUCTION("anchorage_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
         // FRAMING ACTIVITY
-        TRUSS_SPEC("truss_spec", "VARCHAR(" + maxSmallInputLength + ")"),
-        TRUSS_SPEC_INSTRUCTION("truss_spec_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
-        IJOIST("ijoist", "VARCHAR(" + maxSmallInputLength + ")"),
-        IJOIST_INSTRUCTION("ijoist_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
-        BEARING("bearing", "VARCHAR(" + maxSmallInputLength + ")"),
-        BEARING_INSTRUCTION("bearing_instruction", "VARCHAR(" + maxSmallInputLength + ")"),
-        TOP_PLATES("top_plates", "VARCHAR(" + maxSmallInputLength + ")"),
-        TOP_PLATES_INSTRUCTION("top_plates_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
-        LINTELS("lintels", "VARCHAR(" + maxSmallInputLength + ")"),
-        LINTELS_INSTRUCTION("lintels_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
-        SHEARWALLS("shearwalls", "VARCHAR(" + maxLargeInputLength + ")"),
-        SHEARWALLS_INSTRUCTION("shearwalls_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
-        TALL_WALLS("tall_walls", "VARCHAR(" + maxSmallInputLength + ")"),
-        TALL_WALLS_INSTRUCTION("tall_walls_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
-        BLOCKING("blocking", "VARCHAR(" + maxSmallInputLength + ")"),
-        BLOCKING_INSTRUCTION("blocking_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
-        WALL_SHEATHING("wall_sheathing", "VARCHAR(" + maxSmallInputLength + ")"),
-        WALL_SHEATHING_INSTRUCTION("wall_sheathing_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
-        WIND_GIRTS("wind_girts", "VARCHAR(" + maxSmallInputLength + ")"),
-        WIND_GIRTS_INSTRUCTION("wind_girts_instruction", "VARCHAR(" + maxXLargeInputLength + ")"),
+        TRUSS_SPEC("truss_spec", "VARCHAR(" + maxSmallInputLength + ")", true),
+        TRUSS_SPEC_INSTRUCTION("truss_spec_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
+        IJOIST("ijoist", "VARCHAR(" + maxSmallInputLength + ")", true),
+        IJOIST_INSTRUCTION("ijoist_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
+        BEARING("bearing", "VARCHAR(" + maxSmallInputLength + ")", true),
+        BEARING_INSTRUCTION("bearing_instruction", "VARCHAR(" + maxSmallInputLength + ")", true),
+        TOP_PLATES("top_plates", "VARCHAR(" + maxSmallInputLength + ")", true),
+        TOP_PLATES_INSTRUCTION("top_plates_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
+        LINTELS("lintels", "VARCHAR(" + maxSmallInputLength + ")", true),
+        LINTELS_INSTRUCTION("lintels_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
+        SHEARWALLS("shearwalls", "VARCHAR(" + maxLargeInputLength + ")", true),
+        SHEARWALLS_INSTRUCTION("shearwalls_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
+        TALL_WALLS("tall_walls", "VARCHAR(" + maxSmallInputLength + ")", true),
+        TALL_WALLS_INSTRUCTION("tall_walls_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
+        BLOCKING("blocking", "VARCHAR(" + maxSmallInputLength + ")", true),
+        BLOCKING_INSTRUCTION("blocking_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
+        WALL_SHEATHING("wall_sheathing", "VARCHAR(" + maxSmallInputLength + ")", true),
+        WALL_SHEATHING_INSTRUCTION("wall_sheathing_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
+        WIND_GIRTS("wind_girts", "VARCHAR(" + maxSmallInputLength + ")", true),
+        WIND_GIRTS_INSTRUCTION("wind_girts_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
         // CONCLUSION ACTIVITY
-        OBSERVATIONS("observation", "VARCHAR(" + maxXXLargeInputLength + ")"),
-        COMMENTS("comments", "VARCHAR(" + maxXXLargeInputLength + ")"),
-        REVIEW_STATUS("review_status", "VARCHAR(" + maxMediumInputLength + ")"),
-        REVIEWED_BY("reviewed_by", "VARCHAR(" + maxMediumInputLength + ")");
+        OBSERVATIONS("observations", "VARCHAR(" + maxXXLargeInputLength + ")", true),
+        COMMENTS("comments", "VARCHAR(" + maxXXLargeInputLength + ")", true),
+        REVIEW_STATUS("review_status", "VARCHAR(" + maxMediumInputLength + ")", true),
+        REVIEWED_BY("reviewed_by", "VARCHAR(" + maxMediumInputLength + ")", true);
 
         private String value;
         private String dataType;
+        private boolean isADatabaseColumn;
 
-        DatabaseColumn(String value, String dataType) {
+        UIComponentInputValue(String value, String dataType, boolean isADatabaseColumn) {
             this.value = value;
             this.dataType = dataType;
+            this.isADatabaseColumn = isADatabaseColumn;
         }
 
         public String getValue() { return value; }
         public String getDataType() { return dataType; }
+        public boolean isDatabaseColum(){ return isADatabaseColumn; }
 
         @Override
         public String toString() { return value + " " + dataType; }
-
-
     }
 
     public DatabaseWriter(Context context) {
@@ -133,7 +157,7 @@ public class DatabaseWriter extends SQLiteOpenHelper {
 
     private static String generateTableCreateSQL() {
         String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (";
-        DatabaseColumn[] columns = DatabaseColumn.values();
+        UIComponentInputValue[] columns = UIComponentInputValue.values();
         for(int i = 0; i < columns.length; i++) {
             sql += columns[i].toString();
             if(i < columns.length - 1) sql += ", ";
@@ -143,8 +167,8 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         return sql;
     }
 
-    public boolean existsInDatabase(HashMap<DatabaseColumn, String> hashMap) {
-        DatabaseColumn[] keys = PRIMARY_KEYS.toArray(new DatabaseColumn[PRIMARY_KEYS.size()]);
+    public boolean existsInDatabase(HashMap<UIComponentInputValue, String> hashMap) {
+        UIComponentInputValue[] keys = PRIMARY_KEYS.toArray(new UIComponentInputValue[PRIMARY_KEYS.size()]);
         if(keys.length == 0) return false;
 
         String sql = "";
@@ -169,11 +193,11 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         return numResults > 0;
     }
 
-    public boolean insertValues(HashMap<DatabaseColumn, String> hashMap) {
+    public boolean insertValues(HashMap<UIComponentInputValue, String> hashMap) {
         String sql = "INSERT INTO " + TABLE_NAME;
         String sqlColumns = "(";
         String sqlValues = "VALUES(";
-        DatabaseColumn[] columnSet = hashMap.keySet().toArray(new DatabaseColumn[hashMap.keySet().size()]);
+        UIComponentInputValue[] columnSet = hashMap.keySet().toArray(new UIComponentInputValue[hashMap.keySet().size()]);
         for(int i = 0; i < columnSet.length; i++) {
             sqlColumns = sqlColumns + columnSet[i].getValue();
             sqlValues = sqlValues + "\"" + hashMap.get(columnSet[i]) + "\"";
@@ -199,11 +223,11 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean updateValues(HashMap<DatabaseColumn, String> hashMap) {
+    public boolean updateValues(HashMap<UIComponentInputValue, String> hashMap) {
         String sql = "UPDATE " + TABLE_NAME;
         String sqlSet = "SET ";
         String sqlWhere = "WHERE ";
-        DatabaseColumn[] columnSet = hashMap.keySet().toArray(new DatabaseColumn[hashMap.keySet().size()]);
+        UIComponentInputValue[] columnSet = hashMap.keySet().toArray(new UIComponentInputValue[hashMap.keySet().size()]);
         int countPrimaryKeys = 0;
         for(int i = 0; i < columnSet.length; i++) {
             if (PRIMARY_KEYS.contains(columnSet[i])) {
@@ -227,7 +251,7 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         return true;
     }
 
-    public String[] query(DatabaseColumn column, String whereClause, String[] whereArgs) {
+    public String[] query(UIComponentInputValue column, String whereClause, String[] whereArgs) {
         ArrayList<String> results = new ArrayList<>();
         String[] projection = new String[]{column.getValue()};
 

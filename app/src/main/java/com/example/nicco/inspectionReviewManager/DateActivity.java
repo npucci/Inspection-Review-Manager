@@ -2,15 +2,11 @@ package com.example.nicco.inspectionReviewManager;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
-import android.widget.TimePicker.*;
 
-import java.text.DateFormatSymbols;
 import java.util.Calendar;
 
 /**
@@ -30,7 +26,7 @@ public class DateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_date);
         init();
 
-        String value = model.getValue(DatabaseWriter.DatabaseColumn.DATE);
+        String value = model.getValue(DatabaseWriter.UIComponentInputValue.DATE);
         if(value != null) {
             String[] split = value.split("-"); // DATE format "YYYY-MM-DD"
             if (split.length == 3) {
@@ -42,7 +38,7 @@ public class DateActivity extends AppCompatActivity {
             }
         }
 
-        value = model.getValue(DatabaseWriter.DatabaseColumn.TIME);
+        value = model.getValue(DatabaseWriter.UIComponentInputValue.TIME);
         if(value != null) {
             String[] split = value.split(":"); // TIME format "HH:MM"
             if (split.length == 2) {
@@ -59,22 +55,22 @@ public class DateActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line,
                 model.combineArrays(
-                        model.queryDatabase(DatabaseWriter.DatabaseColumn.WEATHER, null, null),
+                        model.queryDatabase(DatabaseWriter.UIComponentInputValue.WEATHER, null, null),
                         getResources().getStringArray(R.array.weather)));
 
         weather.setAdapter(adapter);
 
-        value = model.getValue(DatabaseWriter.DatabaseColumn.WEATHER);
+        value = model.getValue(DatabaseWriter.UIComponentInputValue.WEATHER);
         if(value != null) weather.setText(value);
 
         // TEMPERATURE
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.DatabaseColumn.TEMPERATURE_CELSIUS, null, null));
+                model.queryDatabase(DatabaseWriter.UIComponentInputValue.TEMPERATURE_CELSIUS, null, null));
 
         temperature.setAdapter(adapter);
 
-        value = model.getValue(DatabaseWriter.DatabaseColumn.TEMPERATURE_CELSIUS);
+        value = model.getValue(DatabaseWriter.UIComponentInputValue.TEMPERATURE_CELSIUS);
         if(value != null) temperature.setText(value);
     }
 
@@ -125,17 +121,17 @@ public class DateActivity extends AppCompatActivity {
 
         // DATE
         String date = datePicker.getYear() + "-" + (datePicker.getMonth() + 1) + "-" + datePicker.getDayOfMonth();
-        model.updateValue(DatabaseWriter.DatabaseColumn.DATE, date);
+        model.updateValue(DatabaseWriter.UIComponentInputValue.DATE, date);
 
         // TIME
         String time = timePicker.getCurrentHour() + ":" + model.formatDigitStr("" + timePicker.getCurrentMinute());
-        model.updateValue(DatabaseWriter.DatabaseColumn.TIME, time);
+        model.updateValue(DatabaseWriter.UIComponentInputValue.TIME, time);
 
         // WEATHER
-        model.updateValue(DatabaseWriter.DatabaseColumn.WEATHER, weather.getText().toString());
+        model.updateValue(DatabaseWriter.UIComponentInputValue.WEATHER, weather.getText().toString());
 
         // TEMPERATURE
-        model.updateValue(DatabaseWriter.DatabaseColumn.TEMPERATURE_CELSIUS, temperature.getText().toString());
+        model.updateValue(DatabaseWriter.UIComponentInputValue.TEMPERATURE_CELSIUS, temperature.getText().toString());
     }
 
     @Override

@@ -1,32 +1,19 @@
 package com.example.nicco.inspectionReviewManager;
 
-import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.support.v4.app.ActivityCompat;
-import android.util.Log;
-import android.widget.Toast;
 
 import java.text.DateFormatSymbols;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-
-import static com.example.nicco.inspectionReviewManager.R.string.maxSmallInputLength;
 
 /**
  * Created by Nicco on 2017-07-17.
  */
 
 public class Model extends Application {
-    private HashMap<DatabaseWriter.DatabaseColumn, String> hashMap = new HashMap<DatabaseWriter.DatabaseColumn, String>();
+    private HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap = new HashMap<DatabaseWriter.UIComponentInputValue, String>();
     private DatabaseWriter dbWriter;
     private Context context;
 
@@ -81,9 +68,9 @@ public class Model extends Application {
         dbWriter = new DatabaseWriter(this.getBaseContext());
     }
 
-    public void updateValue(DatabaseWriter.DatabaseColumn key, String value) { hashMap.put(key, value); }
+    public void updateValue(DatabaseWriter.UIComponentInputValue key, String value) { hashMap.put(key, value); }
 
-    public String getValue(DatabaseWriter.DatabaseColumn key) {
+    public String getValue(DatabaseWriter.UIComponentInputValue key) {
         String value = hashMap.get(key);
         if(value == null) value = "";
         return value;
@@ -116,10 +103,10 @@ public class Model extends Application {
         dateActivityComplete = false;
 
         // DATE ACTIVITY
-        if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.DATE))) return false;
-        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.TIME))) return false;
-        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.WEATHER)))return false;
-        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.TEMPERATURE_CELSIUS)))return false;
+        if(!validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.DATE))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.TIME))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.WEATHER)))return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.TEMPERATURE_CELSIUS)))return false;
 
         dateActivityComplete = true;
         return true;
@@ -128,27 +115,27 @@ public class Model extends Application {
     public boolean checkProjectActivityStatus() {
         projectActivityComplete = false;
 
-        if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.ADDRESS))) return false;
-        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.CITY))) return false;
-        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.PROVINCE))) return false;
-        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.PROJECT_NUMBER))) return false;
-        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.DEVELOPER))) return false;
-        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.CONTRACTOR)))return false;
-        else if (isChecked(DatabaseWriter.DatabaseColumn.FOOTINGS_REVIEW)) projectActivityComplete = true;
-        else if (isChecked(DatabaseWriter.DatabaseColumn.FOUNDATION_WALLS_REVIEW)) projectActivityComplete = true;
-        else if (isChecked(DatabaseWriter.DatabaseColumn.SHEATHING_REVIEW)) projectActivityComplete = true;
-        else if (isChecked(DatabaseWriter.DatabaseColumn.FRAMING_REVIEW)) projectActivityComplete = true;
-        else if(isChecked(DatabaseWriter.DatabaseColumn.OTHER_REVIEW)) projectActivityComplete = validValue(hashMap.get(DatabaseWriter.DatabaseColumn.OTHER_REVIEW_DESCRIPTION));
+        if(!validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.ADDRESS))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.CITY))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.PROVINCE))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.DEVELOPER))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.CONTRACTOR)))return false;
+        else if (isChecked(DatabaseWriter.UIComponentInputValue.FOOTINGS_REVIEW)) projectActivityComplete = true;
+        else if (isChecked(DatabaseWriter.UIComponentInputValue.FOUNDATION_WALLS_REVIEW)) projectActivityComplete = true;
+        else if (isChecked(DatabaseWriter.UIComponentInputValue.SHEATHING_REVIEW)) projectActivityComplete = true;
+        else if (isChecked(DatabaseWriter.UIComponentInputValue.FRAMING_REVIEW)) projectActivityComplete = true;
+        else if(isChecked(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW)) projectActivityComplete = validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW_DESCRIPTION));
         return true;
     }
 
     public boolean checkConcreteActivityStatus() {
         concreteActivityComplete = false;
 
-        if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.REBAR_POSITION)) return false;
-        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.REBAR_SIZE)) return false;
-        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.ANCHORAGE)) return false;
-        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.FORMWORK)) return false;
+        if(!isValidCheckValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.UIComponentInputValue.FORMWORK)) return false;
 
         concreteActivityComplete = true;
         return true;
@@ -157,16 +144,16 @@ public class Model extends Application {
     public boolean checkFramingActivityStatus() {
         framingActivityComplete = false;
 
-        if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.TRUSS_SPEC)) return false;
-        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.IJOIST)) return false;
-        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.BEARING)) return false;
-        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.TOP_PLATES)) return false;
-        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.LINTELS)) return false;
-        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.SHEARWALLS)) return false;
-        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.TALL_WALLS)) return false;
-        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.BLOCKING)) return false;
-        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.WALL_SHEATHING)) return false;
-        else if(!isValidCheckValue(DatabaseWriter.DatabaseColumn.WIND_GIRTS)) return false;
+        if(!isValidCheckValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.UIComponentInputValue.IJOIST)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.UIComponentInputValue.BEARING)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.UIComponentInputValue.LINTELS)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.UIComponentInputValue.SHEARWALLS)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.UIComponentInputValue.TALL_WALLS)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.UIComponentInputValue.BLOCKING)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING)) return false;
+        else if(!isValidCheckValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS)) return false;
 
         framingActivityComplete = true;
         return true;
@@ -175,10 +162,10 @@ public class Model extends Application {
     public boolean checkConclusionActivityStatus() {
         conclusionActivityComplete = false;
 
-        if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.OBSERVATIONS))) return false;
-        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.COMMENTS))) return false;
-        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.REVIEW_STATUS))) return false;
-        else if(!validValue(hashMap.get(DatabaseWriter.DatabaseColumn.REVIEWED_BY))) return false;
+        if(!validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.OBSERVATIONS))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.COMMENTS))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.REVIEWED_BY))) return false;
 
         conclusionActivityComplete = true;
         return true;
@@ -186,17 +173,17 @@ public class Model extends Application {
 
     public boolean validValue(String value) { return value != null && !value.isEmpty(); }
 
-    public boolean isChecked(DatabaseWriter.DatabaseColumn key) {
+    public boolean isChecked(DatabaseWriter.UIComponentInputValue key) {
         String value = getValue(key);
         return value != null && value.equals(SpecialValue.YES.toString());
     }
 
-    public boolean isValidCheckValue(DatabaseWriter.DatabaseColumn key) {
+    public boolean isValidCheckValue(DatabaseWriter.UIComponentInputValue key) {
         String value = getValue(key);
         return value != null && (value.equals(SpecialValue.YES.toString()) || value.equals(SpecialValue.NO.toString()));
     }
 
-    public String[] queryDatabase(DatabaseWriter.DatabaseColumn column, String whereClause, String[] whereArgs) {
+    public String[] queryDatabase(DatabaseWriter.UIComponentInputValue column, String whereClause, String[] whereArgs) {
         return dbWriter.query(column, whereClause, whereArgs);
     }
 

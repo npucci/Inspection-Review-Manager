@@ -42,7 +42,7 @@ public class ConcreteActivity extends AppCompatActivity {
         init();
 
         // REBAR POSITION
-        rebarPositionReviewed.setChecked(model.isChecked(DatabaseWriter.DatabaseColumn.REBAR_POSITION));
+        rebarPositionReviewed.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.REBAR_POSITION));
         rebarPositionReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,15 +60,15 @@ public class ConcreteActivity extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.DatabaseColumn.REBAR_POSITION_INSTRUCTION, null, null));
+                model.queryDatabase(DatabaseWriter.UIComponentInputValue.REBAR_POSITION_INSTRUCTION, null, null));
         rebarPositionInstruction.setAdapter(adapter);
         if(rebarPositionReviewed.isChecked()) {
-            rebarPositionInstruction.setText(model.getValue(DatabaseWriter.DatabaseColumn.REBAR_POSITION_INSTRUCTION));
+            rebarPositionInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION_INSTRUCTION));
         }
         else rebarPositionInstruction.setEnabled(false);
 
         // REBAR SIZE
-        rebarSizeReviewed.setChecked(model.isChecked(DatabaseWriter.DatabaseColumn.REBAR_SIZE));
+        rebarSizeReviewed.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.REBAR_SIZE));
         rebarSizeReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,15 +86,15 @@ public class ConcreteActivity extends AppCompatActivity {
 
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.DatabaseColumn.REBAR_SIZE_INSTRUCTION, null, null));
+                model.queryDatabase(DatabaseWriter.UIComponentInputValue.REBAR_SIZE_INSTRUCTION, null, null));
         rebarSizeInstruction.setAdapter(adapter);
         if(rebarSizeReviewed.isChecked()) {
-            rebarSizeInstruction.setText(model.getValue(DatabaseWriter.DatabaseColumn.REBAR_SIZE_INSTRUCTION));
+            rebarSizeInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE_INSTRUCTION));
         }
         else rebarSizeInstruction.setEnabled(false);
 
         // FORMWORK
-        formworkReviewed.setChecked(model.isChecked(DatabaseWriter.DatabaseColumn.FORMWORK));
+        formworkReviewed.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.FORMWORK));
         formworkReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,15 +112,15 @@ public class ConcreteActivity extends AppCompatActivity {
 
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.DatabaseColumn.FORMWORK_INSTRUCTION, null, null));
+                model.queryDatabase(DatabaseWriter.UIComponentInputValue.FORMWORK_INSTRUCTION, null, null));
         formworkInstruction.setAdapter(adapter);
         if(formworkReviewed.isChecked()) {
-            formworkInstruction.setText(model.getValue(DatabaseWriter.DatabaseColumn.FORMWORK_INSTRUCTION));
+            formworkInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.FORMWORK_INSTRUCTION));
         }
         else formworkInstruction.setEnabled(false);
 
         // ANCHORAGE
-        anchorageReviewed.setChecked(model.isChecked(DatabaseWriter.DatabaseColumn.ANCHORAGE));
+        anchorageReviewed.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.ANCHORAGE));
         anchorageReviewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,10 +138,10 @@ public class ConcreteActivity extends AppCompatActivity {
 
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.DatabaseColumn.ANCHORAGE_INSTRUCTION, null, null));
+                model.queryDatabase(DatabaseWriter.UIComponentInputValue.ANCHORAGE_INSTRUCTION, null, null));
         anchorageInstruction.setAdapter(adapter);
         if(anchorageReviewed.isChecked()) {
-            anchorageInstruction.setText(model.getValue(DatabaseWriter.DatabaseColumn.ANCHORAGE_INSTRUCTION));
+            anchorageInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE_INSTRUCTION));
         }
         else anchorageInstruction.setEnabled(false);
     }
@@ -176,51 +176,51 @@ public class ConcreteActivity extends AppCompatActivity {
 
         // REBAR POSITION
         if(rebarPositionReviewed.isChecked()) {
-            model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_POSITION, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION, Model.SpecialValue.YES.toString());
             if(rebarPositionInstruction.getText().toString().equals(""))
-                model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_POSITION_INSTRUCTION, Model.SpecialValue.NONE.toString());
+                model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_POSITION_INSTRUCTION, rebarPositionInstruction.getText().toString());
+                model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION_INSTRUCTION, rebarPositionInstruction.getText().toString());
         } else if(rebarPositionNA.isChecked()) {
-            model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_POSITION, Model.SpecialValue.NO.toString());
-            model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_POSITION_INSTRUCTION, Model.SpecialValue.NA.toString());
-        } else model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_POSITION, Model.SpecialValue.EMPTY.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION_INSTRUCTION, Model.SpecialValue.NA.toString());
+        } else model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION, Model.SpecialValue.EMPTY.toString());
 
         // REBAR SIZE
         if(rebarSizeReviewed.isChecked()) {
-            model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_SIZE, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE, Model.SpecialValue.YES.toString());
             if(rebarSizeInstruction.getText().toString().equals(""))
-                model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_SIZE_INSTRUCTION, Model.SpecialValue.NONE.toString());
+                model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_SIZE_INSTRUCTION, rebarSizeInstruction.getText().toString());
+                model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE_INSTRUCTION, rebarSizeInstruction.getText().toString());
         } else if (rebarSizeNA.isChecked()) {
-            model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_SIZE, Model.SpecialValue.NO.toString());
-            model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_SIZE_INSTRUCTION, Model.SpecialValue.NA.toString());
-        } else model.updateValue(DatabaseWriter.DatabaseColumn.REBAR_SIZE, Model.SpecialValue.EMPTY.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE_INSTRUCTION, Model.SpecialValue.NA.toString());
+        } else model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE, Model.SpecialValue.EMPTY.toString());
 
         // FORMWORK
         if(formworkReviewed.isChecked()) {
-            model.updateValue(DatabaseWriter.DatabaseColumn.FORMWORK, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK, Model.SpecialValue.YES.toString());
             if(formworkInstruction.getText().toString().equals(""))
-                model.updateValue(DatabaseWriter.DatabaseColumn.FORMWORK_INSTRUCTION, Model.SpecialValue.NONE.toString());
+                model.updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateValue(DatabaseWriter.DatabaseColumn.FORMWORK_INSTRUCTION, formworkInstruction.getText().toString());
+                model.updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK_INSTRUCTION, formworkInstruction.getText().toString());
         } else if (formworkNA.isChecked()) {
-            model.updateValue(DatabaseWriter.DatabaseColumn.FORMWORK, Model.SpecialValue.NO.toString());
-            model.updateValue(DatabaseWriter.DatabaseColumn.FORMWORK_INSTRUCTION, Model.SpecialValue.NA.toString());
-        }  else model.updateValue(DatabaseWriter.DatabaseColumn.FORMWORK, Model.SpecialValue.EMPTY.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK_INSTRUCTION, Model.SpecialValue.NA.toString());
+        }  else model.updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK, Model.SpecialValue.EMPTY.toString());
 
         // ANCHORAGE
         if(anchorageReviewed.isChecked()) {
-            model.updateValue(DatabaseWriter.DatabaseColumn.ANCHORAGE, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE, Model.SpecialValue.YES.toString());
             if(anchorageInstruction.getText().toString().equals(""))
-                model.updateValue(DatabaseWriter.DatabaseColumn.ANCHORAGE_INSTRUCTION, Model.SpecialValue.NONE.toString());
+                model.updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
-                model.updateValue(DatabaseWriter.DatabaseColumn.ANCHORAGE_INSTRUCTION, anchorageInstruction.getText().toString());
+                model.updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE_INSTRUCTION, anchorageInstruction.getText().toString());
         } else if (anchorageNA.isChecked()) {
-            model.updateValue(DatabaseWriter.DatabaseColumn.ANCHORAGE, Model.SpecialValue.NO.toString());
-            model.updateValue(DatabaseWriter.DatabaseColumn.ANCHORAGE_INSTRUCTION, Model.SpecialValue.NA.toString());
-        }  else model.updateValue(DatabaseWriter.DatabaseColumn.ANCHORAGE, Model.SpecialValue.EMPTY.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE_INSTRUCTION, Model.SpecialValue.NA.toString());
+        }  else model.updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE, Model.SpecialValue.EMPTY.toString());
     }
 
     @Override

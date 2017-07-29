@@ -3,7 +3,6 @@ package com.example.nicco.inspectionReviewManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -36,76 +35,76 @@ public class ProjectActivity extends AppCompatActivity {
         // ADDRESS
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_selectable_list_item,
-                model.queryDatabase(DatabaseWriter.DatabaseColumn.ADDRESS, null, null));
+                model.queryDatabase(DatabaseWriter.UIComponentInputValue.ADDRESS, null, null));
         address.setAdapter(adapter);
 
-        String value = model.getValue(DatabaseWriter.DatabaseColumn.ADDRESS);
+        String value = model.getValue(DatabaseWriter.UIComponentInputValue.ADDRESS);
         if(value != null) address.setText(value);
 
         // CITY
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line,
                 model.combineArrays(
-                    model.queryDatabase(DatabaseWriter.DatabaseColumn.CITY, null, null),
+                    model.queryDatabase(DatabaseWriter.UIComponentInputValue.CITY, null, null),
                     getResources().getStringArray(R.array.cities)));
 
         city.setAdapter(adapter);
 
-        value = model.getValue(DatabaseWriter.DatabaseColumn.CITY);
+        value = model.getValue(DatabaseWriter.UIComponentInputValue.CITY);
         if(value != null) city.setText(value);
 
         // PROVINCE
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line,
                 model.combineArrays(
-                        model.queryDatabase(DatabaseWriter.DatabaseColumn.PROVINCE, null, null),
+                        model.queryDatabase(DatabaseWriter.UIComponentInputValue.PROVINCE, null, null),
                         getResources().getStringArray(R.array.provinces)));
         province.setAdapter(adapter);
 
-        value = model.getValue(DatabaseWriter.DatabaseColumn.PROVINCE);
+        value = model.getValue(DatabaseWriter.UIComponentInputValue.PROVINCE);
         if(value != null) province.setText(value);
 
         // PROJECT NUMBER
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.DatabaseColumn.PROJECT_NUMBER, null, null));
+                model.queryDatabase(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER, null, null));
         projectNumber.setAdapter(adapter);
 
-        value = model.getValue(DatabaseWriter.DatabaseColumn.PROJECT_NUMBER);
+        value = model.getValue(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER);
         if(value != null) projectNumber.setText(value);
 
         // DEVELOPER
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.DatabaseColumn.DEVELOPER, null, null));
+                model.queryDatabase(DatabaseWriter.UIComponentInputValue.DEVELOPER, null, null));
         developer.setAdapter(adapter);
 
-        value = model.getValue(DatabaseWriter.DatabaseColumn.DEVELOPER);
+        value = model.getValue(DatabaseWriter.UIComponentInputValue.DEVELOPER);
         if(value != null) developer.setText(value);
 
         // CONTRACTOR
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.DatabaseColumn.CONTRACTOR, null, null));
+                model.queryDatabase(DatabaseWriter.UIComponentInputValue.CONTRACTOR, null, null));
         contractor.setAdapter(adapter);
 
-        value = model.getValue(DatabaseWriter.DatabaseColumn.CONTRACTOR);
+        value = model.getValue(DatabaseWriter.UIComponentInputValue.CONTRACTOR);
         if(value != null) contractor.setText(value);
 
         // FOOTINGS
-        footings.setChecked(model.isChecked(DatabaseWriter.DatabaseColumn.FOOTINGS_REVIEW));
+        footings.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.FOOTINGS_REVIEW));
 
         // FOUNDATION WALLS
-        foundationWalls.setChecked(model.isChecked(DatabaseWriter.DatabaseColumn.FOUNDATION_WALLS_REVIEW));
+        foundationWalls.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.FOUNDATION_WALLS_REVIEW));
 
         // SHEATHING
-        sheathing.setChecked(model.isChecked(DatabaseWriter.DatabaseColumn.SHEATHING_REVIEW));
+        sheathing.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.SHEATHING_REVIEW));
 
         // FRAMING
-        framing.setChecked(model.isChecked(DatabaseWriter.DatabaseColumn.FRAMING_REVIEW));
+        framing.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.FRAMING_REVIEW));
 
         // OTHER
-        other.setChecked(model.isChecked(DatabaseWriter.DatabaseColumn.OTHER_REVIEW));
+        other.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW));
         other.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,7 +127,7 @@ public class ProjectActivity extends AppCompatActivity {
         // DESCRIPTION
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.DatabaseColumn.OTHER_REVIEW_DESCRIPTION, null, null));
+                model.queryDatabase(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW_DESCRIPTION, null, null));
         description.setAdapter(adapter);
         if(other.isChecked()) {
             descriptionTextView.setVisibility(View.VISIBLE);
@@ -136,7 +135,7 @@ public class ProjectActivity extends AppCompatActivity {
             descriptionTextView.setTextColor(Color.RED);
             description.setVisibility(View.VISIBLE);
 
-            value = model.getValue(DatabaseWriter.DatabaseColumn.OTHER_REVIEW_DESCRIPTION);
+            value = model.getValue(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW_DESCRIPTION);
             if(model.validValue(value)) description.setText(value);
         }
         else {
@@ -172,45 +171,45 @@ public class ProjectActivity extends AppCompatActivity {
         super.onPause();
 
         // ADDRESS
-        model.updateValue(DatabaseWriter.DatabaseColumn.ADDRESS, address.getText().toString());
+        model.updateValue(DatabaseWriter.UIComponentInputValue.ADDRESS, address.getText().toString());
 
         // CITY
-        model.updateValue(DatabaseWriter.DatabaseColumn.CITY, city.getText().toString());
+        model.updateValue(DatabaseWriter.UIComponentInputValue.CITY, city.getText().toString());
 
         // PROVINCE
-        model.updateValue(DatabaseWriter.DatabaseColumn.PROVINCE, province.getText().toString());
+        model.updateValue(DatabaseWriter.UIComponentInputValue.PROVINCE, province.getText().toString());
 
         // PROJECT NUMBER
-        model.updateValue(DatabaseWriter.DatabaseColumn.PROJECT_NUMBER, projectNumber.getText().toString());
+        model.updateValue(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER, projectNumber.getText().toString());
 
         // DEVELOPER
-        model.updateValue(DatabaseWriter.DatabaseColumn.DEVELOPER, developer.getText().toString());
+        model.updateValue(DatabaseWriter.UIComponentInputValue.DEVELOPER, developer.getText().toString());
 
         // CONTRACTOR
-        model.updateValue(DatabaseWriter.DatabaseColumn.CONTRACTOR, contractor.getText().toString());
+        model.updateValue(DatabaseWriter.UIComponentInputValue.CONTRACTOR, contractor.getText().toString());
 
         // FOOTINGS
-        if(footings.isChecked()) model.updateValue(DatabaseWriter.DatabaseColumn.FOOTINGS_REVIEW, Model.SpecialValue.YES.toString());
-        else model.updateValue(DatabaseWriter.DatabaseColumn.FOOTINGS_REVIEW, Model.SpecialValue.NO.toString());
+        if(footings.isChecked()) model.updateValue(DatabaseWriter.UIComponentInputValue.FOOTINGS_REVIEW, Model.SpecialValue.YES.toString());
+        else model.updateValue(DatabaseWriter.UIComponentInputValue.FOOTINGS_REVIEW, Model.SpecialValue.NO.toString());
 
         // FOUNDATION WALLS
-        if(foundationWalls.isChecked()) model.updateValue(DatabaseWriter.DatabaseColumn.FOUNDATION_WALLS_REVIEW, Model.SpecialValue.YES.toString());
-        else model.updateValue(DatabaseWriter.DatabaseColumn.FOUNDATION_WALLS_REVIEW, Model.SpecialValue.NO.toString());
+        if(foundationWalls.isChecked()) model.updateValue(DatabaseWriter.UIComponentInputValue.FOUNDATION_WALLS_REVIEW, Model.SpecialValue.YES.toString());
+        else model.updateValue(DatabaseWriter.UIComponentInputValue.FOUNDATION_WALLS_REVIEW, Model.SpecialValue.NO.toString());
 
         // SHEATHING
-        if(sheathing.isChecked()) model.updateValue(DatabaseWriter.DatabaseColumn.SHEATHING_REVIEW, Model.SpecialValue.YES.toString());
-        else model.updateValue(DatabaseWriter.DatabaseColumn.SHEATHING_REVIEW, Model.SpecialValue.NO.toString());
+        if(sheathing.isChecked()) model.updateValue(DatabaseWriter.UIComponentInputValue.SHEATHING_REVIEW, Model.SpecialValue.YES.toString());
+        else model.updateValue(DatabaseWriter.UIComponentInputValue.SHEATHING_REVIEW, Model.SpecialValue.NO.toString());
 
         // FRAMING
-        if(framing.isChecked()) model.updateValue(DatabaseWriter.DatabaseColumn.FRAMING_REVIEW, Model.SpecialValue.YES.toString());
-        else model.updateValue(DatabaseWriter.DatabaseColumn.FRAMING_REVIEW, Model.SpecialValue.NO.toString());
+        if(framing.isChecked()) model.updateValue(DatabaseWriter.UIComponentInputValue.FRAMING_REVIEW, Model.SpecialValue.YES.toString());
+        else model.updateValue(DatabaseWriter.UIComponentInputValue.FRAMING_REVIEW, Model.SpecialValue.NO.toString());
 
         // OTHER
-        if(other.isChecked()) model.updateValue(DatabaseWriter.DatabaseColumn.OTHER_REVIEW, Model.SpecialValue.YES.toString());
-        else model.updateValue(DatabaseWriter.DatabaseColumn.OTHER_REVIEW, Model.SpecialValue.NO.toString());
+        if(other.isChecked()) model.updateValue(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW, Model.SpecialValue.YES.toString());
+        else model.updateValue(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW, Model.SpecialValue.NO.toString());
 
         // DESCRIPTION
-        model.updateValue(DatabaseWriter.DatabaseColumn.OTHER_REVIEW_DESCRIPTION, description.getText().toString());
+        model.updateValue(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW_DESCRIPTION, description.getText().toString());
     }
 
     @Override

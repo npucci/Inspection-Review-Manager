@@ -252,15 +252,15 @@ public class FileIO {
     }
 
 	
-//	public static boolean exportReportToDOC(Context context, HashMap<DatabaseWriter.DatabaseColumn, String> hashMap, String fileName, String year, String month) {
+//	public static boolean exportReportToDOC(Context context, HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap, String fileName, String year, String month) {
 //		File templateSrc = new File(TEMPLATE_FOLDER + "/" + "sel_engineering_limited_inspection_report_templatete.doc");
 //		File output = null;
 //		if((output = copyTemplateFile(templateSrc, fileName, year, month)) == null) return false;
 //		try {
 //			POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(output.getPath()));
 //			HWPFDocument doc = new HWPFDocument(fs);
-//			DatabaseWriter.DatabaseColumn[] columnArr = hashMap.keySet().toArray(new DatabaseWriter.DatabaseColumn[hashMap.keySet().size()]);
-//			for(DatabaseWriter.DatabaseColumn column : columnArr) {
+//			DatabaseWriter.UIComponentInputValue[] columnArr = hashMap.keySet().toArray(new DatabaseWriter.UIComponentInputValue[hashMap.keySet().size()]);
+//			for(DatabaseWriter.UIComponentInputValue column : columnArr) {
 //				replaceAllTextInDoc(doc, column.getValue(), hashMap.get(column));
 //			}
 //			FileOutputStream out = new FileOutputStream(getAppropriateStorageDir(context, output.getPath()));
