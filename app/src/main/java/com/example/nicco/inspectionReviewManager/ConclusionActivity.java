@@ -36,14 +36,9 @@ public class ConclusionActivity extends AppCompatActivity {
         comments.setText(model.getValue(DatabaseWriter.UIComponentInputValue.COMMENTS));
 
         // REVIEW STATUS
-        String reviewStatus = model.getValue(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS);
-        if(reviewStatus.equals(Model.ReviewStatusValue.APPROVED.toString())) {
-            approved.setChecked(true);
-        } else if(reviewStatus.equals(Model.ReviewStatusValue.NOT_APPROVED.toString())) {
-            notApproved.setChecked(true);
-        } else if(reviewStatus.equals(Model.ReviewStatusValue.REINSPECTION_REQUIRED.toString())) {
-            reinspectionRequired.setChecked(true);
-        }
+        approved.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_APPROVED));
+        notApproved.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_NOT_APPROVED));
+        reinspectionRequired.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_REINSPECTION_REQUIRED));
 
         // REVIEWED BY
         ArrayAdapter<String>adapter = new ArrayAdapter<String>(
@@ -79,10 +74,19 @@ public class ConclusionActivity extends AppCompatActivity {
         // REVIEW STATUS
         if(approved.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS, Model.ReviewStatusValue.APPROVED.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_APPROVED, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_NOT_APPROVED, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_REINSPECTION_REQUIRED, Model.SpecialValue.NO.toString());
         } else if(notApproved.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS, Model.ReviewStatusValue.NOT_APPROVED.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_APPROVED, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_NOT_APPROVED, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_REINSPECTION_REQUIRED, Model.SpecialValue.NO.toString());
         } else if(reinspectionRequired.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS, Model.ReviewStatusValue.REINSPECTION_REQUIRED.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_APPROVED, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_NOT_APPROVED, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_REINSPECTION_REQUIRED, Model.SpecialValue.YES.toString());
         }
 
         // REVIEWED BY

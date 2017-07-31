@@ -82,7 +82,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        trussSpecNA.setChecked(!trussSpecReviewed.isChecked());
+        trussSpecNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC_NA));
         trussSpecNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,7 +108,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        iJoistNA.setChecked(!iJoistReviewed.isChecked());
+        iJoistNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.IJOIST_NA));
         iJoistNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,7 +134,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        bearingNA.setChecked(!bearingReviewed.isChecked());
+        bearingNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.BEARING_NA));
         bearingNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -160,7 +160,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        topPlatesNA.setChecked(!topPlatesReviewed.isChecked());
+        topPlatesNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.TOP_PLATES_NA));
         topPlatesNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -186,7 +186,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        lintelsNA.setChecked(!lintelsReviewed.isChecked());
+        lintelsNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.LINTELS_NA));
         lintelsNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -212,7 +212,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        shearwallsNA.setChecked(!shearwallsReviewed.isChecked());
+        shearwallsNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.SHEARWALLS_NA));
         shearwallsNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -238,7 +238,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        tallWallsNA.setChecked(!tallWallsReviewed.isChecked());
+        tallWallsNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.TALL_WALLS_NA));
         tallWallsNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -264,7 +264,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        blockingNA.setChecked(!blockingReviewed.isChecked());
+        blockingNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.BLOCKING_NA));
         blockingNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -290,7 +290,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        wallSheathingNA.setChecked(!wallSheathingReviewed.isChecked());
+        wallSheathingNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING_NA));
         wallSheathingNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -316,7 +316,7 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        windGirtsNA.setChecked(!windGirtsReviewed.isChecked());
+        windGirtsNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.WIND_GIRTS_NA));
         windGirtsNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -395,120 +395,140 @@ public class FramingActivity extends AppCompatActivity {
         // TRUSS SPEC
         if(trussSpecReviewed.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC_NA, Model.SpecialValue.NO.toString());
             if(trussSpecInstruction.getText().toString().equals(""))
                 model.updateValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
                 model.updateValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC_INSTRUCTION, trussSpecInstruction.getText().toString());
         } else if(trussSpecNA.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC_NA, Model.SpecialValue.YES.toString());
             model.updateValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC_INSTRUCTION, Model.SpecialValue.NA.toString());
         }  else model.updateValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC, Model.SpecialValue.EMPTY.toString());
 
         // IJOIST
         if(iJoistReviewed.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.IJOIST, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.IJOIST_NA, Model.SpecialValue.NO.toString());
             if(iJoistInstruction.getText().toString().equals(""))
                 model.updateValue(DatabaseWriter.UIComponentInputValue.IJOIST_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
                 model.updateValue(DatabaseWriter.UIComponentInputValue.IJOIST_INSTRUCTION, iJoistInstruction.getText().toString());
         } else if(iJoistNA.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.IJOIST, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.IJOIST_NA, Model.SpecialValue.YES.toString());
             model.updateValue(DatabaseWriter.UIComponentInputValue.IJOIST_INSTRUCTION, Model.SpecialValue.NA.toString());
         }  else model.updateValue(DatabaseWriter.UIComponentInputValue.IJOIST, Model.SpecialValue.EMPTY.toString());
 
         // BEARING
         if(bearingReviewed.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.BEARING, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.BEARING_NA, Model.SpecialValue.NO.toString());
             if(bearingInstruction.getText().toString().equals(""))
                 model.updateValue(DatabaseWriter.UIComponentInputValue.BEARING_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
                 model.updateValue(DatabaseWriter.UIComponentInputValue.BEARING_INSTRUCTION, bearingInstruction.getText().toString());
         } else if(bearingNA.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.BEARING, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.BEARING_NA, Model.SpecialValue.YES.toString());
             model.updateValue(DatabaseWriter.UIComponentInputValue.BEARING_INSTRUCTION, Model.SpecialValue.NA.toString());
         }  else model.updateValue(DatabaseWriter.UIComponentInputValue.BEARING, Model.SpecialValue.EMPTY.toString());
 
         // TOP PLATES
         if(topPlatesReviewed.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES_NA, Model.SpecialValue.NO.toString());
             if(topPlatesInstruction.getText().toString().equals(""))
                 model.updateValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
                 model.updateValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES_INSTRUCTION, topPlatesInstruction.getText().toString());
         } else if(topPlatesNA.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES_NA, Model.SpecialValue.YES.toString());
             model.updateValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES_INSTRUCTION, Model.SpecialValue.NA.toString());
         }  else model.updateValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES, Model.SpecialValue.EMPTY.toString());
 
         // LINTELS
         if(lintelsReviewed.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.LINTELS, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.LINTELS_NA, Model.SpecialValue.NO.toString());
             if(lintelsInstruction.getText().toString().equals(""))
                 model.updateValue(DatabaseWriter.UIComponentInputValue.LINTELS_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
                 model.updateValue(DatabaseWriter.UIComponentInputValue.LINTELS_INSTRUCTION, lintelsInstruction.getText().toString());
         } else if(lintelsNA.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.LINTELS, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.LINTELS_NA, Model.SpecialValue.YES.toString());
             model.updateValue(DatabaseWriter.UIComponentInputValue.LINTELS_INSTRUCTION, Model.SpecialValue.NA.toString());
         }  else model.updateValue(DatabaseWriter.UIComponentInputValue.LINTELS, Model.SpecialValue.EMPTY.toString());
 
         // SHEARWALLS
         if(shearwallsReviewed.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.SHEARWALLS, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.SHEARWALLS_NA, Model.SpecialValue.NO.toString());
             if(shearwallsInstruction.getText().toString().equals(""))
                 model.updateValue(DatabaseWriter.UIComponentInputValue.SHEARWALLS_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
                 model.updateValue(DatabaseWriter.UIComponentInputValue.SHEARWALLS_INSTRUCTION, shearwallsInstruction.getText().toString());
         } else if(shearwallsNA.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.SHEARWALLS, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.SHEARWALLS_NA, Model.SpecialValue.YES.toString());
             model.updateValue(DatabaseWriter.UIComponentInputValue.SHEARWALLS_INSTRUCTION, Model.SpecialValue.NA.toString());
         }  else model.updateValue(DatabaseWriter.UIComponentInputValue.SHEARWALLS, Model.SpecialValue.EMPTY.toString());
 
         // TALL WALLS
         if(tallWallsReviewed.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.TALL_WALLS, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.TALL_WALLS_NA, Model.SpecialValue.NO.toString());
             if(tallWallsInstruction.getText().toString().equals(""))
                 model.updateValue(DatabaseWriter.UIComponentInputValue.TALL_WALLS_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
                 model.updateValue(DatabaseWriter.UIComponentInputValue.TALL_WALLS_INSTRUCTION, tallWallsInstruction.getText().toString());
         } else if(tallWallsNA.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.TALL_WALLS, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.TALL_WALLS_NA, Model.SpecialValue.YES.toString());
             model.updateValue(DatabaseWriter.UIComponentInputValue.TALL_WALLS_INSTRUCTION, Model.SpecialValue.NA.toString());
         }  else model.updateValue(DatabaseWriter.UIComponentInputValue.TALL_WALLS, Model.SpecialValue.EMPTY.toString());
 
         // BLOCKING
         if(blockingReviewed.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.BLOCKING, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.BLOCKING_NA, Model.SpecialValue.NO.toString());
             if(blockingInstruction.getText().toString().equals(""))
                 model.updateValue(DatabaseWriter.UIComponentInputValue.BLOCKING_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
                 model.updateValue(DatabaseWriter.UIComponentInputValue.BLOCKING_INSTRUCTION, blockingInstruction.getText().toString());
         } else if(blockingNA.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.BLOCKING, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.BLOCKING_NA, Model.SpecialValue.YES.toString());
             model.updateValue(DatabaseWriter.UIComponentInputValue.BLOCKING_INSTRUCTION, Model.SpecialValue.NA.toString());
         }  else model.updateValue(DatabaseWriter.UIComponentInputValue.BLOCKING, Model.SpecialValue.EMPTY.toString());
 
         // WALL SHEATHING
         if(wallSheathingReviewed.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING_NA, Model.SpecialValue.NO.toString());
             if(wallSheathingInstruction.getText().toString().equals(""))
                 model.updateValue(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
                 model.updateValue(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING_INSTRUCTION, wallSheathingInstruction.getText().toString());
         } else if(wallSheathingNA.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING_NA, Model.SpecialValue.YES.toString());
             model.updateValue(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING_INSTRUCTION, Model.SpecialValue.NA.toString());
         }  else model.updateValue(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING, Model.SpecialValue.EMPTY.toString());
 
         // WIND GIRTS
         if(windGirtsReviewed.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS_NA, Model.SpecialValue.NO.toString());
             if(windGirtsInstruction.getText().toString().equals(""))
                 model.updateValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
                 model.updateValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS_INSTRUCTION, windGirtsInstruction.getText().toString());
         } else if(windGirtsNA.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS_NA, Model.SpecialValue.YES.toString());
             model.updateValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS_INSTRUCTION, Model.SpecialValue.NA.toString());
         }  else model.updateValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS, Model.SpecialValue.EMPTY.toString());
     }

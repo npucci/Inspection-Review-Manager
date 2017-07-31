@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 
 import java.text.DateFormatSymbols;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 
@@ -207,7 +208,13 @@ public class Model extends Application {
         return combined.toArray(new String[combined.size()]);
     }
 
-     public boolean insertReviewToDatabase() { return dbWriter.insertValues(hashMap); }
+     public boolean insertReviewToDatabase() {
+         DatabaseWriter.UIComponentInputValue[] keySet = hashMap.keySet().toArray(
+                 new DatabaseWriter.UIComponentInputValue[hashMap.keySet().size()]);
+         ArrayList<DatabaseWriter.UIComponentInputValue> columns = new ArrayList<DatabaseWriter.UIComponentInputValue>();
+         for(DatabaseWriter.UIComponentInputValue value : keySet) if(value.isDatabaseColum()) columns.add(value);
+         return dbWriter.insertValues(hashMap, columns.toArray(new DatabaseWriter.UIComponentInputValue[columns.size()]));
+     }
 
     public boolean updateReviewToDatabase() { return dbWriter.updateValues(hashMap); }
 

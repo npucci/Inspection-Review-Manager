@@ -193,11 +193,10 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         return numResults > 0;
     }
 
-    public boolean insertValues(HashMap<UIComponentInputValue, String> hashMap) {
+    public boolean insertValues(HashMap<UIComponentInputValue, String> hashMap,  UIComponentInputValue[] columnSet) {
         String sql = "INSERT INTO " + TABLE_NAME;
         String sqlColumns = "(";
         String sqlValues = "VALUES(";
-        UIComponentInputValue[] columnSet = hashMap.keySet().toArray(new UIComponentInputValue[hashMap.keySet().size()]);
         for(int i = 0; i < columnSet.length; i++) {
             sqlColumns = sqlColumns + columnSet[i].getValue();
             sqlValues = sqlValues + "\"" + hashMap.get(columnSet[i]) + "\"";

@@ -50,7 +50,7 @@ public class ConcreteActivity extends AppCompatActivity {
             }
         });
 
-        rebarPositionNA.setChecked(!rebarPositionReviewed.isChecked());
+        rebarPositionNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.REBAR_POSITION_NA));
         rebarPositionNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,7 +76,7 @@ public class ConcreteActivity extends AppCompatActivity {
             }
         });
 
-        rebarSizeNA.setChecked(!rebarSizeReviewed.isChecked());
+        rebarSizeNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.REBAR_SIZE_NA));
         rebarSizeNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,7 +102,7 @@ public class ConcreteActivity extends AppCompatActivity {
             }
         });
 
-        formworkNA.setChecked(!formworkReviewed.isChecked());
+        formworkNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.FORMWORK_NA));
         formworkNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,7 +128,7 @@ public class ConcreteActivity extends AppCompatActivity {
             }
         });
 
-        anchorageNA.setChecked(!anchorageReviewed.isChecked());
+        anchorageNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.ANCHORAGE_NA));
         anchorageNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -177,48 +177,56 @@ public class ConcreteActivity extends AppCompatActivity {
         // REBAR POSITION
         if(rebarPositionReviewed.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION_NA, Model.SpecialValue.NO.toString());
             if(rebarPositionInstruction.getText().toString().equals(""))
                 model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
                 model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION_INSTRUCTION, rebarPositionInstruction.getText().toString());
         } else if(rebarPositionNA.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION_NA, Model.SpecialValue.YES.toString());
             model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION_INSTRUCTION, Model.SpecialValue.NA.toString());
         } else model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION, Model.SpecialValue.EMPTY.toString());
 
         // REBAR SIZE
         if(rebarSizeReviewed.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE_NA, Model.SpecialValue.NO.toString());
             if(rebarSizeInstruction.getText().toString().equals(""))
                 model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
                 model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE_INSTRUCTION, rebarSizeInstruction.getText().toString());
         } else if (rebarSizeNA.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE_NA, Model.SpecialValue.YES.toString());
             model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE_INSTRUCTION, Model.SpecialValue.NA.toString());
         } else model.updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE, Model.SpecialValue.EMPTY.toString());
 
         // FORMWORK
         if(formworkReviewed.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK_NA, Model.SpecialValue.NO.toString());
             if(formworkInstruction.getText().toString().equals(""))
                 model.updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
                 model.updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK_INSTRUCTION, formworkInstruction.getText().toString());
         } else if (formworkNA.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK_NA, Model.SpecialValue.YES.toString());
             model.updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK_INSTRUCTION, Model.SpecialValue.NA.toString());
         }  else model.updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK, Model.SpecialValue.EMPTY.toString());
 
         // ANCHORAGE
         if(anchorageReviewed.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE, Model.SpecialValue.YES.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE_NA, Model.SpecialValue.NO.toString());
             if(anchorageInstruction.getText().toString().equals(""))
                 model.updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE_INSTRUCTION, Model.SpecialValue.NONE.toString());
             else
                 model.updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE_INSTRUCTION, anchorageInstruction.getText().toString());
         } else if (anchorageNA.isChecked()) {
             model.updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE, Model.SpecialValue.NO.toString());
+            model.updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE_NA, Model.SpecialValue.YES.toString());
             model.updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE_INSTRUCTION, Model.SpecialValue.NA.toString());
         }  else model.updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE, Model.SpecialValue.EMPTY.toString());
     }
