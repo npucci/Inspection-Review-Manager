@@ -252,7 +252,7 @@ public class DatabaseWriter extends SQLiteOpenHelper {
 
     public String[] query(UIComponentInputValue column, String whereClause, String[] whereArgs) {
         ArrayList<String> results = new ArrayList<>();
-        String[] projection = new String[]{column.getValue()};
+        String[] projection = new String[]{"DISTINCT(" + column.getValue() + ")"};
 
         try {
             Cursor cursor = database.query(TABLE_NAME, projection, whereClause, whereArgs, null, null, null);
