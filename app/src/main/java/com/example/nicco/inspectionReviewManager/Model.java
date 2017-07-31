@@ -221,7 +221,13 @@ public class Model extends Application {
     public boolean reviewExistsInDatabase() { return dbWriter.existsInDatabase(hashMap); }
 
     public boolean exportReviewToDoc() {
-        FileIO.exportInpsectionReviewToDOC(getApplicationContext(), "Text.txt");
+        String fileName = hashMap.get(DatabaseWriter.UIComponentInputValue.ADDRESS) + ", " +
+                hashMap.get(DatabaseWriter.UIComponentInputValue.CITY) + ", " +
+                hashMap.get(DatabaseWriter.UIComponentInputValue.PROVINCE) + " - " +
+                hashMap.get(DatabaseWriter.UIComponentInputValue.DATE) + " - " +
+                hashMap.get(DatabaseWriter.UIComponentInputValue.TIME) + ".doc";
+        fileName = "testFile.doc";
+        FileIO.exportInpsectionReviewToDOC(getApplicationContext(), hashMap, fileName);
         return false;
     }
 }

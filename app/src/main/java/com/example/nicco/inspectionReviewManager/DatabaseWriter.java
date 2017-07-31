@@ -235,10 +235,10 @@ public class DatabaseWriter extends SQLiteOpenHelper {
                 if(countPrimaryKeys != PRIMARY_KEYS.size()) sqlWhere += " AND ";
             } else {
                 sqlSet += columnSet[i].getValue() + " = " + "\"" + hashMap.get(columnSet[i]) + "\"";
-                if (i < columnSet.length - 1) sqlSet += ", ";
+                sqlSet += ", ";
             }
         }
-
+        sqlSet = sqlSet.substring(0, sqlSet.length() - 2) + " ";
         sql += " " + sqlSet + " " + sqlWhere;
         Log.v("PUCCI", "UPDATE sql = " + sql);
         try {

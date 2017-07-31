@@ -37,7 +37,18 @@ public class MainActivity extends FragmentActivity {
                 CharSequence message = "Review Updated";
                 int duration = Toast.LENGTH_LONG;
                 Toast toast = Toast.makeText(getApplicationContext(), message, duration);
+                // update existing review recorded in database
                 model.updateReviewToDatabase();
+                // export and open the updated review as a doc file
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        1);
+                int permission = ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if(permission == PackageManager.PERMISSION_GRANTED) {
+                    Log.v("PUCCI", "PERMISSION TO WRITE GRANTED");
+                    model.exportReviewToDoc();
+                }
+                else Log.v("PUCCI", "ERROR: NO PERMISSION GRANTED TO WRITE TO EXTERNAL");
             }
         });
         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -63,11 +74,20 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View view) {
                 if(model.reviewExistsInDatabase()) {
                     dialogue.show();
-                    Log.v("PUCCI", "Dialog creation CALLED");
                 } else {
+                    // insert review into database
                     model.insertReviewToDatabase();
+                    // export and open review as a doc file
+                    ActivityCompat.requestPermissions(MainActivity.this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            1);
+                    int permission = ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    if(permission == PackageManager.PERMISSION_GRANTED) {
+                        Log.v("PUCCI", "PERMISSION TO WRITE GRANTED");
+                        model.exportReviewToDoc();
+                    }
+                    else Log.v("PUCCI", "ERROR: NO PERMISSION GRANTED TO WRITE TO EXTERNAL");
                 }
-                //model.exportReviewToDoc();
             }
         });
 
@@ -89,5 +109,8 @@ public class MainActivity extends FragmentActivity {
                 else Log.v("PUCCI", "ERROR: NO PERMISSION GRANTED TO WRITE TO EXTERNAL");
             }
         });
+
+        testButton.setEnabled(false);
+        testButton.setVisibility(View.INVISIBLE);
     }
 }
