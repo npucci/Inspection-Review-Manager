@@ -188,17 +188,16 @@ public class Model extends Application {
         return dbWriter.query(column, whereClause, whereArgs);
     }
 
+    public String[] queryDatabase(String column, String whereClause, String[] whereArgs) {
+        return dbWriter.query(column, whereClause, whereArgs);
+    }
+
     public int monthToInt(String month) {
         String[] months = new DateFormatSymbols().getMonths();
         for(int i = 0; i < months.length; i++) {
             if(month.equals(months[i])) return i;
         }
         return -1;
-    }
-
-    public String formatDigitStr(String num) {
-        if(num.length() < 2) return "0" + num;
-        return num;
     }
 
     public String[] combineArrays(String[] arr1, String[] arr2) {

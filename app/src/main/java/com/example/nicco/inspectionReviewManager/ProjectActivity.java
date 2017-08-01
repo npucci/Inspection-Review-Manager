@@ -3,7 +3,10 @@ package com.example.nicco.inspectionReviewManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
@@ -40,6 +43,19 @@ public class ProjectActivity extends AppCompatActivity {
 
         String value = model.getValue(DatabaseWriter.UIComponentInputValue.ADDRESS);
         if(value != null) address.setText(value);
+        address.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                autoFill(address);
+                return false;
+            }
+        });
+        address.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                autoFill(address);
+            }
+        });
 
         // CITY
         adapter = new ArrayAdapter<String>(this,
@@ -52,6 +68,19 @@ public class ProjectActivity extends AppCompatActivity {
 
         value = model.getValue(DatabaseWriter.UIComponentInputValue.CITY);
         if(value != null) city.setText(value);
+        city.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                autoFill(city);
+                return false;
+            }
+        });
+        city.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                autoFill(city);
+            }
+        });
 
         // PROVINCE
         adapter = new ArrayAdapter<String>(this,
@@ -63,6 +92,18 @@ public class ProjectActivity extends AppCompatActivity {
 
         value = model.getValue(DatabaseWriter.UIComponentInputValue.PROVINCE);
         if(value != null) province.setText(value);
+        province.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                autoFill(province);
+                return false;            }
+        });
+        province.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                autoFill(province);
+            }
+        });
 
         // PROJECT NUMBER
         adapter = new ArrayAdapter<String>(this,
@@ -72,6 +113,19 @@ public class ProjectActivity extends AppCompatActivity {
 
         value = model.getValue(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER);
         if(value != null) projectNumber.setText(value);
+        projectNumber.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                autoFill(projectNumber);
+                return false;
+            }
+        });
+        projectNumber.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                autoFill(projectNumber);
+            }
+        });
 
         // DEVELOPER
         adapter = new ArrayAdapter<String>(this,
@@ -81,6 +135,19 @@ public class ProjectActivity extends AppCompatActivity {
 
         value = model.getValue(DatabaseWriter.UIComponentInputValue.DEVELOPER);
         if(value != null) developer.setText(value);
+        developer.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                autoFill(developer);
+                return false;
+            }
+        });
+        developer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                autoFill(developer);
+            }
+        });
 
         // CONTRACTOR
         adapter = new ArrayAdapter<String>(this,
@@ -90,6 +157,19 @@ public class ProjectActivity extends AppCompatActivity {
 
         value = model.getValue(DatabaseWriter.UIComponentInputValue.CONTRACTOR);
         if(value != null) contractor.setText(value);
+        contractor.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                autoFill(contractor);
+                return false;
+            }
+        });
+        contractor.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                autoFill(contractor);
+            }
+        });
 
         // FOOTINGS
         footings.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.FOOTINGS_REVIEW));
@@ -210,6 +290,66 @@ public class ProjectActivity extends AppCompatActivity {
 
         // DESCRIPTION
         model.updateValue(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW_DESCRIPTION, description.getText().toString());
+    }
+
+    private void autoFill(Object uiComponent) {
+        String whereClause = "";
+        String[] whereArgs = null;
+        String[] queryResult = null;
+
+        if(uiComponent != city && uiComponent != province && uiComponent != projectNumber &&
+                uiComponent != developer && uiComponent != contractor) {
+            whereClause = DatabaseWriter.UIComponentInputValue.ADDRESS.getValue() + " = ?";
+            whereArgs = new String[]{address.getText().toString()};
+            queryResult = model.queryDatabase(DatabaseWriter.UIComponentInputValue.CITY, whereClause, whereArgs);
+            if (queryResult == null || queryResult.length == 0) return;
+            city.setText(queryResult[0]);
+        }
+
+        if(uiComponent != province && uiComponent != projectNumber &&
+                uiComponent != developer && uiComponent != contractor) {
+            whereClause = DatabaseWriter.UIComponentInputValue.ADDRESS.getValue() + " = ? AND " +
+                    DatabaseWriter.UIComponentInputValue.CITY.getValue() + " = ?";
+            whereArgs = new String[]{address.getText().toString(), city.getText().toString()};
+            queryResult = model.queryDatabase(DatabaseWriter.UIComponentInputValue.PROVINCE, whereClause, whereArgs);
+            if (queryResult == null || queryResult.length == 0) return;
+            province.setText(queryResult[0]);
+        }
+
+        if(uiComponent != projectNumber &&
+                uiComponent != developer && uiComponent != contractor) {
+            whereClause = DatabaseWriter.UIComponentInputValue.ADDRESS.getValue() + " = ? AND " +
+                    DatabaseWriter.UIComponentInputValue.CITY.getValue() + " = ? AND " +
+                    DatabaseWriter.UIComponentInputValue.PROVINCE.getValue() + " = ?";
+            whereArgs = new String[]{address.getText().toString(), city.getText().toString(), province.getText().toString()};
+            queryResult = model.queryDatabase(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER, whereClause, whereArgs);
+            if (queryResult == null || queryResult.length == 0) return;
+            projectNumber.setText(queryResult[0]);
+        }
+
+        if(uiComponent != developer && uiComponent != contractor) {
+            whereClause = DatabaseWriter.UIComponentInputValue.ADDRESS.getValue() + " = ? AND " +
+                    DatabaseWriter.UIComponentInputValue.CITY.getValue() + " = ? AND " +
+                    DatabaseWriter.UIComponentInputValue.PROVINCE.getValue() + " = ? AND " +
+                    DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER.getValue() + " = ?";
+            whereArgs = new String[]{address.getText().toString(), city.getText().toString(),
+                    province.getText().toString(), projectNumber.getText().toString()};
+            queryResult = model.queryDatabase(DatabaseWriter.UIComponentInputValue.DEVELOPER, whereClause, whereArgs);
+            if (queryResult == null || queryResult.length == 0) return;
+            developer.setText(queryResult[0]);
+        }
+        if(uiComponent != contractor) {
+            whereClause = DatabaseWriter.UIComponentInputValue.ADDRESS.getValue() + " = ? AND " +
+                    DatabaseWriter.UIComponentInputValue.CITY.getValue() + " = ? AND " +
+                    DatabaseWriter.UIComponentInputValue.PROVINCE.getValue() + " = ? AND " +
+                    DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER.getValue() + " = ? AND " +
+                    DatabaseWriter.UIComponentInputValue.DEVELOPER.getValue() + " = ?";
+            whereArgs = new String[]{address.getText().toString(), city.getText().toString(),
+                    province.getText().toString(), projectNumber.getText().toString(), developer.getText().toString()};
+            queryResult = model.queryDatabase(DatabaseWriter.UIComponentInputValue.CONTRACTOR, whereClause, whereArgs);
+            if (queryResult == null || queryResult.length == 0) return;
+            contractor.setText(queryResult[0]);
+        }
     }
 
     @Override

@@ -64,7 +64,7 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         DATE("date", "DATE", true),
         TIME("time", "TIME", true),
         WEATHER("weather", "VARCHAR(" + maxSmallInputLength + ")", true),
-        TEMPERATURE_CELSIUS("temperature_celsius", "REAL", true),
+        TEMPERATURE_CELSIUS("temperature_celsius", "VARCHAR(" + maxSmallInputLength + ")", true),
         // PROJECT ACTIVITY
         ADDRESS("address", "VARCHAR(" + maxLargeInputLength + ")", true),
         CITY("city", "VARCHAR(" + maxLargeInputLength + ")", true),
@@ -253,6 +253,26 @@ public class DatabaseWriter extends SQLiteOpenHelper {
     public String[] query(UIComponentInputValue column, String whereClause, String[] whereArgs) {
         ArrayList<String> results = new ArrayList<>();
         String[] projection = new String[]{"DISTINCT(" + column.getValue() + ")"};
+
+        try {
+            Cursor cursor = database.query(TABLE_NAME, projection, whereClause, whereArgs, null, null, null);
+
+            if(cursor != null) {
+                while (cursor.moveToNext()) {
+                    String data = cursor.getString(0);
+                    Log.v("PUCCI", "QUERY data =  " + data);
+                    results.add(data);
+                }
+            }
+        } catch(Exception e) {
+            Log.v("PUCCI", "QUERY Exception: " + e.getMessage());
+        }
+        return results.toArray(new String[results.size()]);
+    }
+
+    public String[] query(String column, String whereClause, String[] whereArgs) {
+        ArrayList<String> results = new ArrayList<>();
+        String[] projection = new String[]{"DISTINCT(" + column + ")"};
 
         try {
             Cursor cursor = database.query(TABLE_NAME, projection, whereClause, whereArgs, null, null, null);

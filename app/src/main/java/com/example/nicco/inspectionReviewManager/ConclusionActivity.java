@@ -66,10 +66,14 @@ public class ConclusionActivity extends AppCompatActivity {
         super.onPause();
 
         // OBSERVATIONS
-        model.updateValue(DatabaseWriter.UIComponentInputValue.OBSERVATIONS, observations.getText().toString());
+        String tempText = observations.getText().toString();
+        if(tempText.equals("")) tempText = Model.SpecialValue.NA.toString();
+        model.updateValue(DatabaseWriter.UIComponentInputValue.OBSERVATIONS, tempText);
 
         // COMMENTS
-        model.updateValue(DatabaseWriter.UIComponentInputValue.COMMENTS, comments.getText().toString());
+        tempText = comments.getText().toString();
+        if(tempText.equals("")) tempText = Model.SpecialValue.NA.toString();
+        model.updateValue(DatabaseWriter.UIComponentInputValue.COMMENTS, tempText);
 
         // REVIEW STATUS
         if(approved.isChecked()) {

@@ -120,18 +120,28 @@ public class DateActivity extends AppCompatActivity {
         super.onPause();
 
         // DATE
-        String date = datePicker.getYear() + "-" + (datePicker.getMonth() + 1) + "-" + datePicker.getDayOfMonth();
+        String date = datePicker.getYear() + "-" + formatDigitStr("" + (datePicker.getMonth() + 1)) +
+                "-" + formatDigitStr("" + datePicker.getDayOfMonth());
         model.updateValue(DatabaseWriter.UIComponentInputValue.DATE, date);
 
         // TIME
-        String time = timePicker.getCurrentHour() + ":" + model.formatDigitStr("" + timePicker.getCurrentMinute());
+        String time = timePicker.getCurrentHour() + ":" + formatDigitStr("" + timePicker.getCurrentMinute());
         model.updateValue(DatabaseWriter.UIComponentInputValue.TIME, time);
 
         // WEATHER
-        model.updateValue(DatabaseWriter.UIComponentInputValue.WEATHER, weather.getText().toString());
+        String tempText = weather.getText().toString();
+        if(tempText.equals("")) tempText = Model.SpecialValue.NA.toString();
+        model.updateValue(DatabaseWriter.UIComponentInputValue.WEATHER, tempText);
 
         // TEMPERATURE
-        model.updateValue(DatabaseWriter.UIComponentInputValue.TEMPERATURE_CELSIUS, temperature.getText().toString());
+        tempText = temperature.getText().toString();
+        if(tempText.equals("")) tempText = Model.SpecialValue.NA.toString();
+        model.updateValue(DatabaseWriter.UIComponentInputValue.TEMPERATURE_CELSIUS, tempText);
+    }
+
+    public String formatDigitStr(String num) {
+        if(num.length() < 2) return "0" + num;
+        return num;
     }
 
     @Override
