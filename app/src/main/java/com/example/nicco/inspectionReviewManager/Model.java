@@ -200,6 +200,10 @@ public class Model extends Application {
         return -1;
     }
 
+    public boolean reviewStarted() {
+        return !hashMap.isEmpty();
+    }
+
     public String[] combineArrays(String[] arr1, String[] arr2) {
         LinkedHashSet<String> combined = new LinkedHashSet<String>();
         for(String s : arr1) combined.add(s);
@@ -226,5 +230,14 @@ public class Model extends Application {
                 hashMap.get(DatabaseWriter.UIComponentInputValue.DATE) + ".doc";
         FileIO.exportInpsectionReviewToDOC(getApplicationContext(), hashMap, fileName);
         return false;
+    }
+
+    public void reset() {
+        hashMap.clear(); // = new HashMap<DatabaseWriter.UIComponentInputValue, String>();
+        dateActivityComplete = false;
+        projectActivityComplete = false;
+        concreteActivityComplete = false;
+        framingActivityComplete = false;
+        conclusionActivityComplete = false;
     }
 }

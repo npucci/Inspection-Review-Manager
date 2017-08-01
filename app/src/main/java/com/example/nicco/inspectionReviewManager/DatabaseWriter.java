@@ -300,4 +300,12 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         return primaryKey;
     }
 
+    public static String[] getDatabaseColumns() {
+        ArrayList<String> columnList = new ArrayList<String>();
+        for(UIComponentInputValue column : UIComponentInputValue.values()) {
+            if(column.isDatabaseColum()) columnList.add(column.getValue());
+        }
+        return columnList.toArray(new String[columnList.size()]);
+    }
+
 }

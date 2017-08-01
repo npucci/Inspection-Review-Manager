@@ -5,22 +5,34 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <ScrollView
+    <fragment
+        android:id="@+id/fragment"
+        android:name="com.example.nicco.inspectionReviewManager.ArchiveReviewListFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="592dp" />
 
-        <LinearLayout
+    <LinearLayout
+        android:id="@+id/linearLayoutMainHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="59dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonEditReview"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:focusableInTouchMode="true">
+            android:layout_weight="1"
+            android:text="Edit Review" />
 
-            <fragment
-                android:id="@+id/fragment"
-                android:name="com.example.nicco.inspectionReviewManager.CustomListFragment"
-                android:layout_width="match_parent"
-                android:layout_height="514dp" />
-        </LinearLayout>
-    </ScrollView>
+        <Button
+            android:id="@+id/buttonInspectionReview"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Inspection Review" />
+
+    </LinearLayout>
 
 </LinearLayout>

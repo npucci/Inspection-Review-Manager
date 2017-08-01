@@ -16,44 +16,52 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.nicco.inspectionReviewManager.ProjectActivity"
+            android:name="com.example.nicco.inspectionReviewManager.InspectionReviewActivity"
             android:parentActivityName="com.example.nicco.inspectionReviewManager.MainActivity"
             android:launchMode="singleTask" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nicco.inspectionReviewManager.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.example.nicco.inspectionReviewManager.ProjectActivity"
+            android:parentActivityName="com.example.nicco.inspectionReviewManager.InspectionReviewActivity"
+            android:launchMode="singleTask" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nicco.inspectionReviewManager.InspectionReviewActivity" />
         </activity>
         <activity
             android:name="com.example.nicco.inspectionReviewManager.DateActivity"
-            android:parentActivityName="com.example.nicco.inspectionReviewManager.MainActivity"
+            android:parentActivityName="com.example.nicco.inspectionReviewManager.InspectionReviewActivity"
             android:launchMode="singleTask" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.nicco.inspectionReviewManager.MainActivity" />
+                android:value="com.example.nicco.inspectionReviewManager.InspectionReviewActivity" />
         </activity>
         <activity
             android:name="com.example.nicco.inspectionReviewManager.ConcreteActivity"
-            android:parentActivityName="com.example.nicco.inspectionReviewManager.MainActivity"
+            android:parentActivityName="com.example.nicco.inspectionReviewManager.InspectionReviewActivity"
             android:launchMode="singleTask" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.nicco.inspectionReviewManager.MainActivity" />
+                android:value="com.example.nicco.inspectionReviewManager.InspectionReviewActivity" />
         </activity>
         <activity
             android:name="com.example.nicco.inspectionReviewManager.FramingActivity"
-            android:parentActivityName="com.example.nicco.inspectionReviewManager.MainActivity"
+            android:parentActivityName="com.example.nicco.inspectionReviewManager.InspectionReviewActivity"
             android:launchMode="singleTask" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.nicco.inspectionReviewManager.MainActivity" />
+                android:value="com.example.nicco.inspectionReviewManager.InspectionReviewActivity" />
         </activity>
         <activity
             android:name="com.example.nicco.inspectionReviewManager.ConclusionActivity"
-            android:parentActivityName="com.example.nicco.inspectionReviewManager.MainActivity"
+            android:parentActivityName="com.example.nicco.inspectionReviewManager.InspectionReviewActivity"
             android:launchMode="singleTask" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.nicco.inspectionReviewManager.MainActivity" />
+                android:value="com.example.nicco.inspectionReviewManager.InspectionReviewActivity" />
         </activity>
     </application>
 
