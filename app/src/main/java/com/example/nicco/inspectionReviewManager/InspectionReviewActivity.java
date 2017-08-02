@@ -3,6 +3,7 @@ package com.example.nicco.inspectionReviewManager;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -77,6 +78,10 @@ public class InspectionReviewActivity extends FragmentActivity {
                     dialogue.show();
                 } else {
                     // insert review into database
+                    CharSequence message = "Inspection Review Saved";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(getApplicationContext(), message, duration);
+                    toast.show();
                     model.insertReviewToDatabase();
                     model.reset();
                     Intent intent = new Intent(InspectionReviewActivity.this, MainActivity.class);
@@ -96,12 +101,36 @@ public class InspectionReviewActivity extends FragmentActivity {
                         1);
                 int permission = ActivityCompat.checkSelfPermission(InspectionReviewActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if(permission == PackageManager.PERMISSION_GRANTED) {
-                    Log.v("PUCCI", "PERMISSION TO WRITE GRANTED");
+                    CharSequence message = "Exporting Doc";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(getApplicationContext(), message, duration);
+                    toast.show();
                     model.exportReviewToDoc();
+                } else {
+                    CharSequence message = "Write Permissions Denied";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(getApplicationContext(), message, duration);
+                    toast.show();
                 }
-                else Log.v("PUCCI", "ERROR: NO PERMISSION GRANTED TO WRITE TO EXTERNAL");
             }
         });
+        exportDocButton.setEnabled(ready);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        boolean ready = true;
+        if(!model.checkDateActivityStatus()) ready = false;
+        if(!model.checkProjectActivityStatus()) ready = false;
+        if(!model.checkConcreteActivityStatus()) ready = false;
+        if(!model.checkFramingActivityStatus()) ready = false;
+        if(!model.checkConclusionActivityStatus()) ready = false;
+
+        final Button finishedButton = (Button) findViewById(R.id.buttonFinished);
+        final Button exportDocButton = (Button) findViewById(R.id.buttonExportDoc);
+        finishedButton.setEnabled(ready);
         exportDocButton.setEnabled(ready);
     }
 }

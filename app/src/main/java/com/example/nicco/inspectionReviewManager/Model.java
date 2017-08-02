@@ -3,6 +3,7 @@ package com.example.nicco.inspectionReviewManager;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
@@ -188,10 +189,6 @@ public class Model extends Application {
         return dbWriter.query(column, whereClause, whereArgs);
     }
 
-    public String[] queryDatabase(String column, String whereClause, String[] whereArgs) {
-        return dbWriter.query(column, whereClause, whereArgs);
-    }
-
     public int monthToInt(String month) {
         String[] months = new DateFormatSymbols().getMonths();
         for(int i = 0; i < months.length; i++) {
@@ -224,12 +221,55 @@ public class Model extends Application {
     public boolean reviewExistsInDatabase() { return dbWriter.existsInDatabase(hashMap); }
 
     public boolean exportReviewToDoc() {
-        String fileName = hashMap.get(DatabaseWriter.UIComponentInputValue.ADDRESS) + ", " +
+        String fileName =
+                hashMap.get(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER) + ", " +
+                "(" + hashMap.get(DatabaseWriter.UIComponentInputValue.ADDRESS) + ", " +
                 hashMap.get(DatabaseWriter.UIComponentInputValue.CITY) + ", " +
-                hashMap.get(DatabaseWriter.UIComponentInputValue.PROVINCE) + " - " +
-                hashMap.get(DatabaseWriter.UIComponentInputValue.DATE) + ".doc";
+                hashMap.get(DatabaseWriter.UIComponentInputValue.PROVINCE) + ") ";
+
+        ArrayList<String> reviewTypes = new ArrayList<String>();
+        if(hashMap.get(DatabaseWriter.UIComponentInputValue.FOOTINGS_REVIEW).equals(SpecialValue.YES))
+            reviewTypes.add(DatabaseWriter.UIComponentInputValue.FOOTINGS_REVIEW.getFormattedValue());
+        if(hashMap.get(DatabaseWriter.UIComponentInputValue.FOUNDATION_WALLS_REVIEW).equals(SpecialValue.YES))
+            reviewTypes.add(DatabaseWriter.UIComponentInputValue.FOUNDATION_WALLS_REVIEW.getFormattedValue());
+        if(hashMap.get(DatabaseWriter.UIComponentInputValue.SHEATHING_REVIEW).equals(SpecialValue.YES))
+            reviewTypes.add(DatabaseWriter.UIComponentInputValue.SHEATHING_REVIEW.getFormattedValue());
+        if(hashMap.get(DatabaseWriter.UIComponentInputValue.FRAMING_REVIEW).equals(SpecialValue.YES))
+            reviewTypes.add(DatabaseWriter.UIComponentInputValue.FRAMING_REVIEW.getFormattedValue());
+        if(hashMap.get(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW).equals(SpecialValue.YES))
+            reviewTypes.add(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW.getFormattedValue());
+
+        // C15 (4295 Quarry Road, Coquitlam, BC) Sheathing and Framing Inspection Report (07242017)
+        for(int i = 0; i < reviewTypes.size(); i++) {
+            if(i == reviewTypes.size() - 1) fileName += " and " + reviewTypes.get(i) + " Review";
+            else if(i > 0) fileName += ", " + reviewTypes.get(i);
+            else fileName += reviewTypes.get(i);
+        }
+
+        fileName += "(" + hashMap.get(DatabaseWriter.UIComponentInputValue.DATE) + ").doc";
         FileIO.exportInpsectionReviewToDOC(getApplicationContext(), hashMap, fileName);
         return false;
+    }
+
+    public void AutoFillConcreteActivity() {
+        Log.v("PUCCI", "AutoFillConcreteActivity CALLED");
+        updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION, SpecialValue.NO.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE, SpecialValue.NO.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE, SpecialValue.NO.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK, SpecialValue.NO.toString());
+    }
+
+    public void AutoFillFramingActivity() {
+        Log.v("PUCCI", "AutoFillFramingActivity CALLED");
+        updateValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC, SpecialValue.NO.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.IJOIST, SpecialValue.NO.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.BEARING, SpecialValue.NO.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES, SpecialValue.NO.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.LINTELS, SpecialValue.NO.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.SHEARWALLS, SpecialValue.NO.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.BLOCKING, SpecialValue.NO.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING, SpecialValue.NO.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS, SpecialValue.NO.toString());
     }
 
     public void reset() {

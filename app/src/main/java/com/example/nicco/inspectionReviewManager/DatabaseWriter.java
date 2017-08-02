@@ -127,6 +127,21 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         public String getValue() { return value; }
         public String getDataType() { return dataType; }
         public boolean isDatabaseColum(){ return isADatabaseColumn; }
+        public String getFormattedValue() {
+            String frmtValue = "";
+            //shearwalls_instruction
+            String[] split = value.split("_");
+            for(String str : split) {
+                String firstLetter = "" + str.charAt(0);
+                firstLetter = firstLetter.toUpperCase();
+                str = firstLetter + str.substring(1, str.length());
+
+                if(frmtValue.isEmpty()) frmtValue = str;
+                else frmtValue += " " + str;
+            }
+            if(isDatabaseColum()) frmtValue = frmtValue.replace(" Review", "");
+            return frmtValue;
+        }
 
         @Override
         public String toString() { return value + " " + dataType; }
@@ -139,7 +154,6 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         } catch(Exception e) {
             Log.v("PUCCI", "EXCEPTION: " + e.getMessage());
         }
-        Log.v("PUCCI", "Constructor CALLED");
     }
 
     @Override
@@ -251,26 +265,10 @@ public class DatabaseWriter extends SQLiteOpenHelper {
     }
 
     public String[] query(UIComponentInputValue column, String whereClause, String[] whereArgs) {
-        ArrayList<String> results = new ArrayList<>();
-        String[] projection = new String[]{"DISTINCT(" + column.getValue() + ")"};
-
-        try {
-            Cursor cursor = database.query(TABLE_NAME, projection, whereClause, whereArgs, null, null, null);
-
-            if(cursor != null) {
-                while (cursor.moveToNext()) {
-                    String data = cursor.getString(0);
-                    Log.v("PUCCI", "QUERY data =  " + data);
-                    results.add(data);
-                }
-            }
-        } catch(Exception e) {
-            Log.v("PUCCI", "QUERY Exception: " + e.getMessage());
-        }
-        return results.toArray(new String[results.size()]);
+       return query(column.getValue(), whereClause, whereArgs);
     }
 
-    public String[] query(String column, String whereClause, String[] whereArgs) {
+    private String[] query(String column, String whereClause, String[] whereArgs) {
         ArrayList<String> results = new ArrayList<>();
         String[] projection = new String[]{"DISTINCT(" + column + ")"};
 
@@ -281,7 +279,7 @@ public class DatabaseWriter extends SQLiteOpenHelper {
                 while (cursor.moveToNext()) {
                     String data = cursor.getString(0);
                     Log.v("PUCCI", "QUERY data =  " + data);
-                    results.add(data);
+                    if(data != null) results.add(data);
                 }
             }
         } catch(Exception e) {

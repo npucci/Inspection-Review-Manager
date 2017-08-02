@@ -41,7 +41,7 @@ public class ArchiveReviewListFragment extends ListFragment implements OnItemCli
         listView.setOnItemClickListener(this);
 
         String[] arr = new String[200];
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 200; i++) {
             arr[i] = "Inspection Review " + (i + 1);
         }
         CustomArrayAdapter adapter = new CustomArrayAdapter(getActivity(),
@@ -52,6 +52,7 @@ public class ArchiveReviewListFragment extends ListFragment implements OnItemCli
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ListView listView = getListView();
+        if(listView.getAdapter().getItem(position) == null) return;
         String selected = listView.getAdapter().getItem(position).toString();
         Toast.makeText(getActivity(), selected,
                 Toast.LENGTH_SHORT).show();
@@ -66,7 +67,6 @@ public class ArchiveReviewListFragment extends ListFragment implements OnItemCli
         public CustomArrayAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull String[] objects) {
             super(context, resource, objects);
         }
-
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {

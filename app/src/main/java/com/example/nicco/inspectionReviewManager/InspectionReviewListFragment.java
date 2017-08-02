@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,12 @@ public class InspectionReviewListFragment extends ListFragment implements OnItem
         CustomArrayAdapter adapter = new CustomArrayAdapter(getActivity(),
                 android.R.layout.simple_list_item_1, arr);
         listView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((ArrayAdapter) getListView().getAdapter()).notifyDataSetChanged();
     }
 
     @Override
@@ -83,13 +90,10 @@ public class InspectionReviewListFragment extends ListFragment implements OnItem
             TextView textView = (TextView) super.getView(position, convertView, parent);
             textView.setTextColor(model.getTextColor(textView.getText().toString()));
             textView.setBackgroundColor(model.getBackgroundColor(textView.getText().toString()));
-//            if(textView.isSelected()) {
-//                textView.setTextColor(Color.WHITE);
-//                textView.setBackgroundColor(Color.DKGRAY);
-//            } else {
-//                textView.setTextColor(Color.WHITE);
-//                textView.setBackgroundColor(Color.rgb(12, 12, 12));
-//            }
+            if(textView.isSelected()) {
+                textView.setTextColor(Color.WHITE);
+                textView.setBackgroundColor(Color.DKGRAY);
+            }
             return textView;
         }
     }

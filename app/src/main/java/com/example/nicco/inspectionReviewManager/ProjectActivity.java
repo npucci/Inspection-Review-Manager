@@ -40,6 +40,7 @@ public class ProjectActivity extends AppCompatActivity {
                 android.R.layout.simple_selectable_list_item,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.ADDRESS, null, null));
         address.setAdapter(adapter);
+        address.setThreshold(1);
 
         String value = model.getValue(DatabaseWriter.UIComponentInputValue.ADDRESS);
         if(value != null) address.setText(value);
@@ -63,8 +64,8 @@ public class ProjectActivity extends AppCompatActivity {
                 model.combineArrays(
                     model.queryDatabase(DatabaseWriter.UIComponentInputValue.CITY, null, null),
                     getResources().getStringArray(R.array.cities)));
-
         city.setAdapter(adapter);
+        city.setThreshold(1);
 
         value = model.getValue(DatabaseWriter.UIComponentInputValue.CITY);
         if(value != null) city.setText(value);
@@ -89,6 +90,7 @@ public class ProjectActivity extends AppCompatActivity {
                         model.queryDatabase(DatabaseWriter.UIComponentInputValue.PROVINCE, null, null),
                         getResources().getStringArray(R.array.provinces)));
         province.setAdapter(adapter);
+        province.setThreshold(1);
 
         value = model.getValue(DatabaseWriter.UIComponentInputValue.PROVINCE);
         if(value != null) province.setText(value);
@@ -110,6 +112,7 @@ public class ProjectActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER, null, null));
         projectNumber.setAdapter(adapter);
+        projectNumber.setThreshold(1);
 
         value = model.getValue(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER);
         if(value != null) projectNumber.setText(value);
@@ -132,6 +135,7 @@ public class ProjectActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.DEVELOPER, null, null));
         developer.setAdapter(adapter);
+        developer.setThreshold(1);
 
         value = model.getValue(DatabaseWriter.UIComponentInputValue.DEVELOPER);
         if(value != null) developer.setText(value);
@@ -154,6 +158,7 @@ public class ProjectActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.CONTRACTOR, null, null));
         contractor.setAdapter(adapter);
+        contractor.setThreshold(1);
 
         value = model.getValue(DatabaseWriter.UIComponentInputValue.CONTRACTOR);
         if(value != null) contractor.setText(value);
@@ -209,6 +214,8 @@ public class ProjectActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW_DESCRIPTION, null, null));
         description.setAdapter(adapter);
+        description.setThreshold(1);
+
         if(other.isChecked()) {
             descriptionTextView.setVisibility(View.VISIBLE);
             other.setTextColor(Color.RED);
@@ -290,6 +297,14 @@ public class ProjectActivity extends AppCompatActivity {
 
         // DESCRIPTION
         model.updateValue(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW_DESCRIPTION, description.getText().toString());
+
+        boolean framingActivityAutoFill = footings.isChecked() || foundationWalls.isChecked();
+        Log.v("PUCCI", "framingActivityAutoFill = " + framingActivityAutoFill);
+        boolean concreteActivityAutoFill = sheathing.isChecked() || framing.isChecked();
+        Log.v("PUCCI", "concreteActivityAutoFill = " + concreteActivityAutoFill);
+        if(framingActivityAutoFill && !concreteActivityAutoFill) model.AutoFillFramingActivity();
+        else if(!framingActivityAutoFill && concreteActivityAutoFill) model.AutoFillConcreteActivity();
+
     }
 
     private void autoFill(Object uiComponent) {
