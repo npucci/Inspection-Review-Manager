@@ -2,6 +2,7 @@ package com.example.nicco.inspectionReviewManager;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,6 @@ import android.widget.TextView;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
     private Context context;
     private CursorAdapter cursorAdapter;
-    private int itemLayout;
 
     public RecyclerAdapter(Context context, Cursor cursor) {
         this.context = context;
@@ -35,17 +35,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerAdapter.ViewHolder holder, int position) {
         cursorAdapter.getCursor().moveToPosition(position);
+        holder.setText(cursorAdapter.getCursor().getString(0));
         cursorAdapter.bindView(holder.itemView, context, cursorAdapter.getCursor());
     }
 
     @Override
     public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        TextView textView = new TextView(context);
-        //LayoutInflater.from(parent.getContext()).inflate(textView, parent, false);
-        //textView.setText(cursorAdapter.getCursor().getString(cursorAdapter.getCursor().getPosition()));
-        return new ViewHolder(textView);
+        View view = LayoutInflater.from(parent.getContext()).inflate(
+          R.layout.recyclerview_item_row, parent, false);//new TextView(context);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -54,11 +54,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView textView;
+        private TextView textView;
 
-        public ViewHolder(TextView textView) {
-            super(textView);
-            this.textView = textView;
+        public ViewHolder(View view) {
+            super(view);
+            textView = (TextView) view.findViewById(R.id.textViewItemString);
+            textView.setTextColor(Color.WHITE);
+            textView.setBackgroundColor(Color.BLACK);
         }
+
+        public void setText(String text) { textView.setText(text); }
     }
 }
