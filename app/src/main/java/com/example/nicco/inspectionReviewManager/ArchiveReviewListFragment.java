@@ -41,7 +41,7 @@ public class ArchiveReviewListFragment extends ListFragment implements OnItemCli
         listView.setOnItemClickListener(this);
 
         String[] arr = new String[200];
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < arr.length; i++) {
             arr[i] = "Inspection Review " + (i + 1);
         }
         CustomArrayAdapter adapter = new CustomArrayAdapter(getActivity(),

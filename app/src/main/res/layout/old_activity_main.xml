@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewArchive"
-        android:name="com.example.nicco.inspectionReviewManager.ArchiveRecyclerView"
+    <fragment
+        android:id="@+id/fragment"
+        android:name="com.example.nicco.inspectionReviewManager.ArchiveReviewListFragment"
         android:layout_width="match_parent"
-        android:layout_height="559dp" />
+        android:layout_height="592dp" />
 
     <LinearLayout
         android:id="@+id/linearLayoutMainHorizontal"

@@ -94,6 +94,8 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC_INSTRUCTION, null, null));
         trussSpecInstruction.setAdapter(adapter);
+        trussSpecInstruction.setThreshold(1);
+
         if(trussSpecReviewed.isChecked()) {
             trussSpecInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC_INSTRUCTION));
         }
@@ -120,6 +122,8 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.IJOIST_INSTRUCTION, null, null));
         iJoistInstruction.setAdapter(adapter);
+        iJoistInstruction.setThreshold(1);
+
         if(iJoistReviewed.isChecked()) {
             iJoistInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.IJOIST_INSTRUCTION));
         }
@@ -146,6 +150,8 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.BEARING_INSTRUCTION, null, null));
         bearingInstruction.setAdapter(adapter);
+        bearingInstruction.setThreshold(1);
+
         if( bearingReviewed.isChecked()) {
             bearingInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.BEARING_INSTRUCTION));
         }
@@ -172,6 +178,8 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.TOP_PLATES_INSTRUCTION, null, null));
         topPlatesInstruction.setAdapter(adapter);
+        topPlatesInstruction.setThreshold(1);
+
         if(topPlatesReviewed.isChecked()) {
                 topPlatesInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES_INSTRUCTION));
         }
@@ -198,6 +206,8 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.LINTELS_INSTRUCTION, null, null));
         lintelsInstruction.setAdapter(adapter);
+        lintelsInstruction.setThreshold(1);
+
         if(lintelsReviewed.isChecked()) {
             lintelsInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.LINTELS_INSTRUCTION));
         }
@@ -224,6 +234,8 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.SHEARWALLS_INSTRUCTION, null, null));
         shearwallsInstruction.setAdapter(adapter);
+        shearwallsInstruction.setThreshold(1);
+
         if(shearwallsReviewed.isChecked()) {
             shearwallsInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.SHEARWALLS_INSTRUCTION));
         }
@@ -250,6 +262,8 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.TALL_WALLS_INSTRUCTION, null, null));
         tallWallsInstruction.setAdapter(adapter);
+        tallWallsInstruction.setThreshold(1);
+
         if(tallWallsReviewed.isChecked()) {
             tallWallsInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.TALL_WALLS_INSTRUCTION));
         }
@@ -276,6 +290,8 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.BLOCKING_INSTRUCTION, null, null));
         blockingInstruction.setAdapter(adapter);
+        blockingInstruction.setThreshold(1);
+
         if(blockingReviewed.isChecked()) {
                 blockingInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.BLOCKING_INSTRUCTION));
         }
@@ -302,6 +318,8 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING_INSTRUCTION, null, null));
         wallSheathingInstruction.setAdapter(adapter);
+        wallSheathingInstruction.setThreshold(1);
+
         if(wallSheathingReviewed.isChecked()) {
             wallSheathingInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING_INSTRUCTION));
         }
@@ -328,6 +346,8 @@ public class FramingActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.WIND_GIRTS_INSTRUCTION, null, null));
         windGirtsInstruction.setAdapter(adapter);
+        windGirtsInstruction.setThreshold(1);
+
         if(windGirtsReviewed.isChecked()) {
             windGirtsInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS_INSTRUCTION));
         }

@@ -264,6 +264,17 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         return true;
     }
 
+    public Cursor getCursor() {
+        Cursor cursor = null;
+        try {
+            String query = "SELECT ADDRESS AS _id FROM " + TABLE_NAME + "";
+            cursor = database.rawQuery(query, null);
+        } catch(Exception e) {
+            Log.v("PUCCI", "QUERY Exception: " + e.getMessage());
+        }
+        return cursor;
+    }
+
     public String[] query(UIComponentInputValue column, String whereClause, String[] whereArgs) {
        return query(column.getValue(), whereClause, whereArgs);
     }

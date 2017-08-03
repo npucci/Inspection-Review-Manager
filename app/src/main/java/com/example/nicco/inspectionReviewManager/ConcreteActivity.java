@@ -62,6 +62,8 @@ public class ConcreteActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.REBAR_POSITION_INSTRUCTION, null, null));
         rebarPositionInstruction.setAdapter(adapter);
+        rebarPositionInstruction.setThreshold(1);
+
         if(rebarPositionReviewed.isChecked()) {
             rebarPositionInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION_INSTRUCTION));
         }
@@ -88,6 +90,8 @@ public class ConcreteActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.REBAR_SIZE_INSTRUCTION, null, null));
         rebarSizeInstruction.setAdapter(adapter);
+        rebarSizeInstruction.setThreshold(1);
+
         if(rebarSizeReviewed.isChecked()) {
             rebarSizeInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE_INSTRUCTION));
         }
@@ -114,6 +118,8 @@ public class ConcreteActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.FORMWORK_INSTRUCTION, null, null));
         formworkInstruction.setAdapter(adapter);
+        formworkInstruction.setThreshold(1);
+
         if(formworkReviewed.isChecked()) {
             formworkInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.FORMWORK_INSTRUCTION));
         }
@@ -140,6 +146,8 @@ public class ConcreteActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.ANCHORAGE_INSTRUCTION, null, null));
         anchorageInstruction.setAdapter(adapter);
+        anchorageInstruction.setThreshold(1);
+
         if(anchorageReviewed.isChecked()) {
             anchorageInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE_INSTRUCTION));
         }

@@ -2,11 +2,12 @@ package com.example.nicco.inspectionReviewManager;
 
 import android.app.Application;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.util.Log;
 
-import java.text.DateFormatSymbols;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 
@@ -53,9 +54,6 @@ public class Model extends Application {
 
     // COLORS
     private int completeBKGColor = Color.rgb(108, 249, 93);
-    private int incompleteBKGColor = Color.BLACK; //Color.rgb(249, 93, 93);
-    private int completeTextColor = Color.BLACK;
-    private int incompleteTextColor = Color.WHITE;
 
     // ACTIVITY COMPLETE FLAGS
     private boolean dateActivityComplete = false;
@@ -67,7 +65,7 @@ public class Model extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        dbWriter = new DatabaseWriter(this.getBaseContext());
+        dbWriter = new DatabaseWriter(getBaseContext());
     }
 
     public void updateValue(DatabaseWriter.UIComponentInputValue key, String value) { hashMap.put(key, value); }
@@ -79,11 +77,14 @@ public class Model extends Application {
     }
 
     public int getBackgroundColor(String listItem) {
+        int incompleteBKGColor = Color.BLACK;
         return  getColor(listItem, completeBKGColor, incompleteBKGColor);
     }
 
     public int getTextColor(String listItem) {
-       return  getColor(listItem, completeTextColor, incompleteTextColor);
+        int completeTextColor = Color.BLACK;
+        int incompleteTextColor = Color.WHITE;
+        return  getColor(listItem, completeTextColor, incompleteTextColor);
     }
 
     private int getColor(String listItem, int completeColor, int incompleteColor) {
@@ -189,29 +190,29 @@ public class Model extends Application {
         return dbWriter.query(column, whereClause, whereArgs);
     }
 
-    public int monthToInt(String month) {
-        String[] months = new DateFormatSymbols().getMonths();
-        for(int i = 0; i < months.length; i++) {
-            if(month.equals(months[i])) return i;
-        }
-        return -1;
-    }
+//    public int monthToInt(String month) {
+//        String[] months = new DateFormatSymbols().getMonths();
+//        for(int i = 0; i < months.length; i++) {
+//            if(month.equals(months[i])) return i;
+//        }
+//        return -1;
+//    }
 
     public boolean reviewStarted() {
         return !hashMap.isEmpty();
     }
 
     public String[] combineArrays(String[] arr1, String[] arr2) {
-        LinkedHashSet<String> combined = new LinkedHashSet<String>();
-        for(String s : arr1) combined.add(s);
-        for(String s : arr2) combined.add(s);
+        LinkedHashSet<String> combined = new LinkedHashSet<>();
+        combined.addAll(Arrays.asList(arr1));
+        combined.addAll(Arrays.asList(arr2));
         return combined.toArray(new String[combined.size()]);
     }
 
      public boolean insertReviewToDatabase() {
          DatabaseWriter.UIComponentInputValue[] keySet = hashMap.keySet().toArray(
                  new DatabaseWriter.UIComponentInputValue[hashMap.keySet().size()]);
-         ArrayList<DatabaseWriter.UIComponentInputValue> columns = new ArrayList<DatabaseWriter.UIComponentInputValue>();
+         ArrayList<DatabaseWriter.UIComponentInputValue> columns = new ArrayList<>();
          for(DatabaseWriter.UIComponentInputValue value : keySet) if(value.isDatabaseColum()) columns.add(value);
          return dbWriter.insertValues(hashMap, columns.toArray(new DatabaseWriter.UIComponentInputValue[columns.size()]));
      }
@@ -222,21 +223,21 @@ public class Model extends Application {
 
     public boolean exportReviewToDoc() {
         String fileName =
-                hashMap.get(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER) + ", " +
+                hashMap.get(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER) + " " +
                 "(" + hashMap.get(DatabaseWriter.UIComponentInputValue.ADDRESS) + ", " +
                 hashMap.get(DatabaseWriter.UIComponentInputValue.CITY) + ", " +
                 hashMap.get(DatabaseWriter.UIComponentInputValue.PROVINCE) + ") ";
 
-        ArrayList<String> reviewTypes = new ArrayList<String>();
-        if(hashMap.get(DatabaseWriter.UIComponentInputValue.FOOTINGS_REVIEW).equals(SpecialValue.YES))
+        ArrayList<String> reviewTypes = new ArrayList<>();
+        if(hashMap.get(DatabaseWriter.UIComponentInputValue.FOOTINGS_REVIEW).equals(SpecialValue.YES.toString()))
             reviewTypes.add(DatabaseWriter.UIComponentInputValue.FOOTINGS_REVIEW.getFormattedValue());
-        if(hashMap.get(DatabaseWriter.UIComponentInputValue.FOUNDATION_WALLS_REVIEW).equals(SpecialValue.YES))
+        if(hashMap.get(DatabaseWriter.UIComponentInputValue.FOUNDATION_WALLS_REVIEW).equals(SpecialValue.YES.toString()))
             reviewTypes.add(DatabaseWriter.UIComponentInputValue.FOUNDATION_WALLS_REVIEW.getFormattedValue());
-        if(hashMap.get(DatabaseWriter.UIComponentInputValue.SHEATHING_REVIEW).equals(SpecialValue.YES))
+        if(hashMap.get(DatabaseWriter.UIComponentInputValue.SHEATHING_REVIEW).equals(SpecialValue.YES.toString()))
             reviewTypes.add(DatabaseWriter.UIComponentInputValue.SHEATHING_REVIEW.getFormattedValue());
-        if(hashMap.get(DatabaseWriter.UIComponentInputValue.FRAMING_REVIEW).equals(SpecialValue.YES))
+        if(hashMap.get(DatabaseWriter.UIComponentInputValue.FRAMING_REVIEW).equals(SpecialValue.YES.toString()))
             reviewTypes.add(DatabaseWriter.UIComponentInputValue.FRAMING_REVIEW.getFormattedValue());
-        if(hashMap.get(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW).equals(SpecialValue.YES))
+        if(hashMap.get(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW).equals(SpecialValue.YES.toString()))
             reviewTypes.add(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW.getFormattedValue());
 
         // C15 (4295 Quarry Road, Coquitlam, BC) Sheathing and Framing Inspection Report (07242017)
@@ -246,9 +247,16 @@ public class Model extends Application {
             else fileName += reviewTypes.get(i);
         }
 
-        fileName += "(" + hashMap.get(DatabaseWriter.UIComponentInputValue.DATE) + ").doc";
+        String[] date = hashMap.get(DatabaseWriter.UIComponentInputValue.DATE).split("-"); // YYYY-MM-DD
+        if(date.length == 3) fileName += "(" + date[1] + date[2] + date[0] + ").doc"; // MMDDYYYY
+        else fileName += "(" + hashMap.get(DatabaseWriter.UIComponentInputValue.DATE) + ").doc"; // YYYY-MM-DD
+
         FileIO.exportInpsectionReviewToDOC(getApplicationContext(), hashMap, fileName);
         return false;
+    }
+
+    public Cursor getDatabaseCursor() {
+        return dbWriter.getCursor();
     }
 
     public void AutoFillConcreteActivity() {
@@ -257,6 +265,11 @@ public class Model extends Application {
         updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK, SpecialValue.NO.toString());
+
+        updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK_NA, SpecialValue.YES.toString());
     }
 
     public void AutoFillFramingActivity() {
@@ -267,9 +280,21 @@ public class Model extends Application {
         updateValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.LINTELS, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.SHEARWALLS, SpecialValue.NO.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.TALL_WALLS, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.BLOCKING, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS, SpecialValue.NO.toString());
+
+        updateValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.IJOIST_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.BEARING_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.LINTELS_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.SHEARWALLS_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.TALL_WALLS_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.BLOCKING_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS_NA, SpecialValue.YES.toString());
     }
 
     public void reset() {

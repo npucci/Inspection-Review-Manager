@@ -46,6 +46,8 @@ public class ConclusionActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line,
                 model.queryDatabase(DatabaseWriter.UIComponentInputValue.REVIEWED_BY, null, null));
         reviewedBy.setAdapter(adapter);
+        reviewedBy.setThreshold(1);
+
         if(model.validValue(model.getValue(DatabaseWriter.UIComponentInputValue.REVIEWED_BY))) {
             reviewedBy.setText(model.getValue(DatabaseWriter.UIComponentInputValue.REVIEWED_BY));
         }
