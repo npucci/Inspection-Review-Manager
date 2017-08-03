@@ -3,4 +3,6 @@
     <color name="colorPrimary">#363636</color>
     <color name="colorPrimaryDark">#181818</color>
     <color name="colorAccent">#3b52fd</color>
+    <color name="divider">#000000</color>
+    <color name="recycleViewDivider">#ffffff</color>
 </resources>
