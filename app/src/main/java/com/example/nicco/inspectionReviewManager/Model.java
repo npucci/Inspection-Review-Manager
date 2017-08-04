@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -18,7 +19,6 @@ import java.util.LinkedHashSet;
 public class Model extends Application {
     private HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap = new HashMap<DatabaseWriter.UIComponentInputValue, String>();
     private DatabaseWriter dbWriter;
-    private Context context;
 
     public enum SpecialValue {
         YES ("Yes"),
@@ -53,7 +53,7 @@ public class Model extends Application {
     }
 
     // COLORS
-    private int completeBKGColor = Color.rgb(108, 249, 93);
+    private int completeBKGColor;
 
     // ACTIVITY COMPLETE FLAGS
     private boolean dateActivityComplete = false;
@@ -65,6 +65,7 @@ public class Model extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        completeBKGColor = ContextCompat.getColor(getApplicationContext(), R.color.completeBackground);
         dbWriter = new DatabaseWriter(getBaseContext());
     }
 
@@ -77,13 +78,13 @@ public class Model extends Application {
     }
 
     public int getBackgroundColor(String listItem) {
-        int incompleteBKGColor = Color.BLACK;
+        int incompleteBKGColor = ContextCompat.getColor(getApplicationContext(), R.color.incompleteBackground);
         return  getColor(listItem, completeBKGColor, incompleteBKGColor);
     }
 
     public int getTextColor(String listItem) {
-        int completeTextColor = Color.BLACK;
-        int incompleteTextColor = Color.WHITE;
+        int completeTextColor = ContextCompat.getColor(getApplicationContext(), R.color.completeText);
+        int incompleteTextColor = ContextCompat.getColor(getApplicationContext(), R.color.incompleteText);
         return  getColor(listItem, completeTextColor, incompleteTextColor);
     }
 
@@ -298,7 +299,7 @@ public class Model extends Application {
     }
 
     public void reset() {
-        hashMap.clear(); // = new HashMap<DatabaseWriter.UIComponentInputValue, String>();
+        hashMap = new HashMap<>();
         dateActivityComplete = false;
         projectActivityComplete = false;
         concreteActivityComplete = false;

@@ -5,4 +5,12 @@
     <color name="colorAccent">#3b52fd</color>
     <color name="divider">#000000</color>
     <color name="recycleViewDivider">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="background">#242424</color>
+    <color name="incompleteText">#ffffff</color>
+    <color name="incompleteBackground">#000000</color>
+    <color name="completeText">#000000</color>
+    <color name="completeBackground">#aee496</color>
+    <color name="selectedText">#000000</color>
+    <color name="selectedBackground">#ffff90</color>
 </resources>

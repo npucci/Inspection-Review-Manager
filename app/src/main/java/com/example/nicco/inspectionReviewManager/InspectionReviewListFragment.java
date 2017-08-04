@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,10 +53,13 @@ public class InspectionReviewListFragment extends ListFragment implements OnItem
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ListView listView = getListView();
+        view.setSelected(true);
+        ((ArrayAdapter<String>) listView.getAdapter()).notifyDataSetChanged();
+
         String selected = listView.getAdapter().getItem(position).toString();
         Toast.makeText(getActivity(), selected,
                 Toast.LENGTH_SHORT).show();
-       if (selected.equals(getString(R.string.date))) {
+        if (selected.equals(getString(R.string.date))) {
             Intent intent = new Intent(this.getActivity(), DateActivity.class);
             startActivity(intent);
         } else if (selected.equals(getString(R.string.project))) {
@@ -71,8 +75,6 @@ public class InspectionReviewListFragment extends ListFragment implements OnItem
             Intent intent = new Intent(this.getActivity(), ConclusionActivity.class);
             startActivity(intent);
         }
-        view.setSelected(true);
-        ((ArrayAdapter<String>) listView.getAdapter()).notifyDataSetChanged();
     }
 
     private class CustomArrayAdapter extends ArrayAdapter<String> {
@@ -91,8 +93,8 @@ public class InspectionReviewListFragment extends ListFragment implements OnItem
             textView.setTextColor(model.getTextColor(textView.getText().toString()));
             textView.setBackgroundColor(model.getBackgroundColor(textView.getText().toString()));
             if(textView.isSelected()) {
-                textView.setTextColor(Color.WHITE);
-                textView.setBackgroundColor(Color.DKGRAY);
+                textView.setTextColor(ContextCompat.getColor(getContext(), R.color.selectedText));
+                textView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.selectedBackground));
             }
             return textView;
         }
