@@ -178,8 +178,11 @@ public class Model extends Application {
     public boolean validValue(String value) { return value != null && !value.isEmpty(); }
 
     public boolean isChecked(DatabaseWriter.UIComponentInputValue key) {
-        String value = getValue(key);
-        return value != null && value.equals(SpecialValue.YES.toString());
+        return isChecked(getValue(key));
+    }
+
+    public boolean isChecked(String key) {
+        return key != null && key.equals(SpecialValue.YES.toString());
     }
 
     public boolean isValidCheckValue(DatabaseWriter.UIComponentInputValue key) {

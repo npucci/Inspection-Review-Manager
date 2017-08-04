@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -57,14 +58,6 @@ public class InspectionReviewActivity extends FragmentActivity {
             }
         });
         dialogue = builder.create();
-
-        boolean ready = true;
-        if(!model.checkDateActivityStatus()) ready = false;
-        if(!model.checkProjectActivityStatus()) ready = false;
-        if(!model.checkConcreteActivityStatus()) ready = false;
-        if(!model.checkFramingActivityStatus()) ready = false;
-        if(!model.checkConclusionActivityStatus()) ready = false;
-        Log.v("PUCCI", "ready 1 = " + ready);
 
         final Button backButton = (Button) findViewById(R.id.buttonBack);
         backButton.setTextSize(16);
@@ -125,33 +118,35 @@ public class InspectionReviewActivity extends FragmentActivity {
                     model.reset();
 
                     Intent intent = new Intent(InspectionReviewActivity.this, MainActivity.class);
+                    recreate();
                     startActivity(intent);
                 }
             }
         });
 
+        boolean ready = allInputFilled();
         finishedButton.setEnabled(ready);
         exportDocButton.setEnabled(ready);
-        LinearLayout buttonBar = (LinearLayout) findViewById(R.id.linearLayoutButtonBar);
-        buttonBar.invalidate();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
+        final Button exportDocButton = (Button) findViewById(R.id.buttonExportDoc);
+        final Button finishedButton = (Button) findViewById(R.id.buttonFinished);
+        boolean ready = allInputFilled();
+        finishedButton.setEnabled(ready);
+        exportDocButton.setEnabled(ready);
+    }
+
+    private boolean allInputFilled() {
         boolean ready = true;
         if(!model.checkDateActivityStatus()) ready = false;
         if(!model.checkProjectActivityStatus()) ready = false;
         if(!model.checkConcreteActivityStatus()) ready = false;
         if(!model.checkFramingActivityStatus()) ready = false;
         if(!model.checkConclusionActivityStatus()) ready = false;
-        Log.v("PUCCI", "ready 2 = " + ready);
-        final Button finishedButton = (Button) findViewById(R.id.buttonFinished);
-        final Button exportDocButton = (Button) findViewById(R.id.buttonExportDoc);
-        finishedButton.setEnabled(ready);
-        exportDocButton.setEnabled(ready);
-        LinearLayout buttonBar = (LinearLayout) findViewById(R.id.linearLayoutButtonBar);
-        buttonBar.invalidate();
+        return ready;
     }
 }

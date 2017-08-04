@@ -267,7 +267,25 @@ public class DatabaseWriter extends SQLiteOpenHelper {
     public Cursor getCursor() {
         Cursor cursor = null;
         try {
-            String query = "SELECT ADDRESS AS _id FROM " + TABLE_NAME + "";
+            String query = "SELECT " + UIComponentInputValue.WEATHER.getValue() + " AS _id, " +
+                    UIComponentInputValue.DATE.getValue() + ", " +
+                    UIComponentInputValue.TIME.getValue() + ", " +
+                    UIComponentInputValue.ADDRESS.getValue() + ", " +
+                    UIComponentInputValue.CITY.getValue() + ", " +
+                    UIComponentInputValue.PROVINCE.getValue() + ", " +
+                    UIComponentInputValue.PROJECT_NUMBER.getValue() + ", " +
+                    UIComponentInputValue.FOOTINGS_REVIEW.getValue() + ", " +
+                    UIComponentInputValue.FOUNDATION_WALLS_REVIEW.getValue() + ", " +
+                    UIComponentInputValue.SHEATHING_REVIEW.getValue() + ", " +
+                    UIComponentInputValue.FRAMING_REVIEW.getValue() + ", " +
+                    UIComponentInputValue.OTHER_REVIEW.getValue() + ", " +
+                    UIComponentInputValue.REVIEW_STATUS.getValue() + ", " +
+                    UIComponentInputValue.REVIEWED_BY.getValue() +
+                    " FROM " + TABLE_NAME +
+                    " ORDER BY " +
+                    UIComponentInputValue.DATE.getValue() + " DESC, " +
+                    UIComponentInputValue.TIME.getValue() + " DESC, " +
+                    UIComponentInputValue.CITY.getValue() + " DESC";
             cursor = database.rawQuery(query, null);
         } catch(Exception e) {
             Log.v("PUCCI", "QUERY Exception: " + e.getMessage());
