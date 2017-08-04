@@ -321,6 +321,16 @@ public class Model extends Application {
             else whereClause += " ";
         }
         hashMap = dbWriter.loadReview(DatabaseWriter.getDatabaseColumns(), whereClause, whereArgs);
-        Log.v("PUCCI", "hashMap.size() = " + hashMap.size());
+
+        //
+
+        // REVIEW STATUS
+        if(hashMap.get(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS).equals(ReviewStatusValue.APPROVED.toString())) {
+            hashMap.put(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_APPROVED, SpecialValue.YES.toString());
+        } else if(hashMap.get(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS).equals(ReviewStatusValue.NOT_APPROVED.toString())) {
+            hashMap.put(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_NOT_APPROVED, SpecialValue.YES.toString());
+        } else if(hashMap.get(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS).equals(ReviewStatusValue.REINSPECTION_REQUIRED.toString())) {
+            hashMap.put(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_REINSPECTION_REQUIRED, SpecialValue.YES.toString());
+        }
     }
 }

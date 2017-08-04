@@ -69,8 +69,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.setReviewStatus(cursor.getString(cursor.getColumnIndex(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS.getValue())));
         holder.setReviewBy(cursor.getString(cursor.getColumnIndex(DatabaseWriter.UIComponentInputValue.REVIEWED_BY.getValue())));
         cursorAdapter.bindView(holder.itemView, context, cursorAdapter.getCursor());
-        holder.itemView.setSelected(position == selectedPos);
 
+        holder.itemView.setSelected(position == selectedPos);
         holder.setbackgroundColors(context, holder.itemView.isSelected());
         holder.setTextColors(context, holder.itemView.isSelected());
         holder.setTextUnderline(holder.itemView.isSelected());

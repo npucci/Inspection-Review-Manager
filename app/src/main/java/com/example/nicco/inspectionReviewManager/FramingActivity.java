@@ -82,7 +82,9 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        trussSpecNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC_NA));
+        if(model.getValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC).equals(Model.SpecialValue.NO.toString())) {
+            trussSpecNA.setChecked(true);
+        } else trussSpecNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC_NA));
         trussSpecNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,7 +112,9 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        iJoistNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.IJOIST_NA));
+        if(model.getValue(DatabaseWriter.UIComponentInputValue.IJOIST).equals(Model.SpecialValue.NO.toString())) {
+            iJoistNA.setChecked(true);
+        } else iJoistNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.IJOIST_NA));
         iJoistNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,7 +142,9 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        bearingNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.BEARING_NA));
+        if(model.getValue(DatabaseWriter.UIComponentInputValue.BEARING).equals(Model.SpecialValue.NO.toString())) {
+            bearingNA.setChecked(true);
+        } else bearingNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.BEARING_NA));
         bearingNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -166,7 +172,9 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        topPlatesNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.TOP_PLATES_NA));
+        if(model.getValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES).equals(Model.SpecialValue.NO.toString())) {
+            topPlatesNA.setChecked(true);
+        } else topPlatesNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.TOP_PLATES_NA));
         topPlatesNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -194,7 +202,9 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        lintelsNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.LINTELS_NA));
+        if(model.getValue(DatabaseWriter.UIComponentInputValue.LINTELS).equals(Model.SpecialValue.NO.toString())) {
+            lintelsNA.setChecked(true);
+        } else lintelsNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.LINTELS_NA));
         lintelsNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -222,7 +232,9 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        shearwallsNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.SHEARWALLS_NA));
+        if(model.getValue(DatabaseWriter.UIComponentInputValue.SHEARWALLS).equals(Model.SpecialValue.NO.toString())) {
+            shearwallsNA.setChecked(true);
+        } else shearwallsNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.SHEARWALLS_NA));
         shearwallsNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -250,7 +262,9 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        tallWallsNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.TALL_WALLS_NA));
+        if(model.getValue(DatabaseWriter.UIComponentInputValue.TALL_WALLS).equals(Model.SpecialValue.NO.toString())) {
+            tallWallsNA.setChecked(true);
+        } else tallWallsNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.TALL_WALLS_NA));
         tallWallsNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -278,7 +292,10 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        blockingNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.BLOCKING_NA));
+        if(model.getValue(DatabaseWriter.UIComponentInputValue.BLOCKING).equals(Model.SpecialValue.NO.toString())) {
+            blockingNA.setChecked(true);
+        } else
+            blockingNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.BLOCKING_NA));
         blockingNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -306,7 +323,9 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        wallSheathingNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING_NA));
+        if(model.getValue(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING).equals(Model.SpecialValue.NO.toString())) {
+            wallSheathingNA.setChecked(true);
+        } else wallSheathingNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING_NA));
         wallSheathingNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -334,7 +353,9 @@ public class FramingActivity extends AppCompatActivity {
             }
         });
 
-        windGirtsNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.WIND_GIRTS_NA));
+        if(model.getValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS).equals(Model.SpecialValue.NO.toString())) {
+            windGirtsNA.setChecked(true);
+        } else windGirtsNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.WIND_GIRTS_NA));
         windGirtsNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

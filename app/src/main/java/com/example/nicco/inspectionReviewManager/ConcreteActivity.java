@@ -50,7 +50,9 @@ public class ConcreteActivity extends AppCompatActivity {
             }
         });
 
-        rebarPositionNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.REBAR_POSITION_NA));
+        if(model.getValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION).equals(Model.SpecialValue.NO.toString())) {
+            rebarPositionNA.setChecked(true);
+        } else rebarPositionNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.REBAR_POSITION_NA));
         rebarPositionNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +80,9 @@ public class ConcreteActivity extends AppCompatActivity {
             }
         });
 
-        rebarSizeNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.REBAR_SIZE_NA));
+        if(model.getValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE).equals(Model.SpecialValue.NO.toString())) {
+            rebarSizeNA.setChecked(true);
+        } else rebarSizeNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.REBAR_SIZE_NA));
         rebarSizeNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,7 +110,9 @@ public class ConcreteActivity extends AppCompatActivity {
             }
         });
 
-        formworkNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.FORMWORK_NA));
+        if(model.getValue(DatabaseWriter.UIComponentInputValue.FORMWORK).equals(Model.SpecialValue.NO.toString())) {
+            formworkNA.setChecked(true);
+        } else formworkNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.FORMWORK_NA));
         formworkNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,7 +140,9 @@ public class ConcreteActivity extends AppCompatActivity {
             }
         });
 
-        anchorageNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.ANCHORAGE_NA));
+        if(model.getValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE).equals(Model.SpecialValue.NO.toString())) {
+            anchorageNA.setChecked(true);
+        } else anchorageNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.ANCHORAGE_NA));
         anchorageNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

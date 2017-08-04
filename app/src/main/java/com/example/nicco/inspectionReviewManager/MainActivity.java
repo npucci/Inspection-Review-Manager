@@ -78,17 +78,21 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         final RecyclerView archive = (RecyclerView) findViewById(R.id.recyclerViewArchive);
         final Button editReviewButton = (Button) findViewById(R.id.buttonEditReview);
 
+        // double tapping the currently selected item deselects it
+        if(((RecyclerAdapter) archive.getAdapter()).getSelectedPosition() == position) {
+            archive.getAdapter().notifyItemChanged(((RecyclerAdapter) archive.getAdapter()).getSelectedPosition());
+            ((RecyclerAdapter) archive.getAdapter()).setSelectedPosition(-1);
+            archive.getAdapter().notifyItemChanged(((RecyclerAdapter) archive.getAdapter()).getSelectedPosition());
+            selectedArchiveReview.clear();
+            editReviewButton.setEnabled(false);
+            return;
+        }
+
         // unselect old selection if it exists
         if(((RecyclerAdapter) archive.getAdapter()).getSelectedPosition() > -1) {
             archive.getAdapter().notifyItemChanged(((RecyclerAdapter) archive.getAdapter()).getSelectedPosition());
             ((RecyclerAdapter) archive.getAdapter()).setSelectedPosition(-1);
             archive.getAdapter().notifyItemChanged(((RecyclerAdapter) archive.getAdapter()).getSelectedPosition());
-        }
-
-        // double tapping the currently selected item deselects it
-        if(((RecyclerAdapter) archive.getAdapter()).getSelectedPosition() == position) {
-            selectedArchiveReview.clear();
-            return;
         }
 
         // make new selection
@@ -124,7 +128,6 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         temp = ((TextView) selectedArchiveItem.findViewById(R.id.textViewProjectNumber)).getText().toString();
         if(temp.endsWith(", ")) temp = temp.substring(0, temp.length() - 2);
         selectedArchiveReview.put(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER.getValue(), temp);
-
         editReviewButton.setEnabled(true);
     }
 
