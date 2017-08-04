@@ -45,6 +45,11 @@ public class InspectionReviewActivity extends FragmentActivity {
                 toast.show();
                 // update existing review recorded in database
                 model.updateReviewToDatabase();
+                model.reset();
+
+                Intent intent = new Intent(InspectionReviewActivity.this, MainActivity.class);
+                recreate();
+                startActivity(intent);
             }
         });
         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

@@ -3,6 +3,7 @@ package com.example.nicco.inspectionReviewManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,9 +20,9 @@ import android.widget.TextView;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
     private Context context;
+    private int selectedPos = -1;
     private CursorAdapter cursorAdapter;
     private static RecyclerViewClickListener itemListener;
-    private String selectedItem = "";
 
     public RecyclerAdapter(Context context, RecyclerViewClickListener itemListener, Cursor cursor) {
         this.context = context;
@@ -62,13 +63,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         if(model.isChecked(foundationWalls)) reviewType += " FW";
         if(model.isChecked(sheathing)) reviewType += " SHE";
         if(model.isChecked(framing)) reviewType += " FRA";
-        if(model.isChecked(other)) reviewType += " OTh";
-        Log.v("PUCCI", "reviewType = " + reviewType);
+        if(model.isChecked(other)) reviewType += " OTH";
 
         holder.setReviewType(reviewType);
         holder.setReviewStatus(cursor.getString(cursor.getColumnIndex(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS.getValue())));
         holder.setReviewBy(cursor.getString(cursor.getColumnIndex(DatabaseWriter.UIComponentInputValue.REVIEWED_BY.getValue())));
         cursorAdapter.bindView(holder.itemView, context, cursorAdapter.getCursor());
+        holder.itemView.setSelected(position == selectedPos);
+
+        holder.setbackgroundColors(context, holder.itemView.isSelected());
+        holder.setTextColors(context, holder.itemView.isSelected());
+        holder.setTextUnderline(holder.itemView.isSelected());
     }
 
     @Override
@@ -82,6 +87,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public int getItemCount() {
         return cursorAdapter.getCount();
     }
+
+    public int getSelectedPosition() { return selectedPos; }
+
+    public void setSelectedPosition(int selectedPos) { this.selectedPos = selectedPos; }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private LinearLayout linearLayout;
@@ -142,6 +151,53 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public void setReviewType(String text) { reviewType.setText(text); }
         public void setReviewStatus(String text) { reviewStatus.setText(text); }
         public void setReviewBy(String text) { reviewBy.setText(text); }
+
+        public void setbackgroundColors(Context context, Boolean selected) {
+            int color = 0;
+            if(selected) color = ContextCompat.getColor(context, R.color.selectedBackground);
+            else color = ContextCompat.getColor(context, R.color.black);
+            linearLayout.setBackgroundColor(color);
+        }
+
+        public void setTextColors(Context context, Boolean selected) {
+            int color = 0;
+            if(selected) color = ContextCompat.getColor(context, R.color.selectedText);
+            else color = ContextCompat.getColor(context, R.color.white);
+
+            date.setTextColor(color);
+            time.setTextColor(color);
+            address.setTextColor(color);
+            city.setTextColor(color);
+            province.setTextColor(color);
+            projectNumber.setTextColor(color);
+            reviewType.setTextColor(color);
+            reviewStatus.setTextColor(color);
+            reviewBy.setTextColor(color);
+        }
+
+        public void setTextUnderline(boolean selected) {
+            if(selected) {
+                date.setPaintFlags(date.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                time.setPaintFlags(time.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                address.setPaintFlags(address.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                city.setPaintFlags(city.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                province.setPaintFlags(province.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                projectNumber.setPaintFlags(projectNumber.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                reviewType.setPaintFlags(reviewType.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                reviewStatus.setPaintFlags(reviewStatus.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                reviewBy.setPaintFlags(reviewBy.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            } else {
+                date.setPaintFlags(0);
+                time.setPaintFlags(0);
+                address.setPaintFlags(0);
+                city.setPaintFlags(0);
+                province.setPaintFlags(0);
+                projectNumber.setPaintFlags(0);
+                reviewType.setPaintFlags(0);
+                reviewStatus.setPaintFlags(0);
+                reviewBy.setPaintFlags(0);
+            }
+        }
 
         @Override
         public void onClick(View view) {

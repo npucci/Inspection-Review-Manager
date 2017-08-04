@@ -309,4 +309,18 @@ public class Model extends Application {
         framingActivityComplete = false;
         conclusionActivityComplete = false;
     }
+
+    public void loadReviewFromDatabase(HashMap<String, String> primaryKeys) {
+        String[] columns = primaryKeys.keySet().toArray(new String[primaryKeys.keySet().size()]);
+        String[] whereArgs = new String[columns.length];
+        String whereClause = "";
+        for(int i = 0; i < columns.length; i++) {
+            whereArgs[i] = primaryKeys.get(columns[i]);
+            whereClause += columns[i] + " = " + "?";
+            if(i < columns.length - 1) whereClause += " AND ";
+            else whereClause += " ";
+        }
+        hashMap = dbWriter.loadReview(DatabaseWriter.getDatabaseColumns(), whereClause, whereArgs);
+        Log.v("PUCCI", "hashMap.size() = " + hashMap.size());
+    }
 }

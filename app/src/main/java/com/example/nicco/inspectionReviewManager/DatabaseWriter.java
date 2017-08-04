@@ -317,6 +317,29 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         return results.toArray(new String[results.size()]);
     }
 
+    public HashMap<UIComponentInputValue, String> loadReview(String[] columns, String whereClause, String[] whereArgs) {
+        HashMap<UIComponentInputValue, String> results = new HashMap();
+
+        try {
+            Cursor cursor = database.query(TABLE_NAME, columns, whereClause, whereArgs, null, null, null);
+            if(cursor != null) {
+                cursor.moveToFirst();
+                for (UIComponentInputValue column : UIComponentInputValue.values()) {
+                    if(column.isDatabaseColum()) {
+                        int index = cursor.getColumnIndex(column.getValue());
+                        if(index > -1) {
+                            String data = cursor.getString(index);
+                            if (column != null && data != null) results.put(column, data);
+                        }
+                    }
+                }
+            }
+        } catch(Exception e) {
+            Log.v("PUCCI", "QUERY Exception: " + e.getMessage());
+        }
+        return results;
+    }
+
     private static String createPrimaryKeyStatement() {
         String primaryKey = "PRIMARY KEY (";
         for(int i = 0; i < PRIMARY_KEYS.size(); i++) {
@@ -335,4 +358,10 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         return columnList.toArray(new String[columnList.size()]);
     }
 
+    private static UIComponentInputValue getEnum(String columnName) {
+        for(UIComponentInputValue columnEnum : UIComponentInputValue.values()) {
+            if (columnEnum.getValue().equals(columnName)) return columnEnum;
+        }
+        return null;
+    }
 }
