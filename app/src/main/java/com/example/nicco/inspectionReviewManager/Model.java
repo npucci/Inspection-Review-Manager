@@ -322,8 +322,6 @@ public class Model extends Application {
         }
         hashMap = dbWriter.loadReview(DatabaseWriter.getDatabaseColumns(), whereClause, whereArgs);
 
-        //
-
         // REVIEW STATUS
         if(hashMap.get(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS).equals(ReviewStatusValue.APPROVED.toString())) {
             hashMap.put(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_APPROVED, SpecialValue.YES.toString());
@@ -332,5 +330,18 @@ public class Model extends Application {
         } else if(hashMap.get(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS).equals(ReviewStatusValue.REINSPECTION_REQUIRED.toString())) {
             hashMap.put(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_REINSPECTION_REQUIRED, SpecialValue.YES.toString());
         }
+    }
+
+    public void deleteReviewFromDatabase(HashMap<String, String> primaryKeys) {
+        String[] columns = primaryKeys.keySet().toArray(new String[primaryKeys.keySet().size()]);
+        String[] whereArgs = new String[columns.length];
+        String whereClause = "";
+        for(int i = 0; i < columns.length; i++) {
+            whereArgs[i] = primaryKeys.get(columns[i]);
+            whereClause += columns[i] + " = " + "?";
+            if(i < columns.length - 1) whereClause += " AND ";
+            else whereClause += " ";
+        }
+        dbWriter.deleteReview(DatabaseWriter.getDatabaseColumns(), whereClause, whereArgs);
     }
 }

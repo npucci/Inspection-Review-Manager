@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class InspectionReviewActivity extends FragmentActivity {
@@ -25,6 +26,8 @@ public class InspectionReviewActivity extends FragmentActivity {
         setContentView(R.layout.activity_inspection_review);
 
         model = (Model) getApplicationContext();
+
+        setTitle();
 
         final Button backButton = (Button) findViewById(R.id.buttonBack);
         backButton.setTextSize(16);
@@ -104,6 +107,8 @@ public class InspectionReviewActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
 
+        setTitle();
+
         final Button exportDocButton = (Button) findViewById(R.id.buttonExportDoc);
         final Button finishedButton = (Button) findViewById(R.id.buttonFinished);
         boolean ready = allInputFilled();
@@ -175,5 +180,15 @@ public class InspectionReviewActivity extends FragmentActivity {
         Dialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
+    }
+
+    private void setTitle() {
+        final TextView titleTextView = (TextView) findViewById(R.id.textViewInspectionReviewTitle);
+        String address = model.getValue(DatabaseWriter.UIComponentInputValue.ADDRESS);
+        String city = model.getValue(DatabaseWriter.UIComponentInputValue.CITY);
+        String province = model.getValue(DatabaseWriter.UIComponentInputValue.PROVINCE);
+
+        if(!address.isEmpty() && !city.isEmpty() && !province.isEmpty())
+            titleTextView.setText(address + ", " + city + ", " + province);
     }
 }

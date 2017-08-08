@@ -7,6 +7,7 @@ import java.util.HashMap;
  */
 
 public interface ModelLoadListener {
-    public void loadModel();
+    public void edit();
     public void export();
+    public void delete();
 }

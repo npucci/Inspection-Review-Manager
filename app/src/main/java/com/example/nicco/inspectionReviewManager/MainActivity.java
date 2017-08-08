@@ -133,7 +133,7 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
     }
 
     @Override
-    public void loadModel() {
+    public void edit() {
         final Model model = (Model) getApplicationContext();
         if(model.reviewStarted()) {
             showLoadAlertDialogue();
@@ -148,10 +148,17 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
 
     @Override
     public void export() {
+        Toast toast = Toast.makeText(this, R.string.exporting_doc_message, Toast.LENGTH_LONG);
+        toast.show();
         final Model model = (Model) getApplicationContext();
-        loadModel();
+        model.loadReviewFromDatabase(selectedArchiveReview);
         model.exportReviewToDoc();
         model.reset();
+    }
+
+    @Override
+    public void delete() {
+        showDeleteAlertDialogue();
     }
 
     private void showSelectDialog() {
@@ -159,6 +166,39 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         SelectDialog selectDialog = new SelectDialog();
         selectDialog.addModelLoadListener(this);
         selectDialog.show(fragmentManager, "dialog");
+    }
+
+    private void showDeleteAlertDialogue() {
+        final Model model = (Model) getApplicationContext();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_dialog_message)
+                .setTitle(R.string.delete_dialog_title);
+        // set buttons
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast toast = Toast.makeText(MainActivity.this, R.string.delete_message, Toast.LENGTH_LONG);
+                toast.show();
+
+                model.deleteReviewFromDatabase(selectedArchiveReview);
+                selectedArchiveReview = new HashMap<>();
+                final Button selectButton = (Button) findViewById(R.id.buttonSelectReview);
+                selectButton.setEnabled(false);
+                final RecyclerView archive = (RecyclerView) findViewById(R.id.recyclerViewArchive);
+                archive.setAdapter(new RecyclerAdapter(MainActivity.this.getApplicationContext(),
+                        MainActivity.this, model.getDatabaseCursor()));
+                archive.getAdapter().notifyDataSetChanged();
+            }
+        });
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        Dialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
     }
 
     private void showLoadAlertDialogue() {

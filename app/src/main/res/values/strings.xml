@@ -1,36 +1,42 @@
 <resources>
-    <!-- STRINGS -->
     <string name="app_name">Inspection Review Manager</string>
 
+    <!-- INSPECTION REVIEW CATEGORY TEXT -->
     <string name="date">Date</string>
     <string name="project">Project</string>
     <string name="concrete">Concrete</string>
     <string name="framing">Framing</string>
     <string name="conclusion">Conclusion</string>
 
+    <!-- DIALOG TEXT -->
     <string name="dialogue_review_in_progress_title">Review Already In Progress</string>
     <string name="dialogue_review_in_progress_message">All data in the current session will be lost.\nDo you wish to continue?</string>
     <string name="dialogue_update_review_title">Review Already On Record</string>
     <string name="dialogue_update_review_message">Would you like to update the previous review?</string>
     <string name="dialogue_close_review_title">Close Review</string>
     <string name="dialogue_close_review_message">All data in this session will be lost.\nDo you wish to continue?</string>
+    <string name="select_dialog_title">Available Actions:</string>
+    <string name="select_dialog_message">What would you like to do?</string>
+    <string name="delete_dialog_title">Delete Review"</string>
+    <string name="delete_dialog_message">This action will permanently delete the review on record.\nDo you wish to continue?"</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
-    <string name="select_dialog_title">Edit Options:</string>
-
+    <!-- BUTTON TEXT -->
     <string name="button_close">Close</string>
     <string name="button_select">Select</string>
     <string name="button_delete">Delete</string>
-    <string name="button_edit_options">Edit Options</string>
+    <string name="button_edit_options">Options</string>
     <string name="button_edit">Edit</string>
     <string name="button_export">Export</string>
     <string name="button_inspection_review">Inspection Review</string>
 
+    <!-- TOAST TEXT -->
     <string name="write_permissions_denied">Write Permissions Denied</string>
     <string name="exporting_doc_message">Exporting Doc"</string>
     <string name="updated_message">Review Updated"</string>
     <string name="saved_message">Inspection Review Saved"</string>
+    <string name="delete_message">Deleted Review"</string>
     <string name="not_updated_message">Review Not Updated"</string>
 
     <!-- SIZES -->

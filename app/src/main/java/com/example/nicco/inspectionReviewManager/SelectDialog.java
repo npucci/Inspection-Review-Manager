@@ -40,6 +40,7 @@ public class SelectDialog extends DialogFragment {
         final View view = inflater.inflate(R.layout.select_dialog, container, false);
         Button exportButton = (Button) view.findViewById(R.id.buttonSelectExport);
         Button editButton = (Button) view.findViewById(R.id.buttonSelectEdit);
+        Button deleteButton = (Button) view.findViewById(R.id.buttonDelete);
         exportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,16 +53,26 @@ public class SelectDialog extends DialogFragment {
                     Toast toast = Toast.makeText(view.getContext(), R.string.exporting_doc_message, Toast.LENGTH_LONG);
                     toast.show();
                     modelLoadListener.export();
+                    getDialog().dismiss();
                 } else {
                     Toast toast = Toast.makeText(view.getContext(), R.string.write_permissions_denied, Toast.LENGTH_LONG);
                     toast.show();
+                    getDialog().dismiss();
                 }
             }
         });
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                modelLoadListener.loadModel();
+                modelLoadListener.edit();
+                getDialog().dismiss();
+            }
+        });
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                modelLoadListener.delete();
+                getDialog().dismiss();
             }
         });
 

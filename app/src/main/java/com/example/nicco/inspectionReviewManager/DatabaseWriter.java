@@ -340,6 +340,10 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         return results;
     }
 
+    public void deleteReview(String[] columns, String whereClause, String[] whereArgs) {
+        database.delete(TABLE_NAME, whereClause, whereArgs);
+    }
+
     private static String createPrimaryKeyStatement() {
         String primaryKey = "PRIMARY KEY (";
         for(int i = 0; i < PRIMARY_KEYS.size(); i++) {

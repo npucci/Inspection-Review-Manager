@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#363636</color>
     <color name="colorPrimaryDark">#181818</color>
-    <color name="colorAccent">#000000</color>
+    <color name="colorAccent">#204E8B</color>
     <color name="divider">#000000</color>
     <color name="recycleViewDivider">#ffffff</color>
     <color name="black">#000000</color>
@@ -12,6 +12,6 @@
     <color name="incompleteBackground">#000000</color>
     <color name="completeText">#000000</color>
     <color name="completeBackground">#aee496</color>
-    <color name="selectedText">#000000</color>
-    <color name="selectedBackground">#ffff90</color> <!-- #ffff90, #9fc9ff-->
+    <color name="selectedText">#ffffff</color> <!-- #000000 -->
+    <color name="selectedBackground">@color/colorAccent</color> <!-- #ffff90 --> <!-- #ffff90, #9fc9ff-->
 </resources>
