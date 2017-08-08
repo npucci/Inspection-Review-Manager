@@ -1,10 +1,20 @@
 package com.example.nicco.inspectionReviewManager;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+
+import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -15,10 +25,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 
-public class MainActivity extends FragmentActivity implements RecyclerViewClickListener {
+public class MainActivity extends FragmentActivity implements RecyclerViewClickListener, ModelLoadListener {
     private HashMap<String, String> selectedArchiveReview = new HashMap<>();
 
     @Override
@@ -34,26 +45,16 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         archive.setLayoutManager(new LinearLayoutManager(this));
         archive.setItemAnimator(new DefaultItemAnimator());
         archive.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.background));
-//        DividerItemDecoration  dividerItemDecoration = new DividerItemDecoration (
-//                archive.getContext(), getResources().getConfiguration().orientation
-//
-//        );
-//        archive.addItemDecoration(dividerItemDecoration);
 
-        final Button editReviewButton = (Button) findViewById(R.id.buttonEditReview);
-        editReviewButton.setPaintFlags(editReviewButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        editReviewButton.setTextSize(16);
-        editReviewButton.setEnabled(((RecyclerAdapter) archive.getAdapter()).getSelectedPosition() > -1);
-        //editReviewButton.setEnabled(selectedArchiveItem != null);
-        // ((RecyclerAdapter) archive.getAdapter()).getSelectedPosition()
-        editReviewButton.setOnClickListener(new View.OnClickListener() {
+        final Button selectButton = (Button) findViewById(R.id.buttonSelectReview);
+        selectButton.setPaintFlags(selectButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        selectButton.setTextSize(16);
+        selectButton.setEnabled(((RecyclerAdapter) archive.getAdapter()).getSelectedPosition() > -1);
+        selectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.v("PUCCI", "archive.getAdapter()).getSelectedPosition() = " + ((RecyclerAdapter) archive.getAdapter()).getSelectedPosition());
                 if(((RecyclerAdapter) archive.getAdapter()).getSelectedPosition() > -1) {
-                    model.loadReviewFromDatabase(selectedArchiveReview);
-                    Intent intent = new Intent(MainActivity.this, InspectionReviewActivity.class);
-                    startActivity(intent);
+                    showSelectDialog();
                 }
             }
         });
@@ -76,7 +77,7 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
     @Override
     public void recyclerViewListClicked(View view, int position) {
         final RecyclerView archive = (RecyclerView) findViewById(R.id.recyclerViewArchive);
-        final Button editReviewButton = (Button) findViewById(R.id.buttonEditReview);
+        final Button selectButton = (Button) findViewById(R.id.buttonSelectReview);
 
         // double tapping the currently selected item deselects it
         if(((RecyclerAdapter) archive.getAdapter()).getSelectedPosition() == position) {
@@ -84,7 +85,7 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
             ((RecyclerAdapter) archive.getAdapter()).setSelectedPosition(-1);
             archive.getAdapter().notifyItemChanged(((RecyclerAdapter) archive.getAdapter()).getSelectedPosition());
             selectedArchiveReview.clear();
-            editReviewButton.setEnabled(false);
+            selectButton.setEnabled(false);
             return;
         }
 
@@ -128,16 +129,62 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         temp = ((TextView) selectedArchiveItem.findViewById(R.id.textViewProjectNumber)).getText().toString();
         if(temp.endsWith(", ")) temp = temp.substring(0, temp.length() - 2);
         selectedArchiveReview.put(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER.getValue(), temp);
-        editReviewButton.setEnabled(true);
+        selectButton.setEnabled(true);
     }
 
-    private class DividerItemDecoration extends ItemDecoration {
-        private Context context;
-        private int orientation;
-
-        public DividerItemDecoration(Context context, int orientation) {
-            this.context = context;
-            this.orientation = orientation;
+    @Override
+    public void loadModel() {
+        final Model model = (Model) getApplicationContext();
+        if(model.reviewStarted()) {
+            showLoadAlertDialogue();
+        } else {
+            Toast toast = Toast.makeText(this, R.string.button_edit, Toast.LENGTH_LONG);
+            toast.show();
+            model.loadReviewFromDatabase(selectedArchiveReview);
+            Intent intent = new Intent(MainActivity.this, InspectionReviewActivity.class);
+            startActivity(intent);
         }
+    }
+
+    @Override
+    public void export() {
+        final Model model = (Model) getApplicationContext();
+        loadModel();
+        model.exportReviewToDoc();
+        model.reset();
+    }
+
+    private void showSelectDialog() {
+        FragmentManager fragmentManager = getFragmentManager();
+        SelectDialog selectDialog = new SelectDialog();
+        selectDialog.addModelLoadListener(this);
+        selectDialog.show(fragmentManager, "dialog");
+    }
+
+    private void showLoadAlertDialogue() {
+        final Model model = (Model) getApplicationContext();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.dialogue_review_in_progress_message)
+                .setTitle(R.string.dialogue_review_in_progress_title);
+        // set buttons
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast toast = Toast.makeText(MainActivity.this, R.string.button_edit, Toast.LENGTH_LONG);
+                toast.show();
+                model.loadReviewFromDatabase(selectedArchiveReview);
+                Intent intent = new Intent(MainActivity.this, InspectionReviewActivity.class);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        Dialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
     }
 }
