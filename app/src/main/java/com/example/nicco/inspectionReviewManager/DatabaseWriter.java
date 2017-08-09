@@ -41,92 +41,95 @@ public class DatabaseWriter extends SQLiteOpenHelper {
     // and 3. tokens in the exported doc template
     public enum UIComponentInputValue {
         /* UI COMPONENT VALUES */
-        REBAR_POSITION_NA("rebar_position_na", "none", false),
-        REBAR_SIZE_NA("rebar_size_na", "none", false),
-        FORMWORK_NA("formwork_na", "none", false),
-        ANCHORAGE_NA("anchorage_na", "none", false),
-        TRUSS_SPEC_NA("truss_spec_na", "none", false),
-        IJOIST_NA("ijoist_na", "none", false),
-        BEARING_NA("bearing_na", "none", false),
-        TOP_PLATES_NA("top_plates_na", "Vnone", false),
-        LINTELS_NA("lintels_na", "none", false),
-        SHEARWALLS_NA("shearwalls_na", "none", false),
-        TALL_WALLS_NA("tall_walls_na", "none", false),
-        BLOCKING_NA("blocking_na", "none", false),
-        WALL_SHEATHING_NA("wall_sheathing_na", "none", false),
-        WIND_GIRTS_NA("wind_girts_na", "none", false),
-        REVIEW_STATUS_APPROVED("review_status_approved", "none", false),
-        REVIEW_STATUS_NOT_APPROVED("review_status_not_approved", "none", false),
-        REVIEW_STATUS_REINSPECTION_REQUIRED("review_status_reinspection_required", "none", false),
+        REBAR_POSITION_NA("rebar_position_na", "none", null),
+        REBAR_SIZE_NA("rebar_size_na", "none", null),
+        FORMWORK_NA("formwork_na", "none", null),
+        ANCHORAGE_NA("anchorage_na", "none", null),
+        TRUSS_SPEC_NA("truss_spec_na", "none", null),
+        IJOIST_NA("ijoist_na", "none", null),
+        BEARING_NA("bearing_na", "none", null),
+        TOP_PLATES_NA("top_plates_na", "none", null),
+        LINTELS_NA("lintels_na", "none", null),
+        SHEARWALLS_NA("shearwalls_na", "none", null),
+        TALL_WALLS_NA("tall_walls_na", "none", null),
+        BLOCKING_NA("blocking_na", "none", null),
+        WALL_SHEATHING_NA("wall_sheathing_na", "none", null),
+        WIND_GIRTS_NA("wind_girts_na", "none", null),
+        REVIEW_STATUS_APPROVED("review_status_approved", "none", null),
+        REVIEW_STATUS_NOT_APPROVED("review_status_not_approved", "none", null),
+        REVIEW_STATUS_REINSPECTION_REQUIRED("review_status_reinspection_required", "none", null),
 
         /* DATABASE COLUMNS */
         // DATE ACTIVITY
-        DATE("date", "DATE", true),
-        TIME("time", "TIME", true),
-        WEATHER("weather", "VARCHAR(" + maxSmallInputLength + ")", true),
-        TEMPERATURE_CELSIUS("temperature_celsius", "VARCHAR(" + maxSmallInputLength + ")", true),
+        DATE("date", "DATE", null),
+        TIME("time", "TIME", null),
+        WEATHER("weather", "VARCHAR(" + maxSmallInputLength + ")", null),
+        TEMPERATURE_CELSIUS("temperature_celsius", "VARCHAR(" + maxSmallInputLength + ")", null),
         // PROJECT ACTIVITY
-        ADDRESS("address", "VARCHAR(" + maxLargeInputLength + ")", true),
-        CITY("city", "VARCHAR(" + maxLargeInputLength + ")", true),
-        PROVINCE("province", "VARCHAR(" + maxLargeInputLength + ")", true),
-        PROJECT_NUMBER("project_number", "VARCHAR(" + maxMediumInputLength + ")", true),
-        DEVELOPER("developer", "VARCHAR(" + maxLargeInputLength + ")", true),
-        CONTRACTOR("contractor", "VARCHAR(" + maxLargeInputLength + ")", true),
-        FOOTINGS_REVIEW("footings_review", "VARCHAR(" + maxSmallInputLength + ")", true),
-        FOUNDATION_WALLS_REVIEW("foundation_walls_review", "VARCHAR(" + maxSmallInputLength + ")", true),
-        SHEATHING_REVIEW("sheathing_review", "VARCHAR(" + maxSmallInputLength + ")", true),
-        FRAMING_REVIEW("framing_review", "VARCHAR(" + maxSmallInputLength + ")", true),
-        OTHER_REVIEW("other_review", "VARCHAR(" + maxSmallInputLength + ")", true),
-        OTHER_REVIEW_DESCRIPTION("other_review_description", "VARCHAR(" + maxLargeInputLength + ")", true),
+        ADDRESS("address", "VARCHAR(" + maxLargeInputLength + ")", null),
+        CITY("city", "VARCHAR(" + maxLargeInputLength + ")", null),
+        PROVINCE("province", "VARCHAR(" + maxLargeInputLength + ")", null),
+        PROJECT_NUMBER("project_number", "VARCHAR(" + maxMediumInputLength + ")", null),
+        DEVELOPER("developer", "VARCHAR(" + maxLargeInputLength + ")", null),
+        CONTRACTOR("contractor", "VARCHAR(" + maxLargeInputLength + ")", null),
+        FOOTINGS_REVIEW("footings_review", "VARCHAR(" + maxSmallInputLength + ")", null),
+        FOUNDATION_WALLS_REVIEW("foundation_walls_review", "VARCHAR(" + maxSmallInputLength + ")", null),
+        SHEATHING_REVIEW("sheathing_review", "VARCHAR(" + maxSmallInputLength + ")", null),
+        FRAMING_REVIEW("framing_review", "VARCHAR(" + maxSmallInputLength + ")", null),
+        OTHER_REVIEW("other_review", "VARCHAR(" + maxSmallInputLength + ")", null),
+        OTHER_REVIEW_DESCRIPTION("other_review_description", "VARCHAR(" + maxLargeInputLength + ")", null),
         // CONCRETE ACTIVITY
-        REBAR_POSITION("rebar_position", "VARCHAR(" + maxSmallInputLength + ")", true),
-        REBAR_POSITION_INSTRUCTION("rebar_position_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
-        REBAR_SIZE("rebar_size", "VARCHAR(" + maxMediumInputLength + ")", true),
-        REBAR_SIZE_INSTRUCTION("rebar_size_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
-        FORMWORK("formwork", "VARCHAR(" + maxSmallInputLength + ")", true),
-        FORMWORK_INSTRUCTION("formwork_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
-        ANCHORAGE("anchorage", "VARCHAR(" + maxSmallInputLength + ")", true),
-        ANCHORAGE_INSTRUCTION("anchorage_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
+        REBAR_POSITION("rebar_position", "VARCHAR(" + maxSmallInputLength + ")", REBAR_POSITION_NA),
+        REBAR_POSITION_INSTRUCTION("rebar_position_instruction", "VARCHAR(" + maxXLargeInputLength + ")", null),
+        REBAR_SIZE("rebar_size", "VARCHAR(" + maxMediumInputLength + ")", REBAR_SIZE_NA),
+        REBAR_SIZE_INSTRUCTION("rebar_size_instruction", "VARCHAR(" + maxXLargeInputLength + ")", null),
+        FORMWORK("formwork", "VARCHAR(" + maxSmallInputLength + ")", FORMWORK_NA),
+        FORMWORK_INSTRUCTION("formwork_instruction", "VARCHAR(" + maxXLargeInputLength + ")", null),
+        ANCHORAGE("anchorage", "VARCHAR(" + maxSmallInputLength + ")", ANCHORAGE_NA),
+        ANCHORAGE_INSTRUCTION("anchorage_instruction", "VARCHAR(" + maxXLargeInputLength + ")", null),
         // FRAMING ACTIVITY
-        TRUSS_SPEC("truss_spec", "VARCHAR(" + maxSmallInputLength + ")", true),
-        TRUSS_SPEC_INSTRUCTION("truss_spec_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
-        IJOIST("ijoist", "VARCHAR(" + maxSmallInputLength + ")", true),
-        IJOIST_INSTRUCTION("ijoist_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
-        BEARING("bearing", "VARCHAR(" + maxSmallInputLength + ")", true),
-        BEARING_INSTRUCTION("bearing_instruction", "VARCHAR(" + maxSmallInputLength + ")", true),
-        TOP_PLATES("top_plates", "VARCHAR(" + maxSmallInputLength + ")", true),
-        TOP_PLATES_INSTRUCTION("top_plates_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
-        LINTELS("lintels", "VARCHAR(" + maxSmallInputLength + ")", true),
-        LINTELS_INSTRUCTION("lintels_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
-        SHEARWALLS("shearwalls", "VARCHAR(" + maxLargeInputLength + ")", true),
-        SHEARWALLS_INSTRUCTION("shearwalls_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
-        TALL_WALLS("tall_walls", "VARCHAR(" + maxSmallInputLength + ")", true),
-        TALL_WALLS_INSTRUCTION("tall_walls_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
-        BLOCKING("blocking", "VARCHAR(" + maxSmallInputLength + ")", true),
-        BLOCKING_INSTRUCTION("blocking_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
-        WALL_SHEATHING("wall_sheathing", "VARCHAR(" + maxSmallInputLength + ")", true),
-        WALL_SHEATHING_INSTRUCTION("wall_sheathing_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
-        WIND_GIRTS("wind_girts", "VARCHAR(" + maxSmallInputLength + ")", true),
-        WIND_GIRTS_INSTRUCTION("wind_girts_instruction", "VARCHAR(" + maxXLargeInputLength + ")", true),
+        TRUSS_SPEC("truss_spec", "VARCHAR(" + maxSmallInputLength + ")", TRUSS_SPEC_NA),
+        TRUSS_SPEC_INSTRUCTION("truss_spec_instruction", "VARCHAR(" + maxXLargeInputLength + ")", null),
+        IJOIST("ijoist", "VARCHAR(" + maxSmallInputLength + ")", IJOIST_NA),
+        IJOIST_INSTRUCTION("ijoist_instruction", "VARCHAR(" + maxXLargeInputLength + ")", null),
+        BEARING("bearing", "VARCHAR(" + maxSmallInputLength + ")", BEARING_NA),
+        BEARING_INSTRUCTION("bearing_instruction", "VARCHAR(" + maxSmallInputLength + ")", null),
+        TOP_PLATES("top_plates", "VARCHAR(" + maxSmallInputLength + ")", TOP_PLATES_NA),
+        TOP_PLATES_INSTRUCTION("top_plates_instruction", "VARCHAR(" + maxXLargeInputLength + ")", null),
+        LINTELS("lintels", "VARCHAR(" + maxSmallInputLength + ")", LINTELS_NA),
+        LINTELS_INSTRUCTION("lintels_instruction", "VARCHAR(" + maxXLargeInputLength + ")", null),
+        SHEARWALLS("shearwalls", "VARCHAR(" + maxLargeInputLength + ")", SHEARWALLS_NA),
+        SHEARWALLS_INSTRUCTION("shearwalls_instruction", "VARCHAR(" + maxXLargeInputLength + ")", null),
+        TALL_WALLS("tall_walls", "VARCHAR(" + maxSmallInputLength + ")", TALL_WALLS_NA),
+        TALL_WALLS_INSTRUCTION("tall_walls_instruction", "VARCHAR(" + maxXLargeInputLength + ")", null),
+        BLOCKING("blocking", "VARCHAR(" + maxSmallInputLength + ")", BLOCKING_NA),
+        BLOCKING_INSTRUCTION("blocking_instruction", "VARCHAR(" + maxXLargeInputLength + ")", null),
+        WALL_SHEATHING("wall_sheathing", "VARCHAR(" + maxSmallInputLength + ")", WALL_SHEATHING_NA),
+        WALL_SHEATHING_INSTRUCTION("wall_sheathing_instruction", "VARCHAR(" + maxXLargeInputLength + ")", null),
+        WIND_GIRTS("wind_girts", "VARCHAR(" + maxSmallInputLength + ")", WIND_GIRTS_NA),
+        WIND_GIRTS_INSTRUCTION("wind_girts_instruction", "VARCHAR(" + maxXLargeInputLength + ")", null),
         // CONCLUSION ACTIVITY
-        OBSERVATIONS("observations", "VARCHAR(" + maxXXLargeInputLength + ")", true),
-        COMMENTS("comments", "VARCHAR(" + maxXXLargeInputLength + ")", true),
-        REVIEW_STATUS("review_status", "VARCHAR(" + maxMediumInputLength + ")", true),
-        REVIEWED_BY("reviewed_by", "VARCHAR(" + maxMediumInputLength + ")", true);
+        OBSERVATIONS("observations", "VARCHAR(" + maxXXLargeInputLength + ")", null),
+        COMMENTS("comments", "VARCHAR(" + maxXXLargeInputLength + ")", null),
+        REVIEW_STATUS("review_status", "VARCHAR(" + maxMediumInputLength + ")", null),
+        REVIEWED_BY("reviewed_by", "VARCHAR(" + maxMediumInputLength + ")", null);
 
         private String value;
         private String dataType;
+        private UIComponentInputValue correspondingRow;
         private boolean isADatabaseColumn;
 
-        UIComponentInputValue(String value, String dataType, boolean isADatabaseColumn) {
+        UIComponentInputValue(String value, String dataType, UIComponentInputValue correspondingRow) {
             this.value = value;
             this.dataType = dataType;
-            this.isADatabaseColumn = isADatabaseColumn;
+            this.correspondingRow = correspondingRow;
         }
 
         public String getValue() { return value; }
         public String getDataType() { return dataType; }
-        public boolean isDatabaseColum(){ return isADatabaseColumn; }
+        public UIComponentInputValue getCorrespondingRow() { return correspondingRow; }
+        public boolean hasCorrespondingRow() { return correspondingRow != null; }
+        public boolean isDatabaseColum(){ return !dataType.equals("none"); }
         public String getFormattedValue() {
             String frmtValue = "";
             //shearwalls_instruction
@@ -142,7 +145,6 @@ public class DatabaseWriter extends SQLiteOpenHelper {
             if(isDatabaseColum()) frmtValue = frmtValue.replace(" Review", "");
             return frmtValue;
         }
-
         @Override
         public String toString() { return value + " " + dataType; }
     }
@@ -213,7 +215,9 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         String sqlValues = "VALUES(";
         for(int i = 0; i < columnSet.length; i++) {
             sqlColumns = sqlColumns + columnSet[i].getValue();
-            sqlValues = sqlValues + "\"" + hashMap.get(columnSet[i]) + "\"";
+            String data = hashMap.get(columnSet[i]).replace("'", "\'");
+            data = data.replace("\"", "\'");
+            sqlValues = sqlValues + "\"" + data + "\"";
             if(i < columnSet.length - 1) {
                 sqlColumns += ", ";
                 sqlValues += ",";
@@ -330,6 +334,29 @@ public class DatabaseWriter extends SQLiteOpenHelper {
                         if(index > -1) {
                             String data = cursor.getString(index);
                             if (column != null && data != null) results.put(column, data);
+                            Log.v("PUCCI", "column.getValue() = " + column.getValue());
+                            if(column.hasCorrespondingRow()) {
+                                if(data.equals(Model.SpecialValue.YES.toString())) results.put(column.getCorrespondingRow(), Model.SpecialValue.NO.toString());
+                                else if(data.equals(Model.SpecialValue.NO.toString())) results.put(column.getCorrespondingRow(), Model.SpecialValue.YES.toString());
+                            } else if(column.equals(UIComponentInputValue.REVIEW_STATUS)) {
+                                Log.v("PUCCI", "INSIDE BLOCK");
+                                if(data.equals(Model.ReviewStatusValue.APPROVED.toString())) {
+                                    Log.v("PUCCI", "APPROVED Route");
+                                    results.put(UIComponentInputValue.REVIEW_STATUS_APPROVED, Model.SpecialValue.YES.toString());
+                                    results.put(UIComponentInputValue.REVIEW_STATUS_NOT_APPROVED, Model.SpecialValue.NO.toString());
+                                    results.put(UIComponentInputValue.REVIEW_STATUS_REINSPECTION_REQUIRED, Model.SpecialValue.NO.toString());
+                                } else if(data.equals(Model.ReviewStatusValue.NOT_APPROVED.toString())) {
+                                    Log.v("PUCCI", "NOT_APPROVED Route");
+                                    results.put(UIComponentInputValue.REVIEW_STATUS_APPROVED, Model.SpecialValue.NO.toString());
+                                    results.put(UIComponentInputValue.REVIEW_STATUS_NOT_APPROVED, Model.SpecialValue.YES.toString());
+                                    results.put(UIComponentInputValue.REVIEW_STATUS_REINSPECTION_REQUIRED, Model.SpecialValue.NO.toString());
+                                } else if(data.equals(Model.ReviewStatusValue.REINSPECTION_REQUIRED.toString())) {
+                                    Log.v("PUCCI", "REINSPECTION_REQUIRED Route");
+                                    results.put(UIComponentInputValue.REVIEW_STATUS_APPROVED, Model.SpecialValue.NO.toString());
+                                    results.put(UIComponentInputValue.REVIEW_STATUS_NOT_APPROVED, Model.SpecialValue.NO.toString());
+                                    results.put(UIComponentInputValue.REVIEW_STATUS_REINSPECTION_REQUIRED, Model.SpecialValue.YES.toString());
+                                }
+                            }
                         }
                     }
                 }

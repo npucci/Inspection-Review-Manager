@@ -56,7 +56,7 @@ public class InspectionReviewActivity extends FragmentActivity {
                 if(permission == PackageManager.PERMISSION_GRANTED) {
                     Toast toast = Toast.makeText(getApplicationContext(), R.string.exporting_doc_message, Toast.LENGTH_LONG);
                     toast.show();
-                    model.exportReviewToDoc();
+                    model.exportReviewToDoc(getBaseContext());
                 } else {
                     Toast toast = Toast.makeText(getApplicationContext(), R.string.write_permissions_denied, Toast.LENGTH_LONG);
                     toast.show();

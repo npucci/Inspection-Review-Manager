@@ -152,7 +152,7 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         toast.show();
         final Model model = (Model) getApplicationContext();
         model.loadReviewFromDatabase(selectedArchiveReview);
-        model.exportReviewToDoc();
+        model.exportReviewToDoc(getBaseContext());
         model.reset();
     }
 

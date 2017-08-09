@@ -225,7 +225,7 @@ public class Model extends Application {
 
     public boolean reviewExistsInDatabase() { return dbWriter.existsInDatabase(hashMap); }
 
-    public boolean exportReviewToDoc() {
+    public boolean exportReviewToDoc(Context context) {
         String fileName =
                 hashMap.get(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER) + " " +
                 "(" + hashMap.get(DatabaseWriter.UIComponentInputValue.ADDRESS) + ", " +
@@ -255,7 +255,7 @@ public class Model extends Application {
         if(date.length == 3) fileName += "(" + date[1] + date[2] + date[0] + ").doc"; // MMDDYYYY
         else fileName += "(" + hashMap.get(DatabaseWriter.UIComponentInputValue.DATE) + ").doc"; // YYYY-MM-DD
 
-        FileIO.exportInpsectionReviewToDOC(getApplicationContext(), hashMap, fileName);
+        FileIO.exportInpsectionReviewToDOC(context, hashMap, fileName);
         return false;
     }
 
@@ -266,39 +266,64 @@ public class Model extends Application {
     public void AutoFillConcreteActivity() {
         Log.v("PUCCI", "AutoFillConcreteActivity CALLED");
         updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION, SpecialValue.NO.toString());
-        updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE, SpecialValue.NO.toString());
-        updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE, SpecialValue.NO.toString());
-        updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK, SpecialValue.NO.toString());
-
         updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION_INSTRUCTION, Model.SpecialValue.NA.toString());
+
+        updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.REBAR_SIZE_INSTRUCTION, Model.SpecialValue.NA.toString());
+
+        updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE_INSTRUCTION, Model.SpecialValue.NA.toString());
+
+        updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.FORMWORK_INSTRUCTION, Model.SpecialValue.NA.toString());
     }
 
     public void AutoFillFramingActivity() {
         Log.v("PUCCI", "AutoFillFramingActivity CALLED");
-        updateValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC, SpecialValue.NO.toString());
-        updateValue(DatabaseWriter.UIComponentInputValue.IJOIST, SpecialValue.NO.toString());
-        updateValue(DatabaseWriter.UIComponentInputValue.BEARING, SpecialValue.NO.toString());
-        updateValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES, SpecialValue.NO.toString());
-        updateValue(DatabaseWriter.UIComponentInputValue.LINTELS, SpecialValue.NO.toString());
-        updateValue(DatabaseWriter.UIComponentInputValue.SHEARWALLS, SpecialValue.NO.toString());
-        updateValue(DatabaseWriter.UIComponentInputValue.TALL_WALLS, SpecialValue.NO.toString());
-        updateValue(DatabaseWriter.UIComponentInputValue.BLOCKING, SpecialValue.NO.toString());
-        updateValue(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING, SpecialValue.NO.toString());
-        updateValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS, SpecialValue.NO.toString());
 
+        updateValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC_INSTRUCTION, Model.SpecialValue.NA.toString());
+
+        updateValue(DatabaseWriter.UIComponentInputValue.IJOIST, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.IJOIST_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.IJOIST_INSTRUCTION, Model.SpecialValue.NA.toString());
+
+        updateValue(DatabaseWriter.UIComponentInputValue.BEARING, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.BEARING_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.BEARING_INSTRUCTION, Model.SpecialValue.NA.toString());
+
+        updateValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES_INSTRUCTION, Model.SpecialValue.NA.toString());
+
+        updateValue(DatabaseWriter.UIComponentInputValue.LINTELS, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.LINTELS_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.LINTELS_INSTRUCTION, Model.SpecialValue.NA.toString());
+
+        updateValue(DatabaseWriter.UIComponentInputValue.SHEARWALLS, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.SHEARWALLS_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.SHEARWALLS_INSTRUCTION, Model.SpecialValue.NA.toString());
+
+        updateValue(DatabaseWriter.UIComponentInputValue.TALL_WALLS, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.TALL_WALLS_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.TALL_WALLS_INSTRUCTION, Model.SpecialValue.NA.toString());
+
+        updateValue(DatabaseWriter.UIComponentInputValue.BLOCKING, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.BLOCKING_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.BLOCKING_INSTRUCTION, Model.SpecialValue.NA.toString());
+
+        updateValue(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING_INSTRUCTION, Model.SpecialValue.NA.toString());
+
+        updateValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS, SpecialValue.NO.toString());
         updateValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS_NA, SpecialValue.YES.toString());
+        updateValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS_INSTRUCTION, Model.SpecialValue.NA.toString());
     }
 
     public void reset() {

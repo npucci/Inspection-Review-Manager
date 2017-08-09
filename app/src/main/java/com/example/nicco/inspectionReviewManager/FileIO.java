@@ -31,19 +31,36 @@ public class FileIO {
 	public static final String CHECKBOX_CHECKED = "☑";
 	public static final String CHECKBOX_BLANK = "☐";
 
-    private static File getAppropriateStorageDir(final Context context) {
-        File storageDir = getExternalStorageDir();
+    private static File getAppropriateStorageDir(Context context) {
+        File storageDir = getExternalStorageDir(context);
         if(storageDir == null) {
             storageDir = getInternalCachedStorageDir(context);
         }
         return storageDir;
     }
 
-    private static File getExternalStorageDir() {
+//    private static File getExternalStorageDir() {
+//        File storageDir = null;
+//        if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+//            storageDir = new File(Environment.getExternalStoragePublicDirectory(
+//                    Environment.DIRECTORY_DOCUMENTS).getPath(), "InspectionReviews");
+//            String path = storageDir.getPath();
+//            if(!storageDir.mkdirs() && !storageDir.exists()) Log.v("PUCCI", "ERROR: \ndirectory in EXTERNAL STORAGE not created\n= " + path);
+//            else Log.v("PUCCI", "SUCCESS: directory in EXTERNAL STORAGE created/exists\n= " + path);
+//        }
+//        return storageDir;
+//    }
+
+    private static File getExternalStorageDir(Context c) {
         File storageDir = null;
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            storageDir = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOCUMENTS).getPath(), "InspectionReviews");
+            File[] externalStorageDirs = c.getExternalFilesDirs(null);
+            if(externalStorageDirs.length < 2) {
+                storageDir = new File(Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_DOCUMENTS).getPath(), "InspectionReviews");
+            } else {
+                storageDir = externalStorageDirs[1];
+            }
             String path = storageDir.getPath();
             if(!storageDir.mkdirs() && !storageDir.exists()) Log.v("PUCCI", "ERROR: \ndirectory in EXTERNAL STORAGE not created\n= " + path);
             else Log.v("PUCCI", "SUCCESS: directory in EXTERNAL STORAGE created/exists\n= " + path);
@@ -56,26 +73,22 @@ public class FileIO {
         String path = storageDir.getPath();
         if(!storageDir.mkdirs()) Log.v("PUCCI", "ERROR: directory in INTERNAL STORAGE not created\n= " + path);
         else Log.v("PUCCI", "SUCCESS: directory in INTERNAL CACHED STORAGE created\n= " + path);
-        internalCachedStorageCleanUp();
         return storageDir;
     }
 
-    private static File getInternalStorageDir(final Context context) {
-        File storageDir = new File(context.getFilesDir().getPath());
-        String path = storageDir.getPath();
-        if(!storageDir.mkdirs()) Log.v("PUCCI", "ERROR: directory in EXTERNAL STORAGE not created");
-        else Log.v("PUCCI", "SUCCESS: directory in INTERNAL CACHED STORAGE created\n= " + path);
-        return storageDir;
-    }
-
-    private static void internalCachedStorageCleanUp() {
-
-    }
+//    private static File getInternalStorageDir(final Context context) {
+//        File storageDir = new File(context.getFilesDir().getPath());
+//        String path = storageDir.getPath();
+//        if(!storageDir.mkdirs()) Log.v("PUCCI", "ERROR: directory in EXTERNAL STORAGE not created");
+//        else Log.v("PUCCI", "SUCCESS: directory in INTERNAL CACHED STORAGE created\n= " + path);
+//        return storageDir;
+//    }
 
     private static void openFile(final Context context, final File file) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         Uri uri = Uri.fromFile(file);
-        intent.setDataAndType(uri, "text/*"); // "application/msword");
+        intent.setDataAndType(uri, "application/msword");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
@@ -108,14 +121,14 @@ public class FileIO {
             doc.write(out);
             Log.v("PUCCI", "DOC Creation Success! outputFile = " + outputFile.getPath());
             out.close();
+
+            Log.v("PUCCI", "SUCCESS: The output file was created/exists\n= " + outputFile.getPath());
+            // open file using the Android OS default program
+            openFile(context, outputFile);
         } catch (Exception e) {
             Log.v("PUCCI", "ERROR: " + e.getMessage());
             return false;
         }
-
-        Log.v("PUCCI", "SUCCESS: The output file was created/exists\n= " + outputFile.getPath());
-        // open file using the Android OS default program
-        openFile(context, outputFile);
         return outputFile != null;
     }
 
