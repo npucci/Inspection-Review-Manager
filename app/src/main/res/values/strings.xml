@@ -8,6 +8,8 @@
     <string name="framing">Framing</string>
     <string name="conclusion">Conclusion</string>
 
+    <!-- RECYCLER VIEW ITEM HEADING TEXT -->
+
     <!-- DIALOG TEXT -->
     <string name="dialogue_review_in_progress_title">Review Already In Progress</string>
     <string name="dialogue_review_in_progress_message">All data in the current session will be lost.\nDo you wish to continue?</string>
@@ -40,9 +42,6 @@
     <string name="saved_message">Inspection Review Saved"</string>
     <string name="delete_message">Deleted Review"</string>
     <string name="not_updated_message">Review Not Updated"</string>
-
-    <!-- SIZES -->
-    <string name="maxSmallInputLength">10</string>
 
     <!-- STRING ARRAYS -->
     <string-array name="arr">

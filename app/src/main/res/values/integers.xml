@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- DATABASE COLUMN SIZES -->
+    <integer name="maxXXLargeInputLength">500</integer>
+    <integer name="maxXLargeInputLength">300</integer>
+    <integer name="maxLargeInputLength">100</integer>
+    <integer name="maxMediumInputLength">50</integer>
+    <integer name="maxSmallInputLength">10</integer>
+
+    <!-- CUSTOM UI COMPONENT SIZES -->
+    <integer name="maxTemperatureLength">5</integer>
+    <integer name="maxRecyclerViewLength">60</integer>
+</resources>

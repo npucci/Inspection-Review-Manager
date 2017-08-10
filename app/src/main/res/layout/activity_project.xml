@@ -49,6 +49,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:inputType="text"
+                android:maxLength="@integer/maxLargeInputLength"
                 android:imeOptions="actionNext" />
 
             <TextView
@@ -64,6 +65,8 @@
                 android:id="@+id/autoCompleteCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLength="@integer/maxLargeInputLength"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
@@ -87,6 +90,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:inputType="text"
+                android:maxLength="@integer/maxLargeInputLength"
                 android:imeOptions="actionNext" />
 
             <TextView
@@ -107,6 +111,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:inputType="text"
+                android:maxLength="@integer/maxMediumInputLength"
                 android:imeOptions="actionNext" />
 
             <TextView
@@ -127,6 +132,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="8dp"
                 android:inputType="text"
+                android:maxLength="@integer/maxLargeInputLength"
                 android:imeOptions="actionNext" />
 
             <TextView
@@ -147,6 +153,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:inputType="text"
+                android:maxLength="@integer/maxLargeInputLength"
                 android:imeOptions="actionNext" />
 
             <TextView
@@ -213,6 +220,7 @@
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteDescription"
+                android:maxLength="@integer/maxLargeInputLength"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"

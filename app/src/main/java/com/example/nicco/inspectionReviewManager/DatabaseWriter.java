@@ -37,8 +37,10 @@ public class DatabaseWriter extends SQLiteOpenHelper {
 
     // used as keys that map directoy to their corresponding:
     // 1. ui component values (in a HashTable within Model)
-    // 2. database columns *iff isDatabaseColumn() returns true
-    // and 3. tokens in the exported doc template
+    // 2. determines if it has a corresponding database columns
+    // (*iff isDatabaseColumn() returns true)
+    // 3. maps out Reviewed vs N/A radiobutton values
+    // 4. acts as value replacement tokens in the exported doc template
     public enum UIComponentInputValue {
         /* UI COMPONENT VALUES */
         REBAR_POSITION_NA("rebar_position_na", "none", null),
