@@ -334,24 +334,19 @@ public class DatabaseWriter extends SQLiteOpenHelper {
                         if(index > -1) {
                             String data = cursor.getString(index);
                             if (column != null && data != null) results.put(column, data);
-                            Log.v("PUCCI", "column.getValue() = " + column.getValue());
-                            if(column.hasCorrespondingRow()) {
+                            if(column != null && data != null && column.hasCorrespondingRow()) {
                                 if(data.equals(Model.SpecialValue.YES.toString())) results.put(column.getCorrespondingRow(), Model.SpecialValue.NO.toString());
                                 else if(data.equals(Model.SpecialValue.NO.toString())) results.put(column.getCorrespondingRow(), Model.SpecialValue.YES.toString());
                             } else if(column.equals(UIComponentInputValue.REVIEW_STATUS)) {
-                                Log.v("PUCCI", "INSIDE BLOCK");
                                 if(data.equals(Model.ReviewStatusValue.APPROVED.toString())) {
-                                    Log.v("PUCCI", "APPROVED Route");
                                     results.put(UIComponentInputValue.REVIEW_STATUS_APPROVED, Model.SpecialValue.YES.toString());
                                     results.put(UIComponentInputValue.REVIEW_STATUS_NOT_APPROVED, Model.SpecialValue.NO.toString());
                                     results.put(UIComponentInputValue.REVIEW_STATUS_REINSPECTION_REQUIRED, Model.SpecialValue.NO.toString());
                                 } else if(data.equals(Model.ReviewStatusValue.NOT_APPROVED.toString())) {
-                                    Log.v("PUCCI", "NOT_APPROVED Route");
                                     results.put(UIComponentInputValue.REVIEW_STATUS_APPROVED, Model.SpecialValue.NO.toString());
                                     results.put(UIComponentInputValue.REVIEW_STATUS_NOT_APPROVED, Model.SpecialValue.YES.toString());
                                     results.put(UIComponentInputValue.REVIEW_STATUS_REINSPECTION_REQUIRED, Model.SpecialValue.NO.toString());
                                 } else if(data.equals(Model.ReviewStatusValue.REINSPECTION_REQUIRED.toString())) {
-                                    Log.v("PUCCI", "REINSPECTION_REQUIRED Route");
                                     results.put(UIComponentInputValue.REVIEW_STATUS_APPROVED, Model.SpecialValue.NO.toString());
                                     results.put(UIComponentInputValue.REVIEW_STATUS_NOT_APPROVED, Model.SpecialValue.NO.toString());
                                     results.put(UIComponentInputValue.REVIEW_STATUS_REINSPECTION_REQUIRED, Model.SpecialValue.YES.toString());

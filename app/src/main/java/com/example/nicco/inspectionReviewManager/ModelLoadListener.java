@@ -8,6 +8,6 @@ import java.util.HashMap;
 
 public interface ModelLoadListener {
     public void edit();
-    public void export();
+    public boolean export();
     public void delete();
 }

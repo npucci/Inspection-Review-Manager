@@ -75,6 +75,13 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    @Override
     public void recyclerViewListClicked(View view, int position) {
         final RecyclerView archive = (RecyclerView) findViewById(R.id.recyclerViewArchive);
         final Button selectButton = (Button) findViewById(R.id.buttonSelectReview);
@@ -147,13 +154,14 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
     }
 
     @Override
-    public void export() {
+    public boolean export() {
         Toast toast = Toast.makeText(this, R.string.exporting_doc_message, Toast.LENGTH_LONG);
         toast.show();
         final Model model = (Model) getApplicationContext();
         model.loadReviewFromDatabase(selectedArchiveReview);
-        model.exportReviewToDoc(getBaseContext());
+        boolean exported = model.exportReviewToDoc(getBaseContext());
         model.reset();
+        return exported;
     }
 
     @Override

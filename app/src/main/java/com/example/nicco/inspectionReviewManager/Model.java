@@ -255,8 +255,7 @@ public class Model extends Application {
         if(date.length == 3) fileName += "(" + date[1] + date[2] + date[0] + ").doc"; // MMDDYYYY
         else fileName += "(" + hashMap.get(DatabaseWriter.UIComponentInputValue.DATE) + ").doc"; // YYYY-MM-DD
 
-        FileIO.exportInpsectionReviewToDOC(context, hashMap, fileName);
-        return false;
+        return FileIO.exportInpsectionReviewToDOC(context, hashMap, fileName);
     }
 
     public Cursor getDatabaseCursor() {

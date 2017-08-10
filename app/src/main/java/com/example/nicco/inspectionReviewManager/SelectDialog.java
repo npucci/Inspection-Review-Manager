@@ -50,9 +50,13 @@ public class SelectDialog extends DialogFragment {
                         1);
                 int permission = ActivityCompat.checkSelfPermission(SelectDialog.this.getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if(permission == PackageManager.PERMISSION_GRANTED) {
-                    Toast toast = Toast.makeText(view.getContext(), R.string.exporting_doc_message, Toast.LENGTH_LONG);
-                    toast.show();
-                    modelLoadListener.export();
+                    if(modelLoadListener.export()) {
+                        Toast toast = Toast.makeText(view.getContext(), R.string.exported_doc_message, Toast.LENGTH_LONG);
+                        toast.show();
+                    } else {
+                        Toast toast = Toast.makeText(view.getContext(), R.string.unable_to_export_doc_message, Toast.LENGTH_LONG);
+                        toast.show();
+                    }
                     getDialog().dismiss();
                 } else {
                     Toast toast = Toast.makeText(view.getContext(), R.string.write_permissions_denied, Toast.LENGTH_LONG);

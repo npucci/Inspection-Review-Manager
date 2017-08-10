@@ -33,7 +33,9 @@
 
     <!-- TOAST TEXT -->
     <string name="write_permissions_denied">Write Permissions Denied</string>
-    <string name="exporting_doc_message">Exporting Doc"</string>
+    <string name="exporting_doc_message">Doc Exporting"</string>
+    <string name="exported_doc_message">Doc Exported"</string>
+    <string name="unable_to_export_doc_message">Unable To Export Doc"</string>
     <string name="updated_message">Review Updated"</string>
     <string name="saved_message">Inspection Review Saved"</string>
     <string name="delete_message">Deleted Review"</string>

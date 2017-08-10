@@ -25,64 +25,17 @@ import java.io.InputStream;
 import java.util.HashMap;
 
 public class FileIO {
-	private static final String OUTPUT_FOLDER = "output/";
-	
-	// CHECKBOXES
+	private static final String OUTPUT_FOLDER = "Exported Inspection Reviews";
 	public static final String CHECKBOX_CHECKED = "☑";
 	public static final String CHECKBOX_BLANK = "☐";
 
-    private static File getAppropriateStorageDir(Context context) {
-        File storageDir = getExternalStorageDir(context);
-        if(storageDir == null) {
-            storageDir = getInternalCachedStorageDir(context);
-        }
+    private static File getExternalPublicStorageDir(final Context context) {
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+
+        if(!storageDir.mkdirs() && !storageDir.exists()) Log.v("PUCCI", "ERROR: directory in EXTERNAL PUBLIC STORAGE not created\n= " + storageDir.getPath());
+        else Log.v("PUCCI", "SUCCESS: directory in EXTERNAL PUBLIC STORAGE created\n= " + storageDir.getPath());
         return storageDir;
     }
-
-//    private static File getExternalStorageDir() {
-//        File storageDir = null;
-//        if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-//            storageDir = new File(Environment.getExternalStoragePublicDirectory(
-//                    Environment.DIRECTORY_DOCUMENTS).getPath(), "InspectionReviews");
-//            String path = storageDir.getPath();
-//            if(!storageDir.mkdirs() && !storageDir.exists()) Log.v("PUCCI", "ERROR: \ndirectory in EXTERNAL STORAGE not created\n= " + path);
-//            else Log.v("PUCCI", "SUCCESS: directory in EXTERNAL STORAGE created/exists\n= " + path);
-//        }
-//        return storageDir;
-//    }
-
-    private static File getExternalStorageDir(Context c) {
-        File storageDir = null;
-        if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            File[] externalStorageDirs = c.getExternalFilesDirs(null);
-            if(externalStorageDirs.length < 2) {
-                storageDir = new File(Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_DOCUMENTS).getPath(), "InspectionReviews");
-            } else {
-                storageDir = externalStorageDirs[1];
-            }
-            String path = storageDir.getPath();
-            if(!storageDir.mkdirs() && !storageDir.exists()) Log.v("PUCCI", "ERROR: \ndirectory in EXTERNAL STORAGE not created\n= " + path);
-            else Log.v("PUCCI", "SUCCESS: directory in EXTERNAL STORAGE created/exists\n= " + path);
-        }
-        return storageDir;
-    }
-
-    private static File getInternalCachedStorageDir(final Context context) {
-        File storageDir = new File(context.getCacheDir().getPath());
-        String path = storageDir.getPath();
-        if(!storageDir.mkdirs()) Log.v("PUCCI", "ERROR: directory in INTERNAL STORAGE not created\n= " + path);
-        else Log.v("PUCCI", "SUCCESS: directory in INTERNAL CACHED STORAGE created\n= " + path);
-        return storageDir;
-    }
-
-//    private static File getInternalStorageDir(final Context context) {
-//        File storageDir = new File(context.getFilesDir().getPath());
-//        String path = storageDir.getPath();
-//        if(!storageDir.mkdirs()) Log.v("PUCCI", "ERROR: directory in EXTERNAL STORAGE not created");
-//        else Log.v("PUCCI", "SUCCESS: directory in INTERNAL CACHED STORAGE created\n= " + path);
-//        return storageDir;
-//    }
 
     private static void openFile(final Context context, final File file) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -96,11 +49,11 @@ public class FileIO {
                                                       final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
                                                       String inspectionReviewName) {
         // get directory of appropriate storage
-        File storage = getAppropriateStorageDir(context);
-        File outputFile = newFileFromTemplate(context, storage, inspectionReviewName);
+        File storage = new File(getExternalPublicStorageDir(context), OUTPUT_FOLDER);
+        if(storage == null) return false;
 
-        if (outputFile == null) Log.v("PUCCI", "ERROR: The output file wasn't created\n= null");
-        else if (!outputFile.exists()) {
+        File outputFile = newFileFromTemplate(context, storage, inspectionReviewName);
+        if (outputFile == null || !outputFile.exists()) {
             Log.v("PUCCI", "ERROR: The output file wasn't created\n= " + outputFile.getPath());
             return false;
         }
@@ -137,6 +90,7 @@ public class FileIO {
         InputStream inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_template);
         FileOutputStream outputStream = null;
         String newFilePath = destination.getPath() + "/" + fileName;
+        Log.v("PUCCI", "newFilePath = " + newFilePath);
         try {
             outputStream = new FileOutputStream(newFilePath);
             byte[] buffer = new byte[1024];
