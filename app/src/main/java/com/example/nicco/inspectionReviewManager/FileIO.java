@@ -31,9 +31,6 @@ public class FileIO {
 
     private static File getExternalPublicStorageDir(final Context context) {
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-
-        if(!storageDir.mkdirs() && !storageDir.exists()) Log.v("PUCCI", "ERROR: directory in EXTERNAL PUBLIC STORAGE not created\n= " + storageDir.getPath());
-        else Log.v("PUCCI", "SUCCESS: directory in EXTERNAL PUBLIC STORAGE created\n= " + storageDir.getPath());
         return storageDir;
     }
 
@@ -47,10 +44,15 @@ public class FileIO {
 
 	public static boolean exportInpsectionReviewToDOC(final Context context,
                                                       final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
-                                                      String inspectionReviewName) {
+                                                      String inspectionReviewName, String yearMonthDir) {
         // get directory of appropriate storage
         File storage = new File(getExternalPublicStorageDir(context), OUTPUT_FOLDER);
-        if(storage == null) return false;
+        storage = new File(storage, yearMonthDir);
+        if(storage == null || (!storage.mkdirs() && !storage.exists())) {
+            Log.v("PUCCI", "ERROR: directory in EXTERNAL PUBLIC STORAGE not created\n= " + storage.getPath());
+            return false;
+        }
+        else Log.v("PUCCI", "SUCCESS: directory in EXTERNAL PUBLIC STORAGE created\n= " + storage.getPath());
 
         File outputFile = newFileFromTemplate(context, storage, inspectionReviewName);
         if (outputFile == null || !outputFile.exists()) {

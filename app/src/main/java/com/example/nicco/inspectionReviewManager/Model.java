@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -194,13 +195,19 @@ public class Model extends Application {
         return dbWriter.query(column, whereClause, whereArgs);
     }
 
-//    public int monthToInt(String month) {
-//        String[] months = new DateFormatSymbols().getMonths();
-//        for(int i = 0; i < months.length; i++) {
-//            if(month.equals(months[i])) return i;
-//        }
-//        return -1;
-//    }
+    public String monthIntToString(int month) {
+        String[] months = new DateFormatSymbols().getMonths();
+        if(month < months.length) return months[month];
+        return "";
+    }
+
+    public int monthStringToInt(String month) {
+        String[] months = new DateFormatSymbols().getMonths();
+        for(int i = 0; i < months.length; i++) {
+            if(month.equals(months[i])) return i;
+        }
+        return -1;
+    }
 
     public boolean reviewStarted() {
         return !hashMap.isEmpty();
@@ -262,7 +269,10 @@ public class Model extends Application {
         String[] date = hashMap.get(DatabaseWriter.UIComponentInputValue.DATE).split("-"); // YYYY-MM-DD
         if(date.length == 3) fileName += "(" + date[1] + date[2] + date[0] + ").doc"; // MMDDYYYY
         else fileName += "(" + hashMap.get(DatabaseWriter.UIComponentInputValue.DATE) + ").doc"; // YYYY-MM-DD
-        return FileIO.exportInpsectionReviewToDOC(context, hashMap, fileName);
+
+        int monthInt = Integer.parseInt(date[1]) - 1;
+        String yearMonthDir = date[0] + "/" + " " + monthIntToString(monthInt);
+        return FileIO.exportInpsectionReviewToDOC(context, hashMap, fileName, yearMonthDir);
     }
 
     public Cursor getDatabaseCursor() {
