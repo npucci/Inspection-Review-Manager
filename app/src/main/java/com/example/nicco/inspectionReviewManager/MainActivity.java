@@ -24,6 +24,7 @@ import android.support.v7.widget.RecyclerView.ItemDecoration;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,6 +71,14 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
                 newReviewButton.setTextColor(Color.BLACK);
                 Intent intent = new Intent(MainActivity.this, InspectionReviewActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        final ImageButton logoButton = (ImageButton) findViewById(R.id.imageButtonLogo);
+        logoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showLogoMenuDialog();
             }
         });
     }
@@ -234,5 +243,11 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         Dialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
+    }
+
+    private void showLogoMenuDialog() {
+        FragmentManager fragmentManager = getFragmentManager();
+        LogoDialog logoDialog = new LogoDialog();
+        logoDialog.show(fragmentManager, "dialog");
     }
 }

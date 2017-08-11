@@ -8,7 +8,9 @@
     <string name="framing">Framing</string>
     <string name="conclusion">Conclusion</string>
 
-    <!-- RECYCLER VIEW ITEM HEADING TEXT -->
+    <!-- MAIN ACTIVITY HEADING TEXT -->
+    <string name="inspection_review_archive">Inspection Review Archive</string>
+    <string name="logo_menu_button_content_description">Logo Menu</string>
 
     <!-- DIALOG TEXT -->
     <string name="dialogue_review_in_progress_title">Review Already In Progress</string>
