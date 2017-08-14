@@ -47,6 +47,16 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         archive.setItemAnimator(new DefaultItemAnimator());
         archive.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.background));
 
+        final Button settingsButton = (Button) findViewById(R.id.buttonSettings);
+        settingsButton.setPaintFlags(settingsButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        settingsButton.setTextSize(16);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showLogoMenuDialog();
+            }
+        });
+
         final Button selectButton = (Button) findViewById(R.id.buttonSelectReview);
         selectButton.setPaintFlags(selectButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         selectButton.setTextSize(16);

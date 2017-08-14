@@ -49,13 +49,6 @@
         style="@style/HorizontalDivider"
         android:layout_below="@id/buttonSettings" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewArchive"
-        android:name="com.example.nicco.inspectionReviewManager.ArchiveRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/view" />
-
     <LinearLayout
         android:id="@+id/linearLayoutMainHorizontal"
         android:layout_width="match_parent"
@@ -80,4 +73,13 @@
             android:text="@string/button_inspection_review" />
 
     </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewArchive"
+        android:name="com.example.nicco.inspectionReviewManager.ArchiveRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/linearLayoutMainHorizontal"
+        android:layout_below="@id/view" />
+
 </RelativeLayout>
