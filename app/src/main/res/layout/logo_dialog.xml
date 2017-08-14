@@ -13,15 +13,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginStart="8px"
-            android:layout_marginTop="8px">
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
 
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top"/>
+                android:layout_gravity="top" />
 
             <FrameLayout
                 android:id="@android:id/tabcontent"
@@ -32,47 +32,32 @@
                 <LinearLayout
                     android:id="@+id/Settings"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <ScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp">
+                        android:layout_height="match_parent">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Settings"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
-
-                            <View
-                                style="@style/HorizontalDivider"
-                                android:layout_marginBottom="8dp"
-                                android:layout_weight="0" />
-
-                            <TextView
-                                android:id="@+id/textView19"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Backup Database." />
-
                             <Button
                                 android:id="@+id/buttonBackUpDatabase"
                                 style="@style/InspectionReviewTheme.Button"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="8dp"
+                                android:layout_marginTop="8dp"
                                 android:text="Backup Database" />
 
                             <TextView
                                 android:id="@+id/textView20"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="32dp"
                                 android:text="*NOTE: A copy of the database will be saved on this device's public directory, making it accessible by users and other apps."
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -83,47 +68,23 @@
                 <LinearLayout
                     android:id="@+id/About"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <ScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp">
+                        android:layout_height="match_parent">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
+                            android:layout_height="wrap_content"
                             android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="About"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
-
-                            <View
-                                android:id="@+id/view2"
-                                style="@style/HorizontalDivider"
-                                android:layout_marginBottom="8dp"
-                                android:layout_weight="0" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="8dp"
-                                android:text="This app was designed by SEL Engineering Ltd., for internal usage only, with the purpose of automating the inspection review process." />
-
-                            <View
-                                android:id="@+id/view4"
-                                style="@style/HorizontalDivider"
-                                android:layout_marginBottom="8dp"
-                                android:layout_weight="0" />
 
                             <TextView
                                 android:id="@+id/textView18"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
                                 android:text="Inspection Review Manager"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -139,6 +100,22 @@
                                 android:text="SEL Engineering Ltd."
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
+                            <View
+                                android:id="@+id/view4"
+                                style="@style/HorizontalDivider"
+                                android:layout_marginBottom="8dp"
+                                android:layout_weight="0" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="This app was designed by SEL Engineering Ltd., with the purpose of automating the inspection review process." />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="32dp"
+                                android:text="For internal usage only." />
                         </LinearLayout>
                     </ScrollView>
                 </LinearLayout>
@@ -146,13 +123,12 @@
                 <LinearLayout
                     android:id="@+id/Licenses"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <ScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp">
+                        android:layout_height="match_parent">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -162,19 +138,9 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="About"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
-
-                            <View
-                                android:id="@+id/view3"
-                                style="@style/HorizontalDivider"
-                                android:layout_marginBottom="8dp"
-                                android:layout_weight="0" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="This app uses the following third party libraries:" />
+                                android:layout_marginTop="8dp"
+                                android:text="This app uses the following third party libraries:"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -197,13 +163,15 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="The rest is propery of SEL Engineering Ltd." />
-
+                                android:layout_marginBottom="32dp"
+                                android:text="The rest is propery of SEL Engineering Ltd."
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
                         </LinearLayout>
                     </ScrollView>
                 </LinearLayout>
 
             </FrameLayout>
+
         </LinearLayout>
     </TabHost>
 

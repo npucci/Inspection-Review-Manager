@@ -26,6 +26,7 @@ public class DateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_date);
         init();
 
+        // DATE PICKER
         String value = model.getValue(DatabaseWriter.UIComponentInputValue.DATE);
         if(value != null) {
             String[] split = value.split("-"); // DATE format "YYYY-MM-DD"
@@ -38,7 +39,7 @@ public class DateActivity extends AppCompatActivity {
             }
         }
 
-        value = model.getValue(DatabaseWriter.UIComponentInputValue.TIME);
+        // TIME PICKER
         if(value != null) {
             String[] split = value.split(":"); // TIME format "HH:MM"
             if (split.length == 2) {

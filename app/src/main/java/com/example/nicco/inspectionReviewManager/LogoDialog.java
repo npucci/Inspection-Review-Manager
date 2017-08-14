@@ -34,9 +34,27 @@ public class LogoDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.logo_dialog, container, false);
-//        final TabHost tabHost = (TabHost) view.findViewById(R.id.tabHost);
-//        tabHost.setup();
-//        tabHost.setCurrentTab(0);
+        final TabHost tabHost = (TabHost) view.findViewById(R.id.tabHost);
+        tabHost.setup();
+
+        // SETTINGS TAB
+        TabHost.TabSpec settingsTab = tabHost.newTabSpec("Settings");
+        settingsTab.setIndicator("Settings");
+        settingsTab.setContent(R.id.Settings);
+        tabHost.addTab(settingsTab);
+
+        // ABOUT TAB
+        TabHost.TabSpec aboutTab = tabHost.newTabSpec("About");
+        aboutTab.setIndicator("About");
+        aboutTab.setContent(R.id.About);
+        tabHost.addTab(aboutTab);
+
+        // LICENSES TAB
+        TabHost.TabSpec licensesTab = tabHost.newTabSpec("Licenses");
+        licensesTab.setIndicator("Licenses");
+        licensesTab.setContent(R.id.Licenses);
+        tabHost.addTab(licensesTab);
+
         return view;
     }
 
