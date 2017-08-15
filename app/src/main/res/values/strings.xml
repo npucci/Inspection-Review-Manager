@@ -9,8 +9,12 @@
     <string name="conclusion">Conclusion</string>
 
     <!-- MAIN ACTIVITY HEADING TEXT -->
-    <string name="inspection_review_archive"><u>Inspection Review Archive</u></string>
+    <string name="inspection_review_archive">Inspection Review Archive</string>
     <string name="logo_menu_button_content_description">Logo Menu</string>
+
+    <!-- DEFAULT AUTOCOMPLETE TEXT -->
+    <string name="project_number_default">C</string>
+    <string name="province_default">BC</string>
 
     <!-- DIALOG TEXT -->
     <string name="dialogue_review_in_progress_title">Review Already In Progress</string>

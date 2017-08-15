@@ -110,6 +110,7 @@ public class ProjectActivity extends AppCompatActivity {
                 autoFill(province);
             }
         });
+        province.setText(getResources().getString(R.string.province_default));
 
         // PROJECT NUMBER
         adapter = new ArrayAdapter<String>(this,
@@ -133,6 +134,7 @@ public class ProjectActivity extends AppCompatActivity {
                 autoFill(projectNumber);
             }
         });
+        projectNumber.setText(getResources().getString(R.string.project_number_default));
 
         // DEVELOPER
         adapter = new ArrayAdapter<String>(this,
