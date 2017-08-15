@@ -7,16 +7,19 @@ import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -27,8 +30,13 @@ import java.util.HashMap;
 
 public class SelectDialog extends DialogFragment {
     private ModelLoadListener modelLoadListener;
+    private float textSize;
 
     public SelectDialog() { super(); }
+
+    public void setTextSize(float textSize) {
+        this.textSize = textSize;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,6 +88,8 @@ public class SelectDialog extends DialogFragment {
             }
         });
 
+        updateTextSize(view);
+        setTextUnderline(view);
         return view;
     }
 
@@ -93,5 +103,29 @@ public class SelectDialog extends DialogFragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCanceledOnTouchOutside(true);
         return dialog;
+    }
+
+    private void setTextUnderline(View view) {
+        Button exportButton = (Button) view.findViewById(R.id.buttonSelectExport);
+        exportButton.setPaintFlags(exportButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        Button editButton = (Button) view.findViewById(R.id.buttonSelectEdit);
+        editButton.setPaintFlags(editButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        Button deleteButton = (Button) view.findViewById(R.id.buttonDelete);
+        deleteButton.setPaintFlags(deleteButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+    }
+
+    private void updateTextSize(View view) {
+        Button exportButton = (Button) view.findViewById(R.id.buttonSelectExport);
+        exportButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        Button editButton = (Button) view.findViewById(R.id.buttonSelectEdit);
+        editButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        Button deleteButton = (Button) view.findViewById(R.id.buttonDelete);
+        deleteButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView avilableActionsLabel = (TextView) view.findViewById(R.id.textViewAvailableActions);
+        avilableActionsLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 1.2f * textSize);
+
+        TextView choiceLabel = (TextView) view.findViewById(R.id.textViewChoice);
+        choiceLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
     }
 }

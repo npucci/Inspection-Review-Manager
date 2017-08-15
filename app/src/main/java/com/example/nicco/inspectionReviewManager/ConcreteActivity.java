@@ -3,10 +3,12 @@ package com.example.nicco.inspectionReviewManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 /**
  * Created by Nicco on 2017-07-14.
@@ -160,6 +162,8 @@ public class ConcreteActivity extends AppCompatActivity {
             anchorageInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE_INSTRUCTION));
         }
         else anchorageInstruction.setEnabled(false);
+
+        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
     }
 
     private void init() {
@@ -248,8 +252,48 @@ public class ConcreteActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    private void setTextSize(float textSize) {
+        TextView rebarPositionLabel = (TextView) findViewById(R.id.textViewRebarPosition);
+        rebarPositionLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        rebarPositionReviewed.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        rebarPositionNA.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        rebarPositionInstruction.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        TextView rebarPositionInstructionLabel = (TextView) findViewById(R.id.textViewRebarPositionInstruction);
+        rebarPositionInstructionLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView rebarSizeLabel = (TextView) findViewById(R.id.textViewRebarSize);
+        rebarSizeLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        rebarSizeReviewed.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        rebarSizeNA.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        rebarSizeInstruction.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        TextView rebarSizeInstructionLabel = (TextView) findViewById(R.id.textViewRebarSizeInstruction);
+        rebarSizeInstructionLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView formworkLabel = (TextView) findViewById(R.id.textViewFormwork);
+        formworkLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        formworkReviewed.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        formworkNA.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        formworkInstruction.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        TextView formworkInstructionLabel = (TextView) findViewById(R.id.textViewFormworkInstruction);
+        formworkInstructionLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView anchorageLabel = (TextView) findViewById(R.id.textViewAnchorage);
+        anchorageLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        anchorageReviewed.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        anchorageNA.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        anchorageInstruction.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        TextView anchorageInstructionLabel = (TextView) findViewById(R.id.textViewAnchorageInstruction);
+        anchorageInstructionLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
     }
 }
 

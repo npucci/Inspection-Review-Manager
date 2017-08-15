@@ -31,7 +31,7 @@
 
             <TextView
                 android:id="@+id/textViewObservations"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
@@ -50,7 +50,7 @@
 
             <TextView
                 android:id="@+id/textViewComments"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
@@ -69,7 +69,7 @@
 
             <TextView
                 android:id="@+id/textViewReviewStatus"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
@@ -118,7 +118,7 @@
 
             <TextView
                 android:id="@+id/textViewReviewedBy"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"

@@ -1,11 +1,20 @@
 package com.example.nicco.inspectionReviewManager;
 
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 /**
  * Created by Jennifer on 2017-07-17.
@@ -51,6 +60,8 @@ public class ConclusionActivity extends AppCompatActivity {
         if(model.validValue(model.getValue(DatabaseWriter.UIComponentInputValue.REVIEWED_BY))) {
             reviewedBy.setText(model.getValue(DatabaseWriter.UIComponentInputValue.REVIEWED_BY));
         }
+
+        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
     }
 
     private void init() {
@@ -97,10 +108,38 @@ public class ConclusionActivity extends AppCompatActivity {
 
         // REVIEWED BY
         model.updateValue(DatabaseWriter.UIComponentInputValue.REVIEWED_BY, reviewedBy.getText().toString());
+
+        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    private void setTextSize(float textSize) {
+        TextView observationLabel = (TextView) findViewById(R.id.textViewObservations);
+        observationLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        observations.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView commentsLabel = (TextView) findViewById(R.id.textViewComments);
+        commentsLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        comments.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView reviewStatusLabel = (TextView) findViewById(R.id.textViewReviewStatus);
+        reviewStatusLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        ((RadioButton) findViewById(R.id.radioButtonApproved)).setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        ((RadioButton) findViewById(R.id.radioButtonNotApproved)).setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        ((RadioButton) findViewById(R.id.radioButtonReinspectionRequired)).setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView reviewByLabel = (TextView) findViewById(R.id.textViewReviewedBy);
+        reviewByLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        reviewedBy.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
     }
 }

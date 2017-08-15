@@ -22,6 +22,11 @@ import android.widget.Toast;
 public class InspectionReviewListFragment extends ListFragment implements OnItemClickListener {
     private boolean finished = false;
     private Model model;
+    private float textSize;
+
+    public void setTextSize(float textSize) {
+        this.textSize = textSize;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -92,6 +97,7 @@ public class InspectionReviewListFragment extends ListFragment implements OnItem
             TextView textView = (TextView) super.getView(position, convertView, parent);
             textView.setTextColor(model.getTextColor(textView.getText().toString()));
             textView.setBackgroundColor(model.getBackgroundColor(textView.getText().toString()));
+            textView.setTextSize(textSize);
             if(textView.isSelected()) {
                 textView.setTextColor(ContextCompat.getColor(getContext(), R.color.selectedText));
                 textView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.selectedBackground));

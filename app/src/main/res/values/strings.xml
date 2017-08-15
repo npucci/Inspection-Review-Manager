@@ -9,7 +9,7 @@
     <string name="conclusion">Conclusion</string>
 
     <!-- MAIN ACTIVITY HEADING TEXT -->
-    <string name="inspection_review_archive">Inspection Review Archive</string>
+    <string name="inspection_review_archive"><u>Inspection Review Archive</u></string>
     <string name="logo_menu_button_content_description">Logo Menu</string>
 
     <!-- DIALOG TEXT -->
@@ -27,6 +27,7 @@
     <string name="no">No</string>
 
     <!-- BUTTON TEXT -->
+    <string name="button_settings">Settings</string> <!-- <Data> <![CDATA[ <u>Settings</u> ]]> </Data> -->
     <string name="button_close">Close</string>
     <string name="button_select">Select</string>
     <string name="button_delete">Delete</string>

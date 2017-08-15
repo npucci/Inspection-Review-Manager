@@ -2,10 +2,12 @@ package com.example.nicco.inspectionReviewManager;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 /**
  * Created by Nicco on 2017-07-14.
@@ -373,6 +375,8 @@ public class FramingActivity extends AppCompatActivity {
             windGirtsInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS_INSTRUCTION));
         }
         else windGirtsInstruction.setEnabled(false);
+
+        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
     }
 
     private void init() {
@@ -572,10 +576,100 @@ public class FramingActivity extends AppCompatActivity {
             model.updateValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS_NA, Model.SpecialValue.YES.toString());
             model.updateValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS_INSTRUCTION, Model.SpecialValue.NA.toString());
         }  else model.updateValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS, Model.SpecialValue.EMPTY.toString());
+
+        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    private void setTextSize(float textSize) {
+        TextView trussSpecLabel = (TextView) findViewById(R.id.textViewTrussSpec);
+        trussSpecLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        trussSpecReviewed.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        trussSpecNA.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        trussSpecInstruction.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        TextView trussSpecInstructionLabel = (TextView) findViewById(R.id.textViewTrussSpecInstruction);
+        trussSpecInstructionLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView iJoistLabel = (TextView) findViewById(R.id.textViewIJoist);
+        iJoistLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        iJoistReviewed.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        iJoistNA.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        iJoistInstruction.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        TextView iJoistInstructionLabel = (TextView) findViewById(R.id.textViewIJoistInstruction);
+        iJoistInstructionLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView bearingLabel = (TextView) findViewById(R.id.textViewBearing);
+        bearingLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        bearingReviewed.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        bearingNA.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        bearingInstruction.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        TextView bearingInstructionLabel = (TextView) findViewById(R.id.textViewBearingInstruction);
+        bearingInstructionLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView topPlatesLabel = (TextView) findViewById(R.id.textViewTopPlates);
+        topPlatesLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        topPlatesReviewed.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        topPlatesNA.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        topPlatesInstruction.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        TextView topPlatesInstructionLabel = (TextView) findViewById(R.id.textViewTopPlatesInstruction);
+        topPlatesInstructionLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView lintelsLabel = (TextView) findViewById(R.id.textViewLintels);
+        lintelsLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        lintelsReviewed.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        lintelsNA.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        lintelsInstruction.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        TextView lintelsInstructionLabel = (TextView) findViewById(R.id.textViewLintelsInstruction);
+        lintelsInstructionLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView shearwallsLabel = (TextView) findViewById(R.id.textViewShearwalls);
+        shearwallsLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        shearwallsReviewed.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        shearwallsNA.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        shearwallsInstruction.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        TextView shearwallsInstructionLabel = (TextView) findViewById(R.id.textViewShearwallsInstruction);
+        shearwallsInstructionLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView tallWallsLabel = (TextView) findViewById(R.id.textViewTallWalls);
+        tallWallsLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        tallWallsReviewed.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        tallWallsNA.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        tallWallsInstruction.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        TextView tallWallsInstructionLabel = (TextView) findViewById(R.id.textViewTallWallsInstruction);
+        tallWallsInstructionLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView blockingLabel = (TextView) findViewById(R.id.textViewBlocking);
+        blockingLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        blockingReviewed.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        blockingNA.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        blockingInstruction.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        TextView blockingInstructionLabel = (TextView) findViewById(R.id.textViewBlockingInstruction);
+        blockingInstructionLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView wallSheathingLabel = (TextView) findViewById(R.id.textViewWallSheathing);
+        wallSheathingLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        wallSheathingReviewed.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        wallSheathingNA.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        wallSheathingInstruction.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        TextView wallSheathingInstructionLabel = (TextView) findViewById(R.id.textViewWallSheathingInstruction);
+        wallSheathingInstructionLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView windGirtsLabel = (TextView) findViewById(R.id.textViewWindGirts);
+        windGirtsLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        windGirtsReviewed.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        windGirtsNA.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        windGirtsInstruction.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        TextView windGirtsInstructionLabel = (TextView) findViewById(R.id.textViewWindGirtsInstruction);
+        windGirtsInstructionLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
     }
 }

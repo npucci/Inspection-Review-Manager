@@ -2,11 +2,10 @@ package com.example.nicco.inspectionReviewManager;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +21,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private Context context;
     private int selectedPos = -1;
     private CursorAdapter cursorAdapter;
+    private float textSize;
     private static RecyclerViewClickListener itemListener;
 
-    public RecyclerAdapter(Context context, RecyclerViewClickListener itemListener, Cursor cursor) {
+    public RecyclerAdapter(Context context, RecyclerViewClickListener itemListener, Cursor cursor, int textSize) {
         this.context = context;
         this.itemListener = itemListener;
+        this.textSize = textSize;
 
         cursorAdapter = new CursorAdapter(context, cursor, 1) {
             @Override
@@ -39,6 +40,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
             }
         };
+    }
+
+    public void setTextSize(float textSize) {
+        this.textSize = textSize;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -71,9 +77,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         cursorAdapter.bindView(holder.itemView, context, cursorAdapter.getCursor());
 
         holder.itemView.setSelected(position == selectedPos);
+
         holder.setbackgroundColors(context, holder.itemView.isSelected());
         holder.setTextColors(context, holder.itemView.isSelected());
         holder.setTextUnderline(holder.itemView.isSelected());
+        holder.updateTextSize(textSize);
     }
 
     @Override
@@ -197,6 +205,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 reviewStatus.setPaintFlags(0);
                 reviewBy.setPaintFlags(0);
             }
+        }
+
+        public void updateTextSize(float textSize) {
+            date.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+            time.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+            address.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+            city.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+            province.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+            projectNumber.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+            reviewType.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+            reviewStatus.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+            reviewBy.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
         }
 
         @Override

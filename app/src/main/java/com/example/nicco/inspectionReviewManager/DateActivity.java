@@ -1,10 +1,16 @@
 package com.example.nicco.inspectionReviewManager;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
@@ -105,6 +111,8 @@ public class DateActivity extends AppCompatActivity {
         tempText = temperature.getText().toString();
         if(tempText.equals("")) tempText = Model.SpecialValue.NA.toString();
         model.updateValue(DatabaseWriter.UIComponentInputValue.TEMPERATURE_CELSIUS, tempText);
+
+        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
     }
 
     public String formatDigitStr(String num) {
@@ -113,7 +121,29 @@ public class DateActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    private void setTextSize(float textSize) {
+        TextView dateLabel = (TextView) findViewById(R.id.textViewDate);
+        dateLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView timeLabel = (TextView) findViewById(R.id.textViewTime);
+        timeLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView weatherLabel = (TextView) findViewById(R.id.textViewWeather);
+        weatherLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        weather.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView temperatureLabel = (TextView) findViewById(R.id.textViewTemperature);
+        temperatureLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        temperature.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
     }
 }

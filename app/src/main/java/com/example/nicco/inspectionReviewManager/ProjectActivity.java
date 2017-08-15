@@ -3,12 +3,15 @@ package com.example.nicco.inspectionReviewManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -232,6 +235,8 @@ public class ProjectActivity extends AppCompatActivity {
             descriptionTextView.setTextColor(Color.BLACK);
             description.setEnabled(false);
         }
+
+        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
     }
 
     // initialize all referenced fields
@@ -368,7 +373,49 @@ public class ProjectActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
+    }
+
+    private void setTextSize(float textSize) {
+        TextView addressLabel = (TextView) findViewById(R.id.textViewAddress);
+        addressLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        address.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView cityLabel = (TextView) findViewById(R.id.textViewCity);
+        cityLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        city.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView provinceLabel = (TextView) findViewById(R.id.textViewProvince);
+        provinceLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        province.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView projectNumberLabel = (TextView) findViewById(R.id.textViewProjectNumber);
+        projectNumberLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        projectNumber.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView developerLabel = (TextView) findViewById(R.id.textViewDeveloper);
+        developerLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        developer.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView contractorLabel = (TextView) findViewById(R.id.textViewContractor);
+        contractorLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        contractor.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        TextView typeOfReviewLabel = (TextView) findViewById(R.id.textViewTypeOfReview);
+        typeOfReviewLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        footings.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        foundationWalls.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        sheathing.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        framing.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        other.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        descriptionTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        description.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
     }
 }

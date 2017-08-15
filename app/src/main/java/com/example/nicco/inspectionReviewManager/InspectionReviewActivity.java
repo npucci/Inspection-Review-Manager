@@ -12,6 +12,8 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -30,8 +32,6 @@ public class InspectionReviewActivity extends FragmentActivity {
         setTitle();
 
         final Button backButton = (Button) findViewById(R.id.buttonBack);
-        backButton.setTextSize(16);
-        backButton.setPaintFlags(backButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,8 +42,6 @@ public class InspectionReviewActivity extends FragmentActivity {
         });
 
         final Button exportDocButton = (Button) findViewById(R.id.buttonExportDoc);
-        exportDocButton.setTextSize(16);
-        exportDocButton.setPaintFlags(exportDocButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         exportDocButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,8 +63,6 @@ public class InspectionReviewActivity extends FragmentActivity {
         });
 
         final Button finishedButton = (Button) findViewById(R.id.buttonFinished);
-        finishedButton.setTextSize(16);
-        finishedButton.setPaintFlags(finishedButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         finishedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,7 +85,6 @@ public class InspectionReviewActivity extends FragmentActivity {
         });
 
         final Button closeButton = (Button) findViewById(R.id.buttonClose);
-        closeButton.setPaintFlags(backButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,6 +96,9 @@ public class InspectionReviewActivity extends FragmentActivity {
         boolean ready = allInputFilled();
         finishedButton.setEnabled(ready);
         exportDocButton.setEnabled(ready);
+
+        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
+        setTextUnderline();
     }
 
     @Override
@@ -114,6 +112,8 @@ public class InspectionReviewActivity extends FragmentActivity {
         boolean ready = allInputFilled();
         finishedButton.setEnabled(ready);
         exportDocButton.setEnabled(ready);
+
+        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
     }
 
     private boolean allInputFilled() {
@@ -190,5 +190,39 @@ public class InspectionReviewActivity extends FragmentActivity {
 
         if(!address.isEmpty() && !city.isEmpty() && !province.isEmpty())
             titleTextView.setText(address + ", " + city + ", " + province);
+    }
+
+    private void setTextSize(float textSize) {
+        TextView titleTextView = (TextView) findViewById(R.id.textViewInspectionReviewTitle);
+        titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        InspectionReviewListFragment listFragment = (InspectionReviewListFragment) getFragmentManager().findFragmentById(R.id.fragmentInspectionReview);
+        listFragment.setTextSize(textSize);
+
+        Button backButton = (Button) findViewById(R.id.buttonBack);
+        backButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        Button exportDocButton = (Button) findViewById(R.id.buttonExportDoc);
+        exportDocButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        Button finishedButton = (Button) findViewById(R.id.buttonFinished);
+        finishedButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        Button closeButton = (Button) findViewById(R.id.buttonClose);
+        closeButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+    }
+
+    private void setTextUnderline() {
+        Button backButton = (Button) findViewById(R.id.buttonBack);
+        backButton.setPaintFlags(backButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        Button exportDocButton = (Button) findViewById(R.id.buttonExportDoc);
+        exportDocButton.setPaintFlags(exportDocButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        Button finishedButton = (Button) findViewById(R.id.buttonFinished);
+        finishedButton.setPaintFlags(finishedButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        Button closeButton = (Button) findViewById(R.id.buttonClose);
+        closeButton.setPaintFlags(closeButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
     }
 }

@@ -22,6 +22,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ItemDecoration;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -41,15 +42,13 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         final Model model = (Model) getApplicationContext();
 
         final RecyclerView archive = (RecyclerView) findViewById(R.id.recyclerViewArchive);
-        archive.setAdapter(new RecyclerAdapter(getApplicationContext(), this, model.getDatabaseCursor()));
+        archive.setAdapter(new RecyclerAdapter(getApplicationContext(), this, model.getDatabaseCursor(), getResources().getDimensionPixelSize(R.dimen.defaultTextSize)));
         archive.setHasFixedSize(true);
         archive.setLayoutManager(new LinearLayoutManager(this));
         archive.setItemAnimator(new DefaultItemAnimator());
         archive.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.background));
 
-        final Button settingsButton = (Button) findViewById(R.id.buttonSettings);
-        settingsButton.setPaintFlags(settingsButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        settingsButton.setTextSize(16);
+        Button settingsButton = (Button) findViewById(R.id.buttonSettings);
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,22 +56,18 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
             }
         });
 
-        final Button selectButton = (Button) findViewById(R.id.buttonSelectReview);
-        selectButton.setPaintFlags(selectButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        selectButton.setTextSize(16);
+        Button selectButton = (Button) findViewById(R.id.buttonSelectReview);
         selectButton.setEnabled(((RecyclerAdapter) archive.getAdapter()).getSelectedPosition() > -1);
         selectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(((RecyclerAdapter) archive.getAdapter()).getSelectedPosition() > -1) {
-                    showSelectDialog();
+                    showSelectDialog(getResources().getDimension(R.dimen.defaultTextSize));
                 }
             }
         });
 
         final Button newReviewButton = (Button) findViewById(R.id.buttonInspectionReview);
-        newReviewButton.setPaintFlags(newReviewButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        newReviewButton.setTextSize(16);
         if(model.reviewStarted()) newReviewButton.setText("Review In Progress:\nContinue >>");
         else  newReviewButton.setText("New Review");
         newReviewButton.setOnClickListener(new View.OnClickListener() {
@@ -84,13 +79,16 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
             }
         });
 
-        final ImageButton logoButton = (ImageButton) findViewById(R.id.imageButtonLogo);
+        ImageButton logoButton = (ImageButton) findViewById(R.id.imageButtonLogo);
         logoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showLogoMenuDialog();
             }
         });
+
+        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
+        setTextUnderline();
     }
 
     @Override
@@ -188,9 +186,10 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         showDeleteAlertDialogue();
     }
 
-    private void showSelectDialog() {
+    private void showSelectDialog(float textSize) {
         FragmentManager fragmentManager = getFragmentManager();
         SelectDialog selectDialog = new SelectDialog();
+        selectDialog.setTextSize(textSize);
         selectDialog.addModelLoadListener(this);
         selectDialog.show(fragmentManager, "dialog");
     }
@@ -213,7 +212,7 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
                 selectButton.setEnabled(false);
                 final RecyclerView archive = (RecyclerView) findViewById(R.id.recyclerViewArchive);
                 archive.setAdapter(new RecyclerAdapter(MainActivity.this.getApplicationContext(),
-                        MainActivity.this, model.getDatabaseCursor()));
+                        MainActivity.this, model.getDatabaseCursor(), getResources().getDimensionPixelSize(R.dimen.defaultTextSize)));
                 archive.getAdapter().notifyDataSetChanged();
             }
         });
@@ -259,5 +258,30 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         FragmentManager fragmentManager = getFragmentManager();
         LogoDialog logoDialog = new LogoDialog();
         logoDialog.show(fragmentManager, "dialog");
+    }
+
+    private void setTextUnderline() {
+        Button settingsButton = (Button) findViewById(R.id.buttonSettings);
+        settingsButton.setPaintFlags(settingsButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        Button selectButton = (Button) findViewById(R.id.buttonSelectReview);
+        selectButton.setPaintFlags(selectButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        Button newReviewButton = (Button) findViewById(R.id.buttonInspectionReview);
+        newReviewButton.setPaintFlags(newReviewButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+    }
+
+    private void setTextSize(float textSize) {
+        RecyclerView archive = (RecyclerView) findViewById(R.id.recyclerViewArchive);
+        ((RecyclerAdapter)archive.getAdapter()).setTextSize(textSize);
+
+        Button settingsButton = (Button) findViewById(R.id.buttonSettings);
+        settingsButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        Button selectButton = (Button) findViewById(R.id.buttonSelectReview);
+        selectButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
+        Button newReviewButton = (Button) findViewById(R.id.buttonInspectionReview);
+        newReviewButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
     }
 }
