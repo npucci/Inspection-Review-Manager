@@ -81,12 +81,12 @@ public class ConclusionActivity extends AppCompatActivity {
 
         // OBSERVATIONS
         String tempText = observations.getText().toString();
-        if(tempText.equals("")) tempText = Model.SpecialValue.NA.toString();
+        if(tempText.equals("")) tempText = Model.SpecialValue.NONE.toString();
         model.updateValue(DatabaseWriter.UIComponentInputValue.OBSERVATIONS, tempText);
 
         // COMMENTS
         tempText = comments.getText().toString();
-        if(tempText.equals("")) tempText = Model.SpecialValue.NA.toString();
+        if(tempText.equals("")) tempText = Model.SpecialValue.NONE.toString();
         model.updateValue(DatabaseWriter.UIComponentInputValue.COMMENTS, tempText);
 
         // REVIEW STATUS

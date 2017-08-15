@@ -25,11 +25,11 @@ import java.io.InputStream;
 import java.util.HashMap;
 
 public class FileIO {
-	private static final String OUTPUT_FOLDER = "Exported Inspection Reviews";
+	public static final String OUTPUT_FOLDER = "Exported Inspection Reviews";
 	public static final String CHECKBOX_CHECKED = "☑";
 	public static final String CHECKBOX_BLANK = "☐";
 
-    private static File getExternalPublicStorageDir(final Context context) {
+    public static File getExternalPublicStorageDir(final Context context) {
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
         return storageDir;
     }
@@ -87,33 +87,35 @@ public class FileIO {
         return outputFile != null;
     }
 
-    private static File newFileFromTemplate(final Context context, final File destination, String fileName) {
-        File newFile = null;
+    private static File newFileFromTemplate(final Context context, final File storage, String fileName) {
         InputStream inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_template);
+        File dest = new File(storage.getPath() + "/" + fileName);
+        return copyFile(inputStream, dest);
+    }
+
+    public static File copyFile(InputStream inputStream, File dest) {
         FileOutputStream outputStream = null;
-        String newFilePath = destination.getPath() + "/" + fileName;
-        Log.v("PUCCI", "newFilePath = " + newFilePath);
         try {
-            outputStream = new FileOutputStream(newFilePath);
+            outputStream = new FileOutputStream(dest);
             byte[] buffer = new byte[1024];
             int length = 0;
             while((length = inputStream.read(buffer)) > 0) {
                 outputStream.write(buffer, 0, length);
             }
-            newFile = new File(newFilePath);
         } catch (FileNotFoundException e) {
-            Log.v("PUCCI", "ERROR: could not create the file " + fileName + ":\n" + e.getMessage());
+            Log.v("PUCCI", "ERROR: could not create the file " + dest.getName() + ":\n" + e.getMessage());
         } catch (IOException e) {
-            Log.v("PUCCI", "ERROR: could not create the file " + fileName + ":\n" + e.getMessage());
+            Log.v("PUCCI", "ERROR: could not create the file " + dest.getName() + ":\n" + e.getMessage());
         } finally {
             try {
                 inputStream.close();
                 outputStream.close();
             } catch (IOException e) {
-                Log.v("PUCCI", "ERROR: could not create the file " + fileName + ":\n" + e.getMessage());
+                Log.v("PUCCI", "ERROR: could not create the file " + dest.getName() + ":\n" + e.getMessage());
             }
         }
-        return newFile;
+        if(dest.exists()) return dest;
+        return null;
     }
 
 	private static void replaceAllTextInDoc(HWPFDocument doc, String replacementTag, String replacement) {

@@ -279,6 +279,10 @@ public class Model extends Application {
         return dbWriter.getCursor();
     }
 
+    public boolean backupDatabase(Context context) {
+        return dbWriter.exportDatabase(context) != null;
+    }
+
     public void AutoFillConcreteActivity() {
         Log.v("PUCCI", "AutoFillConcreteActivity CALLED");
         updateValue(DatabaseWriter.UIComponentInputValue.REBAR_POSITION, SpecialValue.NO.toString());

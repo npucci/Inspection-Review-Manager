@@ -6,6 +6,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,11 +20,12 @@ import java.util.HashMap;
  */
 
 public class DatabaseWriter extends SQLiteOpenHelper {
-    private static String tableCreate;
+    private String tableCreate;
     private SQLiteDatabase database;
+    private final String TABLE_NAME = "Review";
+
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "InspectionReviews.db";
-    private static final String TABLE_NAME = "Review";
     private static final ArrayList<UIComponentInputValue> PRIMARY_KEYS = new ArrayList<UIComponentInputValue>(
         Arrays.asList(new UIComponentInputValue[]{
                 UIComponentInputValue.ADDRESS,
@@ -173,12 +179,12 @@ public class DatabaseWriter extends SQLiteOpenHelper {
 
     }
 
-    private static String generateTableCreateSQL() {
+    private String generateTableCreateSQL() {
         String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (";
-        UIComponentInputValue[] columns = UIComponentInputValue.values();
+        String[] columns = getDatabaseColumns();
         for(int i = 0; i < columns.length; i++) {
-            sql += columns[i].toString();
-            if(i < columns.length - 1) sql += ", ";
+            sql += columns[i];
+            if (i < columns.length - 1) sql += ", ";
             else sql += ", ";
         }
         sql += TABLE_PRIMARY_KEY + ")";
@@ -249,7 +255,9 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         UIComponentInputValue[] columnSet = hashMap.keySet().toArray(new UIComponentInputValue[hashMap.keySet().size()]);
         int countPrimaryKeys = 0;
         for(int i = 0; i < columnSet.length; i++) {
-            if (PRIMARY_KEYS.contains(columnSet[i])) {
+            if(!columnSet[i].isDatabaseColum()) {
+                // do nothing
+            } else if (PRIMARY_KEYS.contains(columnSet[i])) {
                 countPrimaryKeys++;
                 sqlWhere += columnSet[i].getValue() + " = " + "\"" + hashMap.get(columnSet[i]) + "\"";
                 if(countPrimaryKeys != PRIMARY_KEYS.size()) sqlWhere += " AND ";
@@ -389,6 +397,24 @@ public class DatabaseWriter extends SQLiteOpenHelper {
     private static UIComponentInputValue getEnum(String columnName) {
         for(UIComponentInputValue columnEnum : UIComponentInputValue.values()) {
             if (columnEnum.getValue().equals(columnName)) return columnEnum;
+        }
+        return null;
+    }
+
+    public File exportDatabase(Context context) {
+        if(database != null) {
+            File databaseBackup = new File(database.getPath());
+            File destinationDir = new File(FileIO.getExternalPublicStorageDir(context), FileIO.OUTPUT_FOLDER);
+            try (InputStream inputStream = new FileInputStream(databaseBackup)) {
+                File destFile = new File(destinationDir.getPath(), databaseBackup.getName());
+                return FileIO.copyFile(inputStream, destFile);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return null;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
         return null;
     }

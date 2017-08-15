@@ -1,15 +1,12 @@
 package com.example.nicco.inspectionReviewManager;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +16,6 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TabHost;
-import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,10 +23,10 @@ import android.widget.Toast;
  * Created by Nicco on 2017-08-11.
  */
 
-public class LogoDialog extends DialogFragment {
+public class SettingsDialog extends DialogFragment {
     private float textSize;
 
-    public LogoDialog() {
+    public SettingsDialog() {
         super();
     }
 
@@ -49,7 +45,7 @@ public class LogoDialog extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.logo_dialog, container, false);
+        final View view = inflater.inflate(R.layout.settings_dialog, container, false);
 
         SharedPreferences sharedPreferences = getActivity().getApplicationContext().getSharedPreferences("AppPref", 0);
         textSize = sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize));
@@ -74,7 +70,7 @@ public class LogoDialog extends DialogFragment {
                     textSize = getResources().getDimension(R.dimen.defaultTextSize);
                     textSizeControlSwitch.setText("Turn On Large Text");
                 }
-                updateTextSize(LogoDialog.this.getView());
+                updateTextSize(SettingsDialog.this.getView());
                 ((MainActivity) getActivity()).setTextSize(textSize);
             }
         });
@@ -85,6 +81,33 @@ public class LogoDialog extends DialogFragment {
             textSizeControlSwitch.setText("Turn On Large Text");
         }
         textSizeControlSwitch.setSwitchMinWidth((int)textSize * 5);
+
+        Button backUpDatabaseButton = (Button) view.findViewById(R.id.buttonBackUpDatabase);
+        backUpDatabaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // export database file
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        1);
+                int permission = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if(permission == PackageManager.PERMISSION_GRANTED) {
+                    Toast toast = Toast.makeText(getActivity().getBaseContext(), R.string.exporting_database_message, Toast.LENGTH_LONG);
+                    toast.show();
+                    Model model = (Model) getActivity().getApplicationContext();
+                    if(model.backupDatabase(getActivity().getBaseContext())) {
+                        toast = Toast.makeText(getActivity().getBaseContext(), R.string.exported_database_message, Toast.LENGTH_LONG);
+                        toast.show();
+                    } else {
+                        toast = Toast.makeText(getActivity().getBaseContext(), R.string.unable_to_export_database_message, Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                } else {
+                    Toast toast = Toast.makeText(getActivity().getBaseContext(), R.string.write_permissions_denied, Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            }
+        });
 
         // ABOUT TAB
         TabHost.TabSpec aboutTab = tabHost.newTabSpec("About");
