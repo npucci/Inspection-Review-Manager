@@ -1,5 +1,6 @@
 package com.example.nicco.inspectionReviewManager;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -163,7 +164,8 @@ public class ConcreteActivity extends AppCompatActivity {
         }
         else anchorageInstruction.setEnabled(false);
 
-        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
+        setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
     }
 
     private void init() {
@@ -254,7 +256,8 @@ public class ConcreteActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
+        setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
     }
 
     @Override

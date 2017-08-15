@@ -1,5 +1,6 @@
 package com.example.nicco.inspectionReviewManager;
 
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -112,7 +113,8 @@ public class DateActivity extends AppCompatActivity {
         if(tempText.equals("")) tempText = Model.SpecialValue.NA.toString();
         model.updateValue(DatabaseWriter.UIComponentInputValue.TEMPERATURE_CELSIUS, tempText);
 
-        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
+        setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
     }
 
     public String formatDigitStr(String num) {
@@ -123,7 +125,8 @@ public class DateActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
+        setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
     }
 
     @Override

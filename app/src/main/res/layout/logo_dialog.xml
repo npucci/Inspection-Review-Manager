@@ -45,24 +45,30 @@
                             android:orientation="vertical">
 
                             <Switch
-                                android:id="@+id/switchLargeText"
+                                android:id="@+id/switchTextSizeControl"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:text="Switch" />
+                                android:layout_weight="0"
+                                android:text="Turn On Large Text" />
+
+                            <View
+                                style="@style/HorizontalDivider"
+                                android:layout_marginBottom="8dp"
+                                android:layout_weight="0" />
 
                             <Button
                                 android:id="@+id/buttonBackUpDatabase"
                                 style="@style/InspectionReviewTheme.Button"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="8dp"
                                 android:layout_marginTop="8dp"
                                 android:text="Backup Database" />
 
                             <TextView
-                                android:id="@+id/textView20"
-                                android:layout_width="match_parent"
+                                android:id="@+id/textViewNote"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="32dp"
                                 android:text="*NOTE: A copy of the database will be saved on this device's public directory, making it accessible by users and other apps."
@@ -88,41 +94,44 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textView18"
-                                android:layout_width="match_parent"
+                                android:id="@+id/textViewAppName"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:text="Inspection Review Manager"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                             <TextView
-                                android:layout_width="match_parent"
+                                android:id="@+id/textViewAppVersion"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Version: 1.0"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                             <TextView
-                                android:layout_width="match_parent"
+                                android:id="@+id/textViewCompany"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="SEL Engineering Ltd."
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                             <View
-                                android:id="@+id/view4"
                                 style="@style/HorizontalDivider"
                                 android:layout_marginBottom="8dp"
                                 android:layout_weight="0" />
 
                             <TextView
-                                android:layout_width="match_parent"
+                                android:id="@+id/textViewPurpose"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="This app was designed by SEL Engineering Ltd., with the purpose of automating the inspection review process." />
 
                             <TextView
-                                android:layout_width="match_parent"
+                                android:id="@+id/textViewUsage"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="32dp"
-                                android:text="For internal usage only." />
+                                android:text="Intended for internal use only." />
                         </LinearLayout>
                     </ScrollView>
                 </LinearLayout>
@@ -143,43 +152,45 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:layout_width="match_parent"
+                                android:id="@+id/textViewLibrariesUsed"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:text="This app uses the following third party libraries:"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                             <TextView
-                                android:layout_width="match_parent"
+                                android:id="@+id/textViewApachePoi"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:text="- Apache Poi 3.16 (Apache 2.0 License)" />
 
                             <TextView
-                                android:layout_width="match_parent"
+                                android:id="@+id/textViewScratchpad"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:text="- Apache Poi Scratch Pad 3.16 (Apache 2.0 License)" />
 
                             <TextView
-                                android:layout_width="match_parent"
+                                android:id="@+id/textViewCommonsCollections"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:text="- Apache Commons Collections 4-4.1 (Apache 2.0 License)" />
 
                             <TextView
-                                android:layout_width="match_parent"
+                                android:id="@+id/textViewProperty"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="32dp"
-                                android:text="The rest is propery of SEL Engineering Ltd."
+                                android:text="This app is property of SEL Engineering Ltd."
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
                         </LinearLayout>
                     </ScrollView>
                 </LinearLayout>
-
             </FrameLayout>
-
         </LinearLayout>
     </TabHost>
-
 </LinearLayout>

@@ -9,6 +9,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -33,6 +34,7 @@ import java.util.HashMap;
 
 public class MainActivity extends FragmentActivity implements RecyclerViewClickListener, ModelLoadListener {
     private HashMap<String, String> selectedArchiveReview = new HashMap<>();
+    private float textSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
             @Override
             public void onClick(View view) {
                 if(((RecyclerAdapter) archive.getAdapter()).getSelectedPosition() > -1) {
-                    showSelectDialog(getResources().getDimension(R.dimen.defaultTextSize));
+                    showSelectDialog(textSize);
                 }
             }
         });
@@ -87,7 +89,8 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
             }
         });
 
-        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
+        setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
         setTextUnderline();
     }
 
@@ -271,7 +274,19 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         newReviewButton.setPaintFlags(newReviewButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
     }
 
-    private void setTextSize(float textSize) {
+    public void setTextSize(float textSize) {
+        this.textSize = textSize;
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putFloat("TextSize", textSize);
+        editor.commit();
+        updateTextSize();
+    }
+
+    private void updateTextSize() {
+        TextView archiveHeadingLabel = (TextView) findViewById(R.id.textViewInspectionReviewArchive);
+        archiveHeadingLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
         RecyclerView archive = (RecyclerView) findViewById(R.id.recyclerViewArchive);
         ((RecyclerAdapter)archive.getAdapter()).setTextSize(textSize);
 

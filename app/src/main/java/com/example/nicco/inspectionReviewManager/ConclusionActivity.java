@@ -1,5 +1,6 @@
 package com.example.nicco.inspectionReviewManager;
 
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -109,13 +110,15 @@ public class ConclusionActivity extends AppCompatActivity {
         // REVIEWED BY
         model.updateValue(DatabaseWriter.UIComponentInputValue.REVIEWED_BY, reviewedBy.getText().toString());
 
-        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
+        setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
+        setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
     }
 
     @Override

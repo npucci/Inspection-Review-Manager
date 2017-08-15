@@ -4,36 +4,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <ImageButton
+        android:id="@+id/imageButtonLogo"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_alignParentTop="true"
-        android:orientation="horizontal">
+        android:adjustViewBounds="true"
+        android:background="@drawable/logo"
+        android:contentDescription="@string/logo_menu_button_content_description"
+        android:scaleType="fitCenter" />
 
-        <ImageButton
-            android:id="@+id/imageButtonLogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/logo"
-            android:contentDescription="@string/logo_menu_button_content_description"
-            android:scaleType="fitCenter" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/inspection_review_archive"
-            android:textAppearance="@style/TextAppearance.AppCompat.Button" />
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/textViewInspectionReviewArchive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imageButtonLogo"
+        android:layout_alignBottom="@id/imageButtonLogo"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@id/imageButtonLogo"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/inspection_review_archive"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button" />
 
     <Button
         android:id="@+id/buttonSettings"

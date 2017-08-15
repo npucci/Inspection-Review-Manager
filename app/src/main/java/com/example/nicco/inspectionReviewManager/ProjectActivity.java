@@ -1,5 +1,6 @@
 package com.example.nicco.inspectionReviewManager;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -236,7 +237,8 @@ public class ProjectActivity extends AppCompatActivity {
             description.setEnabled(false);
         }
 
-        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
+        setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
     }
 
     // initialize all referenced fields
@@ -375,7 +377,8 @@ public class ProjectActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
+        setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
     }
 
     @Override
