@@ -20,19 +20,32 @@ import java.util.Calendar;
  * Created by Nicco on 2017-07-14.
  */
 
-public class DateActivity extends AppCompatActivity {
+public class DateActivity extends AppCompatActivity implements AutoFillActivity {
     private Model model;
     private DatePicker datePicker;
     private TimePicker timePicker;
-    private AutoCompleteTextView weather;
-    private AutoCompleteTextView temperature;
+    private QueryingAutoCompleteTextView weather;
+    private QueryingAutoCompleteTextView temperature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_date);
-        init();
+        initViews();
+        initValues();
+    }
 
+    private void initViews() {
+        model = (Model) getApplicationContext();
+        datePicker = (DatePicker) findViewById(R.id.datePicker);
+        timePicker = (TimePicker) findViewById(R.id.timePicker);
+        weather = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteWeather);
+        weather.set(this, model, this, DatabaseWriter.UIComponentInputValue.WEATHER, getResources().getStringArray(R.array.weather), false);
+        temperature = (QueryingAutoCompleteTextView) findViewById(R.id.editTextTemperature);
+        temperature.set(this, model, this, DatabaseWriter.UIComponentInputValue.TEMPERATURE_CELSIUS, null, false);
+    }
+
+    private void initValues() {
         // DATE PICKER
         String value = model.getValue(DatabaseWriter.UIComponentInputValue.DATE);
         if(value != null) {
@@ -47,6 +60,7 @@ public class DateActivity extends AppCompatActivity {
         }
 
         // TIME PICKER
+        value = model.getValue(DatabaseWriter.UIComponentInputValue.TIME);
         if(value != null) {
             String[] split = value.split(":"); // TIME format "HH:MM"
             if (split.length == 2) {
@@ -60,34 +74,12 @@ public class DateActivity extends AppCompatActivity {
         }
 
         // WEATHER
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,
-                model.combineArrays(
-                        model.queryDatabase(DatabaseWriter.UIComponentInputValue.WEATHER, null, null),
-                        getResources().getStringArray(R.array.weather)));
-
-        weather.setAdapter(adapter);
-
         value = model.getValue(DatabaseWriter.UIComponentInputValue.WEATHER);
         if(value != null) weather.setText(value);
 
         // TEMPERATURE
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.UIComponentInputValue.TEMPERATURE_CELSIUS, null, null));
-
-        temperature.setAdapter(adapter);
-
         value = model.getValue(DatabaseWriter.UIComponentInputValue.TEMPERATURE_CELSIUS);
         if(value != null) temperature.setText(value);
-    }
-
-    private void init() {
-        model = (Model) getApplicationContext();
-        datePicker = (DatePicker) findViewById(R.id.datePicker);
-        timePicker = (TimePicker) findViewById(R.id.timePicker);
-        weather = (AutoCompleteTextView) findViewById(R.id.autoCompleteWeather);
-        temperature = (AutoCompleteTextView) findViewById(R.id.editTextTemperature);
     }
 
     @Override
@@ -112,9 +104,6 @@ public class DateActivity extends AppCompatActivity {
         tempText = temperature.getText().toString();
         if(tempText.equals("")) tempText = Model.SpecialValue.NA.toString();
         model.updateValue(DatabaseWriter.UIComponentInputValue.TEMPERATURE_CELSIUS, tempText);
-
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
-        setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
     }
 
     public String formatDigitStr(String num) {
@@ -125,6 +114,7 @@ public class DateActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        initValues();
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
         setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
     }
@@ -149,4 +139,7 @@ public class DateActivity extends AppCompatActivity {
         temperatureLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
         temperature.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
     }
+
+    @Override
+    public void autofill(Object uiComponent) {}
 }

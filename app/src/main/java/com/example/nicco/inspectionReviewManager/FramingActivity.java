@@ -20,71 +20,124 @@ public class FramingActivity extends AppCompatActivity {
     // TRUSS SPEC
     private RadioButton trussSpecReviewed;
     private RadioButton trussSpecNA;
-    private AutoCompleteTextView trussSpecInstruction;
+    private QueryingAutoCompleteTextView trussSpecInstruction;
 
     // IJOIST
     private RadioButton iJoistReviewed;
     private RadioButton iJoistNA;
-    private AutoCompleteTextView iJoistInstruction;
+    private QueryingAutoCompleteTextView iJoistInstruction;
 
     // BEARING
     private RadioButton bearingReviewed;
     private RadioButton bearingNA;
-    private AutoCompleteTextView bearingInstruction;
+    private QueryingAutoCompleteTextView bearingInstruction;
 
     // TOP PLATES
     private RadioButton topPlatesReviewed;
     private RadioButton topPlatesNA;
-    private AutoCompleteTextView topPlatesInstruction;
+    private QueryingAutoCompleteTextView topPlatesInstruction;
 
 
     // LINTELS
     private RadioButton lintelsReviewed;
     private RadioButton lintelsNA;
-    private AutoCompleteTextView lintelsInstruction;
+    private QueryingAutoCompleteTextView lintelsInstruction;
 
 
     // SHEARWALLS
     private RadioButton shearwallsReviewed;
     private RadioButton shearwallsNA;
-    private AutoCompleteTextView shearwallsInstruction;
+    private QueryingAutoCompleteTextView shearwallsInstruction;
 
     // TALL WALLS
     private RadioButton tallWallsReviewed;
     private RadioButton tallWallsNA;
-    private AutoCompleteTextView tallWallsInstruction;
+    private QueryingAutoCompleteTextView tallWallsInstruction;
 
     // BLOCKING
     private RadioButton blockingReviewed;
     private RadioButton blockingNA;
-    private AutoCompleteTextView blockingInstruction;
+    private QueryingAutoCompleteTextView blockingInstruction;
 
     // WALL SHEATHING
     private RadioButton wallSheathingReviewed;
     private RadioButton wallSheathingNA;
-    private AutoCompleteTextView wallSheathingInstruction;
+    private QueryingAutoCompleteTextView wallSheathingInstruction;
 
     // WIND GIRTS
     private RadioButton windGirtsReviewed;
     private RadioButton windGirtsNA;
-    private AutoCompleteTextView windGirtsInstruction;
+    private QueryingAutoCompleteTextView windGirtsInstruction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_framing);
 
-        init();
+        initViews();
+        initValues();
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
+        setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
+    }
+
+    private void initViews() {
+        model = (Model) getApplicationContext();
 
         // TRUSS SPEC
-        trussSpecReviewed.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC));
-        trussSpecReviewed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                trussSpecInstruction.setEnabled(true);
-            }
-        });
+        trussSpecReviewed = (RadioButton) findViewById(R.id.radioButtonTrussSpecReviewed);
+        trussSpecNA = (RadioButton) findViewById(R.id.radioButtonTrussSpecNA);
+        trussSpecInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteTrussSpecInstruction);
 
+        // IJOIST
+        iJoistReviewed = (RadioButton) findViewById(R.id.radioButtonIJoistReviewed);
+        iJoistNA = (RadioButton) findViewById(R.id.radioButtonIJoistNA);
+        iJoistInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteIJoistInstruction);
+
+        // BEARING
+        bearingReviewed = (RadioButton) findViewById(R.id.radioButtonBearingReviewed);
+        bearingNA = (RadioButton) findViewById(R.id.radioButtonBearingNA);
+        bearingInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteBearingInstruction);
+
+        // TOP PLATES
+        topPlatesReviewed = (RadioButton) findViewById(R.id.radioButtonTopPlatesReviewed);
+        topPlatesNA = (RadioButton) findViewById(R.id.radioButtonTopPlatesNA);
+        topPlatesInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteTopPlatesInstruction);
+
+        // LINTELS
+        lintelsReviewed = (RadioButton) findViewById(R.id.radioButtonLintelsReviewed);
+        lintelsNA = (RadioButton) findViewById(R.id.radioButtonLintelsNA);
+        lintelsInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteLintelsInstruction);
+
+        // SHEARWALLS
+        shearwallsReviewed = (RadioButton) findViewById(R.id.radioButtonShearwallsReviewed);
+        shearwallsNA = (RadioButton) findViewById(R.id.radioButtonShearwallsNA);
+        shearwallsInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteShearwallsInstruction);
+
+        // TALL WALLS
+        tallWallsReviewed = (RadioButton) findViewById(R.id.radioButtonTallWallsReviewed);
+        tallWallsNA = (RadioButton) findViewById(R.id.radioButtonTallWallsNA);
+        tallWallsInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteTallWallsInstruction);
+
+        // BLOCKING
+        blockingReviewed = (RadioButton) findViewById(R.id.radioButtonBlockingReviewed);
+        blockingNA = (RadioButton) findViewById(R.id.radioButtonBlockingNA);
+        blockingInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteBlockingInstruction);
+
+        // WALL SHEATHING
+        wallSheathingReviewed = (RadioButton) findViewById(R.id.radioButtonWallSheathingReviewed);
+        wallSheathingNA = (RadioButton) findViewById(R.id.radioButtonWallSheathingNA);
+        wallSheathingInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteWallSheathingInstruction);
+
+        // WIND GIRTS
+        windGirtsReviewed = (RadioButton) findViewById(R.id.radioButtonWindGirtsReviewed);
+        windGirtsNA = (RadioButton) findViewById(R.id.radioButtonWindGirtsNA);
+        windGirtsInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteWindGirtsInstruction);
+    }
+
+    private void initValues() {
+        // TRUSS SPEC
+        trussSpecReviewed.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC));
         if(model.getValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC).equals(Model.SpecialValue.NO.toString())) {
             trussSpecNA.setChecked(true);
         } else trussSpecNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC_NA));
@@ -94,13 +147,6 @@ public class FramingActivity extends AppCompatActivity {
                 trussSpecInstruction.setEnabled(false);
             }
         });
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC_INSTRUCTION, null, null));
-        trussSpecInstruction.setAdapter(adapter);
-        trussSpecInstruction.setThreshold(1);
-
         if(trussSpecReviewed.isChecked()) {
             trussSpecInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC_INSTRUCTION));
         }
@@ -124,13 +170,6 @@ public class FramingActivity extends AppCompatActivity {
                 iJoistInstruction.setEnabled(false);
             }
         });
-
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.UIComponentInputValue.IJOIST_INSTRUCTION, null, null));
-        iJoistInstruction.setAdapter(adapter);
-        iJoistInstruction.setThreshold(1);
-
         if(iJoistReviewed.isChecked()) {
             iJoistInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.IJOIST_INSTRUCTION));
         }
@@ -154,13 +193,6 @@ public class FramingActivity extends AppCompatActivity {
                 bearingInstruction.setEnabled(false);
             }
         });
-
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.UIComponentInputValue.BEARING_INSTRUCTION, null, null));
-        bearingInstruction.setAdapter(adapter);
-        bearingInstruction.setThreshold(1);
-
         if( bearingReviewed.isChecked()) {
             bearingInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.BEARING_INSTRUCTION));
         }
@@ -184,15 +216,8 @@ public class FramingActivity extends AppCompatActivity {
                 topPlatesInstruction.setEnabled(false);
             }
         });
-
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.UIComponentInputValue.TOP_PLATES_INSTRUCTION, null, null));
-        topPlatesInstruction.setAdapter(adapter);
-        topPlatesInstruction.setThreshold(1);
-
         if(topPlatesReviewed.isChecked()) {
-                topPlatesInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES_INSTRUCTION));
+            topPlatesInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.TOP_PLATES_INSTRUCTION));
         }
         else topPlatesInstruction.setEnabled(false);
 
@@ -214,13 +239,6 @@ public class FramingActivity extends AppCompatActivity {
                 lintelsInstruction.setEnabled(false);
             }
         });
-
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.UIComponentInputValue.LINTELS_INSTRUCTION, null, null));
-        lintelsInstruction.setAdapter(adapter);
-        lintelsInstruction.setThreshold(1);
-
         if(lintelsReviewed.isChecked()) {
             lintelsInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.LINTELS_INSTRUCTION));
         }
@@ -244,13 +262,6 @@ public class FramingActivity extends AppCompatActivity {
                 shearwallsInstruction.setEnabled(false);
             }
         });
-
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.UIComponentInputValue.SHEARWALLS_INSTRUCTION, null, null));
-        shearwallsInstruction.setAdapter(adapter);
-        shearwallsInstruction.setThreshold(1);
-
         if(shearwallsReviewed.isChecked()) {
             shearwallsInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.SHEARWALLS_INSTRUCTION));
         }
@@ -274,13 +285,6 @@ public class FramingActivity extends AppCompatActivity {
                 tallWallsInstruction.setEnabled(false);
             }
         });
-
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.UIComponentInputValue.TALL_WALLS_INSTRUCTION, null, null));
-        tallWallsInstruction.setAdapter(adapter);
-        tallWallsInstruction.setThreshold(1);
-
         if(tallWallsReviewed.isChecked()) {
             tallWallsInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.TALL_WALLS_INSTRUCTION));
         }
@@ -305,15 +309,8 @@ public class FramingActivity extends AppCompatActivity {
                 blockingInstruction.setEnabled(false);
             }
         });
-
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.UIComponentInputValue.BLOCKING_INSTRUCTION, null, null));
-        blockingInstruction.setAdapter(adapter);
-        blockingInstruction.setThreshold(1);
-
         if(blockingReviewed.isChecked()) {
-                blockingInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.BLOCKING_INSTRUCTION));
+            blockingInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.BLOCKING_INSTRUCTION));
         }
         else blockingInstruction.setEnabled(false);
 
@@ -335,13 +332,6 @@ public class FramingActivity extends AppCompatActivity {
                 wallSheathingInstruction.setEnabled(false);
             }
         });
-
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING_INSTRUCTION, null, null));
-        wallSheathingInstruction.setAdapter(adapter);
-        wallSheathingInstruction.setThreshold(1);
-
         if(wallSheathingReviewed.isChecked()) {
             wallSheathingInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.WALL_SHEATHING_INSTRUCTION));
         }
@@ -365,74 +355,11 @@ public class FramingActivity extends AppCompatActivity {
                 windGirtsInstruction.setEnabled(false);
             }
         });
-
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.UIComponentInputValue.WIND_GIRTS_INSTRUCTION, null, null));
-        windGirtsInstruction.setAdapter(adapter);
-        windGirtsInstruction.setThreshold(1);
-
         if(windGirtsReviewed.isChecked()) {
             windGirtsInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.WIND_GIRTS_INSTRUCTION));
         }
         else windGirtsInstruction.setEnabled(false);
 
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
-        setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
-    }
-
-    private void init() {
-        model = (Model) getApplicationContext();
-
-        // TRUSS SPEC
-        trussSpecReviewed = (RadioButton) findViewById(R.id.radioButtonTrussSpecReviewed);
-        trussSpecNA = (RadioButton) findViewById(R.id.radioButtonTrussSpecNA);
-        trussSpecInstruction = (AutoCompleteTextView) findViewById(R.id.autoCompleteTrussSpecInstruction);
-
-        // IJOIST
-        iJoistReviewed = (RadioButton) findViewById(R.id.radioButtonIJoistReviewed);
-        iJoistNA = (RadioButton) findViewById(R.id.radioButtonIJoistNA);
-        iJoistInstruction = (AutoCompleteTextView) findViewById(R.id.autoCompleteIJoistInstruction);
-
-        // BEARING
-        bearingReviewed = (RadioButton) findViewById(R.id.radioButtonBearingReviewed);
-        bearingNA = (RadioButton) findViewById(R.id.radioButtonBearingNA);
-        bearingInstruction = (AutoCompleteTextView) findViewById(R.id.autoCompleteBearingInstruction);
-
-        // TOP PLATES
-        topPlatesReviewed = (RadioButton) findViewById(R.id.radioButtonTopPlatesReviewed);
-        topPlatesNA = (RadioButton) findViewById(R.id.radioButtonTopPlatesNA);
-        topPlatesInstruction = (AutoCompleteTextView) findViewById(R.id.autoCompleteTopPlatesInstruction);
-
-        // LINTELS
-        lintelsReviewed = (RadioButton) findViewById(R.id.radioButtonLintelsReviewed);
-        lintelsNA = (RadioButton) findViewById(R.id.radioButtonLintelsNA);
-        lintelsInstruction = (AutoCompleteTextView) findViewById(R.id.autoCompleteLintelsInstruction);
-
-        // SHEARWALLS
-        shearwallsReviewed = (RadioButton) findViewById(R.id.radioButtonShearwallsReviewed);
-        shearwallsNA = (RadioButton) findViewById(R.id.radioButtonShearwallsNA);
-        shearwallsInstruction = (AutoCompleteTextView) findViewById(R.id.autoCompleteShearwallsInstruction);
-
-        // TALL WALLS
-        tallWallsReviewed = (RadioButton) findViewById(R.id.radioButtonTallWallsReviewed);
-        tallWallsNA = (RadioButton) findViewById(R.id.radioButtonTallWallsNA);
-        tallWallsInstruction = (AutoCompleteTextView) findViewById(R.id.autoCompleteTallWallsInstruction);
-
-        // BLOCKING
-        blockingReviewed = (RadioButton) findViewById(R.id.radioButtonBlockingReviewed);
-        blockingNA = (RadioButton) findViewById(R.id.radioButtonBlockingNA);
-        blockingInstruction = (AutoCompleteTextView) findViewById(R.id.autoCompleteBlockingInstruction);
-
-        // WALL SHEATHING
-        wallSheathingReviewed = (RadioButton) findViewById(R.id.radioButtonWallSheathingReviewed);
-        wallSheathingNA = (RadioButton) findViewById(R.id.radioButtonWallSheathingNA);
-        wallSheathingInstruction = (AutoCompleteTextView) findViewById(R.id.autoCompleteWallSheathingInstruction);
-
-        // WIND GIRTS
-        windGirtsReviewed = (RadioButton) findViewById(R.id.radioButtonWindGirtsReviewed);
-        windGirtsNA = (RadioButton) findViewById(R.id.radioButtonWindGirtsNA);
-        windGirtsInstruction = (AutoCompleteTextView) findViewById(R.id.autoCompleteWindGirtsInstruction);
     }
 
     @Override
@@ -586,6 +513,7 @@ public class FramingActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        initValues();
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
         setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
     }

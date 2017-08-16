@@ -93,10 +93,6 @@
         <item>Lions Bay</item>
     </string-array>
 
-    <string-array name="provinces">
-        <item>BC</item>
-    </string-array>
-
     <string-array name="weather">
         <item>Light Rain</item>
         <item>Rain</item>

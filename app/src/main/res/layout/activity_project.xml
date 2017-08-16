@@ -40,7 +40,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Address" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autocompleteAddress"
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
@@ -61,7 +61,7 @@
                 android:layout_marginTop="32dp"
                 android:text="City" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                 android:layout_marginTop="32dp"
                 android:text="Province" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteProvince"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
                 android:layout_marginTop="32dp"
                 android:text="Project Number" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteProjectNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
                 android:layout_marginTop="32dp"
                 android:text="Developer" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteDeveloper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -144,7 +144,7 @@
                 android:layout_marginTop="32dp"
                 android:text="Contractor" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteContractor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -218,7 +218,7 @@
                 android:layout_marginTop="8dp"
                 android:text="*Please provide a Description below:" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteDescription"
                 android:maxLength="@integer/maxLargeInputLength"
                 android:layout_width="match_parent"

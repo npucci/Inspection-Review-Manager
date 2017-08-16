@@ -71,7 +71,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Instructions" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteTrussSpecInstruction"
                 android:maxLength="@integer/maxLargeInputLength"
                 android:layout_width="match_parent"
@@ -123,7 +123,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Instructions" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteIJoistInstruction"
                 android:maxLength="@integer/maxLargeInputLength"
                 android:layout_width="match_parent"
@@ -175,7 +175,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Instructions" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteBearingInstruction"
                 android:maxLength="@integer/maxLargeInputLength"
                 android:layout_width="match_parent"
@@ -227,7 +227,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Instructions" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteTopPlatesInstruction"
                 android:maxLength="@integer/maxLargeInputLength"
                 android:layout_width="match_parent"
@@ -279,7 +279,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Instructions" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteLintelsInstruction"
                 android:maxLength="@integer/maxLargeInputLength"
                 android:layout_width="match_parent"
@@ -330,7 +330,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Instructions" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteShearwallsInstruction"
                 android:maxLength="@integer/maxLargeInputLength"
                 android:layout_width="match_parent"
@@ -382,7 +382,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Instructions" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteTallWallsInstruction"
                 android:maxLength="@integer/maxLargeInputLength"
                 android:layout_width="match_parent"
@@ -434,7 +434,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Instructions" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteBlockingInstruction"
                 android:maxLength="@integer/maxLargeInputLength"
                 android:layout_width="match_parent"
@@ -486,7 +486,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Instructions" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteWallSheathingInstruction"
                 android:maxLength="@integer/maxLargeInputLength"
                 android:layout_width="match_parent"
@@ -538,7 +538,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Instructions" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteWindGirtsInstruction"
                 android:maxLength="@integer/maxLargeInputLength"
                 android:layout_width="match_parent"

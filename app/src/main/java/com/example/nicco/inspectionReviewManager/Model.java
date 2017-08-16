@@ -195,6 +195,12 @@ public class Model extends Application {
         return dbWriter.query(column, whereClause, whereArgs);
     }
 
+    public String[] queryMatchSearchDatabase(DatabaseWriter.UIComponentInputValue column, String input) {
+        String whereClause = column.getValue() + " LIKE '%" + input + "%'" + " ORDER BY " + column.getValue()
+                + " DESC" + " LIMIT 0,5";
+        return dbWriter.query(column, whereClause, null);
+    }
+
     public String monthIntToString(int month) {
         String[] months = new DateFormatSymbols().getMonths();
         if(month < months.length) return months[month];
@@ -215,8 +221,8 @@ public class Model extends Application {
 
     public String[] combineArrays(String[] arr1, String[] arr2) {
         LinkedHashSet<String> combined = new LinkedHashSet<>();
-        combined.addAll(Arrays.asList(arr1));
-        combined.addAll(Arrays.asList(arr2));
+        if(arr1 != null) combined.addAll(Arrays.asList(arr1));
+        if(arr2 != null) combined.addAll(Arrays.asList(arr2));
         return combined.toArray(new String[combined.size()]);
     }
 

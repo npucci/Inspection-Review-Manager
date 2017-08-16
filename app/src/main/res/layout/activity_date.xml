@@ -72,7 +72,7 @@
                 android:layout_marginTop="32dp"
                 android:text="Weather" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteWeather"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
                 android:layout_marginTop="32dp"
                 android:text="Temperature (Celsius)" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/editTextTemperature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

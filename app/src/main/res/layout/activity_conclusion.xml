@@ -127,11 +127,11 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteReviewedBy"
-                android:maxLength="@integer/maxMediumInputLength"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:maxLength="@integer/maxMediumInputLength" />
 
         </LinearLayout>
     </ScrollView>

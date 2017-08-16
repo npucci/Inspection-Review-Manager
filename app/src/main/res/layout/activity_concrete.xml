@@ -73,7 +73,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Instructions" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteRebarPositionInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Instructions" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteRebarSizeInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -177,7 +177,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Instructions" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteFormworkInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -229,7 +229,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Instructions" />
 
-            <AutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteAnchorageInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

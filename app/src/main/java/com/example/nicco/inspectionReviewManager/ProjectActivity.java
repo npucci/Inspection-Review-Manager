@@ -4,198 +4,68 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-public class ProjectActivity extends AppCompatActivity {
+public class ProjectActivity extends AppCompatActivity implements AutoFillActivity{
     private Model model;
-    private AutoCompleteTextView address;
-    private AutoCompleteTextView city;
-    private AutoCompleteTextView province;
-    private AutoCompleteTextView projectNumber;
-    private AutoCompleteTextView developer;
-    private AutoCompleteTextView contractor;
+    private QueryingAutoCompleteTextView address;
+    private QueryingAutoCompleteTextView city;
+    private QueryingAutoCompleteTextView province;
+    private QueryingAutoCompleteTextView projectNumber;
+    private QueryingAutoCompleteTextView developer;
+    private QueryingAutoCompleteTextView contractor;
     private CheckBox footings;
     private CheckBox foundationWalls;
     private CheckBox sheathing;
     private CheckBox framing;
     private CheckBox other;
     private TextView descriptionTextView;
-    private AutoCompleteTextView description;
+    private QueryingAutoCompleteTextView description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
 
-        init();
+        initViews();
+        initValues();
 
-        // ADDRESS
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_selectable_list_item,
-                model.queryDatabase(DatabaseWriter.UIComponentInputValue.ADDRESS, null, null));
-        address.setAdapter(adapter);
-        address.setThreshold(1);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
+        setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
+    }
 
-        String value = model.getValue(DatabaseWriter.UIComponentInputValue.ADDRESS);
-        if(value != null) address.setText(value);
-        address.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                autoFill(address);
-                return false;
-            }
-        });
-        address.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                autoFill(address);
-            }
-        });
+    // initialize all referenced fields
+    private void initViews() {
+        model = (Model) getApplicationContext();
+        address = (QueryingAutoCompleteTextView) findViewById(R.id.autocompleteAddress);
+        address.set(this, model, this, DatabaseWriter.UIComponentInputValue.ADDRESS, null, false);
 
-        // CITY
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,
-                model.combineArrays(
-                    model.queryDatabase(DatabaseWriter.UIComponentInputValue.CITY, null, null),
-                    getResources().getStringArray(R.array.cities)));
-        city.setAdapter(adapter);
-        city.setThreshold(1);
+        city = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteCity);
+        city.set(this, model, this, DatabaseWriter.UIComponentInputValue.CITY, getResources().getStringArray(R.array.cities), false);
 
-        value = model.getValue(DatabaseWriter.UIComponentInputValue.CITY);
-        if(value != null) city.setText(value);
-        city.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                autoFill(city);
-                return false;
-            }
-        });
-        city.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                autoFill(city);
-            }
-        });
+        province = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteProvince);
+        province.set(this, model, this, DatabaseWriter.UIComponentInputValue.PROVINCE,
+                new String[]{getResources().getString(R.string.province_default)}, true);
 
-        // PROVINCE
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,
-                model.combineArrays(
-                        model.queryDatabase(DatabaseWriter.UIComponentInputValue.PROVINCE, null, null),
-                        getResources().getStringArray(R.array.provinces)));
-        province.setAdapter(adapter);
-        province.setThreshold(1);
+        projectNumber = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteProjectNumber);
+        projectNumber.set(this, model, this, DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER,
+                new String[]{getResources().getString(R.string.project_number_default)}, true);
 
-        value = model.getValue(DatabaseWriter.UIComponentInputValue.PROVINCE);
-        if(value != null) province.setText(value);
-        province.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                autoFill(province);
-                return false;            }
-        });
-        province.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                autoFill(province);
-            }
-        });
-        province.setText(getResources().getString(R.string.province_default));
+        developer = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteDeveloper);
+        developer.set(this, model, this, DatabaseWriter.UIComponentInputValue.DEVELOPER, null, false);
 
-        // PROJECT NUMBER
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER, null, null));
-        projectNumber.setAdapter(adapter);
-        projectNumber.setThreshold(1);
+        contractor = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteContractor);
+        contractor.set(this, model, this, DatabaseWriter.UIComponentInputValue.CONTRACTOR, null, false);
 
-        value = model.getValue(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER);
-        if(value != null) projectNumber.setText(value);
-        projectNumber.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                autoFill(projectNumber);
-                return false;
-            }
-        });
-        projectNumber.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                autoFill(projectNumber);
-            }
-        });
-        projectNumber.setText(getResources().getString(R.string.project_number_default));
-
-        // DEVELOPER
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.UIComponentInputValue.DEVELOPER, null, null));
-        developer.setAdapter(adapter);
-        developer.setThreshold(1);
-
-        value = model.getValue(DatabaseWriter.UIComponentInputValue.DEVELOPER);
-        if(value != null) developer.setText(value);
-        developer.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                autoFill(developer);
-                return false;
-            }
-        });
-        developer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                autoFill(developer);
-            }
-        });
-
-        // CONTRACTOR
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.UIComponentInputValue.CONTRACTOR, null, null));
-        contractor.setAdapter(adapter);
-        contractor.setThreshold(1);
-
-        value = model.getValue(DatabaseWriter.UIComponentInputValue.CONTRACTOR);
-        if(value != null) contractor.setText(value);
-        contractor.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                autoFill(contractor);
-                return false;
-            }
-        });
-        contractor.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                autoFill(contractor);
-            }
-        });
-
-        // FOOTINGS
-        footings.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.FOOTINGS_REVIEW));
-
-        // FOUNDATION WALLS
-        foundationWalls.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.FOUNDATION_WALLS_REVIEW));
-
-        // SHEATHING
-        sheathing.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.SHEATHING_REVIEW));
-
-        // FRAMING
-        framing.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.FRAMING_REVIEW));
-
-        // OTHER
-        other.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW));
+        footings = (CheckBox) findViewById(R.id.checkBoxFootings);
+        foundationWalls = (CheckBox) findViewById(R.id.checkBoxFoundationWalls);
+        sheathing = (CheckBox) findViewById(R.id.checkBoxSheathing);
+        framing = (CheckBox) findViewById(R.id.checkBoxFraming);
+        other = (CheckBox) findViewById(R.id.checkBoxOther);
         other.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -214,13 +84,52 @@ public class ProjectActivity extends AppCompatActivity {
                 }
             }
         });
+        descriptionTextView = (TextView) findViewById(R.id.textViewDescription);
+        descriptionTextView.setTextColor(Color.BLACK);
 
-        // DESCRIPTION
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW_DESCRIPTION, null, null));
-        description.setAdapter(adapter);
-        description.setThreshold(1);
+        description = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteDescription);
+        description.set(this, model, this, DatabaseWriter.UIComponentInputValue.OTHER_REVIEW_DESCRIPTION, null, false);
+    }
+
+    private void initValues() {
+        // ADDRESS
+        String value = model.getValue(DatabaseWriter.UIComponentInputValue.ADDRESS);
+        if(value != null) address.setText(value);
+
+        // CITY
+        value = model.getValue(DatabaseWriter.UIComponentInputValue.CITY);
+        if(value != null) city.setText(value);
+
+        // PROVINCE
+        value = model.getValue(DatabaseWriter.UIComponentInputValue.PROVINCE);
+        if(value != null) province.setText(value);
+
+        // PROJECT NUMBER
+        value = model.getValue(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER);
+        if(value != null) projectNumber.setText(value);
+
+        // DEVELOPER
+        value = model.getValue(DatabaseWriter.UIComponentInputValue.DEVELOPER);
+        if(value != null) developer.setText(value);
+
+        // CONTRACTOR
+        value = model.getValue(DatabaseWriter.UIComponentInputValue.CONTRACTOR);
+        if(value != null) contractor.setText(value);
+
+        // FOOTINGS
+        footings.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.FOOTINGS_REVIEW));
+
+        // FOUNDATION WALLS
+        foundationWalls.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.FOUNDATION_WALLS_REVIEW));
+
+        // SHEATHING
+        sheathing.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.SHEATHING_REVIEW));
+
+        // FRAMING
+        framing.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.FRAMING_REVIEW));
+
+        // OTHER
+        other.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW));
 
         if(other.isChecked()) {
             descriptionTextView.setVisibility(View.VISIBLE);
@@ -239,27 +148,6 @@ public class ProjectActivity extends AppCompatActivity {
             description.setEnabled(false);
         }
 
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
-        setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
-    }
-
-    // initialize all referenced fields
-    private void init() {
-        model = (Model) getApplicationContext();
-        address = (AutoCompleteTextView) findViewById(R.id.autocompleteAddress);
-        city = (AutoCompleteTextView) findViewById(R.id.autoCompleteCity);
-        province = (AutoCompleteTextView) findViewById(R.id.autoCompleteProvince);
-        projectNumber = (AutoCompleteTextView) findViewById(R.id.autoCompleteProjectNumber);
-        developer = (AutoCompleteTextView) findViewById(R.id.autoCompleteDeveloper);
-        contractor = (AutoCompleteTextView) findViewById(R.id.autoCompleteContractor);
-        footings = (CheckBox) findViewById(R.id.checkBoxFootings);
-        foundationWalls = (CheckBox) findViewById(R.id.checkBoxFoundationWalls);
-        sheathing = (CheckBox) findViewById(R.id.checkBoxSheathing);
-        framing = (CheckBox) findViewById(R.id.checkBoxFraming);
-        other = (CheckBox) findViewById(R.id.checkBoxOther);
-        descriptionTextView = (TextView) findViewById(R.id.textViewDescription);
-        descriptionTextView.setTextColor(Color.BLACK);
-        description = (AutoCompleteTextView) findViewById(R.id.autoCompleteDescription);
     }
 
     @Override
@@ -316,7 +204,8 @@ public class ProjectActivity extends AppCompatActivity {
 
     }
 
-    private void autoFill(Object uiComponent) {
+    @Override
+    public void autofill(Object uiComponent) {
         String whereClause = "";
         String[] whereArgs = null;
         String[] queryResult = null;

@@ -21,7 +21,7 @@ import android.widget.TextView;
  * Created by Jennifer on 2017-07-17.
  */
 
-public class ConclusionActivity extends AppCompatActivity {
+public class ConclusionActivity extends AppCompatActivity implements AutoFillActivity {
     private Model model;
 
     // REBAR POSITION
@@ -30,15 +30,31 @@ public class ConclusionActivity extends AppCompatActivity {
     private RadioButton reinspectionRequired;
     private EditText observations;
     private EditText comments;
-    private AutoCompleteTextView reviewedBy;
+    private QueryingAutoCompleteTextView reviewedBy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conclusion);
 
-        init();
+        initViews();
+        initValues();
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
+        setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
+    }
 
+    private void initViews() {
+        model = (Model) getApplicationContext();
+        approved = (RadioButton) findViewById(R.id.radioButtonApproved);
+        notApproved = (RadioButton) findViewById(R.id.radioButtonNotApproved);
+        reinspectionRequired = (RadioButton) findViewById(R.id.radioButtonReinspectionRequired);
+        observations = (EditText) findViewById(R.id.editTextObservations);
+        comments = (EditText) findViewById(R.id.editTextComments);
+        reviewedBy = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteReviewedBy);
+        reviewedBy.set(this, model, this, DatabaseWriter.UIComponentInputValue.REVIEWED_BY, null, false);
+    }
+
+    private void initValues() {
         // OBSERVATIONS
         observations.setText(model.getValue(DatabaseWriter.UIComponentInputValue.OBSERVATIONS));
 
@@ -51,29 +67,11 @@ public class ConclusionActivity extends AppCompatActivity {
         reinspectionRequired.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_REINSPECTION_REQUIRED));
 
         // REVIEWED BY
-        ArrayAdapter<String>adapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_dropdown_item_1line,
-                model.queryDatabase(DatabaseWriter.UIComponentInputValue.REVIEWED_BY, null, null));
-        reviewedBy.setAdapter(adapter);
-        reviewedBy.setThreshold(1);
-
         if(model.validValue(model.getValue(DatabaseWriter.UIComponentInputValue.REVIEWED_BY))) {
             reviewedBy.setText(model.getValue(DatabaseWriter.UIComponentInputValue.REVIEWED_BY));
         }
-
-        setTextSize(getResources().getDimension(R.dimen.defaultTextSize));
     }
 
-    private void init() {
-        model = (Model) getApplicationContext();
-        approved = (RadioButton) findViewById(R.id.radioButtonApproved);
-        notApproved = (RadioButton) findViewById(R.id.radioButtonNotApproved);
-        reinspectionRequired = (RadioButton) findViewById(R.id.radioButtonReinspectionRequired);
-        observations = (EditText) findViewById(R.id.editTextObservations);
-        comments = (EditText) findViewById(R.id.editTextComments);
-        reviewedBy = (AutoCompleteTextView) findViewById(R.id.autoCompleteReviewedBy);
-    }
 
     @Override
     protected void onPause() {
@@ -117,6 +115,7 @@ public class ConclusionActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        initValues();
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
         setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
     }
@@ -145,4 +144,7 @@ public class ConclusionActivity extends AppCompatActivity {
         reviewByLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
         reviewedBy.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
     }
+
+    @Override
+    public void autofill(Object uiComponent) {}
 }
