@@ -1,4 +1,4 @@
-package com.example.nicco.inspectionReviewManager;
+package com.example.nicco.inspectionReviewManager.dialogs;
 
 import android.Manifest;
 import android.app.Dialog;
@@ -18,6 +18,10 @@ import android.widget.Switch;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.nicco.inspectionReviewManager.R;
+import com.example.nicco.inspectionReviewManager.activities.MainActivity;
+import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
 
 /**
  * Created by Nicco on 2017-08-11.

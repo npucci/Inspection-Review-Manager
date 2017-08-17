@@ -1,15 +1,18 @@
-package com.example.nicco.inspectionReviewManager;
+package com.example.nicco.inspectionReviewManager.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
+import com.example.nicco.inspectionReviewManager.customDatatypes.AutoFillActivity;
+import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
+import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
+import com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView;
+import com.example.nicco.inspectionReviewManager.R;
 
 /**
  * Created by Nicco on 2017-07-14.
@@ -55,25 +58,25 @@ public class ConcreteActivity extends AppCompatActivity implements AutoFillActiv
         rebarPositionReviewed = (RadioButton) findViewById(R.id.radioButtonRebarPositionReviewed);
         rebarPositionNA = (RadioButton) findViewById(R.id.radioButtonRebarPositionNA);
         rebarPositionInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteRebarPositionInstruction);
-        rebarPositionInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.REBAR_POSITION_INSTRUCTION, null, false);
+        rebarPositionInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.REBAR_POSITION_INSTRUCTION, null);
 
         // REBAR SIZE
         rebarSizeReviewed = (RadioButton) findViewById(R.id.radioButtonRebarSizeReviewed);
         rebarSizeNA = (RadioButton) findViewById(R.id.radioButtonRebarSizeNA);
         rebarSizeInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteRebarSizeInstruction);
-        rebarSizeInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.REBAR_SIZE_INSTRUCTION, null, false);
+        rebarSizeInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.REBAR_SIZE_INSTRUCTION, null);
 
         // FORMWORK
         formworkReviewed = (RadioButton) findViewById(R.id.radioButtonFormworkReviewed);
         formworkNA = (RadioButton) findViewById(R.id.radioButtonFormworkNA);
         formworkInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteFormworkInstruction);
-        formworkInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.FORMWORK_INSTRUCTION, null, false);
+        formworkInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.FORMWORK_INSTRUCTION, null);
 
         // ANCHORAGE
         anchorageReviewed = (RadioButton) findViewById(R.id.radioButtonAnchorageReviewed);
         anchorageNA = (RadioButton) findViewById(R.id.radioButtonAnchorageNA);
         anchorageInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteAnchorageInstruction);
-        anchorageInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.ANCHORAGE_INSTRUCTION, null, false);
+        anchorageInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.ANCHORAGE_INSTRUCTION, null);
     }
 
     private void initValues() {
@@ -156,7 +159,6 @@ public class ConcreteActivity extends AppCompatActivity implements AutoFillActiv
                 anchorageInstruction.setEnabled(true);
             }
         });
-
         if(model.getValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE).equals(Model.SpecialValue.NO.toString())) {
             anchorageNA.setChecked(true);
         } else anchorageNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.ANCHORAGE_NA));
@@ -166,7 +168,6 @@ public class ConcreteActivity extends AppCompatActivity implements AutoFillActiv
                 anchorageInstruction.setEnabled(false);
             }
         });
-
         if(anchorageReviewed.isChecked()) {
             anchorageInstruction.setText(model.getValue(DatabaseWriter.UIComponentInputValue.ANCHORAGE_INSTRUCTION));
         }

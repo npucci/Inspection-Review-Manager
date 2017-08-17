@@ -1,4 +1,4 @@
-package com.example.nicco.inspectionReviewManager;
+package com.example.nicco.inspectionReviewManager.utilities;
 /* Author: Niccolo Pucci
  * Company: SEL Engineering Limited
  * Purpose: Aid inspector in writing the Inspection Report
@@ -10,6 +10,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
+
+import com.example.nicco.inspectionReviewManager.R;
+import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
+import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
 
 import org.apache.poi.hwpf.*;
 import org.apache.poi.hwpf.usermodel.*;
@@ -25,7 +29,9 @@ import java.io.InputStream;
 import java.util.HashMap;
 
 public class FileIO {
-	public static final String OUTPUT_FOLDER = "Exported Inspection Reviews";
+    public static final String EXPORT_ROOT_DIRECTORY = "Inspection Review Manager";
+	public static final String EXPORT_REVIEW_OUTPUT_FOLDER = EXPORT_ROOT_DIRECTORY + "/" + "Exported Inspection Reviews";
+    public static final String EXPORT_DATABASE_OUTPUT_FOLDER = EXPORT_ROOT_DIRECTORY + "/" + "Exported Database Backups";
 	public static final String CHECKBOX_CHECKED = "☑";
 	public static final String CHECKBOX_BLANK = "☐";
 
@@ -45,8 +51,13 @@ public class FileIO {
 	public static boolean exportInpsectionReviewToDOC(final Context context,
                                                       final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
                                                       String inspectionReviewName, String yearMonthDir) {
+        boolean stamped = false;
+        if(hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED) != null) {
+            if(hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED).equals(Model.SpecialValue.YES)) stamped = true;
+            else if(hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED).equals(Model.SpecialValue.NO)) stamped = false;
+        }
         // get directory of appropriate storage
-        File storage = new File(getExternalPublicStorageDir(context), OUTPUT_FOLDER);
+        File storage = new File(getExternalPublicStorageDir(context), EXPORT_REVIEW_OUTPUT_FOLDER);
         storage = new File(storage, yearMonthDir);
         if(storage == null || (!storage.mkdirs() && !storage.exists())) {
             Log.v("PUCCI", "ERROR: directory in EXTERNAL PUBLIC STORAGE not created\n= " + storage.getPath());
@@ -54,7 +65,7 @@ public class FileIO {
         }
         else Log.v("PUCCI", "SUCCESS: directory in EXTERNAL PUBLIC STORAGE created\n= " + storage.getPath());
 
-        File outputFile = newFileFromTemplate(context, storage, inspectionReviewName);
+        File outputFile = newFileFromTemplate(context, storage, inspectionReviewName, stamped);
         if (outputFile == null || !outputFile.exists()) {
             Log.v("PUCCI", "ERROR: The output file wasn't created\n= " + outputFile.getPath());
             return false;
@@ -87,8 +98,16 @@ public class FileIO {
         return outputFile != null;
     }
 
-    private static File newFileFromTemplate(final Context context, final File storage, String fileName) {
-        InputStream inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_template);
+    private static File newFileFromTemplate(final Context context, final File storage, String fileName, boolean stamped) {
+        InputStream inputStream = null;
+        if(stamped) {
+            Log.v("PUCCI", "stamped template");
+            context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_template_stamped);
+        }
+        else {
+            Log.v("PUCCI", "regular template");
+            context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_template);
+        }
         File dest = new File(storage.getPath() + "/" + fileName);
         return copyFile(inputStream, dest);
     }

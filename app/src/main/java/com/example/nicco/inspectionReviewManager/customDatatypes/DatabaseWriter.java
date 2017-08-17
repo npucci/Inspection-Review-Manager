@@ -1,10 +1,12 @@
-package com.example.nicco.inspectionReviewManager;
+package com.example.nicco.inspectionReviewManager.customDatatypes;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.example.nicco.inspectionReviewManager.utilities.FileIO;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -120,7 +122,8 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         OBSERVATIONS("observations", "VARCHAR(" + maxXXLargeInputLength + ")", null),
         COMMENTS("comments", "VARCHAR(" + maxXXLargeInputLength + ")", null),
         REVIEW_STATUS("review_status", "VARCHAR(" + maxMediumInputLength + ")", null),
-        REVIEWED_BY("reviewed_by", "VARCHAR(" + maxMediumInputLength + ")", null);
+        REVIEWED_BY("reviewed_by", "VARCHAR(" + maxMediumInputLength + ")", null),
+        STAMPED("stamped", "VARCHAR(" + maxSmallInputLength + ")", null);
 
         private String value;
         private String dataType;
@@ -294,7 +297,8 @@ public class DatabaseWriter extends SQLiteOpenHelper {
                     UIComponentInputValue.FRAMING_REVIEW.getValue() + ", " +
                     UIComponentInputValue.OTHER_REVIEW.getValue() + ", " +
                     UIComponentInputValue.REVIEW_STATUS.getValue() + ", " +
-                    UIComponentInputValue.REVIEWED_BY.getValue() +
+                    UIComponentInputValue.REVIEWED_BY.getValue() + ", " +
+                    UIComponentInputValue.STAMPED.getValue() +
                     " FROM " + TABLE_NAME +
                     " ORDER BY " +
                     UIComponentInputValue.DATE.getValue() + " DESC, " +
@@ -404,7 +408,7 @@ public class DatabaseWriter extends SQLiteOpenHelper {
     public File exportDatabase(Context context) {
         if(database != null) {
             File databaseBackup = new File(database.getPath());
-            File destinationDir = new File(FileIO.getExternalPublicStorageDir(context), FileIO.OUTPUT_FOLDER);
+            File destinationDir = new File(FileIO.getExternalPublicStorageDir(context), FileIO.EXPORT_DATABASE_OUTPUT_FOLDER);
             try (InputStream inputStream = new FileInputStream(databaseBackup)) {
                 File destFile = new File(destinationDir.getPath(), databaseBackup.getName());
                 return FileIO.copyFile(inputStream, destFile);

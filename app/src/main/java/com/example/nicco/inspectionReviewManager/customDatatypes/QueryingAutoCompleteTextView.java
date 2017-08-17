@@ -1,8 +1,7 @@
-package com.example.nicco.inspectionReviewManager;
+package com.example.nicco.inspectionReviewManager.customDatatypes;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -21,8 +20,7 @@ public class QueryingAutoCompleteTextView extends android.support.v7.widget.AppC
 
     public void set(final Activity activity, final Model model, final AutoFillActivity autofillActivity,
                     final DatabaseWriter.UIComponentInputValue databaseColumn,
-                    final String[] defaultValues, boolean useFirstDefault) {
-        if(useFirstDefault && defaultValues != null && defaultValues.length != 0) setText(defaultValues[0]);
+                    final String[] defaultValues) {
         setAdapter(new ArrayAdapter<>(activity.getBaseContext(),
                 android.R.layout.simple_selectable_list_item,
                 new String[0]));

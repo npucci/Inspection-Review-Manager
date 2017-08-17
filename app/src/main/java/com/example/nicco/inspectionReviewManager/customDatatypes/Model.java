@@ -1,11 +1,13 @@
-package com.example.nicco.inspectionReviewManager;
+package com.example.nicco.inspectionReviewManager.customDatatypes;
 
 import android.app.Application;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+
+import com.example.nicco.inspectionReviewManager.utilities.FileIO;
+import com.example.nicco.inspectionReviewManager.R;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
@@ -171,6 +173,7 @@ public class Model extends Application {
         else if(!validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.COMMENTS))) return false;
         else if(!validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS))) return false;
         else if(!validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.REVIEWED_BY))) return false;
+        else if(!validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED))) return false;
 
         conclusionActivityComplete = true;
         return true;

@@ -1,11 +1,14 @@
-package com.example.nicco.inspectionReviewManager;
+package com.example.nicco.inspectionReviewManager.customDatatypes;
 
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+
+import com.example.nicco.inspectionReviewManager.customDatatypes.AutoFillActivity;
+import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
+import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
 
 /**
  * Created by Nicco on 2017-08-16.

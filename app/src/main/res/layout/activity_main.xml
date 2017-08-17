@@ -25,8 +25,8 @@
         android:layout_alignBottom="@id/imageButtonLogo"
         android:gravity="center_vertical"
         android:layout_toRightOf="@id/imageButtonLogo"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:text="@string/inspection_review_archive"
         android:textAppearance="@style/TextAppearance.AppCompat.Button" />
 

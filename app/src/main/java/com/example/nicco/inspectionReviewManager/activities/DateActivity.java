@@ -1,20 +1,18 @@
-package com.example.nicco.inspectionReviewManager;
+package com.example.nicco.inspectionReviewManager.activities;
 
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import java.util.Calendar;
+import com.example.nicco.inspectionReviewManager.customDatatypes.AutoFillActivity;
+import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
+import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
+import com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView;
+import com.example.nicco.inspectionReviewManager.R;
 
 /**
  * Created by Nicco on 2017-07-14.
@@ -40,9 +38,9 @@ public class DateActivity extends AppCompatActivity implements AutoFillActivity 
         datePicker = (DatePicker) findViewById(R.id.datePicker);
         timePicker = (TimePicker) findViewById(R.id.timePicker);
         weather = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteWeather);
-        weather.set(this, model, this, DatabaseWriter.UIComponentInputValue.WEATHER, getResources().getStringArray(R.array.weather), false);
+        weather.set(this, model, this, DatabaseWriter.UIComponentInputValue.WEATHER, getResources().getStringArray(R.array.weather));
         temperature = (QueryingAutoCompleteTextView) findViewById(R.id.editTextTemperature);
-        temperature.set(this, model, this, DatabaseWriter.UIComponentInputValue.TEMPERATURE_CELSIUS, null, false);
+        temperature.set(this, model, this, DatabaseWriter.UIComponentInputValue.TEMPERATURE_CELSIUS, null);
     }
 
     private void initValues() {

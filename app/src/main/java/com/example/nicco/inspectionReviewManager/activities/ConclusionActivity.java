@@ -1,21 +1,20 @@
-package com.example.nicco.inspectionReviewManager;
+package com.example.nicco.inspectionReviewManager.activities;
 
 import android.content.SharedPreferences;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
+import com.example.nicco.inspectionReviewManager.customDatatypes.AutoFillActivity;
+import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
+import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
+import com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView;
+import com.example.nicco.inspectionReviewManager.R;
 
 /**
  * Created by Jennifer on 2017-07-17.
@@ -31,6 +30,7 @@ public class ConclusionActivity extends AppCompatActivity implements AutoFillAct
     private EditText observations;
     private EditText comments;
     private QueryingAutoCompleteTextView reviewedBy;
+    private CheckBox stamped;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +45,38 @@ public class ConclusionActivity extends AppCompatActivity implements AutoFillAct
 
     private void initViews() {
         model = (Model) getApplicationContext();
+
         approved = (RadioButton) findViewById(R.id.radioButtonApproved);
+        approved.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stamped.setEnabled(true);
+            }
+        });
+
         notApproved = (RadioButton) findViewById(R.id.radioButtonNotApproved);
+        notApproved.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stamped.setEnabled(false);
+                stamped.setChecked(false);
+            }
+        });
+
         reinspectionRequired = (RadioButton) findViewById(R.id.radioButtonReinspectionRequired);
+        reinspectionRequired.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stamped.setEnabled(false);
+                stamped.setChecked(false);
+            }
+        });
+
         observations = (EditText) findViewById(R.id.editTextObservations);
         comments = (EditText) findViewById(R.id.editTextComments);
         reviewedBy = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteReviewedBy);
-        reviewedBy.set(this, model, this, DatabaseWriter.UIComponentInputValue.REVIEWED_BY, null, false);
+        reviewedBy.set(this, model, this, DatabaseWriter.UIComponentInputValue.REVIEWED_BY, null);
+        stamped = (CheckBox) findViewById(R.id.checkBoxStamped);
     }
 
     private void initValues() {
@@ -65,11 +90,17 @@ public class ConclusionActivity extends AppCompatActivity implements AutoFillAct
         approved.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_APPROVED));
         notApproved.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_NOT_APPROVED));
         reinspectionRequired.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS_REINSPECTION_REQUIRED));
+        if(approved.isChecked()) stamped.setEnabled(true);
+        else {
+            stamped.setEnabled(false);
+            stamped.setChecked(false);
+        }
 
         // REVIEWED BY
         if(model.validValue(model.getValue(DatabaseWriter.UIComponentInputValue.REVIEWED_BY))) {
             reviewedBy.setText(model.getValue(DatabaseWriter.UIComponentInputValue.REVIEWED_BY));
         }
+        stamped.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.STAMPED));
     }
 
 
@@ -107,9 +138,8 @@ public class ConclusionActivity extends AppCompatActivity implements AutoFillAct
 
         // REVIEWED BY
         model.updateValue(DatabaseWriter.UIComponentInputValue.REVIEWED_BY, reviewedBy.getText().toString());
-
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
-        setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
+        if(stamped.isChecked()) model.updateValue(DatabaseWriter.UIComponentInputValue.STAMPED, Model.SpecialValue.YES.toString());
+        else model.updateValue(DatabaseWriter.UIComponentInputValue.STAMPED, Model.SpecialValue.NO.toString());
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.nicco.inspectionReviewManager;
+package com.example.nicco.inspectionReviewManager.fragments;
 
 import android.app.ListFragment;
 import android.content.Context;
@@ -19,6 +19,8 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.nicco.inspectionReviewManager.R;
 
 import java.util.List;
 

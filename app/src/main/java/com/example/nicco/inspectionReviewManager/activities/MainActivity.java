@@ -1,4 +1,4 @@
-package com.example.nicco.inspectionReviewManager;
+package com.example.nicco.inspectionReviewManager.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -24,6 +24,15 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
+import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
+import com.example.nicco.inspectionReviewManager.customDatatypes.ModelLoadListener;
+import com.example.nicco.inspectionReviewManager.R;
+import com.example.nicco.inspectionReviewManager.customDatatypes.RecyclerAdapter;
+import com.example.nicco.inspectionReviewManager.customDatatypes.RecyclerViewClickListener;
+import com.example.nicco.inspectionReviewManager.dialogs.SelectDialog;
+import com.example.nicco.inspectionReviewManager.dialogs.SettingsDialog;
 
 import java.util.HashMap;
 

@@ -1,4 +1,4 @@
-package com.example.nicco.inspectionReviewManager;
+package com.example.nicco.inspectionReviewManager.customDatatypes;
 
 import java.util.HashMap;
 

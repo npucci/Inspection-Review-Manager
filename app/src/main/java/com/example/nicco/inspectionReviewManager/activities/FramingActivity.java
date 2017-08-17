@@ -1,20 +1,24 @@
-package com.example.nicco.inspectionReviewManager;
+package com.example.nicco.inspectionReviewManager.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
+import com.example.nicco.inspectionReviewManager.customDatatypes.AutoFillActivity;
+import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
+import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
+import com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView;
+import com.example.nicco.inspectionReviewManager.R;
 
 /**
  * Created by Nicco on 2017-07-14.
  */
 
-public class FramingActivity extends AppCompatActivity {
+public class FramingActivity extends AppCompatActivity implements AutoFillActivity {
     private Model model;
 
     // TRUSS SPEC
@@ -88,51 +92,61 @@ public class FramingActivity extends AppCompatActivity {
         trussSpecReviewed = (RadioButton) findViewById(R.id.radioButtonTrussSpecReviewed);
         trussSpecNA = (RadioButton) findViewById(R.id.radioButtonTrussSpecNA);
         trussSpecInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteTrussSpecInstruction);
+        trussSpecInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.TRUSS_SPEC_INSTRUCTION, null);
 
         // IJOIST
         iJoistReviewed = (RadioButton) findViewById(R.id.radioButtonIJoistReviewed);
         iJoistNA = (RadioButton) findViewById(R.id.radioButtonIJoistNA);
         iJoistInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteIJoistInstruction);
+        iJoistInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.IJOIST_INSTRUCTION, null);
 
         // BEARING
         bearingReviewed = (RadioButton) findViewById(R.id.radioButtonBearingReviewed);
         bearingNA = (RadioButton) findViewById(R.id.radioButtonBearingNA);
         bearingInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteBearingInstruction);
+        bearingInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.BEARING_INSTRUCTION, null);
 
         // TOP PLATES
         topPlatesReviewed = (RadioButton) findViewById(R.id.radioButtonTopPlatesReviewed);
         topPlatesNA = (RadioButton) findViewById(R.id.radioButtonTopPlatesNA);
         topPlatesInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteTopPlatesInstruction);
+        topPlatesInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.TOP_PLATES_INSTRUCTION, null);
 
         // LINTELS
         lintelsReviewed = (RadioButton) findViewById(R.id.radioButtonLintelsReviewed);
         lintelsNA = (RadioButton) findViewById(R.id.radioButtonLintelsNA);
         lintelsInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteLintelsInstruction);
+        lintelsInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.LINTELS_INSTRUCTION, null);
 
         // SHEARWALLS
         shearwallsReviewed = (RadioButton) findViewById(R.id.radioButtonShearwallsReviewed);
         shearwallsNA = (RadioButton) findViewById(R.id.radioButtonShearwallsNA);
         shearwallsInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteShearwallsInstruction);
+        shearwallsInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.SHEARWALLS_INSTRUCTION, null);
 
         // TALL WALLS
         tallWallsReviewed = (RadioButton) findViewById(R.id.radioButtonTallWallsReviewed);
         tallWallsNA = (RadioButton) findViewById(R.id.radioButtonTallWallsNA);
         tallWallsInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteTallWallsInstruction);
+        tallWallsInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.TALL_WALLS_INSTRUCTION, null);
 
         // BLOCKING
         blockingReviewed = (RadioButton) findViewById(R.id.radioButtonBlockingReviewed);
         blockingNA = (RadioButton) findViewById(R.id.radioButtonBlockingNA);
         blockingInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteBlockingInstruction);
+        blockingInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.BLOCKING_INSTRUCTION, null);
 
         // WALL SHEATHING
         wallSheathingReviewed = (RadioButton) findViewById(R.id.radioButtonWallSheathingReviewed);
         wallSheathingNA = (RadioButton) findViewById(R.id.radioButtonWallSheathingNA);
         wallSheathingInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteWallSheathingInstruction);
+        wallSheathingInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.WALL_SHEATHING_INSTRUCTION, null);
 
         // WIND GIRTS
         windGirtsReviewed = (RadioButton) findViewById(R.id.radioButtonWindGirtsReviewed);
         windGirtsNA = (RadioButton) findViewById(R.id.radioButtonWindGirtsNA);
         windGirtsInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteWindGirtsInstruction);
+        windGirtsInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.WIND_GIRTS_INSTRUCTION, null);
     }
 
     private void initValues() {
@@ -604,4 +618,7 @@ public class FramingActivity extends AppCompatActivity {
         TextView windGirtsInstructionLabel = (TextView) findViewById(R.id.textViewWindGirtsInstruction);
         windGirtsInstructionLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
     }
+
+    @Override
+    public void autofill(Object uiComponent) {}
 }

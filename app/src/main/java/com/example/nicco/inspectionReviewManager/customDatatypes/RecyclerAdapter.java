@@ -1,10 +1,11 @@
-package com.example.nicco.inspectionReviewManager;
+package com.example.nicco.inspectionReviewManager.customDatatypes;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.nicco.inspectionReviewManager.R;
 
 /**
  * Created by Nicco on 2017-08-02.
@@ -74,6 +77,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.setReviewType(reviewType);
         holder.setReviewStatus(cursor.getString(cursor.getColumnIndex(DatabaseWriter.UIComponentInputValue.REVIEW_STATUS.getValue())));
         holder.setReviewBy(cursor.getString(cursor.getColumnIndex(DatabaseWriter.UIComponentInputValue.REVIEWED_BY.getValue())));
+
+        String value = cursor.getString(cursor.getColumnIndex(DatabaseWriter.UIComponentInputValue.STAMPED.getValue()));
+        if(value != null && value.equals(Model.SpecialValue.YES.toString())) holder.setStamped("Stamped");
+        else holder.setStamped("Not Stamped");
         cursorAdapter.bindView(holder.itemView, context, cursorAdapter.getCursor());
 
         holder.itemView.setSelected(position == selectedPos);
@@ -111,7 +118,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         private TextView reviewType;
         private TextView reviewStatus;
         private TextView reviewBy;
-
+        private TextView stamped;
 
         public ViewHolder(View view, Context context) {
             super(view);
@@ -146,7 +153,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             // REVIEWED BY
             reviewBy = (TextView) view.findViewById(R.id.textViewReviewBy);
             reviewBy.setTextColor(ContextCompat.getColor(context, R.color.white));
-
+            stamped = (TextView) view.findViewById(R.id.textViewStamped);
+            stamped.setTextColor(ContextCompat.getColor(context, R.color.white));
             view.setOnClickListener(this);
         }
 
@@ -159,6 +167,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public void setReviewType(String text) { reviewType.setText(text); }
         public void setReviewStatus(String text) { reviewStatus.setText(text); }
         public void setReviewBy(String text) { reviewBy.setText(text); }
+        public void setStamped(String text) { stamped.setText(text); }
 
         public void setbackgroundColors(Context context, Boolean selected) {
             int color = 0;
@@ -181,6 +190,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             reviewType.setTextColor(color);
             reviewStatus.setTextColor(color);
             reviewBy.setTextColor(color);
+            stamped.setTextColor(color);
         }
 
         public void setTextUnderline(boolean selected) {
@@ -194,6 +204,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 reviewType.setPaintFlags(reviewType.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 reviewStatus.setPaintFlags(reviewStatus.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 reviewBy.setPaintFlags(reviewBy.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                stamped.setPaintFlags(stamped.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             } else {
                 date.setPaintFlags(0);
                 time.setPaintFlags(0);
@@ -204,6 +215,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 reviewType.setPaintFlags(0);
                 reviewStatus.setPaintFlags(0);
                 reviewBy.setPaintFlags(0);
+                stamped.setPaintFlags(0);
             }
         }
 
@@ -217,6 +229,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             reviewType.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
             reviewStatus.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
             reviewBy.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+            stamped.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
         }
 
         @Override

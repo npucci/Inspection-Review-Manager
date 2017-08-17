@@ -1,4 +1,4 @@
-package com.example.nicco.inspectionReviewManager;
+package com.example.nicco.inspectionReviewManager.activities;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -10,7 +10,13 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-public class ProjectActivity extends AppCompatActivity implements AutoFillActivity{
+import com.example.nicco.inspectionReviewManager.customDatatypes.AutoFillActivity;
+import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
+import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
+import com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView;
+import com.example.nicco.inspectionReviewManager.R;
+
+public class ProjectActivity extends AppCompatActivity implements AutoFillActivity {
     private Model model;
     private QueryingAutoCompleteTextView address;
     private QueryingAutoCompleteTextView city;
@@ -42,24 +48,22 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
     private void initViews() {
         model = (Model) getApplicationContext();
         address = (QueryingAutoCompleteTextView) findViewById(R.id.autocompleteAddress);
-        address.set(this, model, this, DatabaseWriter.UIComponentInputValue.ADDRESS, null, false);
+        address.set(this, model, this, DatabaseWriter.UIComponentInputValue.ADDRESS, null);
 
         city = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteCity);
-        city.set(this, model, this, DatabaseWriter.UIComponentInputValue.CITY, getResources().getStringArray(R.array.cities), false);
+        city.set(this, model, this, DatabaseWriter.UIComponentInputValue.CITY, getResources().getStringArray(R.array.cities));
 
         province = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteProvince);
-        province.set(this, model, this, DatabaseWriter.UIComponentInputValue.PROVINCE,
-                new String[]{getResources().getString(R.string.province_default)}, true);
+        province.set(this, model, this, DatabaseWriter.UIComponentInputValue.PROVINCE, new String[]{getResources().getString(R.string.province_default)});
 
         projectNumber = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteProjectNumber);
-        projectNumber.set(this, model, this, DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER,
-                new String[]{getResources().getString(R.string.project_number_default)}, true);
+        projectNumber.set(this, model, this, DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER, new String[]{getResources().getString(R.string.project_number_default)});
 
         developer = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteDeveloper);
-        developer.set(this, model, this, DatabaseWriter.UIComponentInputValue.DEVELOPER, null, false);
+        developer.set(this, model, this, DatabaseWriter.UIComponentInputValue.DEVELOPER, null);
 
         contractor = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteContractor);
-        contractor.set(this, model, this, DatabaseWriter.UIComponentInputValue.CONTRACTOR, null, false);
+        contractor.set(this, model, this, DatabaseWriter.UIComponentInputValue.CONTRACTOR, null);
 
         footings = (CheckBox) findViewById(R.id.checkBoxFootings);
         foundationWalls = (CheckBox) findViewById(R.id.checkBoxFoundationWalls);
@@ -88,7 +92,7 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
         descriptionTextView.setTextColor(Color.BLACK);
 
         description = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteDescription);
-        description.set(this, model, this, DatabaseWriter.UIComponentInputValue.OTHER_REVIEW_DESCRIPTION, null, false);
+        description.set(this, model, this, DatabaseWriter.UIComponentInputValue.OTHER_REVIEW_DESCRIPTION, null);
     }
 
     private void initValues() {
@@ -102,11 +106,11 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
 
         // PROVINCE
         value = model.getValue(DatabaseWriter.UIComponentInputValue.PROVINCE);
-        if(value != null) province.setText(value);
+        if(value != null) province.setText(getResources().getString(R.string.province_default));
 
         // PROJECT NUMBER
         value = model.getValue(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER);
-        if(value != null) projectNumber.setText(value);
+        if(value != null) projectNumber.setText(getResources().getString(R.string.project_number_default));
 
         // DEVELOPER
         value = model.getValue(DatabaseWriter.UIComponentInputValue.DEVELOPER);
