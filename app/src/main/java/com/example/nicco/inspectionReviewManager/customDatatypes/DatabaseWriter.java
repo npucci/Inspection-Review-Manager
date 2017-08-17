@@ -9,10 +9,6 @@ import android.util.Log;
 import com.example.nicco.inspectionReviewManager.utilities.FileIO;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -405,21 +401,7 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         return null;
     }
 
-    public File exportDatabase(Context context) {
-        if(database != null) {
-            File databaseBackup = new File(database.getPath());
-            File destinationDir = new File(FileIO.getExternalPublicStorageDir(context), FileIO.EXPORT_DATABASE_OUTPUT_FOLDER);
-            try (InputStream inputStream = new FileInputStream(databaseBackup)) {
-                File destFile = new File(destinationDir.getPath(), databaseBackup.getName());
-                return FileIO.copyFile(inputStream, destFile);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                return null;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-        return null;
+    public boolean exportDatabase(Context context) {
+        return FileIO.exportDatabase(context, new File(database.getPath()));
     }
 }

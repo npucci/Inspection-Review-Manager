@@ -241,7 +241,7 @@ public class Model extends Application {
 
     public boolean reviewExistsInDatabase() { return dbWriter.existsInDatabase(hashMap); }
 
-    public boolean exportReviewToDoc(Context context) {
+    private String makeReviewTitle() {
         String fileName = "";
         String temp = hashMap.get(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER);
         if(temp.length() > 20) temp = temp.substring(0, 21);
@@ -256,6 +256,19 @@ public class Model extends Application {
         if(temp.length() > 20) temp = temp.substring(0, 21);
         fileName += temp + ") ";
 
+        ArrayList<String> reviewTypes = getReviewTypes();
+        for(int i = 0; i < reviewTypes.size(); i++) {
+            if(i == reviewTypes.size() - 1) fileName += " and " + reviewTypes.get(i) + " Review ";
+            else if(i > 0) fileName += ", " + reviewTypes.get(i);
+            else fileName += reviewTypes.get(i);
+        }
+        String[] date = hashMap.get(DatabaseWriter.UIComponentInputValue.DATE).split("-"); // YYYY-MM-DD
+        if(date.length == 3) fileName += "(" + date[1] + date[2] + date[0] + ").doc"; // MMDDYYYY
+        else fileName += "(" + hashMap.get(DatabaseWriter.UIComponentInputValue.DATE) + ").doc"; // YYYY-MM-DD
+        return fileName; // ie. "C15 (4295 Quarry Road, Coquitlam, BC) Sheathing and Framing Inspection Report (07242017).doc"
+    }
+
+    private ArrayList<String> getReviewTypes() {
         ArrayList<String> reviewTypes = new ArrayList<>();
         if(hashMap.get(DatabaseWriter.UIComponentInputValue.FOOTINGS_REVIEW).equals(SpecialValue.YES.toString()))
             reviewTypes.add(DatabaseWriter.UIComponentInputValue.FOOTINGS_REVIEW.getFormattedValue());
@@ -267,21 +280,12 @@ public class Model extends Application {
             reviewTypes.add(DatabaseWriter.UIComponentInputValue.FRAMING_REVIEW.getFormattedValue());
         if(hashMap.get(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW).equals(SpecialValue.YES.toString()))
             reviewTypes.add(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW.getFormattedValue());
+        return reviewTypes;
+    }
 
-        // ie. "C15 (4295 Quarry Road, Coquitlam, BC) Sheathing and Framing Inspection Report (07242017).doc"
-        for(int i = 0; i < reviewTypes.size(); i++) {
-            if(i == reviewTypes.size() - 1) fileName += " and " + reviewTypes.get(i) + " Review ";
-            else if(i > 0) fileName += ", " + reviewTypes.get(i);
-            else fileName += reviewTypes.get(i);
-        }
-
-        String[] date = hashMap.get(DatabaseWriter.UIComponentInputValue.DATE).split("-"); // YYYY-MM-DD
-        if(date.length == 3) fileName += "(" + date[1] + date[2] + date[0] + ").doc"; // MMDDYYYY
-        else fileName += "(" + hashMap.get(DatabaseWriter.UIComponentInputValue.DATE) + ").doc"; // YYYY-MM-DD
-
-        int monthInt = Integer.parseInt(date[1]) - 1;
-        String yearMonthDir = date[0] + "/" + " " + monthIntToString(monthInt);
-        return FileIO.exportInpsectionReviewToDOC(context, hashMap, fileName, yearMonthDir);
+    public boolean exportReviewToDoc(Context context) {
+        String fileName = makeReviewTitle();
+        return FileIO.exportInpsectionReviewToDOC(context, hashMap, fileName);
     }
 
     public Cursor getDatabaseCursor() {
@@ -289,7 +293,7 @@ public class Model extends Application {
     }
 
     public boolean backupDatabase(Context context) {
-        return dbWriter.exportDatabase(context) != null;
+        return dbWriter.exportDatabase(context);
     }
 
     public void AutoFillConcreteActivity() {
