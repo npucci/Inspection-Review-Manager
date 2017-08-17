@@ -3,11 +3,12 @@ package com.example.nicco.inspectionReviewManager.customDatatypes;
 import android.app.Application;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import com.example.nicco.inspectionReviewManager.utilities.FileIO;
 import com.example.nicco.inspectionReviewManager.R;
+import com.example.nicco.inspectionReviewManager.utilities.FileIO;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
@@ -285,7 +286,9 @@ public class Model extends Application {
 
     public boolean exportReviewToDoc(Context context) {
         String fileName = makeReviewTitle();
-        return FileIO.exportInpsectionReviewToDOC(context, hashMap, fileName);
+        new ExportDoc(context, hashMap, fileName).execute();
+        //return FileIO.exportInpsectionReviewToDOC(context, hashMap, fileName);
+        return true;
     }
 
     public Cursor getDatabaseCursor() {
@@ -401,5 +404,30 @@ public class Model extends Application {
             else whereClause += " ";
         }
         dbWriter.deleteReview(DatabaseWriter.getDatabaseColumns(), whereClause, whereArgs);
+    }
+
+    private static class ExportDoc extends AsyncTask<String, Integer, Boolean> {
+        Context context;
+        String fileName;
+        HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap;
+
+        public ExportDoc(Context context,
+                         HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
+                         String fileName) {
+            super();
+            this.context = context;
+            this.fileName = fileName;
+            this.hashMap = hashMap;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            return FileIO.exportInpsectionReviewToDOC(context, hashMap, fileName);
+        }
     }
 }

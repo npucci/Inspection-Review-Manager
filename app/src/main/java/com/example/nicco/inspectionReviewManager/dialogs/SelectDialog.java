@@ -16,8 +16,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.nicco.inspectionReviewManager.customDatatypes.ModelLoadListener;
 import com.example.nicco.inspectionReviewManager.R;
+import com.example.nicco.inspectionReviewManager.customDatatypes.ModelLoadListener;
 
 /**
  * Created by Nicco on 2017-08-08.
@@ -47,22 +47,18 @@ public class SelectDialog extends DialogFragment {
         exportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast toast = Toast.makeText(view.getContext(), R.string.exporting_doc_message, Toast.LENGTH_LONG);
+                toast.show();
                 // export and open review as a doc file
                 ActivityCompat.requestPermissions(SelectDialog.this.getActivity(),
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         1);
                 int permission = ActivityCompat.checkSelfPermission(SelectDialog.this.getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if(permission == PackageManager.PERMISSION_GRANTED) {
-                    if(modelLoadListener.export()) {
-                        Toast toast = Toast.makeText(view.getContext(), R.string.exported_doc_message, Toast.LENGTH_LONG);
-                        toast.show();
-                    } else {
-                        Toast toast = Toast.makeText(view.getContext(), R.string.unable_to_export_doc_message, Toast.LENGTH_LONG);
-                        toast.show();
-                    }
+                    modelLoadListener.export();
                     getDialog().dismiss();
                 } else {
-                    Toast toast = Toast.makeText(view.getContext(), R.string.write_permissions_denied, Toast.LENGTH_LONG);
+                    toast = Toast.makeText(view.getContext(), R.string.write_permissions_denied, Toast.LENGTH_LONG);
                     toast.show();
                     getDialog().dismiss();
                 }

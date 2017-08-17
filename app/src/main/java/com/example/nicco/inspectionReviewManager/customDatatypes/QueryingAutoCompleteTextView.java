@@ -28,7 +28,7 @@ public class QueryingAutoCompleteTextView extends android.support.v7.widget.AppC
 
         addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(QueryingAutoCompleteTextView.this.getText().toString() == null && QueryingAutoCompleteTextView.this.getText().toString().isEmpty()) return;
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(activity,
                         android.R.layout.simple_selectable_list_item,
@@ -42,14 +42,10 @@ public class QueryingAutoCompleteTextView extends android.support.v7.widget.AppC
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
+            public void afterTextChanged(Editable editable) {}
         });
         setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

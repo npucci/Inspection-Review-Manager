@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.nicco.inspectionReviewManager.utilities.FileIO;
@@ -402,6 +403,28 @@ public class DatabaseWriter extends SQLiteOpenHelper {
     }
 
     public boolean exportDatabase(Context context) {
-        return FileIO.exportDatabase(context, new File(database.getPath()));
+        new ExportDatabase(context, database.getPath()).execute();
+        return true;
+    }
+
+    private static class ExportDatabase extends AsyncTask<String, Integer, Boolean> {
+        Context context;
+        String databasePath;
+
+        public ExportDatabase(Context context, String databasePath) {
+            super();
+            this.context = context;
+            this.databasePath = databasePath;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            return FileIO.exportDatabase(context, new File(databasePath));
+        }
     }
 }

@@ -8,6 +8,7 @@ package com.example.nicco.inspectionReviewManager.utilities;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
@@ -66,7 +67,7 @@ public class FileIO {
     }
 
     public static File getExportDatabaseDir(Context context) {
-        File exportDir = new File(getExternalPublicStorageDir(context), FileIO.EXPORT_DOC_OUTPUT_FOLDER);
+        File exportDir = new File(getExternalPublicStorageDir(context), FileIO.EXPORT_DATABASE_OUTPUT_FOLDER);
         if(!makeDir(exportDir)) return null;
         return exportDir;
     }
@@ -96,12 +97,10 @@ public class FileIO {
 	public static boolean exportInpsectionReviewToDOC(final Context context,
                                                       final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
                                                       String inspectionReviewName) {
-        Log.v("PUCCI", "step 1");
         // 1. get export dir
         File exportDir = getExportDocDir(context);
         if(exportDir == null) return false;
 
-        Log.v("PUCCI", "step 2");
         // 2. copy correct template as new review file
         boolean stamped = false;
         if(hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED) != null &&
@@ -109,9 +108,10 @@ public class FileIO {
         else stamped = false;
         File outputFile = new File(exportDir.getPath(), inspectionReviewName);// newFileFromTemplate(context, exportDir, inspectionReviewName, stamped);
 
-        Log.v("PUCCI", "step 3");
         // 3. write to new review file
-        InputStream inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_template);
+        InputStream inputStream;
+        if(stamped) inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_template);
+        else inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_template_stamped);
         try {
             POIFSFileSystem fs = new POIFSFileSystem(inputStream); //new FileInputStream(outputFile.getPath()));
             HWPFDocument doc = new HWPFDocument(fs);
@@ -196,4 +196,29 @@ public class FileIO {
 			r.replaceText(tag, replacement);
 		}
 	}
+
+    private class ExportDoc extends AsyncTask<String, Integer, Boolean> {
+        Context context;
+        String fileName;
+        HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap;
+
+        public ExportDoc(Context context,
+                         HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
+                         String fileName) {
+            super();
+            this.context = context;
+            this.fileName = fileName;
+            this.hashMap = hashMap;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            return FileIO.exportInpsectionReviewToDOC(context, hashMap, fileName);
+        }
+    }
 }

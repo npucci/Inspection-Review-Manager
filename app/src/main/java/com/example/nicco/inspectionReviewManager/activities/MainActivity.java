@@ -179,8 +179,6 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
 
     @Override
     public boolean export() {
-        Toast toast = Toast.makeText(this, R.string.exporting_doc_message, Toast.LENGTH_LONG);
-        toast.show();
         final Model model = (Model) getApplicationContext();
         model.loadReviewFromDatabase(selectedArchiveReview);
         boolean exported = model.exportReviewToDoc(getBaseContext());

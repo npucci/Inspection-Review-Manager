@@ -99,13 +99,7 @@ public class SettingsDialog extends DialogFragment {
                     Toast toast = Toast.makeText(getActivity().getBaseContext(), R.string.exporting_database_message, Toast.LENGTH_LONG);
                     toast.show();
                     Model model = (Model) getActivity().getApplicationContext();
-                    if(model.backupDatabase(getActivity().getBaseContext())) {
-                        toast = Toast.makeText(getActivity().getBaseContext(), R.string.exported_database_message, Toast.LENGTH_LONG);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(getActivity().getBaseContext(), R.string.unable_to_export_database_message, Toast.LENGTH_LONG);
-                        toast.show();
-                    }
+                    model.backupDatabase(getActivity().getBaseContext());
                 } else {
                     Toast toast = Toast.makeText(getActivity().getBaseContext(), R.string.write_permissions_denied, Toast.LENGTH_LONG);
                     toast.show();
