@@ -230,6 +230,13 @@ public class Model extends Application {
         return combined.toArray(new String[combined.size()]);
     }
 
+    public LinkedHashSet<String> combineArraysLinkedHashSet(String[] arr1, String[] arr2) {
+        LinkedHashSet<String> combined = new LinkedHashSet<>();
+        if(arr1 != null) combined.addAll(Arrays.asList(arr1));
+        if(arr2 != null) combined.addAll(Arrays.asList(arr2));
+        return combined;
+    }
+
      public boolean insertReviewToDatabase() {
          DatabaseWriter.UIComponentInputValue[] keySet = hashMap.keySet().toArray(
                  new DatabaseWriter.UIComponentInputValue[hashMap.keySet().size()]);

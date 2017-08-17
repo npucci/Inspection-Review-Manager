@@ -9,11 +9,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import java.util.ArrayList;
+
 /**
  * Created by Nicco on 2017-08-16.
  */
 
 public class QueryingAutoCompleteTextView extends android.support.v7.widget.AppCompatAutoCompleteTextView {
+    ArrayList<String> values = new ArrayList<String>();
+
     public QueryingAutoCompleteTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -23,20 +27,17 @@ public class QueryingAutoCompleteTextView extends android.support.v7.widget.AppC
                     final String[] defaultValues) {
         setAdapter(new ArrayAdapter<>(activity.getBaseContext(),
                 android.R.layout.simple_selectable_list_item,
-                new String[0]));
+                values));
         setThreshold(1);
 
         addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(QueryingAutoCompleteTextView.this.getText().toString() == null && QueryingAutoCompleteTextView.this.getText().toString().isEmpty()) return;
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(activity,
-                        android.R.layout.simple_selectable_list_item,
-                        model.combineArrays(
-                                model.queryMatchSearchDatabase(
-                                        databaseColumn, QueryingAutoCompleteTextView.this.getText().toString()),
-                                defaultValues));
-                QueryingAutoCompleteTextView.this.setAdapter(adapter);
+                values.clear();
+                values.addAll(model.combineArraysLinkedHashSet(
+                        model.queryMatchSearchDatabase(databaseColumn, QueryingAutoCompleteTextView.this.getText().toString()),
+                        defaultValues));
                 ((ArrayAdapter) QueryingAutoCompleteTextView.this.getAdapter()).notifyDataSetChanged();
                 autofillActivity.autofill(QueryingAutoCompleteTextView.this);
             }
@@ -54,5 +55,4 @@ public class QueryingAutoCompleteTextView extends android.support.v7.widget.AppC
             }
         });
     }
-
 }

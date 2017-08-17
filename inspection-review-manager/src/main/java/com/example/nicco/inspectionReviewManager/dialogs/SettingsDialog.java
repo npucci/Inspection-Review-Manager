@@ -112,6 +112,8 @@ public class SettingsDialog extends DialogFragment {
         aboutTab.setIndicator("About");
         aboutTab.setContent(R.id.About);
         tabHost.addTab(aboutTab);
+        TextView appVersionTextView = (TextView) view.findViewById(R.id.textViewAppVersion);
+        appVersionTextView.setText("Version: " + getResources().getString(R.string.version_name));
 
         // LICENSES TAB
         TabHost.TabSpec licensesTab = tabHost.newTabSpec("Licenses");

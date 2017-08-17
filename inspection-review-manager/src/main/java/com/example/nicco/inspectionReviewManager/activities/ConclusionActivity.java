@@ -77,6 +77,7 @@ public class ConclusionActivity extends AppCompatActivity implements AutoFillAct
         reviewedBy = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteReviewedBy);
         reviewedBy.set(this, model, this, DatabaseWriter.UIComponentInputValue.REVIEWED_BY, null);
         stamped = (CheckBox) findViewById(R.id.checkBoxStamped);
+        stamped.setVisibility(View.INVISIBLE);
     }
 
     private void initValues() {
