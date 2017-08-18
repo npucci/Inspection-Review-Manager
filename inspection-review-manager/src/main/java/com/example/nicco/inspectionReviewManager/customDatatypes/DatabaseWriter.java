@@ -210,6 +210,7 @@ public class DatabaseWriter extends SQLiteOpenHelper {
                 cursor.moveToFirst();
                 numResults = cursor.getInt(0);
             }
+            cursor.close();
         } catch(Exception e) {
             Log.v("PUCCI", "QUERY Exception: " + e.getMessage());
         }
@@ -326,6 +327,7 @@ public class DatabaseWriter extends SQLiteOpenHelper {
                     if(data != null) results.add(data);
                 }
             }
+            cursor.close();
         } catch(Exception e) {
             Log.v("PUCCI", "QUERY Exception: " + e.getMessage());
         }

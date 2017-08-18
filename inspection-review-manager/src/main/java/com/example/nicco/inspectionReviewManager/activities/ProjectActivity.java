@@ -36,7 +36,7 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
-
+    Log.v("PUCCI", "created");
         initViews();
         initValues();
 
@@ -315,5 +315,11 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
         other.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
         descriptionTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
         description.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.gc();
     }
 }
