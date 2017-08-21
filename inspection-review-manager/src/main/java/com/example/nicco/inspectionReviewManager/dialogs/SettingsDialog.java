@@ -138,9 +138,9 @@ public class SettingsDialog extends DialogFragment {
     }
 
     private void setTextSize(float textSize) {
-        if(textSize != getResources().getDimensionPixelSize(R.dimen.defaultTextSize) &&
-                textSize != getResources().getDimensionPixelSize(R.dimen.largeTextSize))
-            this.textSize = getResources().getDimensionPixelSize(R.dimen.defaultTextSize);
+        if(textSize != getResources().getDimension(R.dimen.defaultTextSize) &&
+                textSize != getResources().getDimension(R.dimen.largeTextSize))
+            this.textSize = getResources().getDimension(R.dimen.defaultTextSize);
         else this.textSize = textSize;
         updateTextSize(getView());
     }
