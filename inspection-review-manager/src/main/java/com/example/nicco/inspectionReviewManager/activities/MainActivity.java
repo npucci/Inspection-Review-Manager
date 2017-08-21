@@ -18,6 +18,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
@@ -96,7 +97,7 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
         setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
         setTextUnderline();
-    }
+}
 
     @Override
     public void onStart() {
@@ -278,6 +279,9 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
 
     public void setTextSize(float textSize) {
         this.textSize = textSize;
+        if(textSize != getResources().getDimension(R.dimen.defaultTextSize) ||
+                textSize != getResources().getDimension(R.dimen.largeTextSize))
+            this.textSize = getResources().getDimension(R.dimen.defaultTextSize);
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putFloat("TextSize", textSize);
@@ -286,9 +290,10 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
     }
 
     private void updateTextSize() {
+        textSize = 16;
+        Log.v("PUCCI", "this.textSize = " + textSize);
         TextView archiveHeadingLabel = (TextView) findViewById(R.id.textViewInspectionReviewArchive);
         archiveHeadingLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
-
         RecyclerView archive = (RecyclerView) findViewById(R.id.recyclerViewArchive);
         ((RecyclerAdapter)archive.getAdapter()).setTextSize(textSize);
 

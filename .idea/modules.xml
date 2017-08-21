@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Inspection Review Manager.iml" filepath="$PROJECT_DIR$/Inspection Review Manager.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Inspection-Review-Manager.iml" filepath="$PROJECT_DIR$/Inspection-Review-Manager.iml" />
       <module fileurl="file://$PROJECT_DIR$/inspection-review-manager/inspection-review-manager.iml" filepath="$PROJECT_DIR$/inspection-review-manager/inspection-review-manager.iml" />
     </modules>
   </component>
