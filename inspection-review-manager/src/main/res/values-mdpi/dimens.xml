@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- UI TEXT SIZES -->
-    <dimen name="defaultTextSize">16dp</dimen>
-    <dimen name="largeTextSize">20dp</dimen>
+    <dimen name="defaultTextSize">11dp</dimen>
+    <dimen name="largeTextSize">13dp</dimen>
 </resources>

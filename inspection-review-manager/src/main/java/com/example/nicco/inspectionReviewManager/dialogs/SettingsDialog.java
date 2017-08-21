@@ -52,7 +52,7 @@ public class SettingsDialog extends DialogFragment {
         final View view = inflater.inflate(R.layout.settings_dialog, container, false);
 
         SharedPreferences sharedPreferences = getActivity().getApplicationContext().getSharedPreferences("AppPref", 0);
-        textSize = sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize));
+        setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
 
         final TabHost tabHost = (TabHost) view.findViewById(R.id.tabHost);
         tabHost.setup();
@@ -138,7 +138,10 @@ public class SettingsDialog extends DialogFragment {
     }
 
     private void setTextSize(float textSize) {
-        this.textSize = textSize;
+        if(textSize != getResources().getDimensionPixelSize(R.dimen.defaultTextSize) &&
+                textSize != getResources().getDimensionPixelSize(R.dimen.largeTextSize))
+            this.textSize = getResources().getDimensionPixelSize(R.dimen.defaultTextSize);
+        else this.textSize = textSize;
         updateTextSize(getView());
     }
 
