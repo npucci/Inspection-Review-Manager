@@ -152,6 +152,12 @@ public class FramingActivity extends AppCompatActivity implements AutoFillActivi
     private void initValues() {
         // TRUSS SPEC
         trussSpecReviewed.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC));
+        trussSpecReviewed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                trussSpecInstruction.setEnabled(true);
+            }
+        });
         if(model.getValue(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC).equals(Model.SpecialValue.NO.toString())) {
             trussSpecNA.setChecked(true);
         } else trussSpecNA.setChecked(model.isChecked(DatabaseWriter.UIComponentInputValue.TRUSS_SPEC_NA));
