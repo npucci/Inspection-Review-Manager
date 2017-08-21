@@ -3,7 +3,6 @@ package com.example.nicco.inspectionReviewManager.activities;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
-
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,14 +10,12 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
@@ -26,10 +23,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nicco.inspectionReviewManager.R;
 import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
 import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
 import com.example.nicco.inspectionReviewManager.customDatatypes.ModelLoadListener;
-import com.example.nicco.inspectionReviewManager.R;
 import com.example.nicco.inspectionReviewManager.customDatatypes.RecyclerAdapter;
 import com.example.nicco.inspectionReviewManager.customDatatypes.RecyclerViewClickListener;
 import com.example.nicco.inspectionReviewManager.dialogs.SelectDialog;
@@ -97,7 +94,7 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
         setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
         setTextUnderline();
-}
+    }
 
     @Override
     public void onStart() {
@@ -278,10 +275,10 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
     }
 
     public void setTextSize(float textSize) {
-        this.textSize = textSize;
-        if(textSize != getResources().getDimension(R.dimen.defaultTextSize) ||
-                textSize != getResources().getDimension(R.dimen.largeTextSize))
-            this.textSize = getResources().getDimension(R.dimen.defaultTextSize);
+        if(textSize != getResources().getDimensionPixelSize(R.dimen.defaultTextSize) &&
+        textSize != getResources().getDimensionPixelSize(R.dimen.largeTextSize))
+            this.textSize = getResources().getDimensionPixelSize(R.dimen.defaultTextSize);
+        else this.textSize = textSize;
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putFloat("TextSize", textSize);
@@ -290,10 +287,9 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
     }
 
     private void updateTextSize() {
-        textSize = 16;
-        Log.v("PUCCI", "this.textSize = " + textSize);
         TextView archiveHeadingLabel = (TextView) findViewById(R.id.textViewInspectionReviewArchive);
         archiveHeadingLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
         RecyclerView archive = (RecyclerView) findViewById(R.id.recyclerViewArchive);
         ((RecyclerAdapter)archive.getAdapter()).setTextSize(textSize);
 

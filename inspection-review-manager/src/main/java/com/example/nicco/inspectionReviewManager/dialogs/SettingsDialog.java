@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,11 +52,8 @@ public class SettingsDialog extends DialogFragment {
         final View view = inflater.inflate(R.layout.settings_dialog, container, false);
 
         SharedPreferences sharedPreferences = getActivity().getApplicationContext().getSharedPreferences("AppPref", 0);
-        textSize = sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize));
-        if(textSize != getResources().getDimension(R.dimen.defaultTextSize) ||
-                textSize != getResources().getDimension(R.dimen.largeTextSize))
-            textSize = getResources().getDimension(R.dimen.defaultTextSize);
-        Log.v("PUCCI", "textSize = " + textSize);
+        setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
+
         final TabHost tabHost = (TabHost) view.findViewById(R.id.tabHost);
         tabHost.setup();
 
@@ -142,7 +138,10 @@ public class SettingsDialog extends DialogFragment {
     }
 
     private void setTextSize(float textSize) {
-        this.textSize = textSize;
+        if(textSize != getResources().getDimensionPixelSize(R.dimen.defaultTextSize) &&
+                textSize != getResources().getDimensionPixelSize(R.dimen.largeTextSize))
+            this.textSize = getResources().getDimensionPixelSize(R.dimen.defaultTextSize);
+        else this.textSize = textSize;
         updateTextSize(getView());
     }
 
