@@ -8,7 +8,6 @@ package com.example.nicco.inspectionReviewManager.utilities;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
@@ -93,6 +92,78 @@ public class FileIO {
         }
         return true;
     }
+
+//    public static boolean exportInpsectionReviewToHTML(final Context context,
+//                                                      final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
+//                                                      String inspectionReviewName) {
+//        // 1. get export dir
+//        File exportDir = getExportDocDir(context);
+//        if(exportDir == null) return false;
+//
+//        // 2. copy correct template as new review file
+////        boolean stamped = false;
+////        if(hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED) != null &&
+////                hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED).equals(Model.SpecialValue.YES)) stamped = true;
+////        else stamped = false;
+//        File outputFile = new File(exportDir.getPath(), inspectionReviewName);// newFileFromTemplate(context, exportDir, inspectionReviewName, stamped);
+//        InputStream inputStream = context.getResources().openRawResource(R.raw.TemplateReportForm);
+//        copyFile(inputStream, outputFile);
+//
+//        // 3. write to new review file
+////        if(stamped) inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_template);
+////        else inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_template_stamped);
+//        ArrayList<String> lines = readHTMLReportTemplate(context);
+//        Log.v("PUCCI", "# html lines = " + lines.size());
+////        try {
+////            POIFSFileSystem fs = new POIFSFileSystem(inputStream); //new FileInputStream(outputFile.getPath()));
+////            HWPFDocument doc = new HWPFDocument(fs);
+////            DatabaseWriter.UIComponentInputValue[] columnArr = hashMap.keySet().toArray(
+////                    new DatabaseWriter.UIComponentInputValue[hashMap.keySet().size()]);
+////            for (DatabaseWriter.UIComponentInputValue column : columnArr) {
+////                String replacement = hashMap.get(column);
+////                if(replacement.equals(Model.SpecialValue.YES.toString())) replacement = "checked";
+////                else if(replacement.equals(Model.SpecialValue.NO.toString())) replacement = "unchecked";
+////                String replacementTag = "<!-- " + column.getValue() + " -->";
+////                replaceAllTextInDoc(doc, replacementTag, replacement);
+////            }
+////            FileOutputStream out = new FileOutputStream(outputFile);
+////            doc.write(out);
+////            //Log.v("PUCCI", "DOC Creation Success! outputFile = " + outputFile.getPath());
+////            out.close();
+////
+////            //Log.v("PUCCI", "SUCCESS: The output file was created/exists\n= " + outputFile.getPath());
+////            // open file using the Android OS default program
+////            openFile(context, outputFile);
+////        } catch (Exception e) {
+////            Log.v("PUCCI", "ERROR: " + e.getMessage());
+////            return false;
+////        }
+//
+//        Log.v("PUCCI", "done");
+//        if (outputFile == null || !outputFile.exists()) {
+//            Log.v("PUCCI", "ERROR: The output file wasn't created\n= " + outputFile.getPath());
+//            return false;
+//        }
+//        return true;
+//
+//    }
+
+//    private static ArrayList<String> readHTMLReportTemplate(File reviewHTML) {
+//        ArrayList<String> lines = new ArrayList<String>();
+//        try {
+//            FileReader reader = new FileReader(reviewHTML);
+//            BufferedReader fin = new BufferedReader(reader);
+//
+//            for(String line = fin.readLine(); line != null; line = fin.readLine()) {
+//                lines.add(line);
+//            }
+//        }
+//        catch (Exception e) {
+//            return null;
+//        }
+//
+//        return lines;
+//    }
 
 	public static boolean exportInpsectionReviewToDOC(final Context context,
                                                       final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
@@ -196,29 +267,4 @@ public class FileIO {
 			r.replaceText(tag, replacement);
 		}
 	}
-
-    private class ExportDoc extends AsyncTask<String, Integer, Boolean> {
-        Context context;
-        String fileName;
-        HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap;
-
-        public ExportDoc(Context context,
-                         HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
-                         String fileName) {
-            super();
-            this.context = context;
-            this.fileName = fileName;
-            this.hashMap = hashMap;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            return FileIO.exportInpsectionReviewToDOC(context, hashMap, fileName);
-        }
-    }
 }
