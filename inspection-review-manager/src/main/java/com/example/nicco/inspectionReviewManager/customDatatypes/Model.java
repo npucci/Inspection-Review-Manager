@@ -291,10 +291,15 @@ public class Model extends Application {
         return reviewTypes;
     }
 
+    public boolean exportReviewToHTML(Context context) {
+        String fileName = makeReviewTitle();
+        new ExportHTML(context, hashMap, fileName).execute();
+        return true;
+    }
+
     public boolean exportReviewToDoc(Context context) {
         String fileName = makeReviewTitle();
         new ExportDoc(context, hashMap, fileName).execute();
-        new ExportHTML(context, hashMap, fileName).execute();
         return true;
     }
 

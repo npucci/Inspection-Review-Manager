@@ -38,11 +38,16 @@
     <string name="button_delete">Delete</string>
     <string name="button_edit_options">Options</string>
     <string name="button_edit">Edit</string>
-    <string name="button_export">Export</string>
+    <string name="button_export_html">Export HTML</string>
+    <string name="button_export_doc">Export Doc</string>
+    <string name="button_finish">Finished</string>
     <string name="button_inspection_review">Inspection Review</string>
 
     <!-- TOAST TEXT -->
     <string name="write_permissions_denied">Write Permissions Denied</string>
+    <string name="exporting_html_message">Exporting HTML"</string>
+    <string name="exported_html_message">HTML Exported"</string>
+    <string name="unable_to_export_html_message">Unable To Export HTML"</string>
     <string name="exporting_doc_message">Exporting Doc"</string>
     <string name="exported_doc_message">Doc Exported"</string>
     <string name="unable_to_export_doc_message">Unable To Export Doc"</string>

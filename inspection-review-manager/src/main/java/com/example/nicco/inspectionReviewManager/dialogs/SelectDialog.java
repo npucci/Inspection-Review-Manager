@@ -41,10 +41,31 @@ public class SelectDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.select_dialog, container, false);
-        Button exportButton = (Button) view.findViewById(R.id.buttonSelectExport);
+        Button exportHTMLButton = (Button) view.findViewById(R.id.buttonSelectExportHTML);
+        Button exportDocButton = (Button) view.findViewById(R.id.buttonSelectExportDoc);
         Button editButton = (Button) view.findViewById(R.id.buttonSelectEdit);
         Button deleteButton = (Button) view.findViewById(R.id.buttonDelete);
-        exportButton.setOnClickListener(new View.OnClickListener() {
+        exportHTMLButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast toast = Toast.makeText(view.getContext(), R.string.exporting_html_message, Toast.LENGTH_LONG);
+                toast.show();
+                // export and open review as a doc file
+                ActivityCompat.requestPermissions(SelectDialog.this.getActivity(),
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        1);
+                int permission = ActivityCompat.checkSelfPermission(SelectDialog.this.getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if(permission == PackageManager.PERMISSION_GRANTED) {
+                    modelLoadListener.exportHTML();
+                    getDialog().dismiss();
+                } else {
+                    toast = Toast.makeText(view.getContext(), R.string.write_permissions_denied, Toast.LENGTH_LONG);
+                    toast.show();
+                    getDialog().dismiss();
+                }
+            }
+        });
+        exportDocButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast toast = Toast.makeText(view.getContext(), R.string.exporting_doc_message, Toast.LENGTH_LONG);
@@ -55,7 +76,7 @@ public class SelectDialog extends DialogFragment {
                         1);
                 int permission = ActivityCompat.checkSelfPermission(SelectDialog.this.getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if(permission == PackageManager.PERMISSION_GRANTED) {
-                    modelLoadListener.export();
+                    modelLoadListener.exportDoc();
                     getDialog().dismiss();
                 } else {
                     toast = Toast.makeText(view.getContext(), R.string.write_permissions_denied, Toast.LENGTH_LONG);
@@ -97,8 +118,10 @@ public class SelectDialog extends DialogFragment {
     }
 
     private void setTextUnderline(View view) {
-        Button exportButton = (Button) view.findViewById(R.id.buttonSelectExport);
-        exportButton.setPaintFlags(exportButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        Button exportHTMLButton = (Button) view.findViewById(R.id.buttonSelectExportHTML);
+        exportHTMLButton.setPaintFlags(exportHTMLButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        Button exportDocButton = (Button) view.findViewById(R.id.buttonSelectExportDoc);
+        exportDocButton.setPaintFlags(exportDocButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         Button editButton = (Button) view.findViewById(R.id.buttonSelectEdit);
         editButton.setPaintFlags(editButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         Button deleteButton = (Button) view.findViewById(R.id.buttonDelete);
@@ -106,8 +129,10 @@ public class SelectDialog extends DialogFragment {
     }
 
     private void updateTextSize(View view) {
-        Button exportButton = (Button) view.findViewById(R.id.buttonSelectExport);
-        exportButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        Button exportHTMLButton = (Button) view.findViewById(R.id.buttonSelectExportHTML);
+        exportHTMLButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        Button exportDocButton = (Button) view.findViewById(R.id.buttonSelectExportDoc);
+        exportDocButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
         Button editButton = (Button) view.findViewById(R.id.buttonSelectEdit);
         editButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
         Button deleteButton = (Button) view.findViewById(R.id.buttonDelete);

@@ -5,6 +5,7 @@ package com.example.nicco.inspectionReviewManager.utilities;
  * Date: April 18th, 2017
  */
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -50,26 +51,30 @@ public class FileIO {
     }
 
     private static void openDocFile(final Context context, final File file) {
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setAction(Intent.ACTION_VIEW);
+        String type = "application/msword";
+        intent.setDataAndType(Uri.fromFile(file), type);
         try {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            Uri uri = Uri.fromFile(file);
-            intent.setDataAndType(uri, "application/doc");
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
-        } catch(Exception e) {
+        } catch(ActivityNotFoundException e) {
             Log.v("PUCCI", "ERROR: " + e.getMessage());
+            intent.setPackage(null);
+            context.startActivity(intent);
         }
     }
 
     private static void openHTMLFile(final Context context, final File file) {
+        Uri uri = Uri.parse("googlechrome://navigate?url=" + file.getPath());
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            Uri uri = Uri.fromFile(file);
-            intent.setDataAndType(uri, "application/html");
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
-        } catch(Exception e) {
+        } catch(ActivityNotFoundException e) {
             Log.v("PUCCI", "ERROR: " + e.getMessage());
+            intent.setPackage(null);
+            context.startActivity(intent);
         }
     }
 

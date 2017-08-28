@@ -176,7 +176,16 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
     }
 
     @Override
-    public boolean export() {
+    public boolean exportHTML() {
+        final Model model = (Model) getApplicationContext();
+        model.loadReviewFromDatabase(selectedArchiveReview);
+        boolean exported = model.exportReviewToHTML(getBaseContext());
+        model.reset();
+        return exported;
+    }
+
+    @Override
+    public boolean exportDoc() {
         final Model model = (Model) getApplicationContext();
         model.loadReviewFromDatabase(selectedArchiveReview);
         boolean exported = model.exportReviewToDoc(getBaseContext());
