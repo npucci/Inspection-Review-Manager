@@ -21,7 +21,7 @@ import java.util.LinkedHashSet;
  */
 
 public class Model extends Application {
-    private HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap = new HashMap<DatabaseWriter.UIComponentInputValue, String>();
+    private HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap = new HashMap<>();
     private DatabaseWriter dbWriter;
 
     public enum SpecialValue {

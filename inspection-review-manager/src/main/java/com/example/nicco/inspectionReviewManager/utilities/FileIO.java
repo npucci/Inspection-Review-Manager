@@ -182,14 +182,9 @@ public class FileIO {
                         Log.v("PUCCI", "token = " + token);
                         Log.v("PUCCI", "value = " + value);
                         if(value.equals(Model.SpecialValue.YES.toString())) {
-                            Log.v("PUCCI", "s before = " + s);
                             s = s.replace("unchecked", "checked");
                             s = s.replace(value, "");
-                            Log.v("PUCCI", "s after = " + s);
-                        }
-                        else if(value.equals(Model.SpecialValue.NO.toString())) {
-                            s = s.replace(value, "");
-                        }
+                        } else if(value.equals(Model.SpecialValue.NO.toString())) s = s.replace(value, "");
                         else s = s.replace("<!-- " + token + " -->", value);
                     }
                 }
