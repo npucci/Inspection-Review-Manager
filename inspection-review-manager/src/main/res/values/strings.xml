@@ -18,12 +18,15 @@
     <string name="province_default">BC</string>
 
     <!-- DIALOG TEXT -->
-    <string name="dialogue_review_in_progress_title">Review Already In Progress</string>
-    <string name="dialogue_review_in_progress_message">All data in the current session will be lost.\nDo you wish to continue?</string>
-    <string name="dialogue_update_review_title">Review Already On Record</string>
-    <string name="dialogue_update_review_message">Would you like to update the previous review?</string>
-    <string name="dialogue_close_review_title">Close Review</string>
-    <string name="dialogue_close_review_message">All data in this session will be lost.\nDo you wish to continue?</string>
+    <string name="dialog_exporting_progress_message">Exporting Progress</string>
+    <string name="dialog_exporting_progress_percentage_message">Exporting Progress Percentage</string>
+    <string name="dialog_exporting_result_message">Exporting Result</string>
+    <string name="dialog_review_in_progress_title">Review Already In Progress</string>
+    <string name="dialog_review_in_progress_message">All data in the current session will be lost.\nDo you wish to continue?</string>
+    <string name="dialog_update_review_title">Review Already On Record</string>
+    <string name="dialog_update_review_message">Would you like to update the previous review?</string>
+    <string name="dialog_close_review_title">Close Review</string>
+    <string name="dialog_close_review_message">All data in this session will be lost.\nDo you wish to continue?</string>
     <string name="select_dialog_title">Available Actions:</string>
     <string name="select_dialog_message">What would you like to do?</string>
     <string name="delete_dialog_title">Delete Review"</string>

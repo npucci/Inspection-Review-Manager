@@ -3,6 +3,7 @@ package com.example.nicco.inspectionReviewManager.activities;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,10 +19,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
-import com.example.nicco.inspectionReviewManager.fragments.InspectionReviewListFragment;
-import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
 import com.example.nicco.inspectionReviewManager.R;
+import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
+import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
+import com.example.nicco.inspectionReviewManager.dialogs.ExportingProgressDialog;
+import com.example.nicco.inspectionReviewManager.fragments.InspectionReviewListFragment;
 
 public class InspectionReviewActivity extends FragmentActivity {
     private Model model;
@@ -58,7 +60,10 @@ public class InspectionReviewActivity extends FragmentActivity {
                 if(permission == PackageManager.PERMISSION_GRANTED) {
                     Toast toast = Toast.makeText(getApplicationContext(), R.string.exporting_html_message, Toast.LENGTH_LONG);
                     toast.show();
-                    model.exportReviewToHTML(getBaseContext());
+                    FragmentManager fragmentManager = getFragmentManager();
+                    ExportingProgressDialog exportingProgressDialog = new ExportingProgressDialog();
+                    exportingProgressDialog.show(fragmentManager, "dialog");
+                    model.exportReviewToHTML(getBaseContext(), getFragmentManager());
                 } else {
                     Toast toast = Toast.makeText(getApplicationContext(), R.string.write_permissions_denied, Toast.LENGTH_LONG);
                     toast.show();
@@ -79,7 +84,10 @@ public class InspectionReviewActivity extends FragmentActivity {
                 if(permission == PackageManager.PERMISSION_GRANTED) {
                     Toast toast = Toast.makeText(getApplicationContext(), R.string.exporting_doc_message, Toast.LENGTH_LONG);
                     toast.show();
-                    model.exportReviewToDoc(getBaseContext());
+                    FragmentManager fragmentManager = getFragmentManager();
+                    ExportingProgressDialog exportingProgressDialog = new ExportingProgressDialog();
+                    exportingProgressDialog.show(fragmentManager, "dialog");
+                    model.exportReviewToDoc(getBaseContext(), getFragmentManager());
                 } else {
                     Toast toast = Toast.makeText(getApplicationContext(), R.string.write_permissions_denied, Toast.LENGTH_LONG);
                     toast.show();
@@ -157,8 +165,8 @@ public class InspectionReviewActivity extends FragmentActivity {
 
     private void showUpdateReviewAlertDialogue() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.dialogue_update_review_message)
-                .setTitle(R.string.dialogue_update_review_title);
+        builder.setMessage(R.string.dialog_update_review_message)
+                .setTitle(R.string.dialog_update_review_title);
         // set buttons
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
@@ -189,8 +197,8 @@ public class InspectionReviewActivity extends FragmentActivity {
 
     private void showCloseAlertDialogue() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.dialogue_close_review_message)
-                .setTitle(R.string.dialogue_close_review_title);
+        builder.setMessage(R.string.dialog_close_review_message)
+                .setTitle(R.string.dialog_close_review_title);
         // set buttons
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override

@@ -1,13 +1,16 @@
 package com.example.nicco.inspectionReviewManager.customDatatypes;
 
 import android.app.Application;
+import android.app.FragmentManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.example.nicco.inspectionReviewManager.R;
+import com.example.nicco.inspectionReviewManager.dialogs.ExportingProgressDialog;
 import com.example.nicco.inspectionReviewManager.utilities.FileIO;
 
 import java.text.DateFormatSymbols;
@@ -291,15 +294,15 @@ public class Model extends Application {
         return reviewTypes;
     }
 
-    public boolean exportReviewToHTML(Context context) {
+    public boolean exportReviewToHTML(Context context, FragmentManager fragmentManager) {
         String fileName = makeReviewTitle();
-        new ExportHTML(context, hashMap, fileName).execute();
+        new ExportHTML(context, hashMap, fileName, fragmentManager, this).execute();
         return true;
     }
 
-    public boolean exportReviewToDoc(Context context) {
+    public boolean exportReviewToDoc(Context context, FragmentManager fragmentManager) {
         String fileName = makeReviewTitle();
-        new ExportDoc(context, hashMap, fileName).execute();
+        new ExportDoc(context, hashMap, fileName, fragmentManager, this).execute();
         return true;
     }
 
@@ -418,53 +421,100 @@ public class Model extends Application {
         dbWriter.deleteReview(DatabaseWriter.getDatabaseColumns(), whereClause, whereArgs);
     }
 
-    private static class ExportDoc extends AsyncTask<String, Integer, Boolean> {
-        Context context;
-        String fileName;
-        HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap;
+    public static class ExportDoc extends AsyncTask<String, Integer, Boolean> {
+        private Context context;
+        private String fileName;
+        private HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap;
+        private FragmentManager fragmentManager;
+        private ExportingProgressDialog exportingProgressDialog;
 
         public ExportDoc(Context context,
                          HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
-                         String fileName) {
+                         String fileName, FragmentManager fragmentManager, Model model) {
             super();
             this.context = context;
             this.fileName = fileName;
             this.hashMap = hashMap;
+            this.fragmentManager = fragmentManager;
+            exportingProgressDialog = new ExportingProgressDialog();
+            SharedPreferences sharedPreferences = model.getSharedPreferences("AppPref", 0);
+            exportingProgressDialog.setTextSize(sharedPreferences.getFloat("TextSize", model.getResources().getDimension(R.dimen.defaultTextSize)));
+
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            exportingProgressDialog.show(fragmentManager, "dialog");
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... integers) {
+            exportingProgressDialog.setProgressPercentage(integers[0]);
         }
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            return FileIO.exportInspectionReviewToDOC(context, hashMap, fileName);
+            return FileIO.exportInspectionReviewToDOC(context, hashMap, fileName, this);
+        }
+
+        public void doProgress(int value){
+            publishProgress(value);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            exportingProgressDialog.finished(result);
+            exportingProgressDialog.dismiss();
         }
     }
 
-    private static class ExportHTML extends AsyncTask<String, Integer, Boolean> {
-        Context context;
-        String fileName;
-        HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap;
+    public static class ExportHTML extends AsyncTask<String, Integer, Boolean> {
+        private Context context;
+        private String fileName;
+        private HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap;
+        private FragmentManager fragmentManager;
+        private ExportingProgressDialog exportingProgressDialog;
 
         public ExportHTML(Context context,
                          HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
-                         String fileName) {
+                         String fileName, FragmentManager fragmentManager, Model model) {
             super();
             this.context = context;
             this.fileName = fileName;
             this.hashMap = hashMap;
+            this.fragmentManager = fragmentManager;
+            exportingProgressDialog = new ExportingProgressDialog();
+            SharedPreferences sharedPreferences = model.getSharedPreferences("AppPref", 0);
+            exportingProgressDialog.setTextSize(sharedPreferences.getFloat("TextSize", model.getResources().getDimension(R.dimen.defaultTextSize)));
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            exportingProgressDialog.show(fragmentManager, "dialog");
         }
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            return FileIO.exportInspectionReviewToHTML(context, hashMap, fileName);
+            return FileIO.exportInspectionReviewToHTML(context, hashMap, fileName, this);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... integers) {
+            exportingProgressDialog.setProgressPercentage(integers[0]);
+        }
+
+        public void doProgress(int value){
+            publishProgress(value);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            exportingProgressDialog.finished(result);
+            exportingProgressDialog.dismiss();
         }
     }
 }

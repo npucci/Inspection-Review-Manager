@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nicco.inspectionReviewManager.R;
-import com.example.nicco.inspectionReviewManager.customDatatypes.ModelLoadListener;
+import com.example.nicco.inspectionReviewManager.interfaces.ModelLoadListener;
 
 /**
  * Created by Nicco on 2017-08-08.
@@ -56,7 +56,7 @@ public class SelectDialog extends DialogFragment {
                         1);
                 int permission = ActivityCompat.checkSelfPermission(SelectDialog.this.getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if(permission == PackageManager.PERMISSION_GRANTED) {
-                    modelLoadListener.exportHTML();
+                    modelLoadListener.exportHTML(getFragmentManager());
                     getDialog().dismiss();
                 } else {
                     toast = Toast.makeText(view.getContext(), R.string.write_permissions_denied, Toast.LENGTH_LONG);
@@ -76,7 +76,7 @@ public class SelectDialog extends DialogFragment {
                         1);
                 int permission = ActivityCompat.checkSelfPermission(SelectDialog.this.getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if(permission == PackageManager.PERMISSION_GRANTED) {
-                    modelLoadListener.exportDoc();
+                    modelLoadListener.exportDoc(getFragmentManager());
                     getDialog().dismiss();
                 } else {
                     toast = Toast.makeText(view.getContext(), R.string.write_permissions_denied, Toast.LENGTH_LONG);

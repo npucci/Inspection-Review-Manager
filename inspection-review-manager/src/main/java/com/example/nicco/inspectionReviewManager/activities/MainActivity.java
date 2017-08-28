@@ -26,11 +26,11 @@ import android.widget.Toast;
 import com.example.nicco.inspectionReviewManager.R;
 import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
 import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
-import com.example.nicco.inspectionReviewManager.customDatatypes.ModelLoadListener;
 import com.example.nicco.inspectionReviewManager.customDatatypes.RecyclerAdapter;
 import com.example.nicco.inspectionReviewManager.customDatatypes.RecyclerViewClickListener;
 import com.example.nicco.inspectionReviewManager.dialogs.SelectDialog;
 import com.example.nicco.inspectionReviewManager.dialogs.SettingsDialog;
+import com.example.nicco.inspectionReviewManager.interfaces.ModelLoadListener;
 
 import java.util.HashMap;
 
@@ -176,19 +176,19 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
     }
 
     @Override
-    public boolean exportHTML() {
+    public boolean exportHTML(FragmentManager fragmentManager) {
         final Model model = (Model) getApplicationContext();
         model.loadReviewFromDatabase(selectedArchiveReview);
-        boolean exported = model.exportReviewToHTML(getBaseContext());
+        boolean exported = model.exportReviewToHTML(getBaseContext(), fragmentManager);
         model.reset();
         return exported;
     }
 
     @Override
-    public boolean exportDoc() {
+    public boolean exportDoc(FragmentManager fragmentManager) {
         final Model model = (Model) getApplicationContext();
         model.loadReviewFromDatabase(selectedArchiveReview);
-        boolean exported = model.exportReviewToDoc(getBaseContext());
+        boolean exported = model.exportReviewToDoc(getBaseContext(), fragmentManager);
         model.reset();
         return exported;
     }
@@ -202,7 +202,7 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         FragmentManager fragmentManager = getFragmentManager();
         SelectDialog selectDialog = new SelectDialog();
         selectDialog.setTextSize(textSize);
-        selectDialog.addModelLoadListener(this);
+        selectDialog.addModelLoadListener((ModelLoadListener) this);
         selectDialog.show(fragmentManager, "dialog");
     }
 
@@ -242,8 +242,8 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
     private void showLoadAlertDialogue() {
         final Model model = (Model) getApplicationContext();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.dialogue_review_in_progress_message)
-                .setTitle(R.string.dialogue_review_in_progress_title);
+        builder.setMessage(R.string.dialog_review_in_progress_message)
+                .setTitle(R.string.dialog_review_in_progress_title);
         // set buttons
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override

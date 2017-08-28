@@ -122,13 +122,16 @@ public class FileIO {
     }
 
     public static boolean exportInspectionReviewToHTML(final Context context,
-                                         final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
-                                         String inspectionReviewName) {
+                                                       final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
+                                                       String inspectionReviewName,
+                                                       Model.ExportHTML asyncTask) {
         Log.v("PUCCI", "exporting html");
+        asyncTask.doProgress(0);
 
         // 1. get export dir
         File exportDir = getExportDir(context);
         if(exportDir == null) return false;
+        asyncTask.doProgress(0);
 
         // 2. copy correct template as new review file
         InputStream inputStream;
@@ -137,13 +140,16 @@ public class FileIO {
                 hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED).equals(Model.SpecialValue.YES)) stamped = true;
         if(stamped) inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_html_template_stamped);
         else inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_html_template);
+        asyncTask.doProgress(50);
 
         File exportFile = copyFile(inputStream, new File(exportDir, inspectionReviewName + ".html"));
         if(!exportFile.exists()) return false;
+        asyncTask.doProgress(75);
 
         // 3. write values to new review file
         boolean result = writeValuesToHTML(exportFile, hashMap);
         if(result) openHTMLFile(context, exportFile);
+        asyncTask.doProgress(100);
         return result;
     }
 
@@ -209,10 +215,15 @@ public class FileIO {
 
     public static boolean exportInspectionReviewToDOC(final Context context,
                                                       final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
-                                                      String inspectionReviewName) {
+                                                      String inspectionReviewName,
+                                                      Model.ExportDoc asyncTask) {
+
+        asyncTask.doProgress(0);
+
         // 1. get export dir
         File exportDir = getExportDir(context);
         if(exportDir == null) return false;
+        asyncTask.doProgress(10);
 
         // 2. copy correct template as new review file
         boolean stamped = false;
@@ -220,30 +231,42 @@ public class FileIO {
                 hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED).equals(Model.SpecialValue.YES)) stamped = true;
         else stamped = false;
         File outputFile = new File(exportDir.getPath(), inspectionReviewName + ".doc");// newFileFromTemplate(context, exportDir, inspectionReviewName, stamped);
+        asyncTask.doProgress(20);
 
         // 3. write to new review file
         InputStream inputStream;
         if(stamped) inputStream = context.getResources().openRawResource(sel_engineering_limited_inspection_report_doc_template);
         else inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_doc_template_stamped);
+        asyncTask.doProgress(30);
         try {
+            asyncTask.doProgress(40);
             POIFSFileSystem fs = new POIFSFileSystem(inputStream); //new FileInputStream(outputFile.getPath()));
             HWPFDocument doc = new HWPFDocument(fs);
             DatabaseWriter.UIComponentInputValue[] columnArr = hashMap.keySet().toArray(
                     new DatabaseWriter.UIComponentInputValue[hashMap.keySet().size()]);
+
+            asyncTask.doProgress(50);
+            int total = DatabaseWriter.UIComponentInputValue.values().length;
+            int count = 0;
             for (DatabaseWriter.UIComponentInputValue column : columnArr) {
                 String replacement = hashMap.get(column);
                 if(replacement.equals(Model.SpecialValue.YES.toString())) replacement = CHECKBOX_CHECKED;
                 else if(replacement.equals(Model.SpecialValue.NO.toString())) replacement = CHECKBOX_BLANK;
                 String replacementTag = "<!-- " + column.getValue() + " -->";
                 replaceAllTextInDoc(doc, replacementTag, replacement);
+                count++;
+                int progressPercentage = (int) (50 + (( ((float) count) / total) * 100 ) / 2);
+                asyncTask.doProgress(progressPercentage);
+                Log.v("TEST", progressPercentage + "%");
             }
             FileOutputStream out = new FileOutputStream(outputFile);
             doc.write(out);
             //Log.v("PUCCI", "DOC Creation Success! outputFile = " + outputFile.getPath());
             out.close();
-
             //Log.v("PUCCI", "SUCCESS: The output file was created/exists\n= " + outputFile.getPath());
             // open file using the Android OS default program
+
+            asyncTask.doProgress(100);
             openDocFile(context, outputFile);
         } catch (Exception e) {
             Log.v("PUCCI", "ERROR: " + e.getMessage());

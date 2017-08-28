@@ -1,6 +1,6 @@
-package com.example.nicco.inspectionReviewManager.customDatatypes;
+package com.example.nicco.inspectionReviewManager.interfaces;
 
-import java.util.HashMap;
+import android.app.FragmentManager;
 
 /**
  * Created by Nicco on 2017-08-08.
@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public interface ModelLoadListener {
     public void edit();
-    public boolean exportHTML();
-    public boolean exportDoc();
+    public boolean exportHTML(FragmentManager fragmentManager);
+    public boolean exportDoc(FragmentManager fragmentManager);
     public void delete();
 }
