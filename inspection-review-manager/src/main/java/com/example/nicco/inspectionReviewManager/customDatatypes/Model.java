@@ -271,8 +271,8 @@ public class Model extends Application {
             else fileName += reviewTypes.get(i);
         }
         String[] date = hashMap.get(DatabaseWriter.UIComponentInputValue.DATE).split("-"); // YYYY-MM-DD
-        if(date.length == 3) fileName += "(" + date[1] + date[2] + date[0] + ").doc"; // MMDDYYYY
-        else fileName += "(" + hashMap.get(DatabaseWriter.UIComponentInputValue.DATE) + ").doc"; // YYYY-MM-DD
+        if(date.length == 3) fileName += "(" + date[1] + date[2] + date[0] + ")"; // MMDDYYYY
+        else fileName += "(" + hashMap.get(DatabaseWriter.UIComponentInputValue.DATE) + ")"; // YYYY-MM-DD
         return fileName; // ie. "C15 (4295 Quarry Road, Coquitlam, BC) Sheathing and Framing Inspection Report (07242017).doc"
     }
 
@@ -294,7 +294,7 @@ public class Model extends Application {
     public boolean exportReviewToDoc(Context context) {
         String fileName = makeReviewTitle();
         new ExportDoc(context, hashMap, fileName).execute();
-        //return FileIO.exportInpsectionReviewToDOC(context, hashMap, fileName);
+        new ExportHTML(context, hashMap, fileName).execute();
         return true;
     }
 
@@ -434,7 +434,32 @@ public class Model extends Application {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            return FileIO.exportInpsectionReviewToDOC(context, hashMap, fileName);
+            return FileIO.exportInspectionReviewToDOC(context, hashMap, fileName);
+        }
+    }
+
+    private static class ExportHTML extends AsyncTask<String, Integer, Boolean> {
+        Context context;
+        String fileName;
+        HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap;
+
+        public ExportHTML(Context context,
+                         HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
+                         String fileName) {
+            super();
+            this.context = context;
+            this.fileName = fileName;
+            this.hashMap = hashMap;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            return FileIO.exportInspectionReviewToHTML(context, hashMap, fileName);
         }
     }
 }

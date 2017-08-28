@@ -397,9 +397,9 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         return columnList.toArray(new String[columnList.size()]);
     }
 
-    private static UIComponentInputValue getEnum(String columnName) {
-        for(UIComponentInputValue columnEnum : UIComponentInputValue.values()) {
-            if (columnEnum.getValue().equals(columnName)) return columnEnum;
+    public static UIComponentInputValue getUIComponentInputValue(String s) {
+        for(UIComponentInputValue uiComponentInputValue : UIComponentInputValue.values()) {
+            if (uiComponentInputValue.getValue().equals(s)) return uiComponentInputValue;
         }
         return null;
     }

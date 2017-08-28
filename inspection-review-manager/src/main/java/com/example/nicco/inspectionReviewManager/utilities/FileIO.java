@@ -22,17 +22,24 @@ import org.apache.poi.hwpf.usermodel.Range;
 import org.apache.poi.hwpf.usermodel.Section;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import static com.example.nicco.inspectionReviewManager.R.raw.sel_engineering_limited_inspection_report_doc_template;
 
 public class FileIO {
     public static final String EXPORT_ROOT_DIRECTORY = "Inspection Review Manager";
-	public static final String EXPORT_DOC_OUTPUT_FOLDER = EXPORT_ROOT_DIRECTORY + "/" + "Exported Inspection Reviews";
+	public static final String EXPORT_OUTPUT_FOLDER = EXPORT_ROOT_DIRECTORY + "/" + "Exported Inspection Reviews";
     public static final String EXPORT_DATABASE_OUTPUT_FOLDER = EXPORT_ROOT_DIRECTORY + "/" + "Exported Database Backups";
 	public static final String CHECKBOX_CHECKED = "☑";
 	public static final String CHECKBOX_BLANK = "☐";
@@ -42,12 +49,28 @@ public class FileIO {
         return storageDir;
     }
 
-    private static void openFile(final Context context, final File file) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        Uri uri = Uri.fromFile(file);
-        intent.setDataAndType(uri, "application/msword");
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+    private static void openDocFile(final Context context, final File file) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            Uri uri = Uri.fromFile(file);
+            intent.setDataAndType(uri, "application/doc");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } catch(Exception e) {
+            Log.v("PUCCI", "ERROR: " + e.getMessage());
+        }
+    }
+
+    private static void openHTMLFile(final Context context, final File file) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            Uri uri = Uri.fromFile(file);
+            intent.setDataAndType(uri, "application/html");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } catch(Exception e) {
+            Log.v("PUCCI", "ERROR: " + e.getMessage());
+        }
     }
 
     public static boolean makeDir(File dir) {
@@ -59,8 +82,8 @@ public class FileIO {
         return true;
     }
 
-    public static File getExportDocDir(Context context) {
-        File exportDir = new File(getExternalPublicStorageDir(context), FileIO.EXPORT_DOC_OUTPUT_FOLDER);
+    public static File getExportDir(Context context) {
+        File exportDir = new File(getExternalPublicStorageDir(context), FileIO.EXPORT_OUTPUT_FOLDER);
         if(!makeDir(exportDir)) return null;
         return exportDir;
     }
@@ -93,83 +116,102 @@ public class FileIO {
         return true;
     }
 
-//    public static boolean exportInpsectionReviewToHTML(final Context context,
-//                                                      final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
-//                                                      String inspectionReviewName) {
-//        // 1. get export dir
-//        File exportDir = getExportDocDir(context);
-//        if(exportDir == null) return false;
-//
-//        // 2. copy correct template as new review file
-////        boolean stamped = false;
-////        if(hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED) != null &&
-////                hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED).equals(Model.SpecialValue.YES)) stamped = true;
-////        else stamped = false;
-//        File outputFile = new File(exportDir.getPath(), inspectionReviewName);// newFileFromTemplate(context, exportDir, inspectionReviewName, stamped);
-//        InputStream inputStream = context.getResources().openRawResource(R.raw.TemplateReportForm);
-//        copyFile(inputStream, outputFile);
-//
-//        // 3. write to new review file
-////        if(stamped) inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_template);
-////        else inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_template_stamped);
-//        ArrayList<String> lines = readHTMLReportTemplate(context);
-//        Log.v("PUCCI", "# html lines = " + lines.size());
-////        try {
-////            POIFSFileSystem fs = new POIFSFileSystem(inputStream); //new FileInputStream(outputFile.getPath()));
-////            HWPFDocument doc = new HWPFDocument(fs);
-////            DatabaseWriter.UIComponentInputValue[] columnArr = hashMap.keySet().toArray(
-////                    new DatabaseWriter.UIComponentInputValue[hashMap.keySet().size()]);
-////            for (DatabaseWriter.UIComponentInputValue column : columnArr) {
-////                String replacement = hashMap.get(column);
-////                if(replacement.equals(Model.SpecialValue.YES.toString())) replacement = "checked";
-////                else if(replacement.equals(Model.SpecialValue.NO.toString())) replacement = "unchecked";
-////                String replacementTag = "<!-- " + column.getValue() + " -->";
-////                replaceAllTextInDoc(doc, replacementTag, replacement);
-////            }
-////            FileOutputStream out = new FileOutputStream(outputFile);
-////            doc.write(out);
-////            //Log.v("PUCCI", "DOC Creation Success! outputFile = " + outputFile.getPath());
-////            out.close();
-////
-////            //Log.v("PUCCI", "SUCCESS: The output file was created/exists\n= " + outputFile.getPath());
-////            // open file using the Android OS default program
-////            openFile(context, outputFile);
-////        } catch (Exception e) {
-////            Log.v("PUCCI", "ERROR: " + e.getMessage());
-////            return false;
-////        }
-//
-//        Log.v("PUCCI", "done");
-//        if (outputFile == null || !outputFile.exists()) {
-//            Log.v("PUCCI", "ERROR: The output file wasn't created\n= " + outputFile.getPath());
-//            return false;
-//        }
-//        return true;
-//
-//    }
+    public static boolean exportInspectionReviewToHTML(final Context context,
+                                         final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
+                                         String inspectionReviewName) {
+        Log.v("PUCCI", "exporting html");
 
-//    private static ArrayList<String> readHTMLReportTemplate(File reviewHTML) {
-//        ArrayList<String> lines = new ArrayList<String>();
-//        try {
-//            FileReader reader = new FileReader(reviewHTML);
-//            BufferedReader fin = new BufferedReader(reader);
-//
-//            for(String line = fin.readLine(); line != null; line = fin.readLine()) {
-//                lines.add(line);
-//            }
-//        }
-//        catch (Exception e) {
-//            return null;
-//        }
-//
-//        return lines;
-//    }
+        // 1. get export dir
+        File exportDir = getExportDir(context);
+        if(exportDir == null) return false;
 
-	public static boolean exportInpsectionReviewToDOC(final Context context,
+        // 2. copy correct template as new review file
+        InputStream inputStream;
+        boolean stamped = false;
+        if(hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED) != null &&
+                hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED).equals(Model.SpecialValue.YES)) stamped = true;
+        if(stamped) inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_html_template_stamped);
+        else inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_html_template);
+
+        File exportFile = copyFile(inputStream, new File(exportDir, inspectionReviewName + ".html"));
+        if(!exportFile.exists()) return false;
+
+        // 3. write values to new review file
+        boolean result = writeValuesToHTML(exportFile, hashMap);
+        if(result) openHTMLFile(context, exportFile);
+        return result;
+    }
+
+    private static ArrayList<String> extractLinesFromFile(File file) {
+        if (file == null || !file.exists() || !file.isFile()) return null;
+        ArrayList<String> lines = new ArrayList<String>();
+        try {
+            FileReader reader = new FileReader(file);
+            BufferedReader fin = new BufferedReader(reader);
+
+            for(String line = fin.readLine(); line != null; line = fin.readLine()) {
+                lines.add(line);
+            }
+        }
+        catch (Exception e) {
+            Log.v("PUCCI", "Error: " + e.getMessage());
+            return null;
+        }
+
+        if(lines.size() == 0) return null;
+        return lines;
+    }
+
+    private static boolean writeValuesToHTML(File htmlFile, final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap) {
+        ArrayList<String> lines = extractLinesFromFile(htmlFile);
+        try {
+            FileWriter writer = new FileWriter(htmlFile);
+            BufferedWriter fout = new BufferedWriter(writer);
+            for (String s : lines) {
+                if(s.contains("<!--") && s.contains("-->")) {
+                    int start = s.indexOf("<!--");
+                    int end = s.indexOf("-->") + 3;
+                    String tag = s.substring(start, end);
+                    String token = tag;
+                    token = token.replace("<!-- ", "");
+                    token = token.replace(" -->", "");
+                    token = token.replace("<!--", "");
+                    token = token.replace("-->", "");
+                    String value = hashMap.get(DatabaseWriter.getUIComponentInputValue(token));
+                    if(value != null) {
+                        Log.v("PUCCI", "token = " + token);
+                        Log.v("PUCCI", "value = " + value);
+                        if(value.equals(Model.SpecialValue.YES.toString())) {
+                            Log.v("PUCCI", "s before = " + s);
+                            s = s.replace("unchecked", "checked");
+                            s = s.replace(value, "");
+                            Log.v("PUCCI", "s after = " + s);
+                        }
+                        else if(value.equals(Model.SpecialValue.NO.toString())) {
+                            s = s.replace(value, "");
+                        }
+                        else s = s.replace("<!-- " + token + " -->", value);
+                    }
+                }
+                //Log.v("PUCCI", "s = " + s);
+                fout.write(s);
+                fout.write("\n");
+            }
+            fout.close();
+            writer.close();
+        } catch (IOException e) {
+            Log.v("PUCCI", "Error: " + e.getMessage());
+            return false;
+        }
+        Log.v("PUCCI", "finished");
+        return true;
+    }
+
+    public static boolean exportInspectionReviewToDOC(final Context context,
                                                       final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
                                                       String inspectionReviewName) {
         // 1. get export dir
-        File exportDir = getExportDocDir(context);
+        File exportDir = getExportDir(context);
         if(exportDir == null) return false;
 
         // 2. copy correct template as new review file
@@ -177,12 +219,12 @@ public class FileIO {
         if(hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED) != null &&
                 hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED).equals(Model.SpecialValue.YES)) stamped = true;
         else stamped = false;
-        File outputFile = new File(exportDir.getPath(), inspectionReviewName);// newFileFromTemplate(context, exportDir, inspectionReviewName, stamped);
+        File outputFile = new File(exportDir.getPath(), inspectionReviewName + ".doc");// newFileFromTemplate(context, exportDir, inspectionReviewName, stamped);
 
         // 3. write to new review file
         InputStream inputStream;
-        if(stamped) inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_template);
-        else inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_template_stamped);
+        if(stamped) inputStream = context.getResources().openRawResource(sel_engineering_limited_inspection_report_doc_template);
+        else inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_doc_template_stamped);
         try {
             POIFSFileSystem fs = new POIFSFileSystem(inputStream); //new FileInputStream(outputFile.getPath()));
             HWPFDocument doc = new HWPFDocument(fs);
@@ -202,7 +244,7 @@ public class FileIO {
 
             //Log.v("PUCCI", "SUCCESS: The output file was created/exists\n= " + outputFile.getPath());
             // open file using the Android OS default program
-            openFile(context, outputFile);
+            openDocFile(context, outputFile);
         } catch (Exception e) {
             Log.v("PUCCI", "ERROR: " + e.getMessage());
             return false;
@@ -214,31 +256,6 @@ public class FileIO {
             return false;
         }
         return true;
-    }
-
-    public static File copyFile(InputStream inputStream, File dest) {
-        FileOutputStream outputStream = null;
-        try {
-            outputStream = new FileOutputStream(dest);
-            byte[] buffer = new byte[1024];
-            int length = 0;
-            while((length = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, length);
-            }
-        } catch (FileNotFoundException e) {
-            Log.v("PUCCI", "ERROR: could not create the file " + dest.getName() + ":\n" + e.getMessage());
-        } catch (IOException e) {
-            Log.v("PUCCI", "ERROR: could not create the file " + dest.getName() + ":\n" + e.getMessage());
-        } finally {
-            try {
-                inputStream.close();
-                outputStream.close();
-            } catch (IOException e) {
-                Log.v("PUCCI", "ERROR: could not create the file " + dest.getName() + ":\n" + e.getMessage());
-            }
-        }
-        if(dest.exists()) return dest;
-        return null;
     }
 
 	private static void replaceAllTextInDoc(HWPFDocument doc, String replacementTag, String replacement) {
@@ -267,4 +284,29 @@ public class FileIO {
 			r.replaceText(tag, replacement);
 		}
 	}
+
+    public static File copyFile(InputStream inputStream, File dest) {
+        FileOutputStream outputStream = null;
+        try {
+            outputStream = new FileOutputStream(dest);
+            byte[] buffer = new byte[1024];
+            int length = 0;
+            while((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
+        } catch (FileNotFoundException e) {
+            Log.v("PUCCI", "ERROR: could not create the file " + dest.getName() + ":\n" + e.getMessage());
+        } catch (IOException e) {
+            Log.v("PUCCI", "ERROR: could not create the file " + dest.getName() + ":\n" + e.getMessage());
+        } finally {
+            try {
+                inputStream.close();
+                outputStream.close();
+            } catch (IOException e) {
+                Log.v("PUCCI", "ERROR: could not create the file " + dest.getName() + ":\n" + e.getMessage());
+            }
+        }
+        if(dest.exists()) return dest;
+        return null;
+    }
 }
