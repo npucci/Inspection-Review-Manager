@@ -26,6 +26,8 @@ import java.util.LinkedHashSet;
 public class Model extends Application {
     private HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap = new HashMap<>();
     private DatabaseWriter dbWriter;
+    private ExportHTML exportHTMLTask;
+    private ExportDoc exportDocTask;
 
     public enum SpecialValue {
         YES ("Yes"),
@@ -295,14 +297,30 @@ public class Model extends Application {
     }
 
     public boolean exportReviewToHTML(Context context, FragmentManager fragmentManager) {
+        if(exportHTMLTask != null && (exportHTMLTask.getStatus() == AsyncTask.Status.PENDING ||
+                exportHTMLTask.getStatus() == AsyncTask.Status.RUNNING)) {
+            Log.v("NICCO", "export HTML already pending/running");
+            exportHTMLTask.showProgressDialog();
+            return false;
+        }
+        Log.v("NICCO", "export HTML executing");
         String fileName = makeReviewTitle();
-        new ExportHTML(context, hashMap, fileName, fragmentManager, this).execute();
+        exportHTMLTask = new ExportHTML(context, hashMap, fileName, fragmentManager, this);
+        exportHTMLTask.execute();
         return true;
     }
 
     public boolean exportReviewToDoc(Context context, FragmentManager fragmentManager) {
+        if(exportDocTask != null && (exportDocTask.getStatus() == AsyncTask.Status.PENDING ||
+                exportDocTask.getStatus() == AsyncTask.Status.RUNNING)) {
+            Log.v("NICCO", "export doc already pending/running");
+            exportDocTask.showProgressDialog();
+            return false;
+        }
+        Log.v("NICCO", "export doc executing");
         String fileName = makeReviewTitle();
-        new ExportDoc(context, hashMap, fileName, fragmentManager, this).execute();
+        exportDocTask = new ExportDoc(context, hashMap, fileName, fragmentManager, this);
+        exportDocTask.execute();
         return true;
     }
 
@@ -421,7 +439,7 @@ public class Model extends Application {
         dbWriter.deleteReview(DatabaseWriter.getDatabaseColumns(), whereClause, whereArgs);
     }
 
-    public static class ExportDoc extends AsyncTask<String, Integer, Boolean> {
+    public class ExportDoc extends AsyncTask<String, Integer, Boolean> {
         private Context context;
         private String fileName;
         private HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap;
@@ -462,6 +480,11 @@ public class Model extends Application {
             publishProgress(value);
         }
 
+        private void showProgressDialog() {
+            if(exportingProgressDialog != null)
+                exportingProgressDialog.show(fragmentManager, "dialog");
+        }
+
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
@@ -470,7 +493,7 @@ public class Model extends Application {
         }
     }
 
-    public static class ExportHTML extends AsyncTask<String, Integer, Boolean> {
+    public class ExportHTML extends AsyncTask<String, Integer, Boolean> {
         private Context context;
         private String fileName;
         private HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap;
@@ -508,6 +531,11 @@ public class Model extends Application {
 
         public void doProgress(int value){
             publishProgress(value);
+        }
+
+        private void showProgressDialog() {
+            if(exportingProgressDialog != null)
+                exportingProgressDialog.show(fragmentManager, "dialog");
         }
 
         @Override

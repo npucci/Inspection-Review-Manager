@@ -257,7 +257,6 @@ public class FileIO {
                 count++;
                 int progressPercentage = (int) (50 + (( ((float) count) / total) * 100 ) / 2);
                 asyncTask.doProgress(progressPercentage);
-                Log.v("TEST", progressPercentage + "%");
             }
             FileOutputStream out = new FileOutputStream(outputFile);
             doc.write(out);
