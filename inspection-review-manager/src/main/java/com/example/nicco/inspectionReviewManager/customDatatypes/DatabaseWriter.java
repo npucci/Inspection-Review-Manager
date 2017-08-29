@@ -4,12 +4,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.nicco.inspectionReviewManager.utilities.FileIO;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -379,6 +375,10 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         database.delete(TABLE_NAME, whereClause, whereArgs);
     }
 
+    public String getDatabasePath() {
+        return database.getPath();
+    }
+
     private static String createPrimaryKeyStatement() {
         String primaryKey = "PRIMARY KEY (";
         for(int i = 0; i < PRIMARY_KEYS.size(); i++) {
@@ -402,31 +402,5 @@ public class DatabaseWriter extends SQLiteOpenHelper {
             if (uiComponentInputValue.getValue().equals(s)) return uiComponentInputValue;
         }
         return null;
-    }
-
-    public boolean exportDatabase(Context context) {
-        new ExportDatabase(context, database.getPath()).execute();
-        return true;
-    }
-
-    private static class ExportDatabase extends AsyncTask<String, Integer, Boolean> {
-        Context context;
-        String databasePath;
-
-        public ExportDatabase(Context context, String databasePath) {
-            super();
-            this.context = context;
-            this.databasePath = databasePath;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            return FileIO.exportDatabase(context, new File(databasePath));
-        }
     }
 }

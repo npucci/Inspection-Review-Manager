@@ -87,8 +87,11 @@ public class FileIO {
         return true;
     }
 
-    public static File getExportDir(Context context) {
+    public static File getExportDir(Context context, String year, String month, String project) {
         File exportDir = new File(getExternalPublicStorageDir(context), FileIO.EXPORT_OUTPUT_FOLDER);
+        exportDir = new File(exportDir, year);
+        exportDir = new File(exportDir, month);
+        exportDir = new File(exportDir, project);
         if(!makeDir(exportDir)) return null;
         return exportDir;
     }
@@ -99,18 +102,22 @@ public class FileIO {
         return exportDir;
     }
 
-    public static boolean exportDatabase(Context context, File database) {
+    public static boolean exportDatabase(Context context, File database, Model.ExportDatabaseAsyncTask asyncTask) {
+        asyncTask.doProgress(0);
         if(database == null) return false;
 
         // 1. get export dir
         File databaseBackup = new File(database.getPath());
         File destinationDir = getExportDatabaseDir(context);
         if(destinationDir == null) return false;
+        asyncTask.doProgress(25);
 
         // 2. copy database to export dir
         try (InputStream inputStream = new FileInputStream(databaseBackup)) {
             File destFile = new File(destinationDir.getPath(), databaseBackup.getName());
+            asyncTask.doProgress(50);
             FileIO.copyFile(inputStream, destFile);
+            asyncTask.doProgress(75);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return false;
@@ -118,18 +125,19 @@ public class FileIO {
             e.printStackTrace();
             return false;
         }
+        asyncTask.doProgress(100);
         return true;
     }
 
     public static boolean exportInspectionReviewToHTML(final Context context,
                                                        final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
-                                                       String inspectionReviewName,
-                                                       Model.ExportHTML asyncTask) {
+                                                       String inspectionReviewName, String year, String month, String project,
+                                                       Model.ExportHTMLAsyncTask asyncTask) {
         Log.v("PUCCI", "exporting html");
         asyncTask.doProgress(0);
 
         // 1. get export dir
-        File exportDir = getExportDir(context);
+        File exportDir = getExportDir(context, year, month, project);
         if(exportDir == null) return false;
         asyncTask.doProgress(0);
 
@@ -215,13 +223,13 @@ public class FileIO {
 
     public static boolean exportInspectionReviewToDOC(final Context context,
                                                       final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
-                                                      String inspectionReviewName,
-                                                      Model.ExportDoc asyncTask) {
+                                                      String inspectionReviewName, String year, String month, String project,
+                                                      Model.ExportDocAsyncTask asyncTask) {
 
         asyncTask.doProgress(0);
 
         // 1. get export dir
-        File exportDir = getExportDir(context);
+        File exportDir = getExportDir(context, year, month, project);
         if(exportDir == null) return false;
         asyncTask.doProgress(10);
 

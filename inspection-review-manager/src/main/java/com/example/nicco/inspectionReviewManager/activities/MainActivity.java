@@ -56,7 +56,7 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showLogoMenuDialog();
+                showSettingsDialog();
             }
         });
 
@@ -87,7 +87,7 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         logoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showLogoMenuDialog();
+                showSettingsDialog();
             }
         });
 
@@ -184,12 +184,21 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         return exported;
     }
 
+    // this method is NOT called from within an Inspection Review Creation Session,
+    // ONLY called within the Main Activity
     @Override
     public boolean exportDoc(FragmentManager fragmentManager) {
         final Model model = (Model) getApplicationContext();
         model.loadReviewFromDatabase(selectedArchiveReview);
         boolean exported = model.exportReviewToDoc(getBaseContext(), fragmentManager);
         model.reset();
+        return exported;
+    }
+
+    @Override
+    public boolean exportDatabase(FragmentManager fragmentManager) {
+        final Model model = (Model) getApplicationContext();
+        boolean exported = model.backupDatabase(getBaseContext(), fragmentManager);
         return exported;
     }
 
@@ -266,9 +275,10 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         dialog.show();
     }
 
-    private void showLogoMenuDialog() {
+    private void showSettingsDialog() {
         FragmentManager fragmentManager = getFragmentManager();
         SettingsDialog settingsDialog = new SettingsDialog();
+        settingsDialog.addModelLoadListener(this);
         settingsDialog.show(fragmentManager, "dialog");
     }
 

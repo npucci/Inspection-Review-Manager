@@ -13,6 +13,7 @@ import com.example.nicco.inspectionReviewManager.R;
 import com.example.nicco.inspectionReviewManager.dialogs.ExportingProgressDialog;
 import com.example.nicco.inspectionReviewManager.utilities.FileIO;
 
+import java.io.File;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,8 +27,9 @@ import java.util.LinkedHashSet;
 public class Model extends Application {
     private HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap = new HashMap<>();
     private DatabaseWriter dbWriter;
-    private ExportHTML exportHTMLTask;
-    private ExportDoc exportDocTask;
+    private ExportHTMLAsyncTask exportHTMLTask;
+    private ExportDocAsyncTask exportDocTask;
+    private ExportDatabaseAsyncTask exportDatabaseTask;
 
     public enum SpecialValue {
         YES ("Yes"),
@@ -257,15 +259,26 @@ public class Model extends Application {
     private String makeReviewTitle() {
         String fileName = "";
         String temp = hashMap.get(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER);
+        if(temp == null) return fileName;
+
         if(temp.length() > 20) temp = temp.substring(0, 21);
         fileName += temp + " (";
+
         temp = hashMap.get(DatabaseWriter.UIComponentInputValue.ADDRESS);
+        if(temp == null) return fileName;
+
         if(temp.length() > 20) temp = temp.substring(0, 21);
         fileName += temp + ", ";
+
         temp = hashMap.get(DatabaseWriter.UIComponentInputValue.CITY);
+        if(temp == null) return fileName;
+
         if(temp.length() > 20) temp = temp.substring(0, 21);
         fileName += temp + ", ";
+
         temp = hashMap.get(DatabaseWriter.UIComponentInputValue.PROVINCE);
+        if(temp == null) return fileName;
+
         if(temp.length() > 20) temp = temp.substring(0, 21);
         fileName += temp + ") ";
 
@@ -275,7 +288,11 @@ public class Model extends Application {
             else if(i > 0) fileName += ", " + reviewTypes.get(i);
             else fileName += reviewTypes.get(i);
         }
-        String[] date = hashMap.get(DatabaseWriter.UIComponentInputValue.DATE).split("-"); // YYYY-MM-DD
+
+        String dateStr = hashMap.get(DatabaseWriter.UIComponentInputValue.DATE); // YYYY-MM-DD
+        if(dateStr == null) return fileName;
+
+        String[] date = dateStr.split("-");
         if(date.length == 3) fileName += "(" + date[1] + date[2] + date[0] + ")"; // MMDDYYYY
         else fileName += "(" + hashMap.get(DatabaseWriter.UIComponentInputValue.DATE) + ")"; // YYYY-MM-DD
         return fileName; // ie. "C15 (4295 Quarry Road, Coquitlam, BC) Sheathing and Framing Inspection Report (07242017).doc"
@@ -305,7 +322,7 @@ public class Model extends Application {
         }
         Log.v("NICCO", "export HTML executing");
         String fileName = makeReviewTitle();
-        exportHTMLTask = new ExportHTML(context, hashMap, fileName, fragmentManager, this);
+        exportHTMLTask = new ExportHTMLAsyncTask(context, hashMap, fileName, fragmentManager, this);
         exportHTMLTask.execute();
         return true;
     }
@@ -319,7 +336,7 @@ public class Model extends Application {
         }
         Log.v("NICCO", "export doc executing");
         String fileName = makeReviewTitle();
-        exportDocTask = new ExportDoc(context, hashMap, fileName, fragmentManager, this);
+        exportDocTask = new ExportDocAsyncTask(context, hashMap, fileName, fragmentManager, this);
         exportDocTask.execute();
         return true;
     }
@@ -328,8 +345,18 @@ public class Model extends Application {
         return dbWriter.getCursor();
     }
 
-    public boolean backupDatabase(Context context) {
-        return dbWriter.exportDatabase(context);
+    public boolean backupDatabase(Context context, FragmentManager fragmentManager) {
+        if(exportDatabaseTask != null && (exportDatabaseTask.getStatus() == AsyncTask.Status.PENDING ||
+                exportDatabaseTask.getStatus() == AsyncTask.Status.RUNNING)) {
+            Log.v("NICCO", "export database already pending/running");
+            exportDatabaseTask.showProgressDialog();
+            return false;
+        }
+        Log.v("NICCO", "export database executing");
+        String filePath = dbWriter.getDatabasePath();
+        exportDatabaseTask = new ExportDatabaseAsyncTask(context, filePath, fragmentManager, this);
+        exportDatabaseTask.execute();
+        return true;
     }
 
     public void AutoFillConcreteActivity() {
@@ -439,16 +466,16 @@ public class Model extends Application {
         dbWriter.deleteReview(DatabaseWriter.getDatabaseColumns(), whereClause, whereArgs);
     }
 
-    public class ExportDoc extends AsyncTask<String, Integer, Boolean> {
+    public class ExportDocAsyncTask extends AsyncTask<String, Integer, Boolean> {
         private Context context;
         private String fileName;
         private HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap;
         private FragmentManager fragmentManager;
         private ExportingProgressDialog exportingProgressDialog;
 
-        public ExportDoc(Context context,
-                         HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
-                         String fileName, FragmentManager fragmentManager, Model model) {
+        public ExportDocAsyncTask(Context context,
+                                  HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
+                                  String fileName, FragmentManager fragmentManager, Model model) {
             super();
             this.context = context;
             this.fileName = fileName;
@@ -473,7 +500,21 @@ public class Model extends Application {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            return FileIO.exportInspectionReviewToDOC(context, hashMap, fileName, this);
+            String dateStr = hashMap.get(DatabaseWriter.UIComponentInputValue.DATE); // YYYY-MM-DD
+            if(dateStr == null) dateStr = "";
+
+            String[] date = dateStr.split("-");
+            String year = "";
+            String month = "";
+            if(date.length == 3) {
+                year = date[0];
+                month = date[1] + " - " + monthIntToString(Integer.parseInt(date[1]) - 1); // monthIntToString uses months 0 to 11
+            }
+
+            String project = "";
+            String address = hashMap.get(DatabaseWriter.UIComponentInputValue.ADDRESS);
+            if(address != null) project = address;
+            return FileIO.exportInspectionReviewToDOC(context, hashMap, fileName, year, month, project, this);
         }
 
         public void doProgress(int value){
@@ -493,16 +534,16 @@ public class Model extends Application {
         }
     }
 
-    public class ExportHTML extends AsyncTask<String, Integer, Boolean> {
+    public class ExportHTMLAsyncTask extends AsyncTask<String, Integer, Boolean> {
         private Context context;
         private String fileName;
         private HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap;
         private FragmentManager fragmentManager;
         private ExportingProgressDialog exportingProgressDialog;
 
-        public ExportHTML(Context context,
-                         HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
-                         String fileName, FragmentManager fragmentManager, Model model) {
+        public ExportHTMLAsyncTask(Context context,
+                                   HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
+                                   String fileName, FragmentManager fragmentManager, Model model) {
             super();
             this.context = context;
             this.fileName = fileName;
@@ -521,7 +562,71 @@ public class Model extends Application {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            return FileIO.exportInspectionReviewToHTML(context, hashMap, fileName, this);
+            String dateStr = hashMap.get(DatabaseWriter.UIComponentInputValue.DATE); // YYYY-MM-DD
+            if(dateStr == null) dateStr = "";
+
+            String[] date = dateStr.split("-");
+            String year = "";
+            String month = "";
+            if(date.length == 3) {
+                year = date[0];
+                month = date[1] + " - " + monthIntToString(Integer.parseInt(date[1]) - 1); // monthIntToString uses months 0 to 11
+            }
+
+            String project = "";
+            String address = hashMap.get(DatabaseWriter.UIComponentInputValue.ADDRESS);
+            if(address != null) project = address;
+
+            return FileIO.exportInspectionReviewToHTML(context, hashMap, fileName, year, month, project, this);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... integers) {
+            exportingProgressDialog.setProgressPercentage(integers[0]);
+        }
+
+        public void doProgress(int value){
+            publishProgress(value);
+        }
+
+        private void showProgressDialog() {
+            if(exportingProgressDialog != null)
+                exportingProgressDialog.show(fragmentManager, "dialog");
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            exportingProgressDialog.finished(result);
+            exportingProgressDialog.dismiss();
+        }
+    }
+
+    public class ExportDatabaseAsyncTask extends AsyncTask<String, Integer, Boolean> {
+        private Context context;
+        private FragmentManager fragmentManager;
+        private ExportingProgressDialog exportingProgressDialog;
+        private String filePath;
+
+        public ExportDatabaseAsyncTask(Context context, String filePath, FragmentManager fragmentManager, Model model) {
+            super();
+            this.context = context;
+            this.fragmentManager = fragmentManager;
+            this.filePath = filePath;
+            exportingProgressDialog = new ExportingProgressDialog();
+            SharedPreferences sharedPreferences = model.getSharedPreferences("AppPref", 0);
+            exportingProgressDialog.setTextSize(sharedPreferences.getFloat("TextSize", model.getResources().getDimension(R.dimen.defaultTextSize)));
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            exportingProgressDialog.show(fragmentManager, "dialog");
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            return FileIO.exportDatabase(context, new File(filePath), this);
         }
 
         @Override

@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.example.nicco.inspectionReviewManager.R;
 import com.example.nicco.inspectionReviewManager.activities.MainActivity;
-import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
+import com.example.nicco.inspectionReviewManager.interfaces.ModelLoadListener;
 
 /**
  * Created by Nicco on 2017-08-11.
@@ -29,6 +29,7 @@ import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
 
 public class SettingsDialog extends DialogFragment {
     private float textSize;
+    private ModelLoadListener modelLoadListener;
 
     public SettingsDialog() {
         super();
@@ -98,8 +99,7 @@ public class SettingsDialog extends DialogFragment {
                 if(permission == PackageManager.PERMISSION_GRANTED) {
                     Toast toast = Toast.makeText(getActivity().getBaseContext(), R.string.exporting_database_message, Toast.LENGTH_LONG);
                     toast.show();
-                    Model model = (Model) getActivity().getApplicationContext();
-                    model.backupDatabase(getActivity().getBaseContext());
+                    modelLoadListener.exportDatabase(getFragmentManager());
                 } else {
                     Toast toast = Toast.makeText(getActivity().getBaseContext(), R.string.write_permissions_denied, Toast.LENGTH_LONG);
                     toast.show();
@@ -185,5 +185,9 @@ public class SettingsDialog extends DialogFragment {
         commonsCollectionsTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
         TextView propertyTextView = (TextView) view.findViewById(R.id.textViewProperty);
         propertyTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+    }
+
+    public void addModelLoadListener(ModelLoadListener modelLoadListener) {
+        this.modelLoadListener = modelLoadListener;
     }
 }
