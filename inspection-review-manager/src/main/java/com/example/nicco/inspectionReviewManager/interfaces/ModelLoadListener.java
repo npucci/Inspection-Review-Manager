@@ -7,9 +7,11 @@ import android.app.FragmentManager;
  */
 
 public interface ModelLoadListener {
-    public void edit();
     public boolean exportHTML(FragmentManager fragmentManager);
     public boolean exportDoc(FragmentManager fragmentManager);
+    public boolean exportPDF(FragmentManager fragmentManager);
     public boolean exportDatabase(FragmentManager fragmentManager);
+    public void print();
+    public void edit();
     public void delete();
 }

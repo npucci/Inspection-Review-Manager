@@ -129,17 +129,17 @@ public class FileIO {
         return true;
     }
 
-    public static boolean exportInspectionReviewToHTML(final Context context,
+    public static File exportInspectionReviewToHTML(final Context context,
                                                        final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
                                                        String inspectionReviewName, String year, String month, String project,
                                                        Model.ExportHTMLAsyncTask asyncTask) {
         Log.v("PUCCI", "exporting html");
-        asyncTask.doProgress(0);
+        if(asyncTask != null) asyncTask.doProgress(0);
 
         // 1. get export dir
         File exportDir = getExportDir(context, year, month, project);
-        if(exportDir == null) return false;
-        asyncTask.doProgress(0);
+        if(exportDir == null) return null;
+        if(asyncTask != null) asyncTask.doProgress(0);
 
         // 2. copy correct template as new review file
         InputStream inputStream;
@@ -148,17 +148,17 @@ public class FileIO {
                 hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED).equals(Model.SpecialValue.YES)) stamped = true;
         if(stamped) inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_html_template_stamped);
         else inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_html_template);
-        asyncTask.doProgress(50);
+        if(asyncTask != null) asyncTask.doProgress(50);
 
         File exportFile = copyFile(inputStream, new File(exportDir, inspectionReviewName + ".html"));
-        if(!exportFile.exists()) return false;
-        asyncTask.doProgress(75);
+        if(!exportFile.exists()) return null;
+        if(asyncTask != null) asyncTask.doProgress(75);
 
         // 3. write values to new review file
         boolean result = writeValuesToHTML(exportFile, hashMap);
         if(result) openHTMLFile(context, exportFile);
-        asyncTask.doProgress(100);
-        return result;
+        if(asyncTask != null) asyncTask.doProgress(100);
+        return exportFile;
     }
 
     private static ArrayList<String> extractLinesFromFile(File file) {
@@ -231,29 +231,29 @@ public class FileIO {
         // 1. get export dir
         File exportDir = getExportDir(context, year, month, project);
         if(exportDir == null) return false;
-        asyncTask.doProgress(10);
+        if(asyncTask != null) asyncTask.doProgress(10);
 
         // 2. copy correct template as new review file
-        boolean stamped = false;
+        boolean stamped;
         if(hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED) != null &&
                 hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED).equals(Model.SpecialValue.YES)) stamped = true;
         else stamped = false;
         File outputFile = new File(exportDir.getPath(), inspectionReviewName + ".doc");// newFileFromTemplate(context, exportDir, inspectionReviewName, stamped);
-        asyncTask.doProgress(20);
+        if(asyncTask != null) asyncTask.doProgress(20);
 
         // 3. write to new review file
         InputStream inputStream;
         if(stamped) inputStream = context.getResources().openRawResource(sel_engineering_limited_inspection_report_doc_template);
         else inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_doc_template_stamped);
-        asyncTask.doProgress(30);
+        if(asyncTask != null) asyncTask.doProgress(30);
         try {
-            asyncTask.doProgress(40);
+            if(asyncTask != null) asyncTask.doProgress(40);
             POIFSFileSystem fs = new POIFSFileSystem(inputStream); //new FileInputStream(outputFile.getPath()));
             HWPFDocument doc = new HWPFDocument(fs);
             DatabaseWriter.UIComponentInputValue[] columnArr = hashMap.keySet().toArray(
                     new DatabaseWriter.UIComponentInputValue[hashMap.keySet().size()]);
 
-            asyncTask.doProgress(50);
+            if(asyncTask != null) asyncTask.doProgress(50);
             int total = DatabaseWriter.UIComponentInputValue.values().length;
             int count = 0;
             for (DatabaseWriter.UIComponentInputValue column : columnArr) {
@@ -263,8 +263,10 @@ public class FileIO {
                 String replacementTag = "<!-- " + column.getValue() + " -->";
                 replaceAllTextInDoc(doc, replacementTag, replacement);
                 count++;
-                int progressPercentage = (int) (50 + (( ((float) count) / total) * 100 ) / 2);
-                asyncTask.doProgress(progressPercentage);
+                if(asyncTask != null) {
+                    int progressPercentage = (int) (50 + ((((float) count) / total) * 100) / 2);
+                    asyncTask.doProgress(progressPercentage);
+                }
             }
             FileOutputStream out = new FileOutputStream(outputFile);
             doc.write(out);
@@ -273,7 +275,7 @@ public class FileIO {
             //Log.v("PUCCI", "SUCCESS: The output file was created/exists\n= " + outputFile.getPath());
             // open file using the Android OS default program
 
-            asyncTask.doProgress(100);
+            if(asyncTask != null) asyncTask.doProgress(100);
             openDocFile(context, outputFile);
         } catch (Exception e) {
             Log.v("PUCCI", "ERROR: " + e.getMessage());

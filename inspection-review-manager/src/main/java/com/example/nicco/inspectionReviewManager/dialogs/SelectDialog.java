@@ -43,6 +43,7 @@ public class SelectDialog extends DialogFragment {
         final View view = inflater.inflate(R.layout.select_dialog, container, false);
         Button exportHTMLButton = (Button) view.findViewById(R.id.buttonSelectExportHTML);
         Button exportDocButton = (Button) view.findViewById(R.id.buttonSelectExportDoc);
+        Button printButton = (Button) view.findViewById(R.id.buttonPrint);
         Button editButton = (Button) view.findViewById(R.id.buttonSelectEdit);
         Button deleteButton = (Button) view.findViewById(R.id.buttonDelete);
         exportHTMLButton.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +84,13 @@ public class SelectDialog extends DialogFragment {
                     toast.show();
                     getDialog().dismiss();
                 }
+            }
+        });
+        printButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                modelLoadListener.print();
+                getDialog().dismiss();
             }
         });
         editButton.setOnClickListener(new View.OnClickListener() {

@@ -466,6 +466,25 @@ public class Model extends Application {
         dbWriter.deleteReview(DatabaseWriter.getDatabaseColumns(), whereClause, whereArgs);
     }
 
+    public File getExportHTML(Context context) {
+        String fileName = makeReviewTitle();
+        String dateStr = hashMap.get(DatabaseWriter.UIComponentInputValue.DATE); // YYYY-MM-DD
+        if(dateStr == null) dateStr = "";
+
+        String[] date = dateStr.split("-");
+        String year = "";
+        String month = "";
+        if(date.length == 3) {
+            year = date[0];
+            month = date[1] + " - " + monthIntToString(Integer.parseInt(date[1]) - 1); // monthIntToString uses months 0 to 11
+        }
+
+        String project = "";
+        String address = hashMap.get(DatabaseWriter.UIComponentInputValue.ADDRESS);
+        if(address != null) project = address;
+        return FileIO.exportInspectionReviewToHTML(context, hashMap, fileName, year, month, project, null);
+    }
+
     public class ExportDocAsyncTask extends AsyncTask<String, Integer, Boolean> {
         private Context context;
         private String fileName;
@@ -577,7 +596,7 @@ public class Model extends Application {
             String address = hashMap.get(DatabaseWriter.UIComponentInputValue.ADDRESS);
             if(address != null) project = address;
 
-            return FileIO.exportInspectionReviewToHTML(context, hashMap, fileName, year, month, project, this);
+            return FileIO.exportInspectionReviewToHTML(context, hashMap, fileName, year, month, project, this) != null;
         }
 
         @Override

@@ -26,6 +26,14 @@
                 android:value="com.example.nicco.inspectionReviewManager.activities.MainActivity" />
         </activity>
         <activity
+            android:name="com.example.nicco.inspectionReviewManager.activities.PrintActivity"
+            android:parentActivityName="com.example.nicco.inspectionReviewManager.activities.MainActivity"
+            android:launchMode="singleTask" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nicco.inspectionReviewManager.activities.MainActivity" />
+        </activity>
+        <activity
             android:name="com.example.nicco.inspectionReviewManager.activities.ProjectActivity"
             android:parentActivityName="com.example.nicco.inspectionReviewManager.activities.InspectionReviewActivity"
             android:launchMode="singleTask" >
