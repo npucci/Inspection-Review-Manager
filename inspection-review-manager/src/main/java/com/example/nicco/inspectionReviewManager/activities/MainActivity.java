@@ -178,20 +178,88 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
     @Override
     public boolean exportHTML(FragmentManager fragmentManager) {
         final Model model = (Model) getApplicationContext();
-        model.loadReviewFromDatabase(selectedArchiveReview);
-        boolean exported = model.exportReviewToHTML(getBaseContext(), fragmentManager);
-        model.reset();
+        boolean exported = false;
+        if(!model.reviewStarted()) {
+            Toast toast = Toast.makeText(MainActivity.this, R.string.exported_html_message, Toast.LENGTH_LONG);
+            toast.show();
+
+            model.loadReviewFromDatabase(selectedArchiveReview);
+            exported = model.exportReviewToHTML(getBaseContext(), getFragmentManager());
+            model.reset();
+            return exported;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.exporting_warning_dialog_message)
+                .setTitle(R.string.exporting_warning_dialog_title);
+        // set buttons
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast toast = Toast.makeText(MainActivity.this, R.string.exported_html_message, Toast.LENGTH_LONG);
+                toast.show();
+
+                model.loadReviewFromDatabase(selectedArchiveReview);
+                model.exportReviewToHTML(getBaseContext(), getFragmentManager());
+                model.reset();
+                final Button newReviewButton = (Button) findViewById(R.id.buttonInspectionReview);
+                newReviewButton.setText("New Review");
+            }
+        });
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        Dialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
         return exported;
     }
 
-    // this method is NOT called from within an Inspection Review Creation Session,
-    // ONLY called within the Main Activity
     @Override
     public boolean exportDoc(FragmentManager fragmentManager) {
         final Model model = (Model) getApplicationContext();
-        model.loadReviewFromDatabase(selectedArchiveReview);
-        boolean exported = model.exportReviewToDoc(getBaseContext(), fragmentManager);
-        model.reset();
+        boolean exported = false;
+        if(!model.reviewStarted()) {
+            Toast toast = Toast.makeText(MainActivity.this, R.string.exported_doc_message, Toast.LENGTH_LONG);
+            toast.show();
+
+            model.loadReviewFromDatabase(selectedArchiveReview);
+            exported = model.exportReviewToDoc(getBaseContext(), getFragmentManager());
+            model.reset();
+            return exported;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.exporting_warning_dialog_message)
+                .setTitle(R.string.exporting_warning_dialog_title);
+        // set buttons
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast toast = Toast.makeText(MainActivity.this, R.string.exported_doc_message, Toast.LENGTH_LONG);
+                toast.show();
+
+                model.loadReviewFromDatabase(selectedArchiveReview);
+                model.exportReviewToDoc(getBaseContext(), getFragmentManager());
+                model.reset();
+                final Button newReviewButton = (Button) findViewById(R.id.buttonInspectionReview);
+                newReviewButton.setText("New Review");
+            }
+        });
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        Dialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
         return exported;
     }
 

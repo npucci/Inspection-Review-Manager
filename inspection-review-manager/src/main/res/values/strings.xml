@@ -31,6 +31,8 @@
     <string name="select_dialog_message">What would you like to do?</string>
     <string name="delete_dialog_title">Delete Review"</string>
     <string name="delete_dialog_message">This action will permanently delete the review on record.\nDo you wish to continue?"</string>
+    <string name="exporting_warning_dialog_title">Unsaved Review In Progress</string>
+    <string name="exporting_warning_dialog_message">To Export, all data in the current session will be lost.\nDo you wish to continue?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
