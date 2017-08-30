@@ -1,17 +1,13 @@
 package com.example.nicco.inspectionReviewManager.activities;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.TypedValue;
 import android.view.View;
@@ -22,7 +18,6 @@ import android.widget.Toast;
 import com.example.nicco.inspectionReviewManager.R;
 import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
 import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
-import com.example.nicco.inspectionReviewManager.dialogs.ExportingProgressDialog;
 import com.example.nicco.inspectionReviewManager.fragments.InspectionReviewListFragment;
 
 public class InspectionReviewActivity extends FragmentActivity {
@@ -44,54 +39,6 @@ public class InspectionReviewActivity extends FragmentActivity {
                 backButton.setTextColor(Color.BLACK);
                 Intent intent = new Intent(InspectionReviewActivity.this, MainActivity.class);
                 startActivity(intent);
-            }
-        });
-
-        final Button exportHTMLButton = (Button) findViewById(R.id.buttonExportHTML);
-        exportHTMLButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                exportHTMLButton.setTextColor(Color.BLACK);
-                // export and open review as a doc file
-                ActivityCompat.requestPermissions(InspectionReviewActivity.this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        1);
-                int permission = ActivityCompat.checkSelfPermission(InspectionReviewActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                if(permission == PackageManager.PERMISSION_GRANTED) {
-                    Toast toast = Toast.makeText(getApplicationContext(), R.string.exporting_html_message, Toast.LENGTH_LONG);
-                    toast.show();
-                    FragmentManager fragmentManager = getFragmentManager();
-                    ExportingProgressDialog exportingProgressDialog = new ExportingProgressDialog();
-                    exportingProgressDialog.show(fragmentManager, "dialog");
-                    model.exportReviewToHTML(getBaseContext(), getFragmentManager());
-                } else {
-                    Toast toast = Toast.makeText(getApplicationContext(), R.string.write_permissions_denied, Toast.LENGTH_LONG);
-                    toast.show();
-                }
-            }
-        });
-
-        final Button exportDocButton = (Button) findViewById(R.id.buttonExportDoc);
-        exportDocButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                exportDocButton.setTextColor(Color.BLACK);
-                // export and open review as a doc file
-                ActivityCompat.requestPermissions(InspectionReviewActivity.this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        1);
-                int permission = ActivityCompat.checkSelfPermission(InspectionReviewActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                if(permission == PackageManager.PERMISSION_GRANTED) {
-                    Toast toast = Toast.makeText(getApplicationContext(), R.string.exporting_doc_message, Toast.LENGTH_LONG);
-                    toast.show();
-                    FragmentManager fragmentManager = getFragmentManager();
-                    ExportingProgressDialog exportingProgressDialog = new ExportingProgressDialog();
-                    exportingProgressDialog.show(fragmentManager, "dialog");
-                    model.exportReviewToDoc(getBaseContext(), getFragmentManager());
-                } else {
-                    Toast toast = Toast.makeText(getApplicationContext(), R.string.write_permissions_denied, Toast.LENGTH_LONG);
-                    toast.show();
-                }
             }
         });
 
@@ -128,7 +75,6 @@ public class InspectionReviewActivity extends FragmentActivity {
 
         boolean ready = allInputFilled();
         finishedButton.setEnabled(ready);
-        exportDocButton.setEnabled(ready);
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
         setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
@@ -141,13 +87,9 @@ public class InspectionReviewActivity extends FragmentActivity {
 
         setTitle();
 
-        final Button exportHTMLButton = (Button) findViewById(R.id.buttonExportHTML);
-        final Button exportDocButton = (Button) findViewById(R.id.buttonExportDoc);
         final Button finishedButton = (Button) findViewById(R.id.buttonFinished);
         boolean ready = allInputFilled();
         finishedButton.setEnabled(ready);
-        exportHTMLButton.setEnabled(ready);
-        exportDocButton.setEnabled(ready);
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
         setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
@@ -239,12 +181,6 @@ public class InspectionReviewActivity extends FragmentActivity {
         Button backButton = (Button) findViewById(R.id.buttonBack);
         backButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
 
-        Button exportHTMLButton = (Button) findViewById(R.id.buttonExportHTML);
-        exportHTMLButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
-
-        Button exportDocButton = (Button) findViewById(R.id.buttonExportDoc);
-        exportDocButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
-
         Button finishedButton = (Button) findViewById(R.id.buttonFinished);
         finishedButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
 
@@ -255,12 +191,6 @@ public class InspectionReviewActivity extends FragmentActivity {
     private void setTextUnderline() {
         Button backButton = (Button) findViewById(R.id.buttonBack);
         backButton.setPaintFlags(backButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-
-        Button exportHTMLButton = (Button) findViewById(R.id.buttonExportHTML);
-        exportHTMLButton.setPaintFlags(exportHTMLButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-
-        Button exportDocButton = (Button) findViewById(R.id.buttonExportDoc);
-        exportDocButton.setPaintFlags(exportDocButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         Button finishedButton = (Button) findViewById(R.id.buttonFinished);
         finishedButton.setPaintFlags(finishedButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
