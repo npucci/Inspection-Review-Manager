@@ -278,41 +278,39 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
     @Override
     public void print() {
         final Model model = (Model) getApplicationContext();
-        boolean exported = false;
-        //if(!model.reviewStarted()) {
-        Toast toast = Toast.makeText(MainActivity.this, R.string.exported_doc_message, Toast.LENGTH_LONG);
-        toast.show();
-        model.loadReviewFromDatabase(selectedArchiveReview);
-        Intent intent = new Intent(MainActivity.this, PrintActivity.class);
-        startActivity(intent);
-        //}
+        if(!model.reviewStarted()) {
+            Toast toast = Toast.makeText(MainActivity.this, R.string.print_message, Toast.LENGTH_LONG);
+            toast.show();
+            model.loadReviewFromDatabase(selectedArchiveReview);
+            Intent intent = new Intent(MainActivity.this, PrintActivity.class);
+            startActivity(intent);
+            return;
+        }
 
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setMessage(R.string.exporting_warning_dialog_message)
-//                .setTitle(R.string.exporting_warning_dialog_title);
-//        // set buttons
-//        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                Toast toast = Toast.makeText(MainActivity.this, R.string.print_message, Toast.LENGTH_LONG);
-//                toast.show();
-//
-//                model.loadReviewFromDatabase(selectedArchiveReview);
-//                model.printReview();sfesfds
-//                model.reset();
-//                final Button newReviewButton = (Button) findViewById(R.id.buttonInspectionReview);
-//                newReviewButton.setText("New Review");
-//            }
-//        });
-//        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                dialogInterface.dismiss();
-//            }
-//        });
-//        Dialog dialog = builder.create();
-//        dialog.setCanceledOnTouchOutside(true);
-//        dialog.show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.exporting_warning_dialog_message)
+                .setTitle(R.string.exporting_warning_dialog_title);
+        // set buttons
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast toast = Toast.makeText(MainActivity.this, R.string.print_message, Toast.LENGTH_LONG);
+                toast.show();
+
+                model.loadReviewFromDatabase(selectedArchiveReview);
+                Intent intent = new Intent(MainActivity.this, PrintActivity.class);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        Dialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
     }
 
     @Override
