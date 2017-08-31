@@ -1,4 +1,4 @@
-package com.example.nicco.inspectionReviewManager.customDatatypes;
+package com.example.nicco.inspectionReviewManager.interfaces;
 
 import android.view.View;
 

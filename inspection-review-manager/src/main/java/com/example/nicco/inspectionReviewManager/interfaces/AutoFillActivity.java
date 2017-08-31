@@ -1,4 +1,4 @@
-package com.example.nicco.inspectionReviewManager.customDatatypes;
+package com.example.nicco.inspectionReviewManager.interfaces;
 
 /**
  * Created by Nicco on 2017-08-16.
