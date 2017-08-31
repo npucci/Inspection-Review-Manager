@@ -6,4 +6,5 @@
 .DS_Store
 /build
 /captures
+/inspection-review-manager/src/main/res/raw
 .externalNativeBuild
