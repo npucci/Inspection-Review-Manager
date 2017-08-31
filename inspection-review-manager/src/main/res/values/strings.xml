@@ -47,6 +47,7 @@
     <string name="button_export_doc">Export Doc</string>
     <string name="button_finish">Save</string>
     <string name="button_print">Print</string>
+    <string name="button_print_preview">Print Preview</string>
     <string name="button_inspection_review">Inspection Review</string>
 
     <!-- TOAST TEXT -->

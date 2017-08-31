@@ -41,11 +41,8 @@ public class SelectDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.select_dialog, container, false);
+
         Button exportHTMLButton = (Button) view.findViewById(R.id.buttonSelectExportHTML);
-        Button exportDocButton = (Button) view.findViewById(R.id.buttonSelectExportDoc);
-        Button printButton = (Button) view.findViewById(R.id.buttonPrint);
-        Button editButton = (Button) view.findViewById(R.id.buttonSelectEdit);
-        Button deleteButton = (Button) view.findViewById(R.id.buttonDelete);
         exportHTMLButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,6 +63,8 @@ public class SelectDialog extends DialogFragment {
                 }
             }
         });
+
+        Button exportDocButton = (Button) view.findViewById(R.id.buttonSelectExportDoc);
         exportDocButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,13 +85,26 @@ public class SelectDialog extends DialogFragment {
                 }
             }
         });
+
+        Button printButton = (Button) view.findViewById(R.id.buttonPrintPreview);
         printButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                modelLoadListener.print();
-                getDialog().dismiss();
+                // export and open review as a doc file
+                ActivityCompat.requestPermissions(SelectDialog.this.getActivity(),
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        1);
+                int permission = ActivityCompat.checkSelfPermission(SelectDialog.this.getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if(permission == PackageManager.PERMISSION_GRANTED) {
+                    modelLoadListener.print();
+                    getDialog().dismiss();
+                } else {
+                    getDialog().dismiss();
+                }
             }
         });
+
+        Button editButton = (Button) view.findViewById(R.id.buttonSelectEdit);
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,6 +112,8 @@ public class SelectDialog extends DialogFragment {
                 getDialog().dismiss();
             }
         });
+
+        Button deleteButton = (Button) view.findViewById(R.id.buttonDelete);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,23 +140,35 @@ public class SelectDialog extends DialogFragment {
     }
 
     private void setTextUnderline(View view) {
-        Button exportHTMLButton = (Button) view.findViewById(R.id.buttonSelectExportHTML);
-        exportHTMLButton.setPaintFlags(exportHTMLButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        Button printButton = (Button) view.findViewById(R.id.buttonPrintPreview);
+        printButton.setPaintFlags(printButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
         Button exportDocButton = (Button) view.findViewById(R.id.buttonSelectExportDoc);
         exportDocButton.setPaintFlags(exportDocButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        Button exportHTMLButton = (Button) view.findViewById(R.id.buttonSelectExportHTML);
+        exportHTMLButton.setPaintFlags(exportHTMLButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
         Button editButton = (Button) view.findViewById(R.id.buttonSelectEdit);
         editButton.setPaintFlags(editButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
         Button deleteButton = (Button) view.findViewById(R.id.buttonDelete);
         deleteButton.setPaintFlags(deleteButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
     }
 
     private void updateTextSize(View view) {
+        Button printButton = (Button) view.findViewById(R.id.buttonPrintPreview);
+        printButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
         Button exportHTMLButton = (Button) view.findViewById(R.id.buttonSelectExportHTML);
         exportHTMLButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
         Button exportDocButton = (Button) view.findViewById(R.id.buttonSelectExportDoc);
         exportDocButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
         Button editButton = (Button) view.findViewById(R.id.buttonSelectEdit);
         editButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
         Button deleteButton = (Button) view.findViewById(R.id.buttonDelete);
         deleteButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
 

@@ -30,6 +30,7 @@ public class Model extends Application {
     private ExportHTMLAsyncTask exportHTMLTask;
     private ExportDocAsyncTask exportDocTask;
     private ExportDatabaseAsyncTask exportDatabaseTask;
+    private File exportHTML;
 
     public enum SpecialValue {
         YES ("Yes"),
@@ -313,6 +314,10 @@ public class Model extends Application {
         return reviewTypes;
     }
 
+    public File getExportHTML() {
+        return exportHTML;
+    }
+
     public boolean exportReviewToHTML(Context context, FragmentManager fragmentManager) {
         if(exportHTMLTask != null && (exportHTMLTask.getStatus() == AsyncTask.Status.PENDING ||
                 exportHTMLTask.getStatus() == AsyncTask.Status.RUNNING)) {
@@ -559,6 +564,7 @@ public class Model extends Application {
         private HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap;
         private FragmentManager fragmentManager;
         private ExportingProgressDialog exportingProgressDialog;
+        private File exportFile;
 
         public ExportHTMLAsyncTask(Context context,
                                    HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
@@ -596,7 +602,9 @@ public class Model extends Application {
             String address = hashMap.get(DatabaseWriter.UIComponentInputValue.ADDRESS);
             if(address != null) project = address;
 
-            return FileIO.exportInspectionReviewToHTML(context, hashMap, fileName, year, month, project, this) != null;
+            exportFile = FileIO.exportInspectionReviewToHTML(context, hashMap, fileName, year, month, project, this);
+            FileIO.openHTMLFile(context, exportFile);
+            return exportFile != null;
         }
 
         @Override
@@ -616,6 +624,7 @@ public class Model extends Application {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
+            exportHTML = exportFile;
             exportingProgressDialog.finished(result);
             exportingProgressDialog.dismiss();
         }

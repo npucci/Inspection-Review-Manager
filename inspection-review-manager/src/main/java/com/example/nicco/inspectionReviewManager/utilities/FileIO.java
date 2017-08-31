@@ -51,6 +51,7 @@ public class FileIO {
     }
 
     private static void openDocFile(final Context context, final File file) {
+        if(context == null || file == null) return;
         Intent intent = new Intent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction(Intent.ACTION_VIEW);
@@ -65,7 +66,8 @@ public class FileIO {
         }
     }
 
-    private static void openHTMLFile(final Context context, final File file) {
+    public static void openHTMLFile(final Context context, final File file) {
+        if(context == null || file == null) return;
         Uri uri = Uri.parse("googlechrome://navigate?url=" + file.getPath());
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -156,7 +158,6 @@ public class FileIO {
 
         // 3. write values to new review file
         boolean result = writeValuesToHTML(exportFile, hashMap);
-        if(result) openHTMLFile(context, exportFile);
         if(asyncTask != null) asyncTask.doProgress(100);
         return exportFile;
     }
@@ -226,7 +227,7 @@ public class FileIO {
                                                       String inspectionReviewName, String year, String month, String project,
                                                       Model.ExportDocAsyncTask asyncTask) {
 
-        asyncTask.doProgress(0);
+        if(asyncTask != null) asyncTask.doProgress(0);
 
         // 1. get export dir
         File exportDir = getExportDir(context, year, month, project);
