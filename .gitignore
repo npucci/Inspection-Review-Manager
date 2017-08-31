@@ -6,5 +6,11 @@
 .DS_Store
 /build
 /captures
-#/inspection-review-manager/src/main/res/raw
 .externalNativeBuild
+inspection-review-manager/src/main/res/raw/sel_engineering_limited_inspection_report_doc_template_stamped.doc
+
+inspection-review-manager/src/main/res/raw/sel_engineering_limited_inspection_report_doc_template.doc
+
+inspection-review-manager/src/main/res/raw/sel_engineering_limited_inspection_report_html_template.html
+
+inspection-review-manager/src/main/res/raw/sel_engineering_limited_inspection_report_html_template_stamped.html
