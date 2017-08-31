@@ -8,9 +8,9 @@
         android:id="@+id/textViewAvailableActions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:text="@string/select_dialog_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/black" />
@@ -19,15 +19,23 @@
         android:id="@+id/textViewChoice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
         android:text="@string/select_dialog_message"
         android:textColor="@color/black" />
 
     <View
         style="@style/HorizontalDivider"
+        android:layout_marginBottom="10dp"
         android:layout_weight="0" />
+
+    <Button
+        android:id="@+id/buttonSelectEdit"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_edit" />
 
     <Button
         android:id="@+id/buttonPrintPreview"
@@ -36,12 +44,17 @@
         android:layout_height="wrap_content"
         android:text="@string/button_print_preview" />
 
+    <View
+        style="@style/HorizontalDivider"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="0" />
+
     <Button
         android:id="@+id/buttonSelectExportDoc"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:text="@string/button_export_doc" />
 
     <Button
@@ -49,19 +62,11 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:text="@string/button_export_html" />
-
-    <Button
-        android:id="@+id/buttonSelectEdit"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/button_edit" />
 
     <View
         style="@style/HorizontalDivider"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_weight="0" />
 
@@ -70,7 +75,7 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="10dp"
         android:text="@string/button_delete" />
 
 </LinearLayout>

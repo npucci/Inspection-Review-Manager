@@ -9,9 +9,10 @@
     <string name="framing">Framing</string>
     <string name="conclusion">Conclusion</string>
 
-    <!-- MAIN ACTIVITY HEADING TEXT -->
+    <!-- HEADING TEXT -->
     <string name="inspection_review_archive">Inspection Review Archive</string>
     <string name="logo_menu_button_content_description">Logo Menu</string>
+    <string name="new_inspection_review">New Inspection Review</string>
 
     <!-- DEFAULT AUTOCOMPLETE TEXT -->
     <string name="project_number_default">C</string>
@@ -45,10 +46,12 @@
     <string name="button_edit">Edit</string>
     <string name="button_export_html">Export HTML</string>
     <string name="button_export_doc">Export Doc</string>
-    <string name="button_finish">Save</string>
+    <string name="button_finish">Finshed</string>
+    <string name="button_save">Save</string>
     <string name="button_print">Print</string>
     <string name="button_print_preview">Print Preview</string>
     <string name="button_inspection_review">Inspection Review</string>
+    <string name="button_back">Back</string>
 
     <!-- TOAST TEXT -->
     <string name="write_permissions_denied">Write Permissions Denied</string>

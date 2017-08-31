@@ -73,6 +73,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nicco.inspectionReviewManager.activities.InspectionReviewActivity" />
         </activity>
+        <activity
+            android:name="com.example.nicco.inspectionReviewManager.activities.ReviewFinishActivity"
+            android:parentActivityName="com.example.nicco.inspectionReviewManager.activities.InspectionReviewActivity"
+            android:launchMode="singleTask" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nicco.inspectionReviewManager.activities.InspectionReviewActivity" />
+        </activity>
     </application>
 
 </manifest>

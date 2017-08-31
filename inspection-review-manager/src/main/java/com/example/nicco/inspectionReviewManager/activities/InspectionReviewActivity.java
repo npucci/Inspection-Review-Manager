@@ -42,11 +42,11 @@ public class InspectionReviewActivity extends FragmentActivity {
             }
         });
 
-        final Button finishedButton = (Button) findViewById(R.id.buttonFinished);
-        finishedButton.setOnClickListener(new View.OnClickListener() {
+        final Button saveButton = (Button) findViewById(R.id.buttonSave);
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finishedButton.setTextColor(Color.BLACK);
+                saveButton.setTextColor(Color.BLACK);
                 if(model.reviewExistsInDatabase()) {
                     showUpdateReviewAlertDialogue();
                 } else {
@@ -55,10 +55,8 @@ public class InspectionReviewActivity extends FragmentActivity {
                     toast.show();
 
                     model.insertReviewToDatabase();
-                    model.reset();
 
-                    Intent intent = new Intent(InspectionReviewActivity.this, MainActivity.class);
-                    recreate();
+                    Intent intent = new Intent(InspectionReviewActivity.this, ReviewFinishActivity.class);
                     startActivity(intent);
                 }
             }
@@ -74,7 +72,7 @@ public class InspectionReviewActivity extends FragmentActivity {
         });
 
         boolean ready = allInputFilled();
-        finishedButton.setEnabled(ready);
+        saveButton.setEnabled(ready);
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
         setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
@@ -87,9 +85,9 @@ public class InspectionReviewActivity extends FragmentActivity {
 
         setTitle();
 
-        final Button finishedButton = (Button) findViewById(R.id.buttonFinished);
+        final Button saveButton = (Button) findViewById(R.id.buttonSave);
         boolean ready = allInputFilled();
-        finishedButton.setEnabled(ready);
+        saveButton.setEnabled(ready);
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
         setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
@@ -116,11 +114,11 @@ public class InspectionReviewActivity extends FragmentActivity {
                 Toast toast = Toast.makeText(getApplicationContext(), R.string.updated_message, Toast.LENGTH_LONG);
                 toast.show();
                 // update existing review recorded in database
+                // update existing review recorded in database
                 model.updateReviewToDatabase();
-                model.reset();
 
-                Intent intent = new Intent(InspectionReviewActivity.this, MainActivity.class);
-                recreate();
+                Intent intent = new Intent(InspectionReviewActivity.this, ReviewFinishActivity.class);
+                //recreate();
                 startActivity(intent);
             }
         });
@@ -169,6 +167,7 @@ public class InspectionReviewActivity extends FragmentActivity {
 
         if(!address.isEmpty() && !city.isEmpty() && !province.isEmpty())
             titleTextView.setText(address + ", " + city + ", " + province);
+        else  titleTextView.setText(getString(R.string.new_inspection_review));
     }
 
     private void setTextSize(float textSize) {
@@ -181,8 +180,8 @@ public class InspectionReviewActivity extends FragmentActivity {
         Button backButton = (Button) findViewById(R.id.buttonBack);
         backButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
 
-        Button finishedButton = (Button) findViewById(R.id.buttonFinished);
-        finishedButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        Button saveButton = (Button) findViewById(R.id.buttonSave);
+        saveButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
 
         Button closeButton = (Button) findViewById(R.id.buttonClose);
         closeButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
@@ -192,8 +191,8 @@ public class InspectionReviewActivity extends FragmentActivity {
         Button backButton = (Button) findViewById(R.id.buttonBack);
         backButton.setPaintFlags(backButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-        Button finishedButton = (Button) findViewById(R.id.buttonFinished);
-        finishedButton.setPaintFlags(finishedButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        Button saveButton = (Button) findViewById(R.id.buttonSave);
+        saveButton.setPaintFlags(saveButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         Button closeButton = (Button) findViewById(R.id.buttonClose);
         closeButton.setPaintFlags(closeButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);

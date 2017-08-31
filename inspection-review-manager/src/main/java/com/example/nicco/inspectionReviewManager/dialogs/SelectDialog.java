@@ -91,9 +91,9 @@ public class SelectDialog extends DialogFragment {
             @Override
             public void onClick(View view) {
                 // export and open review as a doc file
-                ActivityCompat.requestPermissions(SelectDialog.this.getActivity(),
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        1);
+                        ActivityCompat.requestPermissions(SelectDialog.this.getActivity(),
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                1);
                 int permission = ActivityCompat.checkSelfPermission(SelectDialog.this.getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if(permission == PackageManager.PERMISSION_GRANTED) {
                     modelLoadListener.print();
