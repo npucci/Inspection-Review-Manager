@@ -295,9 +295,9 @@ public class DatabaseWriter extends SQLiteOpenHelper {
                     UIComponentInputValue.STAMPED.getValue() +
                     " FROM " + TABLE_NAME +
                     " ORDER BY " +
-                    UIComponentInputValue.DATE.getValue() + " DESC, " +
+                    "DATE(" + UIComponentInputValue.DATE.getValue() + ")" + " DESC, " +
                     "TIME(" + UIComponentInputValue.TIME.getValue() + ")" + " DESC, " +
-                    UIComponentInputValue.CITY.getValue() + " DESC";
+                    UIComponentInputValue.CITY.getValue() + " ASC";
             cursor = database.rawQuery(query, null);
         } catch(Exception e) {
             Log.v("PUCCI", "QUERY Exception: " + e.getMessage());
