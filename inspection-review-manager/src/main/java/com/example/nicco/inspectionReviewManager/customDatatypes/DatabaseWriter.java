@@ -297,6 +297,7 @@ public class DatabaseWriter extends SQLiteOpenHelper {
                     " ORDER BY " +
                     "DATE(" + UIComponentInputValue.DATE.getValue() + ")" + " DESC, " +
                     "TIME(" + UIComponentInputValue.TIME.getValue() + ")" + " DESC, " +
+                    UIComponentInputValue.TIME.getValue() + " DESC, " +
                     UIComponentInputValue.CITY.getValue() + " ASC";
             cursor = database.rawQuery(query, null);
         } catch(Exception e) {
