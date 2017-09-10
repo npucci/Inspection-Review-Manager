@@ -131,7 +131,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="32dp"
-                                android:text="Intended for internal use only." />
+                                android:text="Developed for internal use only." />
                         </LinearLayout>
                     </ScrollView>
                 </LinearLayout>
