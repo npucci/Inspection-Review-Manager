@@ -29,32 +29,33 @@ public class QueryingAutoCompleteTextView extends android.support.v7.widget.AppC
                     final String databaseColumn,
                     final String[] defaultValues) {
         setAdapter(new ArrayAdapter<>(activity.getBaseContext(),
-                android.R.layout.simple_selectable_list_item,
-                values));
+                android.R.layout.simple_selectable_list_item, values));
         setThreshold(1);
 
         addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(QueryingAutoCompleteTextView.this.getText().toString() == null && QueryingAutoCompleteTextView.this.getText().toString().isEmpty()) return;
-                values.clear();
+                if(charSequence.toString() == null && charSequence.toString().isEmpty()) return;
+                values = new ArrayList<String>();
                 values.addAll(model.combineArraysLinkedHashSet(
-                        model.queryMatchSearchDatabase(databaseTable, databaseColumn, QueryingAutoCompleteTextView.this.getText().toString()),
+                        model.queryMatchSearchDatabase(databaseTable, databaseColumn, charSequence.toString()),
                         defaultValues));
-                ((ArrayAdapter) QueryingAutoCompleteTextView.this.getAdapter()).notifyDataSetChanged();
-                autofillActivity.autofill(QueryingAutoCompleteTextView.this);
+                QueryingAutoCompleteTextView.this.setAdapter(new ArrayAdapter<>(activity.getBaseContext(),
+                        android.R.layout.simple_selectable_list_item, values));
             }
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+                autofillActivity.autofill(QueryingAutoCompleteTextView.this);
+            }
         });
         setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                autofillActivity.autofill(this);
+                autofillActivity.autofill(QueryingAutoCompleteTextView.this);
             }
         });
     }

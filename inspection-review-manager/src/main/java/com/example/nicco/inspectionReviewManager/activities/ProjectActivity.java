@@ -31,6 +31,7 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
     private CheckBox other;
     private TextView descriptionTextView;
     private QueryingAutoCompleteTextView description;
+    private boolean ready = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +94,8 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
 
         description = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteDescription);
         description.set(this, model, this, DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.OTHER_REVIEW_DESCRIPTION.getValue(), null);
+
+        ready = true;
     }
 
     private void initValues() {
@@ -210,10 +213,13 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
 
     @Override
     public void autofill(Object uiComponent) {
+        if(!ready) return;
+
         String whereClause = "";
         String[] whereArgs = null;
         String[] queryResult = null;
 
+        // change in address
         if(uiComponent != city && uiComponent != province && uiComponent != projectNumber &&
                 uiComponent != developer && uiComponent != contractor) {
             whereClause = DatabaseWriter.UIComponentInputValue.ADDRESS.getValue() + " = ?";
@@ -221,8 +227,10 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
             queryResult = model.queryDatabase(DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.CITY, whereClause, whereArgs);
             if (queryResult == null || queryResult.length == 0) return;
             city.setText(queryResult[0]);
+            Log.v("NICCO", "change in address");
         }
 
+        // change in city
         if(uiComponent != province && uiComponent != projectNumber &&
                 uiComponent != developer && uiComponent != contractor) {
             whereClause = DatabaseWriter.UIComponentInputValue.ADDRESS.getValue() + " = ? AND " +
@@ -231,10 +239,11 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
             queryResult = model.queryDatabase(DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.PROVINCE, whereClause, whereArgs);
             if (queryResult == null || queryResult.length == 0) return;
             province.setText(queryResult[0]);
+            Log.v("NICCO", "change in city");
         }
 
-        if(uiComponent != projectNumber &&
-                uiComponent != developer && uiComponent != contractor) {
+        // change in province
+        if(uiComponent != projectNumber && uiComponent != developer && uiComponent != contractor) {
             whereClause = DatabaseWriter.UIComponentInputValue.ADDRESS.getValue() + " = ? AND " +
                     DatabaseWriter.UIComponentInputValue.CITY.getValue() + " = ? AND " +
                     DatabaseWriter.UIComponentInputValue.PROVINCE.getValue() + " = ?";
@@ -242,8 +251,10 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
             queryResult = model.queryDatabase(DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER, whereClause, whereArgs);
             if (queryResult == null || queryResult.length == 0) return;
             projectNumber.setText(queryResult[0]);
+            Log.v("NICCO", "change in province");
         }
 
+        // change in project number
         if(uiComponent != developer && uiComponent != contractor) {
             whereClause = DatabaseWriter.UIComponentInputValue.ADDRESS.getValue() + " = ? AND " +
                     DatabaseWriter.UIComponentInputValue.CITY.getValue() + " = ? AND " +
@@ -254,7 +265,10 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
             queryResult = model.queryDatabase(DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.DEVELOPER, whereClause, whereArgs);
             if (queryResult == null || queryResult.length == 0) return;
             developer.setText(queryResult[0]);
+            Log.v("NICCO", "change in project number");
         }
+
+        // change in contractor
         if(uiComponent != contractor) {
             whereClause = DatabaseWriter.UIComponentInputValue.ADDRESS.getValue() + " = ? AND " +
                     DatabaseWriter.UIComponentInputValue.CITY.getValue() + " = ? AND " +
@@ -266,6 +280,7 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
             queryResult = model.queryDatabase(DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.CONTRACTOR, whereClause, whereArgs);
             if (queryResult == null || queryResult.length == 0) return;
             contractor.setText(queryResult[0]);
+            Log.v("NICCO", "change in contractor");
         }
     }
 
