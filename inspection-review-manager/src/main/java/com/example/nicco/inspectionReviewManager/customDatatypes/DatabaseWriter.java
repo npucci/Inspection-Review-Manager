@@ -15,10 +15,14 @@ import java.util.HashMap;
  */
 
 public class DatabaseWriter extends SQLiteOpenHelper {
-    private String tableCreate;
+    private String reviewTableCreate;
+    private String emailTableCreate;
     private SQLiteDatabase database;
-    private final String TABLE_NAME = "Review";
+    public static final String REVIEW_TABLE_NAME = "Review";
+    public static final String EMAIL_TABLE_NAME = "Email";
+    public static final String EMAIL_ADDRESS_COLUMN = "email_address";
 
+   // private final String REVIEW_TABLE_NAME = "Review";
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "InspectionReviews.db";
     private static final ArrayList<UIComponentInputValue> PRIMARY_KEYS = new ArrayList<UIComponentInputValue>(
@@ -29,12 +33,13 @@ public class DatabaseWriter extends SQLiteOpenHelper {
                 UIComponentInputValue.PROJECT_NUMBER,
                 UIComponentInputValue.DATE,
                 UIComponentInputValue.TIME}));
-    private static final String TABLE_PRIMARY_KEY = createPrimaryKeyStatement();
+    private static final String REVIEW_TABLE_PRIMARY_KEY = createPrimaryKeyStatement();
     private static final int maxXXLargeInputLength = 500;
     private static final int maxXLargeInputLength = 300;
     private static final int maxLargeInputLength = 100;
     private static final int maxMediumInputLength = 50;
     private static final int maxSmallInputLength = 10;
+    private static final int maxEmailAddressLength = 254;
 
     // used as keys that map directoy to their corresponding:
     // 1. ui component values (in a HashTable within Model)
@@ -157,6 +162,13 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         try {
             database = getWritableDatabase();
+            reviewTableCreate = generateReviewTableCreateSQL();
+            Log.v("PUCCI", "reviewTableCreate = " + reviewTableCreate);
+            database.execSQL(reviewTableCreate);
+
+            emailTableCreate = generateEmailTableCreateSQL();
+            Log.v("PUCCI", "emailTableCreate = " + emailTableCreate);
+            database.execSQL(emailTableCreate);
         } catch(Exception e) {
             Log.v("PUCCI", "EXCEPTION: " + e.getMessage());
         }
@@ -165,9 +177,13 @@ public class DatabaseWriter extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         database = db;
-        tableCreate = generateTableCreateSQL();
-        Log.v("PUCCI", "tableCreate = " + tableCreate);
-        database.execSQL(tableCreate);
+        reviewTableCreate = generateReviewTableCreateSQL();
+        Log.v("PUCCI", "reviewTableCreate = " + reviewTableCreate);
+        database.execSQL(reviewTableCreate);
+
+        emailTableCreate = generateEmailTableCreateSQL();
+        Log.v("PUCCI", "emailTableCreate = " + emailTableCreate);
+        database.execSQL(emailTableCreate);
     }
 
     @Override
@@ -175,15 +191,22 @@ public class DatabaseWriter extends SQLiteOpenHelper {
 
     }
 
-    private String generateTableCreateSQL() {
-        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (";
+    private String generateReviewTableCreateSQL() {
+        String sql = "CREATE TABLE IF NOT EXISTS " + REVIEW_TABLE_NAME + " (";
         String[] columns = getDatabaseColumns();
         for(int i = 0; i < columns.length; i++) {
             sql += columns[i];
             if (i < columns.length - 1) sql += ", ";
             else sql += ", ";
         }
-        sql += TABLE_PRIMARY_KEY + ")";
+        sql += REVIEW_TABLE_PRIMARY_KEY + ")";
+        return sql;
+    }
+
+    private String generateEmailTableCreateSQL() {
+        String sql = "CREATE TABLE IF NOT EXISTS " + EMAIL_TABLE_NAME + " (" +
+                "email_address VARCHAR(" + maxEmailAddressLength + "), " +
+                "PRIMARY KEY (" + EMAIL_ADDRESS_COLUMN + ")" + ")";
         return sql;
     }
 
@@ -192,7 +215,7 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         if(keys.length == 0) return false;
 
         String sql = "";
-        String sqlSelect = "SELECT COUNT (" + keys[0].getValue() + ") FROM " + TABLE_NAME;
+        String sqlSelect = "SELECT COUNT (" + keys[0].getValue() + ") FROM " + REVIEW_TABLE_NAME;
         String sqlWhere = "WHERE ";
         for(int i = 0; i < keys.length; i++) {
             sqlWhere += keys[i].getValue() + " = " + "\"" + hashMap.get(keys[i]) + "\"";
@@ -215,7 +238,7 @@ public class DatabaseWriter extends SQLiteOpenHelper {
     }
 
     public boolean insertValues(HashMap<UIComponentInputValue, String> hashMap,  UIComponentInputValue[] columnSet) {
-        String sql = "INSERT INTO " + TABLE_NAME;
+        String sql = "INSERT INTO " + REVIEW_TABLE_NAME;
         String sqlColumns = "(";
         String sqlValues = "VALUES(";
         for(int i = 0; i < columnSet.length; i++) {
@@ -239,14 +262,14 @@ public class DatabaseWriter extends SQLiteOpenHelper {
             database.execSQL(sql);
         } catch(Exception e) {
             Log.v("PUCCI", "EXCEPTION: " + e.getMessage());
-            updateValues(hashMap);
+            updateReviewValues(hashMap);
             return false;
         }
         return true;
     }
 
-    public boolean updateValues(HashMap<UIComponentInputValue, String> hashMap) {
-        String sql = "UPDATE " + TABLE_NAME;
+    public boolean updateReviewValues(HashMap<UIComponentInputValue, String> hashMap) {
+        String sql = "UPDATE " + REVIEW_TABLE_NAME;
         String sqlSet = "SET ";
         String sqlWhere = "WHERE ";
         UIComponentInputValue[] columnSet = hashMap.keySet().toArray(new UIComponentInputValue[hashMap.keySet().size()]);
@@ -275,6 +298,20 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean addEmailAddresses(ArrayList<String> emailAddresses) {
+        try {
+            for(String emailAddress : emailAddresses) {
+                String sql = "INSERT INTO " + EMAIL_TABLE_NAME +  " (" + EMAIL_ADDRESS_COLUMN + ")" +
+                        "VALUES (" + "'" + emailAddress + "'" + ")";
+                database.execSQL(sql);
+            }
+        } catch(Exception e) {
+            Log.v("PUCCI", "EXCEPTION: " + e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
     public Cursor getCursor() {
         Cursor cursor = null;
         try {
@@ -293,7 +330,7 @@ public class DatabaseWriter extends SQLiteOpenHelper {
                     UIComponentInputValue.REVIEW_STATUS.getValue() + ", " +
                     UIComponentInputValue.REVIEWED_BY.getValue() + ", " +
                     UIComponentInputValue.STAMPED.getValue() +
-                    " FROM " + TABLE_NAME +
+                    " FROM " + REVIEW_TABLE_NAME +
                     " ORDER BY " +
                     "DATE(" + UIComponentInputValue.DATE.getValue() + ")" + " DESC, " +
                     "TIME(" + UIComponentInputValue.TIME.getValue() + ")" + " DESC, " +
@@ -306,16 +343,16 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public String[] query(UIComponentInputValue column, String whereClause, String[] whereArgs) {
-       return query(column.getValue(), whereClause, whereArgs);
+    public String[] query(String table, UIComponentInputValue column, String whereClause, String[] whereArgs) {
+       return query(table, column.getValue(), whereClause, whereArgs);
     }
 
-    private String[] query(String column, String whereClause, String[] whereArgs) {
+    public  String[] query(String table, String column, String whereClause, String[] whereArgs) {
         ArrayList<String> results = new ArrayList<>();
         String[] projection = new String[]{"DISTINCT(" + column + ")"};
 
         try {
-            Cursor cursor = database.query(TABLE_NAME, projection, whereClause, whereArgs, null, null, null);
+            Cursor cursor = database.query(table, projection, whereClause, whereArgs, null, null, null);
 
             if(cursor != null) {
                 while (cursor.moveToNext()) {
@@ -335,7 +372,7 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         HashMap<UIComponentInputValue, String> results = new HashMap();
 
         try {
-            Cursor cursor = database.query(TABLE_NAME, columns, whereClause, whereArgs, null, null, null);
+            Cursor cursor = database.query(REVIEW_TABLE_NAME, columns, whereClause, whereArgs, null, null, null);
             if(cursor != null) {
                 cursor.moveToFirst();
                 for (UIComponentInputValue column : UIComponentInputValue.values()) {
@@ -373,7 +410,7 @@ public class DatabaseWriter extends SQLiteOpenHelper {
     }
 
     public void deleteReview(String[] columns, String whereClause, String[] whereArgs) {
-        database.delete(TABLE_NAME, whereClause, whereArgs);
+        database.delete(REVIEW_TABLE_NAME, whereClause, whereArgs);
     }
 
     public String getDatabasePath() {

@@ -36,7 +36,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Date" />
+                android:text="@string/date_label" />
 
             <DatePicker
                 android:id="@+id/datePicker"
@@ -55,7 +55,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Time" />
+                android:text="@string/time_label" />
 
             <TimePicker
                 android:id="@+id/timePicker"
@@ -73,7 +73,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Weather" />
+                android:text="@string/weather_label" />
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteWeather"
@@ -94,7 +94,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Temperature (Celsius)" />
+                android:text="@string/temperature_label" />
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/editTextTemperature"

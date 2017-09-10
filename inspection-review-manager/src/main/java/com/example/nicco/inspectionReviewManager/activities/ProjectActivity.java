@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.example.nicco.inspectionReviewManager.customDatatypes.AutoFillActivity;
+import com.example.nicco.inspectionReviewManager.interfaces.AutoFillActivity;
 import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
 import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
 import com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView;
@@ -48,22 +48,22 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
     private void initViews() {
         model = (Model) getApplicationContext();
         address = (QueryingAutoCompleteTextView) findViewById(R.id.autocompleteAddress);
-        address.set(this, model, this, DatabaseWriter.UIComponentInputValue.ADDRESS, null);
+        address.set(this, model, this, DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.ADDRESS.getValue(), null);
 
         city = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteCity);
-        city.set(this, model, this, DatabaseWriter.UIComponentInputValue.CITY, getResources().getStringArray(R.array.cities));
+        city.set(this, model, this, DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.CITY.getValue(), getResources().getStringArray(R.array.cities));
 
         province = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteProvince);
-        province.set(this, model, this, DatabaseWriter.UIComponentInputValue.PROVINCE, new String[]{getResources().getString(R.string.province_default)});
+        province.set(this, model, this, DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.PROVINCE.getValue(), new String[]{getResources().getString(R.string.province_default)});
 
         projectNumber = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteProjectNumber);
-        projectNumber.set(this, model, this, DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER, new String[]{getResources().getString(R.string.project_number_default)});
+        projectNumber.set(this, model, this, DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER.getValue(), new String[]{getResources().getString(R.string.project_number_default)});
 
         developer = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteDeveloper);
-        developer.set(this, model, this, DatabaseWriter.UIComponentInputValue.DEVELOPER, null);
+        developer.set(this, model, this, DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.DEVELOPER.getValue(), null);
 
         contractor = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteContractor);
-        contractor.set(this, model, this, DatabaseWriter.UIComponentInputValue.CONTRACTOR, null);
+        contractor.set(this, model, this, DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.CONTRACTOR.getValue(), null);
 
         footings = (CheckBox) findViewById(R.id.checkBoxFootings);
         foundationWalls = (CheckBox) findViewById(R.id.checkBoxFoundationWalls);
@@ -92,7 +92,7 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
         descriptionTextView.setTextColor(Color.BLACK);
 
         description = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteDescription);
-        description.set(this, model, this, DatabaseWriter.UIComponentInputValue.OTHER_REVIEW_DESCRIPTION, null);
+        description.set(this, model, this, DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.OTHER_REVIEW_DESCRIPTION.getValue(), null);
     }
 
     private void initValues() {
@@ -218,7 +218,7 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
                 uiComponent != developer && uiComponent != contractor) {
             whereClause = DatabaseWriter.UIComponentInputValue.ADDRESS.getValue() + " = ?";
             whereArgs = new String[]{address.getText().toString()};
-            queryResult = model.queryDatabase(DatabaseWriter.UIComponentInputValue.CITY, whereClause, whereArgs);
+            queryResult = model.queryDatabase(DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.CITY, whereClause, whereArgs);
             if (queryResult == null || queryResult.length == 0) return;
             city.setText(queryResult[0]);
         }
@@ -228,7 +228,7 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
             whereClause = DatabaseWriter.UIComponentInputValue.ADDRESS.getValue() + " = ? AND " +
                     DatabaseWriter.UIComponentInputValue.CITY.getValue() + " = ?";
             whereArgs = new String[]{address.getText().toString(), city.getText().toString()};
-            queryResult = model.queryDatabase(DatabaseWriter.UIComponentInputValue.PROVINCE, whereClause, whereArgs);
+            queryResult = model.queryDatabase(DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.PROVINCE, whereClause, whereArgs);
             if (queryResult == null || queryResult.length == 0) return;
             province.setText(queryResult[0]);
         }
@@ -239,7 +239,7 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
                     DatabaseWriter.UIComponentInputValue.CITY.getValue() + " = ? AND " +
                     DatabaseWriter.UIComponentInputValue.PROVINCE.getValue() + " = ?";
             whereArgs = new String[]{address.getText().toString(), city.getText().toString(), province.getText().toString()};
-            queryResult = model.queryDatabase(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER, whereClause, whereArgs);
+            queryResult = model.queryDatabase(DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER, whereClause, whereArgs);
             if (queryResult == null || queryResult.length == 0) return;
             projectNumber.setText(queryResult[0]);
         }
@@ -251,7 +251,7 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
                     DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER.getValue() + " = ?";
             whereArgs = new String[]{address.getText().toString(), city.getText().toString(),
                     province.getText().toString(), projectNumber.getText().toString()};
-            queryResult = model.queryDatabase(DatabaseWriter.UIComponentInputValue.DEVELOPER, whereClause, whereArgs);
+            queryResult = model.queryDatabase(DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.DEVELOPER, whereClause, whereArgs);
             if (queryResult == null || queryResult.length == 0) return;
             developer.setText(queryResult[0]);
         }
@@ -263,7 +263,7 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
                     DatabaseWriter.UIComponentInputValue.DEVELOPER.getValue() + " = ?";
             whereArgs = new String[]{address.getText().toString(), city.getText().toString(),
                     province.getText().toString(), projectNumber.getText().toString(), developer.getText().toString()};
-            queryResult = model.queryDatabase(DatabaseWriter.UIComponentInputValue.CONTRACTOR, whereClause, whereArgs);
+            queryResult = model.queryDatabase(DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.CONTRACTOR, whereClause, whereArgs);
             if (queryResult == null || queryResult.length == 0) return;
             contractor.setText(queryResult[0]);
         }

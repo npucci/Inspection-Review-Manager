@@ -34,7 +34,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Is conformance with truss spec?" />
+                android:text="@string/truss_spec_label" />
 
             <RadioGroup
                 android:id="@+id/radioGroupTrussSpec"
@@ -50,14 +50,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="Reviewed" />
+                    android:text="@string/reviewed_label" />
 
                 <RadioButton
                     android:id="@+id/radioButtonTrussSpecNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="N/A" />
+                    android:text="@string/na_label" />
             </RadioGroup>
 
             <TextView
@@ -67,7 +67,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions" />
+                android:text="@string/instructions_label" />
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteTrussSpecInstruction"
@@ -84,7 +84,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Is in conformance with I-joist shop drawing?" />
+                android:text="@string/ijois_label" />
 
             <RadioGroup
                 android:id="@+id/radioGroupIJoist"
@@ -100,14 +100,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Reviewed" />
+                    android:text="@string/reviewed_label" />
 
                 <RadioButton
                     android:id="@+id/radioButtonIJoistNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="N/A" />
+                    android:text="@string/na_label" />
             </RadioGroup>
 
             <TextView
@@ -117,7 +117,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions" />
+                android:text="@string/instructions_label" />
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteIJoistInstruction"
@@ -134,7 +134,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Checked beam and girder bearing?" />
+                android:text="@string/bearing_label" />
 
             <RadioGroup
                 android:id="@+id/radioGroupBearing"
@@ -150,14 +150,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="Reviewed" />
+                    android:text="@string/reviewed_label" />
 
                 <RadioButton
                     android:id="@+id/radioButtonBearingNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="N/A" />
+                    android:text="@string/na_label" />
             </RadioGroup>
 
             <TextView
@@ -167,7 +167,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions" />
+                android:text="@string/instructions_label" />
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteBearingInstruction"
@@ -184,7 +184,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Checked continuity of top plates?" />
+                android:text="@string/top_plates_label" />
 
             <RadioGroup
                 android:id="@+id/radioGroupTopPlates"
@@ -200,14 +200,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Reviewed" />
+                    android:text="@string/reviewed_label" />
 
                 <RadioButton
                     android:id="@+id/radioButtonTopPlatesNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="N/A" />
+                    android:text="@string/na_label" />
             </RadioGroup>
 
             <TextView
@@ -217,7 +217,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions" />
+                android:text="@string/instructions_label" />
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteTopPlatesInstruction"
@@ -234,7 +234,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Checked lintels/openings?" />
+                android:text="@string/lintels_label" />
 
             <RadioGroup
                 android:id="@+id/radioGroupLintels"
@@ -250,14 +250,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Reviewed" />
+                    android:text="@string/reviewed_label" />
 
                 <RadioButton
                     android:id="@+id/radioButtonLintelsNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="N/A" />
+                    android:text="@string/na_label" />
             </RadioGroup>
 
             <TextView
@@ -267,7 +267,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions" />
+                android:text="@string/instructions_label" />
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteLintelsInstruction"
@@ -283,7 +283,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Checked shearwalls/fastening/hold downs?" />
+                android:text="@string/shearwalls_label" />
 
             <RadioGroup
                 android:id="@+id/radioGroupShearwalls"
@@ -299,14 +299,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Reviewed" />
+                    android:text="@string/reviewed_label" />
 
                 <RadioButton
                     android:id="@+id/radioButtonShearwallsNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="N/A" />
+                    android:text="@string/na_label" />
             </RadioGroup>
 
             <TextView
@@ -316,7 +316,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions" />
+                android:text="@string/instructions_label" />
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteShearwallsInstruction"
@@ -333,7 +333,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Checked continuity of tall walls?" />
+                android:text="@string/tall_walls_label" />
 
             <RadioGroup
                 android:id="@+id/radioGroupTallWalls"
@@ -349,14 +349,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Reviewed" />
+                    android:text="@string/reviewed_label" />
 
                 <RadioButton
                     android:id="@+id/radioButtonTallWallsNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="N/A" />
+                    android:text="@string/na_label" />
             </RadioGroup>
 
             <TextView
@@ -366,7 +366,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions" />
+                android:text="@string/instructions_label" />
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteTallWallsInstruction"
@@ -383,7 +383,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Checked blocking in floor system for point loads?" />
+                android:text="@string/blocking_label" />
 
             <RadioGroup
                 android:id="@+id/radioGroupBlocking"
@@ -399,14 +399,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Reviewed" />
+                    android:text="@string/reviewed_label" />
 
                 <RadioButton
                     android:id="@+id/radioButtonBlockingNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="N/A" />
+                    android:text="@string/na_label" />
             </RadioGroup>
 
             <TextView
@@ -416,7 +416,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions" />
+                android:text="@string/instructions_label" />
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteBlockingInstruction"
@@ -433,7 +433,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Checked wall sheathing?" />
+                android:text="@string/sheathing_label" />
 
             <RadioGroup
                 android:id="@+id/radioGroupWallSheathing"
@@ -449,14 +449,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Reviewed" />
+                    android:text="@string/reviewed_label" />
 
                 <RadioButton
                     android:id="@+id/radioButtonWallSheathingNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="N/A" />
+                    android:text="@string/na_label" />
             </RadioGroup>
 
             <TextView
@@ -466,7 +466,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions" />
+                android:text="@string/instructions_label" />
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteWallSheathingInstruction"
@@ -483,7 +483,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Checked wind girts?" />
+                android:text="@string/wind_girts_label" />
 
             <RadioGroup
                 android:id="@+id/radioGroupWindGirts"
@@ -499,14 +499,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Reviewed" />
+                    android:text="@string/reviewed_label" />
 
                 <RadioButton
                     android:id="@+id/radioButtonWindGirtsNA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="N/A" />
+                    android:text="@string/na_label" />
             </RadioGroup>
 
             <TextView
@@ -516,7 +516,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Instructions" />
+                android:text="@string/instructions_label" />
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteWindGirtsInstruction"

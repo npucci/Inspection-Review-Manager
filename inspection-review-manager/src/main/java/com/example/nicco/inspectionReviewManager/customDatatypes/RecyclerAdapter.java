@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.nicco.inspectionReviewManager.R;
+import com.example.nicco.inspectionReviewManager.interfaces.RecyclerViewClickListener;
 
 /**
  * Created by Nicco on 2017-08-02.

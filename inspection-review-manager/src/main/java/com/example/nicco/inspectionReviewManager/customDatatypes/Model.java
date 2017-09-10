@@ -27,6 +27,7 @@ import java.util.LinkedHashSet;
 public class Model extends Application {
     private HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap = new HashMap<>();
     private DatabaseWriter dbWriter;
+    private EmailExportDocAsyncTask emailExportDocTask;
     private ExportHTMLAsyncTask exportHTMLTask;
     private ExportDocAsyncTask exportDocTask;
     private ExportDatabaseAsyncTask exportDatabaseTask;
@@ -141,7 +142,8 @@ public class Model extends Application {
         else if (isChecked(DatabaseWriter.UIComponentInputValue.FOUNDATION_WALLS_REVIEW)) projectActivityComplete = true;
         else if (isChecked(DatabaseWriter.UIComponentInputValue.SHEATHING_REVIEW)) projectActivityComplete = true;
         else if (isChecked(DatabaseWriter.UIComponentInputValue.FRAMING_REVIEW)) projectActivityComplete = true;
-        else if(isChecked(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW)) projectActivityComplete = validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW_DESCRIPTION));
+        else if(isChecked(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW))
+            projectActivityComplete = validValue(hashMap.get(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW_DESCRIPTION));
         return true;
     }
 
@@ -203,14 +205,14 @@ public class Model extends Application {
         return value != null && (value.equals(SpecialValue.YES.toString()) || value.equals(SpecialValue.NO.toString()));
     }
 
-    public String[] queryDatabase(DatabaseWriter.UIComponentInputValue column, String whereClause, String[] whereArgs) {
-        return dbWriter.query(column, whereClause, whereArgs);
+    public String[] queryDatabase(String table, DatabaseWriter.UIComponentInputValue column, String whereClause, String[] whereArgs) {
+        return dbWriter.query(table, column, whereClause, whereArgs);
     }
 
-    public String[] queryMatchSearchDatabase(DatabaseWriter.UIComponentInputValue column, String input) {
-        String whereClause = column.getValue() + " LIKE '%" + input + "%'" + " ORDER BY " + column.getValue()
+    public String[] queryMatchSearchDatabase(String table, String column, String input) {
+        String whereClause = column + " LIKE '%" + input + "%'" + " ORDER BY " + column
                 + " DESC" + " LIMIT 0,5";
-        return dbWriter.query(column, whereClause, null);
+        return dbWriter.query(table, column, whereClause, null);
     }
 
     public String monthIntToString(int month) {
@@ -253,11 +255,13 @@ public class Model extends Application {
          return dbWriter.insertValues(hashMap, columns.toArray(new DatabaseWriter.UIComponentInputValue[columns.size()]));
      }
 
-    public boolean updateReviewToDatabase() { return dbWriter.updateValues(hashMap); }
+    public boolean updateReviewToDatabase() { return dbWriter.updateReviewValues(hashMap); }
+
+    public boolean addEmailsToDatabase(ArrayList<String> emailAddresses) { return dbWriter.addEmailAddresses(emailAddresses); }
 
     public boolean reviewExistsInDatabase() { return dbWriter.existsInDatabase(hashMap); }
 
-    private String makeReviewTitle() {
+    public String makeReviewTitle() {
         String fileName = "";
         String temp = hashMap.get(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER);
         if(temp == null) return fileName;
@@ -316,6 +320,24 @@ public class Model extends Application {
 
     public File getExportHTML() {
         return exportHTML;
+    }
+
+    public boolean emailExportDoc(Context context, FragmentManager fragmentManager, String to, String cc, String subject, String message) {
+        if(emailExportDocTask != null && (emailExportDocTask.getStatus() == AsyncTask.Status.PENDING ||
+                emailExportDocTask.getStatus() == AsyncTask.Status.RUNNING)) {
+            Log.v("NICCO", "export doc already pending/running");
+            emailExportDocTask.showProgressDialog();
+            return false;
+        }
+        Log.v("NICCO", "export doc executing");
+        String fileName = makeReviewTitle();
+        emailExportDocTask = new EmailExportDocAsyncTask(context, hashMap, fileName, fragmentManager, this);
+        emailExportDocTask.addEmailTo(to);
+        emailExportDocTask.addEmailcc(cc);
+        emailExportDocTask.addEmailSubject(subject);
+        emailExportDocTask.addEmailMessage(message);
+        emailExportDocTask.execute();
+        return true;
     }
 
     public boolean exportReviewToHTML(Context context, FragmentManager fragmentManager) {
@@ -479,15 +501,131 @@ public class Model extends Application {
         String[] date = dateStr.split("-");
         String year = "";
         String month = "";
+        String day = "";
         if(date.length == 3) {
             year = date[0];
             month = date[1] + " - " + monthIntToString(Integer.parseInt(date[1]) - 1); // monthIntToString uses months 0 to 11
+            day = date[2];
         }
 
         String project = "";
         String address = hashMap.get(DatabaseWriter.UIComponentInputValue.ADDRESS);
         if(address != null) project = address;
-        return FileIO.exportInspectionReviewToHTML(context, hashMap, fileName, year, month, project, null);
+        return FileIO.exportInspectionReviewToHTML(context, hashMap, fileName, year, month, day, project, null);
+    }
+
+    public String createEmailSubject() {
+        String dateStr = hashMap.get(DatabaseWriter.UIComponentInputValue.DATE); // YYYY-MM-DD
+        if(dateStr == null) dateStr = "";
+        String[] date = dateStr.split("-");
+        String year = "";
+        String month = "";
+        String day = "";
+        if(date.length == 3) {
+            year = date[0];
+            month = monthIntToString(Integer.parseInt(date[1]) - 1); // monthIntToString uses months 0 to 11
+            day = date[2];
+        }
+
+        return "Inspection Review - " +
+                getValue(DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER) + " " +
+                getValue(DatabaseWriter.UIComponentInputValue.ADDRESS) + ", " +
+                getValue(DatabaseWriter.UIComponentInputValue.CITY) + ", " +
+                getValue(DatabaseWriter.UIComponentInputValue.PROVINCE) + " - " +
+                month + " " + day + ", " + year;
+    }
+
+    public class EmailExportDocAsyncTask extends AsyncTask<String, Integer, Boolean> {
+        private Context context;
+        private String fileName;
+        private HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap;
+        private FragmentManager fragmentManager;
+        private ExportingProgressDialog exportingProgressDialog;
+        private File emailAttachment;
+        private String to;
+        private String cc;
+        private String subject;
+        private String message;
+
+        public EmailExportDocAsyncTask(Context context,
+                                       HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
+                                       String fileName, FragmentManager fragmentManager, Model model) {
+            super();
+            this.context = context;
+            this.fileName = fileName;
+            this.hashMap = hashMap;
+            this.fragmentManager = fragmentManager;
+            exportingProgressDialog = new ExportingProgressDialog();
+            SharedPreferences sharedPreferences = model.getSharedPreferences("AppPref", 0);
+            exportingProgressDialog.setTextSize(sharedPreferences.getFloat("TextSize", model.getResources().getDimension(R.dimen.defaultTextSize)));
+
+        }
+
+        public void addEmailTo(String to) {
+            this.to = to;
+        }
+
+        public void addEmailcc(String cc) {
+            this.cc = cc;
+        }
+
+        public void addEmailSubject(String subject) {
+            this.subject = subject;
+        }
+
+        public void addEmailMessage(String message) {
+            this.message = message;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            exportingProgressDialog.show(fragmentManager, "dialog");
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... integers) {
+            exportingProgressDialog.setProgressPercentage(integers[0]);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            String dateStr = hashMap.get(DatabaseWriter.UIComponentInputValue.DATE); // YYYY-MM-DD
+            if(dateStr == null) dateStr = "";
+
+            String[] date = dateStr.split("-");
+            String year = "";
+            String month = "";
+            String day = "";
+            if(date.length == 3) {
+                year = date[0];
+                month = date[1] + " - " + monthIntToString(Integer.parseInt(date[1]) - 1); // monthIntToString uses months 0 to 11
+                day = date[2];
+            }
+
+            String project = "";
+            String address = hashMap.get(DatabaseWriter.UIComponentInputValue.ADDRESS);
+            if(address != null) project = address;
+            emailAttachment = FileIO.exportInspectionReviewToDOC(context, hashMap, fileName, year, month, day, project, this);
+            return emailAttachment != null;
+        }
+
+        public void doProgress(int value){
+            publishProgress(value);
+        }
+
+        private void showProgressDialog() {
+            if(exportingProgressDialog != null)
+                exportingProgressDialog.show(fragmentManager, "dialog");
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            exportingProgressDialog.finished(result);
+            FileIO.createEmail(context, to, cc, subject, message, new File[] {emailAttachment});
+            exportingProgressDialog.dismiss();
+        }
     }
 
     public class ExportDocAsyncTask extends AsyncTask<String, Integer, Boolean> {
@@ -530,15 +668,19 @@ public class Model extends Application {
             String[] date = dateStr.split("-");
             String year = "";
             String month = "";
+            String day = "";
             if(date.length == 3) {
                 year = date[0];
                 month = date[1] + " - " + monthIntToString(Integer.parseInt(date[1]) - 1); // monthIntToString uses months 0 to 11
+                day = date[2];
             }
 
             String project = "";
             String address = hashMap.get(DatabaseWriter.UIComponentInputValue.ADDRESS);
             if(address != null) project = address;
-            return FileIO.exportInspectionReviewToDOC(context, hashMap, fileName, year, month, project, this);
+            File exportedFile = FileIO.exportInspectionReviewToDOC(context, hashMap, fileName, year, month, day, project, this);
+            FileIO.openDocFile(context, exportedFile);
+            return exportedFile != null;
         }
 
         public void doProgress(int value){
@@ -593,16 +735,18 @@ public class Model extends Application {
             String[] date = dateStr.split("-");
             String year = "";
             String month = "";
+            String day = "";
             if(date.length == 3) {
                 year = date[0];
                 month = date[1] + " - " + monthIntToString(Integer.parseInt(date[1]) - 1); // monthIntToString uses months 0 to 11
+                day = date[2];
             }
 
             String project = "";
             String address = hashMap.get(DatabaseWriter.UIComponentInputValue.ADDRESS);
             if(address != null) project = address;
 
-            exportFile = FileIO.exportInspectionReviewToHTML(context, hashMap, fileName, year, month, project, this);
+            exportFile = FileIO.exportInspectionReviewToHTML(context, hashMap, fileName, year, month, day, project, this);
             FileIO.openHTMLFile(context, exportFile);
             return exportFile != null;
         }

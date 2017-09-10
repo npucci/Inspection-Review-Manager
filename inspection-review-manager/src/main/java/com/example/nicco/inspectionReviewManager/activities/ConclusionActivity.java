@@ -10,14 +10,14 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.example.nicco.inspectionReviewManager.customDatatypes.AutoFillActivity;
+import com.example.nicco.inspectionReviewManager.interfaces.AutoFillActivity;
 import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
 import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
 import com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView;
 import com.example.nicco.inspectionReviewManager.R;
 
 /**
- * Created by Jennifer on 2017-07-17.
+ * Created by Nicco on 2017-07-17.
  */
 
 public class ConclusionActivity extends AppCompatActivity implements AutoFillActivity {
@@ -75,7 +75,7 @@ public class ConclusionActivity extends AppCompatActivity implements AutoFillAct
         observations = (EditText) findViewById(R.id.editTextObservations);
         comments = (EditText) findViewById(R.id.editTextComments);
         reviewedBy = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteReviewedBy);
-        reviewedBy.set(this, model, this, DatabaseWriter.UIComponentInputValue.REVIEWED_BY, null);
+        reviewedBy.set(this, model, this, DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.REVIEWED_BY.getValue(), null);
         stamped = (CheckBox) findViewById(R.id.checkBoxStamped);
         stamped.setVisibility(View.INVISIBLE);
     }

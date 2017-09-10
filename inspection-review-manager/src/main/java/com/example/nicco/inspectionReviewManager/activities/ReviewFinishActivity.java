@@ -17,7 +17,6 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.nicco.inspectionReviewManager.R;
 import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
@@ -73,18 +72,6 @@ public class ReviewFinishActivity extends AppCompatActivity {
             }
         });
 
-        Button exportDocButton = (Button) findViewById(R.id.buttonExportDoc);
-        exportDocButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Model model = (Model) getApplicationContext();
-                boolean exported = false;
-                Toast toast = Toast.makeText(ReviewFinishActivity.this, R.string.exported_doc_message, Toast.LENGTH_LONG);
-                toast.show();
-                model.exportReviewToDoc(getBaseContext(), getFragmentManager());
-            }
-        });
-
         Button printButton = (Button) findViewById(R.id.buttonPrint);
         printButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,9 +103,6 @@ public class ReviewFinishActivity extends AppCompatActivity {
         Button backButton = (Button) findViewById(R.id.buttonBack);
         backButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
 
-        Button exportDocButton = (Button) findViewById(R.id.buttonExportDoc);
-        exportDocButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
-
         Button printButton = (Button) findViewById(R.id.buttonPrint);
         printButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
 
@@ -129,9 +113,6 @@ public class ReviewFinishActivity extends AppCompatActivity {
     private void setTextUnderline() {
         Button backButton = (Button) findViewById(R.id.buttonBack);
         backButton.setPaintFlags(backButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-
-        Button exportDocButton = (Button) findViewById(R.id.buttonExportDoc);
-        exportDocButton.setPaintFlags(exportDocButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         Button printButton = (Button) findViewById(R.id.buttonPrint);
         printButton.setPaintFlags(printButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);

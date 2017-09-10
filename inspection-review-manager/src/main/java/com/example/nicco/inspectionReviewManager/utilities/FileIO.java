@@ -50,7 +50,7 @@ public class FileIO {
         return storageDir;
     }
 
-    private static void openDocFile(final Context context, final File file) {
+    public static void openDocFile(final Context context, final File file) {
         if(context == null || file == null) return;
         Intent intent = new Intent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -58,25 +58,31 @@ public class FileIO {
         String type = "application/msword";
         intent.setDataAndType(Uri.fromFile(file), type);
         try {
-            context.startActivity(intent);
+            //context.startActivity(intent);
+            context.startActivity(Intent.createChooser(intent, "MS Word Doc:"));
         } catch(ActivityNotFoundException e) {
             Log.v("PUCCI", "ERROR: " + e.getMessage());
             intent.setPackage(null);
-            context.startActivity(intent);
+            //context.startActivity(intent);
+            context.startActivity(Intent.createChooser(intent, "MS Word Doc:"));
         }
     }
 
     public static void openHTMLFile(final Context context, final File file) {
         if(context == null || file == null) return;
-        Uri uri = Uri.parse("googlechrome://navigate?url=" + file.getPath());
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        Intent intent = new Intent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setAction(Intent.ACTION_VIEW);
+        String type = "application/html";
+        intent.setDataAndType(Uri.fromFile(file), type);
         try {
-            context.startActivity(intent);
+            //context.startActivity(intent);
+            context.startActivity(Intent.createChooser(intent, "HTML:"));
         } catch(ActivityNotFoundException e) {
             Log.v("PUCCI", "ERROR: " + e.getMessage());
             intent.setPackage(null);
-            context.startActivity(intent);
+            //context.startActivity(intent);
+            context.startActivity(Intent.createChooser(intent, "HTML:"));
         }
     }
 
@@ -89,10 +95,11 @@ public class FileIO {
         return true;
     }
 
-    public static File getExportDir(Context context, String year, String month, String project) {
+    public static File getExportDir(Context context, String year, String month, String day, String project) {
         File exportDir = new File(getExternalPublicStorageDir(context), FileIO.EXPORT_OUTPUT_FOLDER);
         exportDir = new File(exportDir, year);
         exportDir = new File(exportDir, month);
+        exportDir = new File(exportDir, day);
         exportDir = new File(exportDir, project);
         if(!makeDir(exportDir)) return null;
         return exportDir;
@@ -105,21 +112,21 @@ public class FileIO {
     }
 
     public static boolean exportDatabase(Context context, File database, Model.ExportDatabaseAsyncTask asyncTask) {
-        asyncTask.doProgress(0);
+        if(asyncTask != null) asyncTask.doProgress(0);
         if(database == null) return false;
 
         // 1. get export dir
         File databaseBackup = new File(database.getPath());
         File destinationDir = getExportDatabaseDir(context);
         if(destinationDir == null) return false;
-        asyncTask.doProgress(25);
+        if(asyncTask != null) asyncTask.doProgress(25);
 
         // 2. copy database to export dir
         try (InputStream inputStream = new FileInputStream(databaseBackup)) {
             File destFile = new File(destinationDir.getPath(), databaseBackup.getName());
-            asyncTask.doProgress(50);
+            if(asyncTask != null) asyncTask.doProgress(50);
             FileIO.copyFile(inputStream, destFile);
-            asyncTask.doProgress(75);
+            if(asyncTask != null) asyncTask.doProgress(75);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return false;
@@ -127,19 +134,19 @@ public class FileIO {
             e.printStackTrace();
             return false;
         }
-        asyncTask.doProgress(100);
+        if(asyncTask != null) asyncTask.doProgress(100);
         return true;
     }
 
     public static File exportInspectionReviewToHTML(final Context context,
                                                        final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
-                                                       String inspectionReviewName, String year, String month, String project,
+                                                       String inspectionReviewName, String year, String month, String day, String project,
                                                        Model.ExportHTMLAsyncTask asyncTask) {
         Log.v("PUCCI", "exporting html");
         if(asyncTask != null) asyncTask.doProgress(0);
 
         // 1. get export dir
-        File exportDir = getExportDir(context, year, month, project);
+        File exportDir = getExportDir(context, year, month, day, project);
         if(exportDir == null) return null;
         if(asyncTask != null) asyncTask.doProgress(0);
 
@@ -222,16 +229,16 @@ public class FileIO {
         return true;
     }
 
-    public static boolean exportInspectionReviewToDOC(final Context context,
+    public static File exportInspectionReviewToDOC(final Context context,
                                                       final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
-                                                      String inspectionReviewName, String year, String month, String project,
+                                                      String inspectionReviewName, String year, String month, String day, String project,
                                                       Model.ExportDocAsyncTask asyncTask) {
 
         if(asyncTask != null) asyncTask.doProgress(0);
 
         // 1. get export dir
-        File exportDir = getExportDir(context, year, month, project);
-        if(exportDir == null) return false;
+        File exportDir = getExportDir(context, year, month, day, project);
+        if(exportDir == null) return null;
         if(asyncTask != null) asyncTask.doProgress(10);
 
         // 2. copy correct template as new review file
@@ -277,18 +284,87 @@ public class FileIO {
             // open file using the Android OS default program
 
             if(asyncTask != null) asyncTask.doProgress(100);
-            openDocFile(context, outputFile);
+            //openDocFile(context, outputFile);
         } catch (Exception e) {
             Log.v("PUCCI", "ERROR: " + e.getMessage());
-            return false;
+            return null;
         }
 
         Log.v("PUCCI", "done");
         if (outputFile == null || !outputFile.exists()) {
             Log.v("PUCCI", "ERROR: The output file wasn't created\n= " + outputFile.getPath());
-            return false;
+            return null;
         }
-        return true;
+        return outputFile;
+    }
+
+    public static File exportInspectionReviewToDOC(final Context context,
+                                                      final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
+                                                      String inspectionReviewName, String year, String month, String day, String project,
+                                                      Model.EmailExportDocAsyncTask asyncTask) {
+
+        if(asyncTask != null) asyncTask.doProgress(0);
+
+        // 1. get export dir
+        File exportDir = getExportDir(context, year, month, day, project);
+        if(exportDir == null) return null;
+        if(asyncTask != null) asyncTask.doProgress(10);
+
+        // 2. copy correct template as new review file
+        boolean stamped;
+        if(hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED) != null &&
+                hashMap.get(DatabaseWriter.UIComponentInputValue.STAMPED).equals(Model.SpecialValue.YES)) stamped = true;
+        else stamped = false;
+        File outputFile = new File(exportDir.getPath(), inspectionReviewName + ".doc");// newFileFromTemplate(context, exportDir, inspectionReviewName, stamped);
+        if(asyncTask != null) asyncTask.doProgress(20);
+
+        // 3. write to new review file
+        InputStream inputStream;
+        if(stamped) inputStream = context.getResources().openRawResource(sel_engineering_limited_inspection_report_doc_template);
+        else inputStream = context.getResources().openRawResource(R.raw.sel_engineering_limited_inspection_report_doc_template_stamped);
+        if(asyncTask != null) asyncTask.doProgress(30);
+        try {
+            if(asyncTask != null) asyncTask.doProgress(40);
+            POIFSFileSystem fs = new POIFSFileSystem(inputStream); //new FileInputStream(outputFile.getPath()));
+            HWPFDocument doc = new HWPFDocument(fs);
+            DatabaseWriter.UIComponentInputValue[] columnArr = hashMap.keySet().toArray(
+                    new DatabaseWriter.UIComponentInputValue[hashMap.keySet().size()]);
+
+            if(asyncTask != null) asyncTask.doProgress(50);
+            int total = DatabaseWriter.UIComponentInputValue.values().length;
+            int count = 0;
+            for (DatabaseWriter.UIComponentInputValue column : columnArr) {
+                String replacement = hashMap.get(column);
+                if(replacement.equals(Model.SpecialValue.YES.toString())) replacement = CHECKBOX_CHECKED;
+                else if(replacement.equals(Model.SpecialValue.NO.toString())) replacement = CHECKBOX_BLANK;
+                String replacementTag = "<!-- " + column.getValue() + " -->";
+                replaceAllTextInDoc(doc, replacementTag, replacement);
+                count++;
+                if(asyncTask != null) {
+                    int progressPercentage = (int) (50 + ((((float) count) / total) * 100) / 2);
+                    asyncTask.doProgress(progressPercentage);
+                }
+            }
+            FileOutputStream out = new FileOutputStream(outputFile);
+            doc.write(out);
+            //Log.v("PUCCI", "DOC Creation Success! outputFile = " + outputFile.getPath());
+            out.close();
+            //Log.v("PUCCI", "SUCCESS: The output file was created/exists\n= " + outputFile.getPath());
+            // open file using the Android OS default program
+
+            if(asyncTask != null) asyncTask.doProgress(100);
+            //openDocFile(context, outputFile);
+        } catch (Exception e) {
+            Log.v("PUCCI", "ERROR: " + e.getMessage());
+            return null;
+        }
+
+        Log.v("PUCCI", "done");
+        if (outputFile == null || !outputFile.exists()) {
+            Log.v("PUCCI", "ERROR: The output file wasn't created\n= " + outputFile.getPath());
+            return null;
+        }
+        return outputFile;
     }
 
 	private static void replaceAllTextInDoc(HWPFDocument doc, String replacementTag, String replacement) {
@@ -341,5 +417,30 @@ public class FileIO {
         }
         if(dest.exists()) return dest;
         return null;
+    }
+
+    public static void createEmail(Context context, String to, String cc, String subject, String bodyText, File[] emailAttachment) {
+        if(to == null || cc == null || subject == null || bodyText == null | emailAttachment == null || emailAttachment.length == 0) return;
+
+        Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+        intent.setType("plain/text");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
+        intent.putExtra(Intent.EXTRA_CC, cc);
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, bodyText);
+        intent.setClassName("com.android.email", "com.android.compose.ComposeActivity");
+
+        ArrayList<Uri> uris = new ArrayList<Uri>();
+        for(File attachment : emailAttachment) {
+            if(attachment != null && attachment.isFile()) uris.add(Uri.fromFile(attachment));
+        }
+        if(uris.size() == 0) return;
+
+        try {
+            intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+            context.startActivity(Intent.createChooser(intent, "Email:"));
+        } catch(Exception e) {
+            Log.v("PUCCI", "ERROR: " + e.getMessage());
+        }
     }
 }

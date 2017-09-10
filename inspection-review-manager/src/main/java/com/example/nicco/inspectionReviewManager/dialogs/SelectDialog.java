@@ -42,6 +42,26 @@ public class SelectDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.select_dialog, container, false);
 
+        Button emailButton = (Button) view.findViewById(R.id.buttonEmail);
+        emailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // export and open review as a doc file
+                ActivityCompat.requestPermissions(SelectDialog.this.getActivity(),
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        1);
+                int permission = ActivityCompat.checkSelfPermission(SelectDialog.this.getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if(permission == PackageManager.PERMISSION_GRANTED) {
+                    modelLoadListener.email();
+                    getDialog().dismiss();
+                } else {
+                    Toast toast = Toast.makeText(view.getContext(), R.string.write_permissions_denied, Toast.LENGTH_LONG);
+                    toast.show();
+                    getDialog().dismiss();
+                }
+            }
+        });
+
         Button exportHTMLButton = (Button) view.findViewById(R.id.buttonSelectExportHTML);
         exportHTMLButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,6 +160,9 @@ public class SelectDialog extends DialogFragment {
     }
 
     private void setTextUnderline(View view) {
+        Button emailButton = (Button) view.findViewById(R.id.buttonEmail);
+        emailButton.setPaintFlags(emailButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
         Button printButton = (Button) view.findViewById(R.id.buttonPrintPreview);
         printButton.setPaintFlags(printButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
@@ -157,6 +180,9 @@ public class SelectDialog extends DialogFragment {
     }
 
     private void updateTextSize(View view) {
+        Button emailButton = (Button) view.findViewById(R.id.buttonEmail);
+        emailButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
         Button printButton = (Button) view.findViewById(R.id.buttonPrintPreview);
         printButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
 

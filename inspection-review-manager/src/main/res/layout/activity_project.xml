@@ -36,7 +36,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Address" />
+                android:text="@string/address_label" />
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/autocompleteAddress"
@@ -55,7 +55,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="City" />
+                android:text="@string/city_label" />
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteCity"
@@ -73,7 +73,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Province" />
+                android:text="@string/province_label" />
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteProvince"
@@ -92,7 +92,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Project Number" />
+                android:text="@string/project_number_label" />
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteProjectNumber"
@@ -111,7 +111,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Developer" />
+                android:text="@string/developer_label" />
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteDeveloper"
@@ -130,7 +130,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Contractor" />
+                android:text="@string/contractor_label" />
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteContractor"
@@ -149,7 +149,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:text="Type of Review" />
+                android:text="@string/type_of_review_label" />
 
             <CheckBox
                 android:id="@+id/checkBoxFootings"
@@ -158,7 +158,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Footings" />
+                android:text="@string/type_of_review_footings_label" />
 
             <CheckBox
                 android:id="@+id/checkBoxFoundationWalls"
@@ -167,7 +167,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Foundation Walls" />
+                android:text="@string/type_of_review_foundation_walls_label" />
 
             <CheckBox
                 android:id="@+id/checkBoxSheathing"
@@ -176,7 +176,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Sheathing" />
+                android:text="@string/type_of_review_sheathing_label" />
 
             <CheckBox
                 android:id="@+id/checkBoxFraming"
@@ -185,7 +185,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Framing" />
+                android:text="@string/type_of_review_framing_label" />
 
             <CheckBox
                 android:id="@+id/checkBoxOther"
@@ -194,7 +194,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="*Other" />
+                android:text="@string/type_of_review_other_label" />
 
             <TextView
                 android:id="@+id/textViewDescription"
@@ -203,13 +203,14 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="*Please provide a Description below:" />
+                android:inputType="textMultiLine"
+                android:text="@string/description_label" />
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteDescription"
                 android:maxLength="@integer/maxLargeInputLength"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="0.07" />

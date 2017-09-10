@@ -37,6 +37,18 @@
         android:layout_height="wrap_content"
         android:text="@string/button_edit" />
 
+    <View
+        style="@style/HorizontalDivider"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="0" />
+
+    <Button
+        android:id="@+id/buttonEmail"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_email" />
+
     <Button
         android:id="@+id/buttonPrintPreview"
         style="@style/Widget.AppCompat.Button.Borderless"

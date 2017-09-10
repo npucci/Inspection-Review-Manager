@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.example.nicco.inspectionReviewManager.customDatatypes.AutoFillActivity;
+import com.example.nicco.inspectionReviewManager.interfaces.AutoFillActivity;
 import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
 import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
 import com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView;
@@ -58,25 +58,25 @@ public class ConcreteActivity extends AppCompatActivity implements AutoFillActiv
         rebarPositionReviewed = (RadioButton) findViewById(R.id.radioButtonRebarPositionReviewed);
         rebarPositionNA = (RadioButton) findViewById(R.id.radioButtonRebarPositionNA);
         rebarPositionInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteRebarPositionInstruction);
-        rebarPositionInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.REBAR_POSITION_INSTRUCTION, null);
+        rebarPositionInstruction.set(this, model, this, DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.REBAR_POSITION_INSTRUCTION.getValue(), null);
 
         // REBAR SIZE
         rebarSizeReviewed = (RadioButton) findViewById(R.id.radioButtonRebarSizeReviewed);
         rebarSizeNA = (RadioButton) findViewById(R.id.radioButtonRebarSizeNA);
         rebarSizeInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteRebarSizeInstruction);
-        rebarSizeInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.REBAR_SIZE_INSTRUCTION, null);
+        rebarSizeInstruction.set(this, model, this, DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.REBAR_SIZE_INSTRUCTION.getValue(), null);
 
         // FORMWORK
         formworkReviewed = (RadioButton) findViewById(R.id.radioButtonFormworkReviewed);
         formworkNA = (RadioButton) findViewById(R.id.radioButtonFormworkNA);
         formworkInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteFormworkInstruction);
-        formworkInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.FORMWORK_INSTRUCTION, null);
+        formworkInstruction.set(this, model, this, DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.FORMWORK_INSTRUCTION.getValue(), null);
 
         // ANCHORAGE
         anchorageReviewed = (RadioButton) findViewById(R.id.radioButtonAnchorageReviewed);
         anchorageNA = (RadioButton) findViewById(R.id.radioButtonAnchorageNA);
         anchorageInstruction = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteAnchorageInstruction);
-        anchorageInstruction.set(this, model, this, DatabaseWriter.UIComponentInputValue.ANCHORAGE_INSTRUCTION, null);
+        anchorageInstruction.set(this, model, this, DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.ANCHORAGE_INSTRUCTION.getValue(), null);
     }
 
     private void initValues() {

@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.10"
-            android:text="Inspection Review Archive"
+            android:text="@string/inspection_review_archive_label"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
         <LinearLayout
@@ -30,7 +30,7 @@
                 android:id="@+id/textViewFilter"
                 android:layout_width="121dp"
                 android:layout_height="wrap_content"
-                android:text="Search Filter:"
+                android:text="@string/search_filter_label"
                 android:textAppearance="@style/TextAppearance.AppCompat.Button" />
 
             <EditText

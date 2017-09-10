@@ -9,10 +9,76 @@
     <string name="framing">Framing</string>
     <string name="conclusion">Conclusion</string>
 
+    <!-- DATE ACTIVITY LABELS -->
+    <string name="date_label">Date</string>
+    <string name="time_label">Time</string>
+    <string name="weather_label">Optional - Weather</string>
+    <string name="temperature_label">Optional - Temperature (Celsius)</string>
+
+    <!-- PROJECT ACTIVITY LABELS -->
+    <string name="address_label">Address</string>
+    <string name="city_label">City</string>
+    <string name="province_label">Province</string>
+    <string name="project_number_label">Project Number</string>
+    <string name="developer_label">Developer</string>
+    <string name="contractor_label">Contractor</string>
+    <string name="type_of_review_label">Type of Review</string>
+    <string name="type_of_review_footings_label">Footings</string>
+    <string name="type_of_review_foundation_walls_label">Foundation Walls</string>
+    <string name="type_of_review_sheathing_label">Sheathing</string>
+    <string name="type_of_review_framing_label">Framing</string>
+    <string name="type_of_review_other_label">*Other</string>
+    <string name="description_label">*Please provide a Description below:</string>
+
+    <!-- CONCRETE ACTIVITY LABELS -->
+    <string name="rebar_position_label">Is rebar in correct position?</string>
+    <string name="rebar_size_label">Does rebar have correct size and spacing?</string>
+    <string name="formwork_label">Is formwork generally as per plan?</string>
+    <string name="anchorage_label">Is hold down anchorage in place?</string>
+    <string name="instructions_label">Optional - Instructions</string>
+    <string name="reviewed_label">Reviewed</string>
+    <string name="na_label">N/A</string>
+
+    <!-- FRAMING ACTIVITY LABELS -->
+    <string name="truss_spec_label">Is in conformance with truss spec?</string>
+    <string name="ijois_label">Is in conformance with I-joist shop drawing?</string>
+    <string name="bearing_label">Checked beam and girder bearing?</string>
+    <string name="top_plates_label">Checked continuity of top plates?</string>
+    <string name="lintels_label">Checked lintels/openings?</string>
+    <string name="shearwalls_label">Checked shearwalls/fastening/hold downs?</string>
+    <string name="tall_walls_label">Checked continuity of tall walls?</string>
+    <string name="blocking_label">Checked blocking in floor system for point loads?</string>
+    <string name="sheathing_label">Checked wall sheathing?</string>
+    <string name="wind_girts_label">Checked wind girts?</string>
+
+    <!-- CONCLUSION ACTIVITY LABELS -->
+    <string name="observations_label">Optional - Observations?</string>
+    <string name="comments_label">Optional - Comments?</string>
+    <string name="review_status_label">Review Status</string>
+    <string name="review_status_approved_label">Approved</string>
+    <string name="review_status_not_approved_label">Not Approved</string>
+    <string name="review_status_reinspection_required_label">Reinspection Required</string>
+    <string name="reviewed_by_label">Reviewed By</string>
+    <string name="stamp_inspection_review_label">Stamp Inspeciton Review Form</string>
+
+    <!-- EMAIL ACTIVITY LABELS -->
+    <string name="email_to_label">To</string>
+    <string name="email_cc_label">CC</string>
+    <string name="email_subject_label">Subject</string>
+    <string name="email_message_label">Message</string>
+    <string name="email_attachment_label">Attachment</string>
+
+    <!-- ARCHIVE LIST FRAGMENT LABELS -->
+    <string name="inspection_review_archive_label">Inspection Review Archive</string>
+    <string name="search_filter_label">Search Filter:</string>
+
     <!-- HEADING TEXT -->
     <string name="inspection_review_archive">Inspection Review Archive</string>
     <string name="logo_menu_button_content_description">Logo Menu</string>
     <string name="new_inspection_review">New Inspection Review</string>
+
+    <!-- DEFAULT OFFICE EMAIL ADDRESS -->
+    <string name="office_email_address">sel@seleng.com</string>
 
     <!-- DEFAULT AUTOCOMPLETE TEXT -->
     <string name="project_number_default">C</string>
@@ -44,10 +110,12 @@
     <string name="button_delete">Delete</string>
     <string name="button_edit_options">Options</string>
     <string name="button_edit">Edit</string>
+    <string name="button_email">Email</string>
     <string name="button_export_html">Export HTML</string>
     <string name="button_export_doc">Export Doc</string>
     <string name="button_finish">Finshed</string>
     <string name="button_save">Save</string>
+    <string name="button_create_email">Create Email</string>
     <string name="button_print">Print</string>
     <string name="button_print_preview">Print Preview</string>
     <string name="button_inspection_review">Inspection Review</string>
@@ -55,6 +123,7 @@
 
     <!-- TOAST TEXT -->
     <string name="write_permissions_denied">Write Permissions Denied</string>
+    <string name="email_message">Email"</string>
     <string name="exporting_html_message">Exporting HTML"</string>
     <string name="exported_html_message">HTML Exported"</string>
     <string name="unable_to_export_html_message">Unable To Export HTML"</string>

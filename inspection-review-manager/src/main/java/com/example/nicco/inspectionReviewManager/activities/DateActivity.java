@@ -8,7 +8,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.example.nicco.inspectionReviewManager.customDatatypes.AutoFillActivity;
+import com.example.nicco.inspectionReviewManager.interfaces.AutoFillActivity;
 import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
 import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
 import com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView;
@@ -38,9 +38,9 @@ public class DateActivity extends AppCompatActivity implements AutoFillActivity 
         datePicker = (DatePicker) findViewById(R.id.datePicker);
         timePicker = (TimePicker) findViewById(R.id.timePicker);
         weather = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteWeather);
-        weather.set(this, model, this, DatabaseWriter.UIComponentInputValue.WEATHER, getResources().getStringArray(R.array.weather));
+        weather.set(this, model, this, DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.WEATHER.getValue(), getResources().getStringArray(R.array.weather));
         temperature = (QueryingAutoCompleteTextView) findViewById(R.id.editTextTemperature);
-        temperature.set(this, model, this, DatabaseWriter.UIComponentInputValue.TEMPERATURE_CELSIUS, null);
+        temperature.set(this, model, this, DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.TEMPERATURE_CELSIUS.getValue(), null);
     }
 
     private void initValues() {

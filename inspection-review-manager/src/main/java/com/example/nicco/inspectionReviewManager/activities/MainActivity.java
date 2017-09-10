@@ -27,7 +27,7 @@ import com.example.nicco.inspectionReviewManager.R;
 import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
 import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
 import com.example.nicco.inspectionReviewManager.customDatatypes.RecyclerAdapter;
-import com.example.nicco.inspectionReviewManager.customDatatypes.RecyclerViewClickListener;
+import com.example.nicco.inspectionReviewManager.interfaces.RecyclerViewClickListener;
 import com.example.nicco.inspectionReviewManager.dialogs.SelectDialog;
 import com.example.nicco.inspectionReviewManager.dialogs.SettingsDialog;
 import com.example.nicco.inspectionReviewManager.interfaces.ModelLoadListener;
@@ -264,8 +264,41 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
     }
 
     @Override
-    public boolean exportPDF(FragmentManager fragmentManager) {
-        return false;
+    public void email() {
+        final Model model = (Model) getApplicationContext();
+        if(!model.reviewStarted()) {
+            Toast toast = Toast.makeText(MainActivity.this, R.string.email_message, Toast.LENGTH_LONG);
+            toast.show();
+            model.loadReviewFromDatabase(selectedArchiveReview);
+            Intent intent = new Intent(MainActivity.this, EmailActivity.class);
+            startActivity(intent);
+            return;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.exporting_warning_dialog_message)
+                .setTitle(R.string.exporting_warning_dialog_title);
+        // set buttons
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast toast = Toast.makeText(MainActivity.this, R.string.print_message, Toast.LENGTH_LONG);
+                toast.show();
+
+                model.loadReviewFromDatabase(selectedArchiveReview);
+                Intent intent = new Intent(MainActivity.this, PrintActivity.class);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        Dialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
     }
 
     @Override

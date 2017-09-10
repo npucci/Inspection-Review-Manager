@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import com.example.nicco.inspectionReviewManager.interfaces.AutoFillActivity;
+
 import java.util.ArrayList;
 
 /**
@@ -23,7 +25,8 @@ public class QueryingAutoCompleteTextView extends android.support.v7.widget.AppC
     }
 
     public void set(final Activity activity, final Model model, final AutoFillActivity autofillActivity,
-                    final DatabaseWriter.UIComponentInputValue databaseColumn,
+                    final String databaseTable,
+                    final String databaseColumn,
                     final String[] defaultValues) {
         setAdapter(new ArrayAdapter<>(activity.getBaseContext(),
                 android.R.layout.simple_selectable_list_item,
@@ -36,7 +39,7 @@ public class QueryingAutoCompleteTextView extends android.support.v7.widget.AppC
                 if(QueryingAutoCompleteTextView.this.getText().toString() == null && QueryingAutoCompleteTextView.this.getText().toString().isEmpty()) return;
                 values.clear();
                 values.addAll(model.combineArraysLinkedHashSet(
-                        model.queryMatchSearchDatabase(databaseColumn, QueryingAutoCompleteTextView.this.getText().toString()),
+                        model.queryMatchSearchDatabase(databaseTable, databaseColumn, QueryingAutoCompleteTextView.this.getText().toString()),
                         defaultValues));
                 ((ArrayAdapter) QueryingAutoCompleteTextView.this.getAdapter()).notifyDataSetChanged();
                 autofillActivity.autofill(QueryingAutoCompleteTextView.this);
