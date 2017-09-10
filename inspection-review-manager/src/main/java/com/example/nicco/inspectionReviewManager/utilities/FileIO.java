@@ -59,12 +59,12 @@ public class FileIO {
         intent.setDataAndType(Uri.fromFile(file), type);
         try {
             //context.startActivity(intent);
-            context.startActivity(Intent.createChooser(intent, "MS Word Doc:"));
+            context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.open_doc_intent_label)));
         } catch(ActivityNotFoundException e) {
             Log.v("PUCCI", "ERROR: " + e.getMessage());
             intent.setPackage(null);
             //context.startActivity(intent);
-            context.startActivity(Intent.createChooser(intent, "MS Word Doc:"));
+            context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.open_doc_intent_label)));
         }
     }
 
@@ -77,12 +77,12 @@ public class FileIO {
         intent.setDataAndType(Uri.fromFile(file), type);
         try {
             //context.startActivity(intent);
-            context.startActivity(Intent.createChooser(intent, "HTML:"));
+            context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.open_html_intent_label)));
         } catch(ActivityNotFoundException e) {
             Log.v("PUCCI", "ERROR: " + e.getMessage());
             intent.setPackage(null);
             //context.startActivity(intent);
-            context.startActivity(Intent.createChooser(intent, "HTML:"));
+            context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.open_html_intent_label)));
         }
     }
 
@@ -438,7 +438,7 @@ public class FileIO {
 
         try {
             intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-            context.startActivity(Intent.createChooser(intent, "Email:"));
+            context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.open_email_intent_label)));
         } catch(Exception e) {
             Log.v("PUCCI", "ERROR: " + e.getMessage());
         }

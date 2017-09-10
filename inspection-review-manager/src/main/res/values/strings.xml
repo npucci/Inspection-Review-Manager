@@ -63,14 +63,19 @@
 
     <!-- EMAIL ACTIVITY LABELS -->
     <string name="email_to_label">To</string>
-    <string name="email_cc_label">CC</string>
+    <string name="email_cc_label">Optional - CC</string>
     <string name="email_subject_label">Subject</string>
-    <string name="email_message_label">Message</string>
+    <string name="email_message_label">Optional - Message</string>
     <string name="email_attachment_label">Attachment</string>
 
     <!-- ARCHIVE LIST FRAGMENT LABELS -->
     <string name="inspection_review_archive_label">Inspection Review Archive</string>
     <string name="search_filter_label">Search Filter:</string>
+
+    <!-- FILE IO INTENT LABELS -->
+    <string name="open_html_intent_label">Open HTML:</string>
+    <string name="open_doc_intent_label">Open MS Word Doc:</string>
+    <string name="open_email_intent_label">Open Email:</string>
 
     <!-- HEADING TEXT -->
     <string name="inspection_review_archive">Inspection Review Archive</string>
