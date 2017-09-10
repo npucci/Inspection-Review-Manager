@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
@@ -179,7 +178,6 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
         else subjectLabel.setTextColor(Color.BLACK);
 
         ready = isFilled;
-        Log.v("NICCO", "ready = " + ready);
     }
 
     private void setTextSize(Float textSize) {

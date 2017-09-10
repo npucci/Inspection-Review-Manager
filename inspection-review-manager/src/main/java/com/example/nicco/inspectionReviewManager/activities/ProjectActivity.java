@@ -4,17 +4,16 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.example.nicco.inspectionReviewManager.interfaces.AutoFillActivity;
+import com.example.nicco.inspectionReviewManager.R;
 import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
 import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
 import com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView;
-import com.example.nicco.inspectionReviewManager.R;
+import com.example.nicco.inspectionReviewManager.interfaces.AutoFillActivity;
 
 public class ProjectActivity extends AppCompatActivity implements AutoFillActivity {
     private Model model;
@@ -203,9 +202,7 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
         model.updateValue(DatabaseWriter.UIComponentInputValue.OTHER_REVIEW_DESCRIPTION, description.getText().toString());
 
         boolean framingActivityAutoFill = footings.isChecked() || foundationWalls.isChecked();
-        Log.v("PUCCI", "framingActivityAutoFill = " + framingActivityAutoFill);
         boolean concreteActivityAutoFill = sheathing.isChecked() || framing.isChecked();
-        Log.v("PUCCI", "concreteActivityAutoFill = " + concreteActivityAutoFill);
         if(framingActivityAutoFill && !concreteActivityAutoFill) model.AutoFillFramingActivity();
         else if(!framingActivityAutoFill && concreteActivityAutoFill) model.AutoFillConcreteActivity();
 
@@ -227,7 +224,6 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
             queryResult = model.queryDatabase(DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.CITY, whereClause, whereArgs);
             if (queryResult == null || queryResult.length == 0) return;
             city.setText(queryResult[0]);
-            Log.v("NICCO", "change in address");
         }
 
         // change in city
@@ -239,7 +235,6 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
             queryResult = model.queryDatabase(DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.PROVINCE, whereClause, whereArgs);
             if (queryResult == null || queryResult.length == 0) return;
             province.setText(queryResult[0]);
-            Log.v("NICCO", "change in city");
         }
 
         // change in province
@@ -251,7 +246,6 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
             queryResult = model.queryDatabase(DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.PROJECT_NUMBER, whereClause, whereArgs);
             if (queryResult == null || queryResult.length == 0) return;
             projectNumber.setText(queryResult[0]);
-            Log.v("NICCO", "change in province");
         }
 
         // change in project number
@@ -265,7 +259,6 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
             queryResult = model.queryDatabase(DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.DEVELOPER, whereClause, whereArgs);
             if (queryResult == null || queryResult.length == 0) return;
             developer.setText(queryResult[0]);
-            Log.v("NICCO", "change in project number");
         }
 
         // change in contractor
@@ -280,7 +273,6 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
             queryResult = model.queryDatabase(DatabaseWriter.REVIEW_TABLE_NAME, DatabaseWriter.UIComponentInputValue.CONTRACTOR, whereClause, whereArgs);
             if (queryResult == null || queryResult.length == 0) return;
             contractor.setText(queryResult[0]);
-            Log.v("NICCO", "change in contractor");
         }
     }
 

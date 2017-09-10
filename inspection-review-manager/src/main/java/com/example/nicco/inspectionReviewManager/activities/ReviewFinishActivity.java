@@ -54,7 +54,6 @@ public class ReviewFinishActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if(motionEvent.getAction() == MotionEvent.ACTION_UP) return true;
-                //Log.v("NICCO", motionEvent.toString());
                 return false;
             }
         });

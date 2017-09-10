@@ -48,7 +48,7 @@ public class InspectionReviewActivity extends FragmentActivity {
             public void onClick(View view) {
                 saveButton.setTextColor(Color.BLACK);
                 if(model.reviewExistsInDatabase()) {
-                    showUpdateReviewAlertDialogue();
+                    showUpdateReviewAlertDialog();
                 } else {
                     // insert review into database
                     Toast toast = Toast.makeText(getApplicationContext(), R.string.saved_message, Toast.LENGTH_LONG);
@@ -103,7 +103,7 @@ public class InspectionReviewActivity extends FragmentActivity {
         return ready;
     }
 
-    private void showUpdateReviewAlertDialogue() {
+    private void showUpdateReviewAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.dialog_update_review_message)
                 .setTitle(R.string.dialog_update_review_title);
