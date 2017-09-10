@@ -27,10 +27,10 @@ import com.example.nicco.inspectionReviewManager.R;
 import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
 import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
 import com.example.nicco.inspectionReviewManager.customDatatypes.RecyclerAdapter;
-import com.example.nicco.inspectionReviewManager.interfaces.RecyclerViewClickListener;
 import com.example.nicco.inspectionReviewManager.dialogs.SelectDialog;
 import com.example.nicco.inspectionReviewManager.dialogs.SettingsDialog;
 import com.example.nicco.inspectionReviewManager.interfaces.ModelLoadListener;
+import com.example.nicco.inspectionReviewManager.interfaces.RecyclerViewClickListener;
 
 import java.util.HashMap;
 

@@ -37,7 +37,7 @@ public class ProjectActivity extends AppCompatActivity implements AutoFillActivi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
-    Log.v("PUCCI", "created");
+
         initViews();
         initValues();
 

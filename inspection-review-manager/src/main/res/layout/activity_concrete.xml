@@ -132,56 +132,6 @@
                 android:maxLength="@integer/maxLargeInputLength" />
 
             <TextView
-                android:id="@+id/textViewFormwork"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
-                android:text="@string/formwork_label" />
-
-            <RadioGroup
-                android:id="@+id/radioGroupFormwork"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/radioButtonFormworkReviewed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/reviewed_label" />
-
-                <RadioButton
-                    android:id="@+id/radioButtonFormworkNA"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/na_label" />
-            </RadioGroup>
-
-            <TextView
-                android:id="@+id/textViewFormworkInstruction"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/instructions_label" />
-
-            <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
-                android:id="@+id/autoCompleteFormworkInstruction"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:maxLength="@integer/maxLargeInputLength" />
-
-            <TextView
                 android:id="@+id/textViewAnchorage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -225,6 +175,56 @@
 
             <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
                 android:id="@+id/autoCompleteAnchorageInstruction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:maxLength="@integer/maxLargeInputLength" />
+
+            <TextView
+                android:id="@+id/textViewFormwork"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/formwork_label" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupFormwork"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButtonFormworkReviewed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/reviewed_label" />
+
+                <RadioButton
+                    android:id="@+id/radioButtonFormworkNA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/na_label" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/textViewFormworkInstruction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/instructions_label" />
+
+            <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
+                android:id="@+id/autoCompleteFormworkInstruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"

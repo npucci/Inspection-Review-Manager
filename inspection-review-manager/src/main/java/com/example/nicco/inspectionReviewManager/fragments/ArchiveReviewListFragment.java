@@ -2,8 +2,6 @@ package com.example.nicco.inspectionReviewManager.fragments;
 
 import android.app.ListFragment;
 import android.content.Context;
-import android.content.Intent;
-import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -15,14 +13,10 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nicco.inspectionReviewManager.R;
-
-import java.util.List;
 
 public class ArchiveReviewListFragment extends ListFragment implements OnItemClickListener {
     private boolean finished = false;
@@ -49,6 +43,14 @@ public class ArchiveReviewListFragment extends ListFragment implements OnItemCli
         CustomArrayAdapter adapter = new CustomArrayAdapter(getActivity(),
                 android.R.layout.simple_list_item_1, arr);
         listView.setAdapter(adapter);
+    }
+
+    public void setSelected(int position) {
+       // if(position < 0 || position >= getListView().getAdapter().getCount()) return;
+        String selected = getListView().getAdapter().getItem(position).toString();
+        reportKey = selected;
+        ((View) getListView().getAdapter().getItem(position)).setSelected(true);
+        ((ArrayAdapter<String>) getListView().getAdapter()).notifyDataSetChanged();
     }
 
     @Override

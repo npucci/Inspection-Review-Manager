@@ -195,27 +195,18 @@ public class FileIO {
             FileWriter writer = new FileWriter(htmlFile);
             BufferedWriter fout = new BufferedWriter(writer);
             for (String s : lines) {
-                if(s.contains("<!--") && s.contains("-->")) {
-                    int start = s.indexOf("<!--");
-                    int end = s.indexOf("-->") + 3;
-                    String tag = s.substring(start, end);
-                    String token = tag;
-                    token = token.replace("<!-- ", "");
-                    token = token.replace(" -->", "");
-                    token = token.replace("<!--", "");
-                    token = token.replace("-->", "");
-                    String value = hashMap.get(DatabaseWriter.getUIComponentInputValue(token));
-                    if(value != null) {
-                        Log.v("PUCCI", "token = " + token);
-                        Log.v("PUCCI", "value = " + value);
-                        if(value.equals(Model.SpecialValue.YES.toString())) {
-                            s = s.replace("unchecked", "checked");
-                            s = s.replace(value, "");
-                        } else if(value.equals(Model.SpecialValue.NO.toString())) s = s.replace(value, "");
-                        else s = s.replace("<!-- " + token + " -->", value);
+                for(DatabaseWriter.UIComponentInputValue column : DatabaseWriter.UIComponentInputValue.values()) {
+                    if(s.contains("<!-- " + column.getValue() + " -->")) {
+                        String value = hashMap.get(column);
+                        if(value != null) {
+                            if(value.equals(Model.SpecialValue.YES.toString())) {
+                                s = s.replace("unchecked", "checked");
+                                s.replace("<!-- " + column.getValue() + " -->", "");
+                            } else if(value.equals(Model.SpecialValue.NO.toString())) s = s.replace("<!-- " + column.getValue() + " -->", "");
+                            else s = s.replace("<!-- " + column.getValue() + " -->", value);
+                        }
                     }
                 }
-                //Log.v("PUCCI", "s = " + s);
                 fout.write(s);
                 fout.write("\n");
             }
