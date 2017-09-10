@@ -11,6 +11,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
             <TextView
@@ -106,22 +108,38 @@
     </ScrollView>
 
     <LinearLayout
-        android:id="@+id/linearLayoutWebViewButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:weightSum="1">
+        android:orientation="vertical">
 
         <View
+            android:id="@+id/view3"
             style="@style/HorizontalDivider"
             android:layout_weight="0" />
 
-        <Button
-            android:id="@+id/buttonCreateEmail"
-            style="@style/Widget.AppCompat.Button.Borderless"
+        <LinearLayout
+            android:id="@+id/linearLayoutWebViewButtons"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/button_create_email" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonEmailBack"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/button_back" />
+
+            <Button
+                android:id="@+id/buttonCreateEmail"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/button_create_email" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

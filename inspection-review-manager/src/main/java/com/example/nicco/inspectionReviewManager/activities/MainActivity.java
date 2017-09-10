@@ -27,10 +27,10 @@ import com.example.nicco.inspectionReviewManager.R;
 import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
 import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
 import com.example.nicco.inspectionReviewManager.customDatatypes.RecyclerAdapter;
+import com.example.nicco.inspectionReviewManager.interfaces.RecyclerViewClickListener;
 import com.example.nicco.inspectionReviewManager.dialogs.SelectDialog;
 import com.example.nicco.inspectionReviewManager.dialogs.SettingsDialog;
 import com.example.nicco.inspectionReviewManager.interfaces.ModelLoadListener;
-import com.example.nicco.inspectionReviewManager.interfaces.RecyclerViewClickListener;
 
 import java.util.HashMap;
 
@@ -101,6 +101,14 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         super.onStart();
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        final Model model = (Model) getApplicationContext();
+        final RecyclerView archive = (RecyclerView) findViewById(R.id.recyclerViewArchive);
+        archive.setAdapter(new RecyclerAdapter(getApplicationContext(), this, model.getDatabaseCursor(), getResources().getDimensionPixelSize(R.dimen.defaultTextSize)));
     }
 
     @Override
@@ -439,7 +447,7 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
 
     public void setTextSize(float textSize) {
         if(textSize != getResources().getDimension(R.dimen.defaultTextSize) &&
-        textSize != getResources().getDimension(R.dimen.largeTextSize))
+                textSize != getResources().getDimension(R.dimen.largeTextSize))
             this.textSize = getResources().getDimension(R.dimen.defaultTextSize);
         else this.textSize = textSize;
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);

@@ -1,5 +1,6 @@
 package com.example.nicco.inspectionReviewManager.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -36,6 +37,7 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
     private TextView attachmentLabel;
     private TextView attachment;
     private Button createEmailButton;
+    private Button backButton;
 
     private boolean ready = false;
 
@@ -79,6 +81,17 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
             }
         });
 
+        backButton = (Button) findViewById(R.id.buttonEmailBack);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Model model = (Model) getApplicationContext();
+                model.reset();
+                Intent intent = new Intent(EmailActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
         emailTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,6 +132,37 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
         setTextUnderline();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        final Model model = (Model) getApplicationContext();
+        String officeEmailAddress = getResources().getString(R.string.office_email_address);
+
+        emailToLabel = (TextView) findViewById(R.id.textViewEmailTo);
+        emailTo = (QueryingAutoCompleteTextView) findViewById(R.id.autocompleteEmailTo);
+        emailTo.setText(R.string.office_email_address);
+        emailTo.set(this, model, this, DatabaseWriter.EMAIL_TABLE_NAME, DatabaseWriter.EMAIL_ADDRESS_COLUMN, new String[]{officeEmailAddress});
+
+        emailCCLabel = (TextView) findViewById(R.id.textViewEmailCC);
+        emailCC = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteEmailCC);
+        emailCC.set(this, model, this, DatabaseWriter.EMAIL_TABLE_NAME, DatabaseWriter.EMAIL_ADDRESS_COLUMN, new String[]{officeEmailAddress});
+
+        subjectLabel = (TextView) findViewById(R.id.textViewSubject);
+        subject = (EditText) findViewById(R.id.editTextSubject);
+        subject.setText(model.createEmailSubject());
+
+        messageLabel = (TextView) findViewById(R.id.textViewMessage);
+        message = (EditText) findViewById(R.id.editTextMessage);
+
+        attachmentLabel = (TextView) findViewById(R.id.textViewAttachmentLabel);
+        attachment = (TextView) findViewById(R.id.textViewAttachment);
+        attachment.setText(model.makeReviewTitle() + ".doc");
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
+        setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
+        setTextUnderline();
+    }
+
     private void checkReady() {
         boolean isFilled = true;
 
@@ -140,20 +184,22 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
 
     private void setTextSize(Float textSize) {
         emailToLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        emailTo.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
         emailCCLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        emailCC.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
         subjectLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        subject.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
         messageLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        message.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
         attachmentLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        attachment.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
         createEmailButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+        backButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
     }
 
     private void setTextUnderline() {
-        emailToLabel.setPaintFlags(emailToLabel.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        emailCCLabel.setPaintFlags(emailCCLabel.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        subjectLabel.setPaintFlags(subjectLabel.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        messageLabel.setPaintFlags(messageLabel.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        attachmentLabel.setPaintFlags(attachmentLabel.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         createEmailButton.setPaintFlags(createEmailButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        backButton.setPaintFlags(backButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
     }
 
     private void createEmail() {

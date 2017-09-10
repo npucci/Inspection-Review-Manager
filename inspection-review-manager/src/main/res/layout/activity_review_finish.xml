@@ -17,41 +17,47 @@
 
     </LinearLayout>
 
-    <View
-        android:id="@+id/view2"
-        style="@style/HorizontalDivider"
-        android:layout_weight="0" />
-
     <LinearLayout
-        android:id="@+id/linearLayoutWebViewButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/buttonBack"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/button_back" />
+        <View
+            android:id="@+id/view2"
+            style="@style/HorizontalDivider"
+            android:layout_weight="0" />
 
-        <Button
-            android:id="@+id/buttonPrint"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linearLayoutWebViewButtons"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/button_print" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/buttonFinished"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/button_finish" />
+            <Button
+                android:id="@+id/buttonBack"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/button_back" />
 
+            <Button
+                android:id="@+id/buttonPrint"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/button_print" />
+
+            <Button
+                android:id="@+id/buttonFinished"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/button_finish" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
