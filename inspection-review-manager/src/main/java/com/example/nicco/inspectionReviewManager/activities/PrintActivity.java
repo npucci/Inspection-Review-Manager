@@ -133,7 +133,7 @@ public class PrintActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         final WebView webView = (WebView) findViewById(R.id.WebViewPrint);
-        webView.loadUrl("about:blank") ;;
+        webView.loadUrl("about:blank");
         super.onStop();
     }
 }
