@@ -94,7 +94,7 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
         emailTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                checkReady();
             }
         });
 
@@ -160,6 +160,8 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
         setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
         setTextUnderline();
+
+        //retrieveInfo();
     }
 
     private void checkReady() {

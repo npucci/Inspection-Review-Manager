@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 
 import com.example.nicco.inspectionReviewManager.R;
 import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
@@ -36,6 +37,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.content.Intent.createChooser;
 import static com.example.nicco.inspectionReviewManager.R.raw.sel_engineering_limited_inspection_report_doc_template;
 
 public class FileIO {
@@ -50,48 +52,10 @@ public class FileIO {
         return storageDir;
     }
 
-    public static void openDocFile(final Context context, final File file) {
-        if(context == null || file == null) return;
-        Intent intent = new Intent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setAction(Intent.ACTION_VIEW);
-        String type = "application/msword";
-        intent.setDataAndType(Uri.fromFile(file), type);
-        try {
-            //context.startActivity(intent);
-            context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.open_doc_intent_label)));
-        } catch(ActivityNotFoundException e) {
-            Log.v("PUCCI", "ERROR: " + e.getMessage());
-            intent.setPackage(null);
-            //context.startActivity(intent);
-            context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.open_doc_intent_label)));
-        }
-    }
-
-    public static void openHTMLFile(final Context context, final File file) {
-        if(context == null || file == null) return;
-        Intent intent = new Intent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setAction(Intent.ACTION_VIEW);
-        String type = "application/html";
-        intent.setDataAndType(Uri.fromFile(file), type);
-        try {
-            //context.startActivity(intent);
-            context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.open_html_intent_label)));
-        } catch(ActivityNotFoundException e) {
-            Log.v("PUCCI", "ERROR: " + e.getMessage());
-            intent.setPackage(null);
-            //context.startActivity(intent);
-            context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.open_html_intent_label)));
-        }
-    }
-
     public static boolean makeDir(File dir) {
         if(dir == null || (!dir.mkdirs() && !dir.exists())) {
-            Log.v("PUCCI", "ERROR: directory not created\n= " + dir.getPath());
             return false;
         }
-        else Log.v("PUCCI", "SUCCESS: directory created\n= " + dir.getPath());
         return true;
     }
 
@@ -410,26 +374,72 @@ public class FileIO {
         return null;
     }
 
+    public static void openDocFile(final Context context, final File file) {
+        if(context == null || file == null) return;
+        Intent intent = new Intent();
+        intent = Intent.createChooser(intent, context.getResources().getString(R.string.open_doc_intent_label));
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        MimeTypeMap mimeTypeMapmap = MimeTypeMap.getSingleton();
+        String extension = MimeTypeMap.getFileExtensionFromUrl(file.getName());
+        String type = mimeTypeMapmap.getMimeTypeFromExtension(extension);
+        if(type == null) type = "application/msword";
+        intent.setDataAndType(Uri.fromFile(file), type);
+        Log.v("PUCCI", "type = " + type);
+        try {
+            context.startActivity(intent);
+        } catch(ActivityNotFoundException e) {
+            Log.v("PUCCI", "ERROR: " + e.getMessage());
+        }
+    }
+
+    public static void openHTMLFile(final Context context, final File file) {
+        if(context == null || file == null) return;
+        Intent intent = new Intent();
+        intent = Intent.createChooser(intent, context.getResources().getString(R.string.open_html_intent_label));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setAction(Intent.ACTION_VIEW);
+
+        MimeTypeMap mimeTypeMapmap = MimeTypeMap.getSingleton();
+        String extension = MimeTypeMap.getFileExtensionFromUrl(file.getName());
+        String type = mimeTypeMapmap.getMimeTypeFromExtension(extension);
+        if(type == null) type = "text/html";
+        intent.setDataAndType(Uri.fromFile(file), type);
+
+        try {
+            context.startActivity(intent);
+        } catch(ActivityNotFoundException e) {
+            Log.v("PUCCI", "ERROR: " + e.getMessage());
+        }
+    }
+
     public static void createEmail(Context context, String to, String cc, String subject, String bodyText, File[] emailAttachment) {
         if(to == null || cc == null || subject == null || bodyText == null | emailAttachment == null || emailAttachment.length == 0) return;
 
-        Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-        intent.setType("plain/text");
+        Intent intent = new Intent();
+        intent = createChooser(intent, context.getResources().getString(R.string.open_email_intent_label));
+        intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+        intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
         intent.putExtra(Intent.EXTRA_CC, cc);
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, bodyText);
-        intent.setClassName("com.android.email", "com.android.compose.ComposeActivity");
+        //intent.setClassName("com.android.email", "com.android.compose.ComposeActivity");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         ArrayList<Uri> uris = new ArrayList<Uri>();
         for(File attachment : emailAttachment) {
-            if(attachment != null && attachment.isFile()) uris.add(Uri.fromFile(attachment));
+            if(attachment != null && attachment.isFile()) {
+                attachment.setReadable(true, false);
+                uris.add(Uri.fromFile(attachment));
+            }
         }
         if(uris.size() == 0) return;
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
 
         try {
-            intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-            context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.open_email_intent_label)));
+            context.startActivity(intent);
         } catch(Exception e) {
             Log.v("PUCCI", "ERROR: " + e.getMessage());
         }
