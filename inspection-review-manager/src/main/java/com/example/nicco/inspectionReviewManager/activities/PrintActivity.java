@@ -45,6 +45,7 @@ public class PrintActivity extends AppCompatActivity {
         final WebView webView = (WebView) findViewById(R.id.WebViewPrint);
         final File exportedHTML = model.getExportHTML(getBaseContext());
 
+        webView.loadUrl("about:blank");
         try {
             webView.loadUrl(exportedHTML.toURI().toURL().toString());
         } catch (MalformedURLException e) {
@@ -88,22 +89,17 @@ public class PrintActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
         setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
         setTextUnderline();
+        model.reset();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Model model = (Model) getApplicationContext();
-
-        final WebView webView = (WebView) findViewById(R.id.WebViewPrint);
-        final File exportedHTML = model.getExportHTML(getBaseContext());;
-
-        try {
-            webView.loadUrl(exportedHTML.toURI().toURL().toString());
-        } catch (MalformedURLException e) {
-            Log.v("NICCO", e.getMessage());
-        }
-
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
         setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
         setTextUnderline();
@@ -126,14 +122,10 @@ public class PrintActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        Model model = (Model) getApplicationContext();
-        model.reset();
     }
 
     @Override
     public void onStop() {
-        final WebView webView = (WebView) findViewById(R.id.WebViewPrint);
-        webView.loadUrl("about:blank");
         super.onStop();
     }
 }
