@@ -189,10 +189,15 @@ public class FileIO {
         return true;
     }
 
-    public static File exportInspectionReviewToDOC(final Context context,
-                                                      final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
-                                                      String inspectionReviewName, String year, String month, String day, String project,
-                                                      Model.ExportDocAsyncTask asyncTask) {
+    public static File exportInspectionReviewToDOC(
+            final Context context,
+            final HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
+            String inspectionReviewName,
+            String year,
+            String month,
+            String day,
+            String project,
+            Model.ExportDocAsyncTask asyncTask) {
 
         if(asyncTask != null) asyncTask.doProgress(0);
 

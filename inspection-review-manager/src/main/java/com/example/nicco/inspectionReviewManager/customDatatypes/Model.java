@@ -37,7 +37,7 @@ public class Model extends Application {
     private ExportDatabaseAsyncTask exportDatabaseTask;
     private ImportDatabaseAsyncTask importDatabaseTask;
     private File exportHTML;
-
+    private String viewedFile = null;
     public enum SpecialValue {
         YES ("Yes"),
         NO ("No"),
@@ -345,7 +345,7 @@ public class Model extends Application {
         return true;
     }
 
-    public boolean exportReviewToHTML(Context context, FragmentManager fragmentManager) {
+    public boolean exportReviewToHTML(Context context, FragmentManager fragmentManager, boolean openAfter) {
         if(exportHTMLTask != null && (exportHTMLTask.getStatus() == AsyncTask.Status.PENDING ||
                 exportHTMLTask.getStatus() == AsyncTask.Status.RUNNING)) {
             Log.v("NICCO", "export HTML already pending/running");
@@ -354,12 +354,12 @@ public class Model extends Application {
         }
         Log.v("NICCO", "export HTML executing");
         String fileName = makeReviewTitle();
-        exportHTMLTask = new ExportHTMLAsyncTask(context, hashMap, fileName, fragmentManager, this);
+        exportHTMLTask = new ExportHTMLAsyncTask(context, hashMap, fileName, fragmentManager, this, openAfter);
         exportHTMLTask.execute();
         return true;
     }
 
-    public boolean exportReviewToDoc(Context context, FragmentManager fragmentManager) {
+    public boolean exportReviewToDoc(Context context, FragmentManager fragmentManager, boolean openAfter) {
         if(exportDocTask != null && (exportDocTask.getStatus() == AsyncTask.Status.PENDING ||
                 exportDocTask.getStatus() == AsyncTask.Status.RUNNING)) {
             Log.v("NICCO", "export doc already pending/running");
@@ -368,9 +368,18 @@ public class Model extends Application {
         }
         Log.v("NICCO", "export doc executing");
         String fileName = makeReviewTitle();
-        exportDocTask = new ExportDocAsyncTask(context, hashMap, fileName, fragmentManager, this);
+        exportDocTask = new ExportDocAsyncTask(context, hashMap, fileName, fragmentManager, this, openAfter);
         exportDocTask.execute();
         return true;
+    }
+
+    public void setViewedFile(String viewedFile) {
+        Log.v("PUCCI", "viewedFile = " + viewedFile);
+        this.viewedFile = viewedFile;
+    }
+
+    public String getViewedFile() {
+        return viewedFile;
     }
 
     public Cursor getDatabaseCursor() {
@@ -587,7 +596,7 @@ public class Model extends Application {
             this.fragmentManager = fragmentManager;
             progressDialog = new ProgressDialog();
             progressDialog.setTitle( "Creating Email: \n" + fileName );
-            progressDialog.setStatus( "Status: adding attachments ..." );
+            progressDialog.setStatus( "Status: adding attachment(s) ..." );
             SharedPreferences sharedPreferences = model.getSharedPreferences( "AppPref", 0 );
             progressDialog.setTextSize( sharedPreferences.getFloat( "TextSize", model.getResources().getDimension(R.dimen.defaultTextSize) ) );
 
@@ -638,7 +647,14 @@ public class Model extends Application {
             String project = "";
             String address = hashMap.get(DatabaseWriter.UIComponentInputValue.ADDRESS);
             if(address != null) project = address;
-            emailAttachment = FileIO.exportInspectionReviewToDOC(context, hashMap, fileName, year, month, day, project, this);
+
+            String attachmentPath = getViewedFile();
+            if(attachmentPath != null) {
+                emailAttachment = new File(attachmentPath);
+            }
+            else {
+                emailAttachment = FileIO.exportInspectionReviewToDOC(context, hashMap, fileName, year, month, day, project, this);
+            }
             return emailAttachment != null;
         }
 
@@ -666,15 +682,22 @@ public class Model extends Application {
         private HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap;
         private FragmentManager fragmentManager;
         private ProgressDialog progressDialog;
+        private boolean openAfter;
 
-        public ExportDocAsyncTask(Context context,
-                                  HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
-                                  String fileName, FragmentManager fragmentManager, Model model) {
+        public ExportDocAsyncTask(
+                Context context,
+                HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
+                String fileName,
+                FragmentManager fragmentManager,
+                Model model,
+                boolean openAfter ) {
             super();
             this.context = context;
             this.fileName = fileName;
             this.hashMap = hashMap;
             this.fragmentManager = fragmentManager;
+            this.openAfter = openAfter;
+
             progressDialog = new ProgressDialog();
             progressDialog.setTitle("Exporting: \n" + makeReviewTitle() + ".doc");
             progressDialog.setStatus("Status: generating doc ...");
@@ -712,8 +735,20 @@ public class Model extends Application {
             String project = "";
             String address = hashMap.get(DatabaseWriter.UIComponentInputValue.ADDRESS);
             if(address != null) project = address;
-            File exportedFile = FileIO.exportInspectionReviewToDOC(context, hashMap, fileName, year, month, day, project, this);
-            FileIO.openDocFile(context, exportedFile);
+
+
+            File exportedFile;
+            if( getViewedFile() == null ) {
+                exportedFile = FileIO.exportInspectionReviewToDOC(context, hashMap, fileName, year, month, day, project, this);
+                setViewedFile(exportedFile.getPath());
+            }
+            else {
+                exportedFile = new File(getViewedFile());
+            }
+
+            if(openAfter) {
+                FileIO.openDocFile(context, exportedFile);
+            }
             return exportedFile != null;
         }
 
@@ -741,15 +776,22 @@ public class Model extends Application {
         private FragmentManager fragmentManager;
         private ProgressDialog progressDialog;
         private File exportFile;
+        private boolean openAfter;
 
-        public ExportHTMLAsyncTask(Context context,
-                                   HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
-                                   String fileName, FragmentManager fragmentManager, Model model) {
+        public ExportHTMLAsyncTask(
+                Context context,
+                HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
+                String fileName,
+                FragmentManager fragmentManager,
+                Model model,
+                boolean openAfter ) {
             super();
             this.context = context;
             this.fileName = fileName;
             this.hashMap = hashMap;
             this.fragmentManager = fragmentManager;
+            this.openAfter = openAfter;
+
             progressDialog = new ProgressDialog();
             progressDialog.setTitle("Exporting: \n" + makeReviewTitle() + ".html");
             progressDialog.setStatus("Status: generating html ...");
@@ -783,7 +825,9 @@ public class Model extends Application {
             if(address != null) project = address;
 
             exportFile = FileIO.exportInspectionReviewToHTML(context, hashMap, fileName, year, month, day, project, this);
-            FileIO.openHTMLFile(context, exportFile);
+            if(openAfter) {
+                FileIO.openHTMLFile(context, exportFile);
+            }
             return exportFile != null;
         }
 

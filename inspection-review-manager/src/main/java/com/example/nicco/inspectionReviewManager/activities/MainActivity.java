@@ -103,6 +103,9 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         super.onStart();
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        final Model model = (Model) getApplicationContext();
+        model.setViewedFile( null );
     }
 
     @Override
@@ -194,7 +197,7 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
             toast.show();
 
             model.loadReviewFromDatabase(selectedArchiveReview);
-            exported = model.exportReviewToHTML(getBaseContext(), getFragmentManager());
+            exported = model.exportReviewToHTML(getBaseContext(), getFragmentManager(), true);
             model.reset();
             return exported;
         }
@@ -210,7 +213,7 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
                 toast.show();
 
                 model.loadReviewFromDatabase(selectedArchiveReview);
-                model.exportReviewToHTML(getBaseContext(), getFragmentManager());
+                model.exportReviewToHTML(getBaseContext(), getFragmentManager(), true);
                 model.reset();
                 final Button newReviewButton = (Button) findViewById(R.id.buttonInspectionReview);
                 newReviewButton.setText("New Review");
@@ -238,7 +241,7 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
             toast.show();
 
             model.loadReviewFromDatabase(selectedArchiveReview);
-            exported = model.exportReviewToDoc(getBaseContext(), getFragmentManager());
+            exported = model.exportReviewToDoc(getBaseContext(), getFragmentManager(), true);
             model.reset();
             return exported;
         }
@@ -254,7 +257,7 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
                 toast.show();
 
                 model.loadReviewFromDatabase(selectedArchiveReview);
-                model.exportReviewToDoc(getBaseContext(), getFragmentManager());
+                model.exportReviewToDoc(getBaseContext(), getFragmentManager(), true);
                 model.reset();
                 final Button newReviewButton = (Button) findViewById(R.id.buttonInspectionReview);
                 newReviewButton.setText("New Review");

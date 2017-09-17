@@ -43,11 +43,13 @@ public class PrintActivity extends AppCompatActivity {
         webViewButtonsLayout.setBackgroundColor(Color.WHITE);
 
         final WebView webView = (WebView) findViewById(R.id.WebViewPrint);
-        final File exportedHTML = model.getExportHTML(getBaseContext());
 
+        if( model.getViewedFile() == null ) {
+            model.setViewedFile( model.getExportHTML( getBaseContext() ).getPath() );
+        }
         webView.loadUrl("about:blank");
         try {
-            webView.loadUrl(exportedHTML.toURI().toURL().toString());
+            webView.loadUrl(new File(model.getViewedFile()).toURI().toURL().toString());
         } catch (MalformedURLException e) {
             Log.v("NICCO", e.getMessage());
         }
@@ -100,6 +102,21 @@ public class PrintActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        Model model = (Model) getApplicationContext();
+        Log.v("PUCCI", "onResume(), viewedFile = " + model.getViewedFile());
+
+        if( model.getViewedFile() == null ) {
+            model.setViewedFile( model.getExportHTML( getBaseContext() ).getPath() );
+        }
+        final WebView webView = (WebView) findViewById(R.id.WebViewPrint);
+        webView.loadUrl("about:blank");
+        try {
+            webView.loadUrl(new File(model.getViewedFile()).toURI().toURL().toString());
+        } catch (MalformedURLException e) {
+            Log.v("NICCO", e.getMessage());
+        }
+
+
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
         setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
         setTextUnderline();

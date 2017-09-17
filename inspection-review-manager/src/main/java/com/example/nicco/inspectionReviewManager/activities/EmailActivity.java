@@ -45,86 +45,93 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email);
 
-        final Model model = (Model) getApplicationContext();
-        String officeEmailAddress = getResources().getString(R.string.office_email_address);
-
         emailToLabel = (TextView) findViewById(R.id.textViewEmailTo);
         emailTo = (QueryingAutoCompleteTextView) findViewById(R.id.autocompleteEmailTo);
-        emailTo.setText(R.string.office_email_address);
-        emailTo.set(this, model, this, DatabaseWriter.EMAIL_TABLE_NAME, DatabaseWriter.EMAIL_ADDRESS_COLUMN, new String[]{officeEmailAddress});
 
         emailCCLabel = (TextView) findViewById(R.id.textViewEmailCC);
         emailCC = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteEmailCC);
-        emailCC.set(this, model, this, DatabaseWriter.EMAIL_TABLE_NAME, DatabaseWriter.EMAIL_ADDRESS_COLUMN, new String[]{officeEmailAddress});
 
         subjectLabel = (TextView) findViewById(R.id.textViewSubject);
         subject = (EditText) findViewById(R.id.editTextSubject);
-        subject.setText(model.createEmailSubject());
 
         messageLabel = (TextView) findViewById(R.id.textViewMessage);
         message = (EditText) findViewById(R.id.editTextMessage);
 
         attachmentLabel = (TextView) findViewById(R.id.textViewAttachmentLabel);
         attachment = (TextView) findViewById(R.id.textViewAttachment);
-        attachment.setText(model.makeReviewTitle() + ".doc");
 
         createEmailButton = (Button) findViewById(R.id.buttonCreateEmail);
-        createEmailButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkReady();
-                if(ready) {
-                    createEmail();
-                    model.addEmailsToDatabase(getEmails());
-                }
-            }
-        });
-
         backButton = (Button) findViewById(R.id.buttonEmailBack);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Model model = (Model) getApplicationContext();
-                model.reset();
-                Intent intent = new Intent(EmailActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
 
-        emailTo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkReady();
-            }
-        });
+        final Model model = (Model) getApplicationContext();
+        if( model.getViewedFile() == null ) {
+            String officeEmailAddress = getResources().getString(R.string.office_email_address);
+            emailTo.setText(R.string.office_email_address);
+            emailTo.set(this, model, this, DatabaseWriter.EMAIL_TABLE_NAME, DatabaseWriter.EMAIL_ADDRESS_COLUMN, new String[]{officeEmailAddress});
 
-        emailCC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkReady();
-            }
-        });
+            emailCC.set(this, model, this, DatabaseWriter.EMAIL_TABLE_NAME, DatabaseWriter.EMAIL_ADDRESS_COLUMN, new String[]{officeEmailAddress});
 
-        subject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkReady();
-            }
-        });
+            subject.setText(model.createEmailSubject());
 
-        message.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkReady();
-            }
-        });
+            attachment.setText(model.makeReviewTitle() + ".doc");
 
-        attachment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkReady();
-            }
-        });
+            createEmailButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    checkReady();
+                    if (ready) {
+                        createEmail();
+                        model.addEmailsToDatabase(getEmails());
+                    }
+                }
+            });
+
+
+            backButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Model model = (Model) getApplicationContext();
+                    model.reset();
+                    Intent intent = new Intent(EmailActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+            emailTo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    checkReady();
+                }
+            });
+
+            emailCC.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    checkReady();
+                }
+            });
+
+            subject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    checkReady();
+                }
+            });
+
+            message.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    checkReady();
+                }
+            });
+
+            attachment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    checkReady();
+                }
+            });
+        }
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
         setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
@@ -132,36 +139,48 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        Model model = (Model) getApplicationContext();
+        if( model.getViewedFile() == null ) {
+            model.exportReviewToDoc(this, getFragmentManager(), false);
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        final Model model = (Model) getApplicationContext();
-        String officeEmailAddress = getResources().getString(R.string.office_email_address);
 
-        emailToLabel = (TextView) findViewById(R.id.textViewEmailTo);
-        emailTo = (QueryingAutoCompleteTextView) findViewById(R.id.autocompleteEmailTo);
-        emailTo.setText(R.string.office_email_address);
-        emailTo.set(this, model, this, DatabaseWriter.EMAIL_TABLE_NAME, DatabaseWriter.EMAIL_ADDRESS_COLUMN, new String[]{officeEmailAddress});
+        Model model = (Model) getApplicationContext();
 
-        emailCCLabel = (TextView) findViewById(R.id.textViewEmailCC);
-        emailCC = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteEmailCC);
-        emailCC.set(this, model, this, DatabaseWriter.EMAIL_TABLE_NAME, DatabaseWriter.EMAIL_ADDRESS_COLUMN, new String[]{officeEmailAddress});
+        if( !model.reviewStarted() && model.getViewedFile() == null ) {
+            String officeEmailAddress = getResources().getString(R.string.office_email_address);
 
-        subjectLabel = (TextView) findViewById(R.id.textViewSubject);
-        subject = (EditText) findViewById(R.id.editTextSubject);
-        subject.setText(model.createEmailSubject());
+            emailToLabel = (TextView) findViewById(R.id.textViewEmailTo);
+            emailTo = (QueryingAutoCompleteTextView) findViewById(R.id.autocompleteEmailTo);
+            emailTo.setText(R.string.office_email_address);
+            emailTo.set(this, model, this, DatabaseWriter.EMAIL_TABLE_NAME, DatabaseWriter.EMAIL_ADDRESS_COLUMN, new String[]{officeEmailAddress});
 
-        messageLabel = (TextView) findViewById(R.id.textViewMessage);
-        message = (EditText) findViewById(R.id.editTextMessage);
+            emailCCLabel = (TextView) findViewById(R.id.textViewEmailCC);
+            emailCC = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteEmailCC);
+            emailCC.set(this, model, this, DatabaseWriter.EMAIL_TABLE_NAME, DatabaseWriter.EMAIL_ADDRESS_COLUMN, new String[]{officeEmailAddress});
 
-        attachmentLabel = (TextView) findViewById(R.id.textViewAttachmentLabel);
-        attachment = (TextView) findViewById(R.id.textViewAttachment);
-        attachment.setText(model.makeReviewTitle() + ".doc");
+            subjectLabel = (TextView) findViewById(R.id.textViewSubject);
+            subject = (EditText) findViewById(R.id.editTextSubject);
+            subject.setText(model.createEmailSubject());
+
+            messageLabel = (TextView) findViewById(R.id.textViewMessage);
+            message = (EditText) findViewById(R.id.editTextMessage);
+
+            attachmentLabel = (TextView) findViewById(R.id.textViewAttachmentLabel);
+            attachment = (TextView) findViewById(R.id.textViewAttachment);
+            attachment.setText(model.makeReviewTitle() + ".doc");
+        }
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
         setTextSize(sharedPreferences.getFloat("TextSize", getResources().getDimension(R.dimen.defaultTextSize)));
         setTextUnderline();
-
-        //retrieveInfo();
     }
 
     private void checkReady() {
@@ -231,6 +250,8 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
 
     @Override
     public void onStop() {
+        Model model = (Model) getApplicationContext();
+        model.reset();
         super.onStop();
     }
 
