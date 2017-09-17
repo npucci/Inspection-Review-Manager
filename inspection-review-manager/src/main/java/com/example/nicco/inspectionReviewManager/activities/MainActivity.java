@@ -1,7 +1,6 @@
 package com.example.nicco.inspectionReviewManager.activities;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentManager;
@@ -30,12 +29,13 @@ import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
 import com.example.nicco.inspectionReviewManager.customDatatypes.RecyclerAdapter;
 import com.example.nicco.inspectionReviewManager.dialogs.SelectDialog;
 import com.example.nicco.inspectionReviewManager.dialogs.SettingsDialog;
+import com.example.nicco.inspectionReviewManager.interfaces.AsyncTaskListener;
 import com.example.nicco.inspectionReviewManager.interfaces.ModelLoadListener;
 import com.example.nicco.inspectionReviewManager.interfaces.RecyclerViewClickListener;
 
 import java.util.HashMap;
 
-public class MainActivity extends FragmentActivity implements RecyclerViewClickListener, ModelLoadListener {
+public class MainActivity extends FragmentActivity implements RecyclerViewClickListener, ModelLoadListener, AsyncTaskListener {
     private HashMap<String, String> selectedArchiveReview = new HashMap<>();
     private float textSize;
     private static final int FILE_DB_BROWSER = 2;
@@ -318,36 +318,40 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
 
         Intent intent = new Intent( Intent.ACTION_OPEN_DOCUMENT );
         intent.addCategory( Intent.CATEGORY_OPENABLE );
-        //intent.setType( "application/x-sqlite3" );
-        intent.setType( "*/*" ); //"application/x-sqlite3" );
-
+        intent.setType( "*/*" );
         startActivityForResult( intent, FILE_DB_BROWSER );
     }
 
     @Override
     public void onActivityResult ( int requestCode, int resultCode, Intent resultData ) {
-
-        // The ACTION_OPEN_DOCUMENT intent was sent with the request code
-        // READ_REQUEST_CODE. If the request code seen here doesn't match, it's the
-        // response to some other intent, and the code below shouldn't run at all.
-
-        if ( resultCode == Activity.RESULT_CANCELED ) {
-
-        }
-        else if ( requestCode == FILE_DB_BROWSER ) {
+      if ( requestCode == FILE_DB_BROWSER ) {
             if (resultData != null) {
                 String path = resultData.getData().getPath();
                 String fileType = path.substring( path.lastIndexOf(".") + 1, path.length() );
                 if(fileType.equals("db")) {
                     Toast.makeText(this, "Importing Database", Toast.LENGTH_LONG).show();
                     final Model model = (Model) getApplicationContext();
-                    model.importDatabase( getBaseContext(), getFragmentManager(), resultData.getData() );
+                    model.importDatabase( getBaseContext(), getFragmentManager(), resultData.getData(), this );
                 }
                 else {
                     Toast.makeText(this, "Invalid File", Toast.LENGTH_LONG).show();
                 }
             }
         }
+    }
+
+    @Override
+    public void done() {
+        final Model model = (Model) getApplicationContext();
+        final RecyclerView archive = (RecyclerView) findViewById(R.id.recyclerViewArchive);
+        archive.getAdapter().notifyDataSetChanged();
+        archive.setAdapter(
+                new RecyclerAdapter(
+                        getApplicationContext(),
+                        this,
+                        model.getDatabaseCursor(),
+                        getResources().getDimensionPixelSize(R.dimen.defaultTextSize) ) );
+        archive.getAdapter().notifyDataSetChanged();
     }
 
     @Override

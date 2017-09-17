@@ -419,19 +419,32 @@ public class FileIO {
         }
     }
 
-    public static void createEmail(Context context, String to, String cc, String subject, String bodyText, File[] emailAttachment) {
+    public static void createEmail (
+            Context context,
+            String to,
+            String cc,
+            String subject,
+            String bodyText,
+            File[] emailAttachment,
+            Model.EmailExportDocAsyncTask asyncTask) {
         if(to == null || cc == null || subject == null || bodyText == null | emailAttachment == null || emailAttachment.length == 0) return;
+
+        if(asyncTask != null) asyncTask.doProgress(0);
 
         Intent intent = new Intent();
         intent = createChooser(intent, context.getResources().getString(R.string.open_email_intent_label));
         intent.setAction(Intent.ACTION_SEND_MULTIPLE);
         intent.setType("text/plain");
+
+        if(asyncTask != null) asyncTask.doProgress(50);
+
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
         intent.putExtra(Intent.EXTRA_CC, cc);
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, bodyText);
-        //intent.setClassName("com.android.email", "com.android.compose.ComposeActivity");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        if(asyncTask != null) asyncTask.doProgress(75);
 
         ArrayList<Uri> uris = new ArrayList<Uri>();
         for(File attachment : emailAttachment) {
@@ -442,6 +455,8 @@ public class FileIO {
         }
         if(uris.size() == 0) return;
         intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+
+        if(asyncTask != null) asyncTask.doProgress(100);
 
         try {
             context.startActivity(intent);

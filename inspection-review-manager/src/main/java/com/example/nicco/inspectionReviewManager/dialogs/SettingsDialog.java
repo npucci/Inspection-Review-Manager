@@ -179,8 +179,13 @@ public class SettingsDialog extends DialogFragment {
         Switch textSizeControlSwitch = (Switch) view.findViewById(R.id.switchTextSizeControl);
         textSizeControlSwitch.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
         textSizeControlSwitch.setSwitchMinWidth((int)textSize * 5);
+
+        Button importDatabaseButton = (Button) view.findViewById(R.id.buttonImportDatabase);
+        importDatabaseButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
         Button backUpDatabaseButton = (Button) view.findViewById(R.id.buttonBackUpDatabase);
         backUpDatabaseButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+
         TextView noteTextView = (TextView) view.findViewById(R.id.textViewNote);
         noteTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
 

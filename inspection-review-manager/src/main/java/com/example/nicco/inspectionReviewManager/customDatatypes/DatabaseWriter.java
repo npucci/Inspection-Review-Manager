@@ -302,7 +302,9 @@ public class DatabaseWriter extends SQLiteOpenHelper {
             Context context,
             String databasePath,
             String table,
-            Model.ImportDatabaseAsyncTask importTask) {
+            Model.ImportDatabaseAsyncTask asyncTask) {
+
+        if(asyncTask != null) asyncTask.doProgress(0);
 
         DatabaseWriter externalDatabaseWriter = new DatabaseWriter(context, databasePath);
         SQLiteDatabase externalDatabase =  externalDatabaseWriter.getReadableDatabase();
@@ -320,6 +322,7 @@ public class DatabaseWriter extends SQLiteOpenHelper {
                         }
                     }
                     database.insert( table, null, contentValues);
+                    if(asyncTask != null) asyncTask.doProgress( (int) ( ( ( (float) cursor.getPosition() ) / cursor.getCount() ) * 100 ) );
                 }
             }
             cursor.close();

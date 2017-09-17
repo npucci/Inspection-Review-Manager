@@ -17,14 +17,16 @@ import com.example.nicco.inspectionReviewManager.interfaces.ModelLoadListener;
  * Created by Nicco on 2017-08-08.
  */
 
-public class ExportingProgressDialog extends DialogFragment {
+public class ProgressDialog extends DialogFragment {
     private ModelLoadListener modelLoadListener;
     private float textSize = 0f;
+    private String title = "Progress: ";
+    private String status = "Status: ";
     private TextView exportingTitle;
     private TextView exportingProgressPercentage;
     private TextView exportingResult;
 
-    public ExportingProgressDialog() { super(); }
+    public ProgressDialog() { super(); }
 
     public void setTextSize(float textSize) {
         this.textSize = textSize;
@@ -40,8 +42,12 @@ public class ExportingProgressDialog extends DialogFragment {
         final View view = inflater.inflate(R.layout.exporting_loading_dialog, container, false);
 
         exportingTitle = (TextView) view.findViewById(R.id.textViewExportingTitle);
+        exportingTitle.setText(title);
+
         exportingProgressPercentage = (TextView) view.findViewById(R.id.textViewProgressPercentage);
+
         exportingResult = (TextView) view.findViewById(R.id.textViewExportResult);
+        exportingResult.setText(status);
 
         updateTextSize(textSize);
         return view;
@@ -66,7 +72,11 @@ public class ExportingProgressDialog extends DialogFragment {
     }
 
     public void setTitle(String title) {
-        exportingTitle.setText(title);
+        this.title = title;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void setProgressPercentage(int percentage) {

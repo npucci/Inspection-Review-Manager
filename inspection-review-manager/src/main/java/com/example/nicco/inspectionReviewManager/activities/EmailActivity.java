@@ -231,8 +231,6 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
 
     @Override
     public void onStop() {
-        Model model = (Model) getApplicationContext();
-        model.reset();
         super.onStop();
     }
 

@@ -157,7 +157,7 @@
       negligent acts) or agreed to in writing, shall any Contributor be
       liable to You for damages, including any direct, indirect, special,
       incidental, or consequential damages of any character arising as a
-      result of this License or out of the use or inability to use the
+      status of this License or out of the use or inability to use the
       Work (including but not limited to damages for loss of goodwill,
       work stoppage, computer failure or malfunction, or any and all
       other commercial damages or losses), even if such Contributor
@@ -360,7 +360,7 @@
       negligent acts) or agreed to in writing, shall any Contributor be
       liable to You for damages, including any direct, indirect, special,
       incidental, or consequential damages of any character arising as a
-      result of this License or out of the use or inability to use the
+      status of this License or out of the use or inability to use the
       Work (including but not limited to damages for loss of goodwill,
       work stoppage, computer failure or malfunction, or any and all
       other commercial damages or losses), even if such Contributor
@@ -584,7 +584,7 @@ JUnit test library (junit-4.*.jar) & JaCoCo (*jacoco*)
     such Commercial Contributor's responsibility alone. Under this section, the
     Commercial Contributor would have to defend claims against the other
     Contributors related to those performance claims and warranties, and if a
-    court requires any other Contributor to pay any damages as a result, the
+    court requires any other Contributor to pay any damages as a status, the
     Commercial Contributor must pay those damages.
 
     5. NO WARRANTY
@@ -898,7 +898,7 @@ inbot-utils (https://github.com/Inbot/inbot-utils)
       negligent acts) or agreed to in writing, shall any Contributor be
       liable to You for damages, including any direct, indirect, special,
       incidental, or consequential damages of any character arising as a
-      result of this License or out of the use or inability to use the
+      status of this License or out of the use or inability to use the
       Work (including but not limited to damages for loss of goodwill,
       work stoppage, computer failure or malfunction, or any and all
       other commercial damages or losses), even if such Contributor
@@ -1122,7 +1122,7 @@ JUnit test library (junit-4.*.jar) & JaCoCo (*jacoco*)
     such Commercial Contributor's responsibility alone. Under this section, the
     Commercial Contributor would have to defend claims against the other
     Contributors related to those performance claims and warranties, and if a
-    court requires any other Contributor to pay any damages as a result, the
+    court requires any other Contributor to pay any damages as a status, the
     Commercial Contributor must pay those damages.
 
     5. NO WARRANTY
@@ -1436,7 +1436,7 @@ inbot-utils (https://github.com/Inbot/inbot-utils)
       negligent acts) or agreed to in writing, shall any Contributor be
       liable to You for damages, including any direct, indirect, special,
       incidental, or consequential damages of any character arising as a
-      result of this License or out of the use or inability to use the
+      status of this License or out of the use or inability to use the
       Work (including but not limited to damages for loss of goodwill,
       work stoppage, computer failure or malfunction, or any and all
       other commercial damages or losses), even if such Contributor
@@ -1638,7 +1638,7 @@ inbot-utils (https://github.com/Inbot/inbot-utils)
       negligent acts) or agreed to in writing, shall any Contributor be
       liable to You for damages, including any direct, indirect, special,
       incidental, or consequential damages of any character arising as a
-      result of this License or out of the use or inability to use the
+      status of this License or out of the use or inability to use the
       Work (including but not limited to damages for loss of goodwill,
       work stoppage, computer failure or malfunction, or any and all
       other commercial damages or losses), even if such Contributor
@@ -1860,7 +1860,7 @@ inbot-utils (https://github.com/Inbot/inbot-utils)
       negligent acts) or agreed to in writing, shall any Contributor be
       liable to You for damages, including any direct, indirect, special,
       incidental, or consequential damages of any character arising as a
-      result of this License or out of the use or inability to use the
+      status of this License or out of the use or inability to use the
       Work (including but not limited to damages for loss of goodwill,
       work stoppage, computer failure or malfunction, or any and all
       other commercial damages or losses), even if such Contributor
@@ -2048,7 +2048,7 @@ inbot-utils (https://github.com/Inbot/inbot-utils)
       negligent acts) or agreed to in writing, shall any Contributor be
       liable to You for damages, including any direct, indirect, special,
       incidental, or consequential damages of any character arising as a
-      result of this License or out of the use or inability to use the
+      status of this License or out of the use or inability to use the
       Work (including but not limited to damages for loss of goodwill,
       work stoppage, computer failure or malfunction, or any and all
       other commercial damages or losses), even if such Contributor

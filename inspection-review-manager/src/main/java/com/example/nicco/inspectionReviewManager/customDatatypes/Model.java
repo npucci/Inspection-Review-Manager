@@ -11,7 +11,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.example.nicco.inspectionReviewManager.R;
-import com.example.nicco.inspectionReviewManager.dialogs.ExportingProgressDialog;
+import com.example.nicco.inspectionReviewManager.dialogs.ProgressDialog;
+import com.example.nicco.inspectionReviewManager.interfaces.AsyncTaskListener;
 import com.example.nicco.inspectionReviewManager.utilities.FileIO;
 
 import java.io.File;
@@ -539,7 +540,7 @@ public class Model extends Application {
                 month + " " + day + ", " + year;
     }
 
-    public void importDatabase( Context context, FragmentManager fragmentManager, Uri fileUri ) {
+    public void importDatabase( Context context, FragmentManager fragmentManager, Uri fileUri, AsyncTaskListener taskListener ) {
         if ( importDatabaseTask != null &&
                 ( importDatabaseTask.getStatus() == AsyncTask.Status.PENDING ||
                 importDatabaseTask.getStatus() == AsyncTask.Status.RUNNING ) ) {
@@ -552,9 +553,7 @@ public class Model extends Application {
                 File dest = new File( FileIO.getTempCacheDir( getBaseContext() ), "temp.db" );
                 File importDatabase = FileIO.copyFile(inputStream, dest);
 
-                Log.v( "PUCCI", "path = " );
-
-                importDatabaseTask = new ImportDatabaseAsyncTask( context, importDatabase.getPath(), fragmentManager, this );
+                importDatabaseTask = new ImportDatabaseAsyncTask( context, importDatabase.getPath(), fragmentManager, this, taskListener );
                 importDatabaseTask.execute();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -569,24 +568,28 @@ public class Model extends Application {
         private String fileName;
         private HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap;
         private FragmentManager fragmentManager;
-        private ExportingProgressDialog exportingProgressDialog;
+        private ProgressDialog progressDialog;
         private File emailAttachment;
         private String to;
         private String cc;
         private String subject;
         private String message;
 
-        public EmailExportDocAsyncTask(Context context,
-                                       HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
-                                       String fileName, FragmentManager fragmentManager, Model model) {
+        public EmailExportDocAsyncTask( Context context,
+                                        HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
+                                        String fileName,
+                                        FragmentManager fragmentManager,
+                                        Model model ) {
             super();
             this.context = context;
             this.fileName = fileName;
             this.hashMap = hashMap;
             this.fragmentManager = fragmentManager;
-            exportingProgressDialog = new ExportingProgressDialog();
-            SharedPreferences sharedPreferences = model.getSharedPreferences("AppPref", 0);
-            exportingProgressDialog.setTextSize(sharedPreferences.getFloat("TextSize", model.getResources().getDimension(R.dimen.defaultTextSize)));
+            progressDialog = new ProgressDialog();
+            progressDialog.setTitle( "Creating Email: \n" + fileName );
+            progressDialog.setStatus( "Status: adding attachments ..." );
+            SharedPreferences sharedPreferences = model.getSharedPreferences( "AppPref", 0 );
+            progressDialog.setTextSize( sharedPreferences.getFloat( "TextSize", model.getResources().getDimension(R.dimen.defaultTextSize) ) );
 
         }
 
@@ -609,12 +612,12 @@ public class Model extends Application {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            exportingProgressDialog.show(fragmentManager, "dialog");
+            progressDialog.show(fragmentManager, "dialog");
         }
 
         @Override
         protected void onProgressUpdate(Integer... integers) {
-            exportingProgressDialog.setProgressPercentage(integers[0]);
+            progressDialog.setProgressPercentage(integers[0]);
         }
 
         @Override
@@ -644,16 +647,16 @@ public class Model extends Application {
         }
 
         private void showProgressDialog() {
-            if(exportingProgressDialog != null)
-                exportingProgressDialog.show(fragmentManager, "dialog");
+            if(progressDialog != null)
+                progressDialog.show(fragmentManager, "dialog");
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
-            super.onPostExecute(result);
-            exportingProgressDialog.finished(result);
-            FileIO.createEmail(context, to, cc, subject, message, new File[] {emailAttachment});
-            exportingProgressDialog.dismiss();
+        protected void onPostExecute( Boolean result ) {
+            super.onPostExecute( result );
+            progressDialog.finished( result );
+            FileIO.createEmail( context, to, cc, subject, message, new File[] {emailAttachment}, this );
+            progressDialog.dismiss();
         }
     }
 
@@ -662,7 +665,7 @@ public class Model extends Application {
         private String fileName;
         private HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap;
         private FragmentManager fragmentManager;
-        private ExportingProgressDialog exportingProgressDialog;
+        private ProgressDialog progressDialog;
 
         public ExportDocAsyncTask(Context context,
                                   HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap,
@@ -672,21 +675,23 @@ public class Model extends Application {
             this.fileName = fileName;
             this.hashMap = hashMap;
             this.fragmentManager = fragmentManager;
-            exportingProgressDialog = new ExportingProgressDialog();
+            progressDialog = new ProgressDialog();
+            progressDialog.setTitle("Exporting: \n" + makeReviewTitle() + ".doc");
+            progressDialog.setStatus("Status: generating doc ...");
             SharedPreferences sharedPreferences = model.getSharedPreferences("AppPref", 0);
-            exportingProgressDialog.setTextSize(sharedPreferences.getFloat("TextSize", model.getResources().getDimension(R.dimen.defaultTextSize)));
+            progressDialog.setTextSize(sharedPreferences.getFloat("TextSize", model.getResources().getDimension(R.dimen.defaultTextSize)));
 
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            exportingProgressDialog.show(fragmentManager, "dialog");
+            progressDialog.show(fragmentManager, "dialog");
         }
 
         @Override
         protected void onProgressUpdate(Integer... integers) {
-            exportingProgressDialog.setProgressPercentage(integers[0]);
+            progressDialog.setProgressPercentage(integers[0]);
         }
 
         @Override
@@ -717,15 +722,15 @@ public class Model extends Application {
         }
 
         private void showProgressDialog() {
-            if(exportingProgressDialog != null)
-                exportingProgressDialog.show(fragmentManager, "dialog");
+            if(progressDialog != null)
+                progressDialog.show(fragmentManager, "dialog");
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            exportingProgressDialog.finished(result);
-            exportingProgressDialog.dismiss();
+            progressDialog.finished(result);
+            progressDialog.dismiss();
         }
     }
 
@@ -734,7 +739,7 @@ public class Model extends Application {
         private String fileName;
         private HashMap<DatabaseWriter.UIComponentInputValue, String> hashMap;
         private FragmentManager fragmentManager;
-        private ExportingProgressDialog exportingProgressDialog;
+        private ProgressDialog progressDialog;
         private File exportFile;
 
         public ExportHTMLAsyncTask(Context context,
@@ -745,15 +750,17 @@ public class Model extends Application {
             this.fileName = fileName;
             this.hashMap = hashMap;
             this.fragmentManager = fragmentManager;
-            exportingProgressDialog = new ExportingProgressDialog();
+            progressDialog = new ProgressDialog();
+            progressDialog.setTitle("Exporting: \n" + makeReviewTitle() + ".html");
+            progressDialog.setStatus("Status: generating html ...");
             SharedPreferences sharedPreferences = model.getSharedPreferences("AppPref", 0);
-            exportingProgressDialog.setTextSize(sharedPreferences.getFloat("TextSize", model.getResources().getDimension(R.dimen.defaultTextSize)));
+            progressDialog.setTextSize(sharedPreferences.getFloat("TextSize", model.getResources().getDimension(R.dimen.defaultTextSize)));
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            exportingProgressDialog.show(fragmentManager, "dialog");
+            progressDialog.show(fragmentManager, "dialog");
         }
 
         @Override
@@ -782,7 +789,7 @@ public class Model extends Application {
 
         @Override
         protected void onProgressUpdate(Integer... integers) {
-            exportingProgressDialog.setProgressPercentage(integers[0]);
+            progressDialog.setProgressPercentage(integers[0]);
         }
 
         public void doProgress(int value){
@@ -790,23 +797,23 @@ public class Model extends Application {
         }
 
         private void showProgressDialog() {
-            if(exportingProgressDialog != null)
-                exportingProgressDialog.show(fragmentManager, "dialog");
+            if(progressDialog != null)
+                progressDialog.show(fragmentManager, "dialog");
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             exportHTML = exportFile;
-            exportingProgressDialog.finished(result);
-            exportingProgressDialog.dismiss();
+            progressDialog.finished(result);
+            progressDialog.dismiss();
         }
     }
 
     public class ExportDatabaseAsyncTask extends AsyncTask<String, Integer, Boolean> {
         private Context context;
         private FragmentManager fragmentManager;
-        private ExportingProgressDialog exportingProgressDialog;
+        private ProgressDialog progressDialog;
         private String filePath;
 
         public ExportDatabaseAsyncTask(Context context, String filePath, FragmentManager fragmentManager, Model model) {
@@ -814,15 +821,17 @@ public class Model extends Application {
             this.context = context;
             this.fragmentManager = fragmentManager;
             this.filePath = filePath;
-            exportingProgressDialog = new ExportingProgressDialog();
+            progressDialog = new ProgressDialog();
+            progressDialog.setTitle("Exporting: \n" + DatabaseWriter.DATABASE_NAME);
+            progressDialog.setStatus("Status: copying records ...");
             SharedPreferences sharedPreferences = model.getSharedPreferences("AppPref", 0);
-            exportingProgressDialog.setTextSize(sharedPreferences.getFloat("TextSize", model.getResources().getDimension(R.dimen.defaultTextSize)));
+            progressDialog.setTextSize(sharedPreferences.getFloat("TextSize", model.getResources().getDimension(R.dimen.defaultTextSize)));
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            exportingProgressDialog.show(fragmentManager, "dialog");
+            progressDialog.show(fragmentManager, "dialog");
         }
 
         @Override
@@ -832,7 +841,7 @@ public class Model extends Application {
 
         @Override
         protected void onProgressUpdate(Integer... integers) {
-            exportingProgressDialog.setProgressPercentage(integers[0]);
+            progressDialog.setProgressPercentage(integers[0]);
         }
 
         public void doProgress(int value){
@@ -840,38 +849,48 @@ public class Model extends Application {
         }
 
         private void showProgressDialog() {
-            if(exportingProgressDialog != null)
-                exportingProgressDialog.show(fragmentManager, "dialog");
+            if(progressDialog != null)
+                progressDialog.show(fragmentManager, "dialog");
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            exportingProgressDialog.finished(result);
-            exportingProgressDialog.dismiss();
+            progressDialog.finished(result);
+            progressDialog.dismiss();
         }
     }
 
     public class ImportDatabaseAsyncTask extends AsyncTask<String, Integer, Boolean> {
         private Context context;
         private FragmentManager fragmentManager;
-        private ExportingProgressDialog importingProgressDialog;
+        private ProgressDialog progressDialog;
         private String filePath;
+        private AsyncTaskListener taskListener;
 
-        public ImportDatabaseAsyncTask(Context context, String filePath, FragmentManager fragmentManager, Model model) {
+        public ImportDatabaseAsyncTask(
+                Context context,
+                String filePath,
+                FragmentManager fragmentManager,
+                Model model,
+                AsyncTaskListener taskListener ) {
             super();
             this.context = context;
             this.fragmentManager = fragmentManager;
             this.filePath = filePath;
-            importingProgressDialog = new ExportingProgressDialog();
+            this.taskListener = taskListener;
+
+            progressDialog = new ProgressDialog();
+            progressDialog.setTitle("Importing Database: \n" + new File(filePath).getName());
+            progressDialog.setStatus("Status: adding records ...");
             SharedPreferences sharedPreferences = model.getSharedPreferences("AppPref", 0);
-            importingProgressDialog.setTextSize(sharedPreferences.getFloat("TextSize", model.getResources().getDimension(R.dimen.defaultTextSize)));
+            progressDialog.setTextSize(sharedPreferences.getFloat("TextSize", model.getResources().getDimension(R.dimen.defaultTextSize)));
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            importingProgressDialog.show(fragmentManager, "dialog");
+            progressDialog.show(fragmentManager, "dialog");
         }
 
         @Override
@@ -883,7 +902,7 @@ public class Model extends Application {
 
         @Override
         protected void onProgressUpdate(Integer... integers) {
-            importingProgressDialog.setProgressPercentage(integers[0]);
+            progressDialog.setProgressPercentage(integers[0]);
         }
 
         public void doProgress(int value){
@@ -891,8 +910,8 @@ public class Model extends Application {
         }
 
         private void showProgressDialog() {
-            if(importingProgressDialog != null)
-                importingProgressDialog.show(fragmentManager, "dialog");
+            if(progressDialog != null)
+                progressDialog.show(fragmentManager, "dialog");
         }
 
         @Override
@@ -900,8 +919,12 @@ public class Model extends Application {
             super.onPostExecute(result);
             File temp = new File(filePath);
             temp.delete();
-            importingProgressDialog.finished(result);
-            importingProgressDialog.dismiss();
+
+            progressDialog.finished(result);
+            if( taskListener != null ) {
+                taskListener.done();
+            }
+            progressDialog.dismiss();
         }
     }
 }
