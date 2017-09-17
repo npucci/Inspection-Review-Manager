@@ -1,5 +1,6 @@
 package com.example.nicco.inspectionReviewManager.customDatatypes;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -22,9 +23,8 @@ public class DatabaseWriter extends SQLiteOpenHelper {
     public static final String EMAIL_TABLE_NAME = "Email";
     public static final String EMAIL_ADDRESS_COLUMN = "email_address";
 
-   // private final String REVIEW_TABLE_NAME = "Review";
+    public static final String DATABASE_NAME = "InspectionReviews.db";
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "InspectionReviews.db";
     private static final ArrayList<UIComponentInputValue> PRIMARY_KEYS = new ArrayList<UIComponentInputValue>(
         Arrays.asList(new UIComponentInputValue[]{
                 UIComponentInputValue.ADDRESS,
@@ -158,8 +158,8 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         public String toString() { return value + " " + dataType; }
     }
 
-    public DatabaseWriter(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public DatabaseWriter(Context context, String databaseName) {
+        super(context, databaseName, null, DATABASE_VERSION);
         try {
             database = getWritableDatabase();
             reviewTableCreate = generateReviewTableCreateSQL();
@@ -296,6 +296,40 @@ public class DatabaseWriter extends SQLiteOpenHelper {
             return false;
         }
         return true;
+    }
+
+    public void importDatabase(
+            Context context,
+            String databasePath,
+            String table,
+            Model.ImportDatabaseAsyncTask importTask) {
+
+        DatabaseWriter externalDatabaseWriter = new DatabaseWriter(context, databasePath);
+        SQLiteDatabase externalDatabase =  externalDatabaseWriter.getReadableDatabase();
+
+        try {
+            Cursor cursor = externalDatabase.query(table, new String[] { "*" }, null, null, null, null, null);
+            if ( cursor != null ) {
+                while (cursor.moveToNext()) {
+                    ContentValues contentValues = new ContentValues();
+                    for ( int i = 0; i < cursor.getColumnCount(); i++ ) {
+                        String data = cursor.getString( i );
+                        String column = cursor.getColumnName( i );
+                        if ( data != null && column != null ) {
+                            contentValues.put( column, data );
+                        }
+                    }
+                    database.insert( table, null, contentValues);
+                }
+            }
+            cursor.close();
+        }
+        catch(Exception e) {
+            Log.v("PUCCI", "QUERY Exception: " + e.getMessage());
+        }
+        finally {
+            externalDatabase.close();
+        }
     }
 
     public boolean addEmailAddresses(ArrayList<String> emailAddresses) {

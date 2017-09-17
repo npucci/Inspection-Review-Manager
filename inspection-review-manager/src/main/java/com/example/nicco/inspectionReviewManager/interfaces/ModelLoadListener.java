@@ -10,6 +10,7 @@ public interface ModelLoadListener {
     public boolean exportHTML(FragmentManager fragmentManager);
     public boolean exportDoc(FragmentManager fragmentManager);
     public boolean exportDatabase(FragmentManager fragmentManager);
+    public void importDatabase(FragmentManager fragmentManager);
     public void email();
     public void print();
     public void edit();

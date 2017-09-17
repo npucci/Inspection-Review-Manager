@@ -1,6 +1,7 @@
 package com.example.nicco.inspectionReviewManager.activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentManager;
@@ -27,16 +28,17 @@ import com.example.nicco.inspectionReviewManager.R;
 import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
 import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
 import com.example.nicco.inspectionReviewManager.customDatatypes.RecyclerAdapter;
-import com.example.nicco.inspectionReviewManager.interfaces.RecyclerViewClickListener;
 import com.example.nicco.inspectionReviewManager.dialogs.SelectDialog;
 import com.example.nicco.inspectionReviewManager.dialogs.SettingsDialog;
 import com.example.nicco.inspectionReviewManager.interfaces.ModelLoadListener;
+import com.example.nicco.inspectionReviewManager.interfaces.RecyclerViewClickListener;
 
 import java.util.HashMap;
 
 public class MainActivity extends FragmentActivity implements RecyclerViewClickListener, ModelLoadListener {
     private HashMap<String, String> selectedArchiveReview = new HashMap<>();
     private float textSize;
+    private static final int FILE_DB_BROWSER = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -307,6 +309,45 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         Dialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
+    }
+
+    @Override
+    public void importDatabase ( FragmentManager fragmentManager ) {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        Intent intent = new Intent( Intent.ACTION_OPEN_DOCUMENT );
+        intent.addCategory( Intent.CATEGORY_OPENABLE );
+        //intent.setType( "application/x-sqlite3" );
+        intent.setType( "*/*" ); //"application/x-sqlite3" );
+
+        startActivityForResult( intent, FILE_DB_BROWSER );
+    }
+
+    @Override
+    public void onActivityResult ( int requestCode, int resultCode, Intent resultData ) {
+
+        // The ACTION_OPEN_DOCUMENT intent was sent with the request code
+        // READ_REQUEST_CODE. If the request code seen here doesn't match, it's the
+        // response to some other intent, and the code below shouldn't run at all.
+
+        if ( resultCode == Activity.RESULT_CANCELED ) {
+
+        }
+        else if ( requestCode == FILE_DB_BROWSER ) {
+            if (resultData != null) {
+                String path = resultData.getData().getPath();
+                String fileType = path.substring( path.lastIndexOf(".") + 1, path.length() );
+                if(fileType.equals("db")) {
+                    Toast.makeText(this, "Importing Database", Toast.LENGTH_LONG).show();
+                    final Model model = (Model) getApplicationContext();
+                    model.importDatabase( getBaseContext(), getFragmentManager(), resultData.getData() );
+                }
+                else {
+                    Toast.makeText(this, "Invalid File", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
     }
 
     @Override

@@ -58,13 +58,22 @@
                                 android:layout_weight="0" />
 
                             <Button
+                                android:id="@+id/buttonImportDatabase"
+                                style="@style/InspectionReviewTheme.Button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="8dp"
+                                android:layout_marginTop="8dp"
+                                android:text="Import Database" />
+
+                            <Button
                                 android:id="@+id/buttonBackUpDatabase"
                                 style="@style/InspectionReviewTheme.Button"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="8dp"
                                 android:layout_marginTop="8dp"
-                                android:text="Backup Database" />
+                                android:text="Export Database" />
 
                             <TextView
                                 android:id="@+id/textViewNote"

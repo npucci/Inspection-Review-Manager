@@ -52,6 +52,11 @@ public class FileIO {
         return storageDir;
     }
 
+    public static File getTempCacheDir(final Context context) {
+        File storageDir = context.getCacheDir();
+        return storageDir;
+    }
+
     public static boolean makeDir(File dir) {
         if(dir == null || (!dir.mkdirs() && !dir.exists())) {
             return false;

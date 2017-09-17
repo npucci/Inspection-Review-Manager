@@ -87,6 +87,26 @@ public class SettingsDialog extends DialogFragment {
         }
         textSizeControlSwitch.setSwitchMinWidth((int)textSize * 5);
 
+        Button importDatabaseButton = (Button) view.findViewById(R.id.buttonImportDatabase);
+        importDatabaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // export database file
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        1);
+                int permission = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if(permission == PackageManager.PERMISSION_GRANTED) {
+                    Toast toast = Toast.makeText(getActivity().getBaseContext(), R.string.exporting_database_message, Toast.LENGTH_LONG);
+                    toast.show();
+                    modelLoadListener.importDatabase(getFragmentManager());
+                } else {
+                    Toast toast = Toast.makeText(getActivity().getBaseContext(), R.string.write_permissions_denied, Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            }
+        });
+
         Button backUpDatabaseButton = (Button) view.findViewById(R.id.buttonBackUpDatabase);
         backUpDatabaseButton.setOnClickListener(new View.OnClickListener() {
             @Override

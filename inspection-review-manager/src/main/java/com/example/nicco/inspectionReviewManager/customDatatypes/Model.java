@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -14,6 +15,8 @@ import com.example.nicco.inspectionReviewManager.dialogs.ExportingProgressDialog
 import com.example.nicco.inspectionReviewManager.utilities.FileIO;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +34,7 @@ public class Model extends Application {
     private ExportHTMLAsyncTask exportHTMLTask;
     private ExportDocAsyncTask exportDocTask;
     private ExportDatabaseAsyncTask exportDatabaseTask;
+    private ImportDatabaseAsyncTask importDatabaseTask;
     private File exportHTML;
 
     public enum SpecialValue {
@@ -79,7 +83,7 @@ public class Model extends Application {
     public void onCreate() {
         super.onCreate();
         completeBKGColor = ContextCompat.getColor(getApplicationContext(), R.color.completeBackground);
-        dbWriter = new DatabaseWriter(getBaseContext());
+        dbWriter = new DatabaseWriter(getBaseContext(), DatabaseWriter.DATABASE_NAME);
     }
 
     public void updateValue(DatabaseWriter.UIComponentInputValue key, String value) { hashMap.put(key, value); }
@@ -535,6 +539,31 @@ public class Model extends Application {
                 month + " " + day + ", " + year;
     }
 
+    public void importDatabase( Context context, FragmentManager fragmentManager, Uri fileUri ) {
+        if ( importDatabaseTask != null &&
+                ( importDatabaseTask.getStatus() == AsyncTask.Status.PENDING ||
+                importDatabaseTask.getStatus() == AsyncTask.Status.RUNNING ) ) {
+            Log.v( "PUCCI", "import database already pending/running" );
+            importDatabaseTask.showProgressDialog();
+        }
+        else {
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(fileUri);
+                File dest = new File( FileIO.getTempCacheDir( getBaseContext() ), "temp.db" );
+                File importDatabase = FileIO.copyFile(inputStream, dest);
+
+                Log.v( "PUCCI", "path = " );
+
+                importDatabaseTask = new ImportDatabaseAsyncTask( context, importDatabase.getPath(), fragmentManager, this );
+                importDatabaseTask.execute();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
     public class EmailExportDocAsyncTask extends AsyncTask<String, Integer, Boolean> {
         private Context context;
         private String fileName;
@@ -820,6 +849,59 @@ public class Model extends Application {
             super.onPostExecute(result);
             exportingProgressDialog.finished(result);
             exportingProgressDialog.dismiss();
+        }
+    }
+
+    public class ImportDatabaseAsyncTask extends AsyncTask<String, Integer, Boolean> {
+        private Context context;
+        private FragmentManager fragmentManager;
+        private ExportingProgressDialog importingProgressDialog;
+        private String filePath;
+
+        public ImportDatabaseAsyncTask(Context context, String filePath, FragmentManager fragmentManager, Model model) {
+            super();
+            this.context = context;
+            this.fragmentManager = fragmentManager;
+            this.filePath = filePath;
+            importingProgressDialog = new ExportingProgressDialog();
+            SharedPreferences sharedPreferences = model.getSharedPreferences("AppPref", 0);
+            importingProgressDialog.setTextSize(sharedPreferences.getFloat("TextSize", model.getResources().getDimension(R.dimen.defaultTextSize)));
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            importingProgressDialog.show(fragmentManager, "dialog");
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            dbWriter.importDatabase(context, filePath, dbWriter.REVIEW_TABLE_NAME, this);
+            dbWriter.importDatabase(context, filePath, dbWriter.EMAIL_TABLE_NAME, this);
+            return true;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... integers) {
+            importingProgressDialog.setProgressPercentage(integers[0]);
+        }
+
+        public void doProgress(int value){
+            publishProgress(value);
+        }
+
+        private void showProgressDialog() {
+            if(importingProgressDialog != null)
+                importingProgressDialog.show(fragmentManager, "dialog");
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            File temp = new File(filePath);
+            temp.delete();
+            importingProgressDialog.finished(result);
+            importingProgressDialog.dismiss();
         }
     }
 }
