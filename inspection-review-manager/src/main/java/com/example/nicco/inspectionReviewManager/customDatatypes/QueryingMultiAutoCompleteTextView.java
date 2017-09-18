@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 public class QueryingMultiAutoCompleteTextView extends android.support.v7.widget.AppCompatMultiAutoCompleteTextView {
     private ArrayList<String> values = new ArrayList<String>();
+    private int textLength = 0;
 
     public QueryingMultiAutoCompleteTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -36,6 +37,14 @@ public class QueryingMultiAutoCompleteTextView extends android.support.v7.widget
         addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if( charSequence.length() > textLength && charSequence.length() > 1 &&
+                        charSequence.charAt( charSequence.length() - 1 ) == ',' ) {
+                    QueryingMultiAutoCompleteTextView.this.getText().append("\u0020");
+                    textLength = QueryingMultiAutoCompleteTextView.this.getText()
+                            .toString().length();
+                    return;
+                }
+
                 String item = charSequence.toString();
                 String[] temp = item.split(", ");
                 item = temp[ temp.length - 1 ];
@@ -46,6 +55,7 @@ public class QueryingMultiAutoCompleteTextView extends android.support.v7.widget
                         defaultValues));
                 QueryingMultiAutoCompleteTextView.this.setAdapter(new ArrayAdapter<>(activity.getBaseContext(),
                         android.R.layout.simple_selectable_list_item, values));
+                textLength = charSequence.toString().length();
             }
 
             @Override
