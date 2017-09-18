@@ -359,6 +359,10 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
                         model.getDatabaseCursor(),
                         getResources().getDimensionPixelSize(R.dimen.defaultTextSize) ) );
         archive.getAdapter().notifyDataSetChanged();
+
+        TextView archiveTitle = (TextView) findViewById( R.id.textViewInspectionReviewArchive );
+        String archiveHeading = getResources().getString( R.string.inspection_review_archive );
+        archiveTitle.setText( archiveHeading + " (" + model.totalArchivedFiles() + ")");
     }
 
     @Override
