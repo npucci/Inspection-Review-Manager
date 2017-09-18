@@ -106,6 +106,10 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
 
         final Model model = (Model) getApplicationContext();
         model.setViewedFilePath( null );
+
+        TextView archiveTitle = (TextView) findViewById( R.id.textViewInspectionReviewArchive );
+        String archiveHeading = getResources().getString( R.string.inspection_review_archive );
+        archiveTitle.setText( archiveHeading + " (" + model.totalArchivedFiles() + ")");
     }
 
     @Override
@@ -435,6 +439,10 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
                 archive.setAdapter(new RecyclerAdapter(MainActivity.this.getApplicationContext(),
                         MainActivity.this, model.getDatabaseCursor(), getResources().getDimensionPixelSize(R.dimen.defaultTextSize)));
                 archive.getAdapter().notifyDataSetChanged();
+
+                TextView archiveTitle = (TextView) findViewById( R.id.textViewInspectionReviewArchive );
+                String archiveHeading = getResources().getString( R.string.inspection_review_archive );
+                archiveTitle.setText( archiveHeading + " (" + model.totalArchivedFiles() + ")");
             }
         });
         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

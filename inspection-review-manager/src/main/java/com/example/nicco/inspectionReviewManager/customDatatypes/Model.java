@@ -210,6 +210,10 @@ public class Model extends Application {
         return value != null && (value.equals(SpecialValue.YES.toString()) || value.equals(SpecialValue.NO.toString()));
     }
 
+    public String totalArchivedFiles() {
+        return dbWriter.numReviews();
+    }
+
     public String[] queryDatabase(String table, DatabaseWriter.UIComponentInputValue column, String whereClause, String[] whereArgs) {
         return dbWriter.query(table, column, whereClause, whereArgs);
     }

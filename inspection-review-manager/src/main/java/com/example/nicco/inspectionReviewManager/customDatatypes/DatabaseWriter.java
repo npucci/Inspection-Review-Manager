@@ -210,6 +210,25 @@ public class DatabaseWriter extends SQLiteOpenHelper {
         return sql;
     }
 
+    public String numReviews() {
+        String sql = "";
+        String sqlSelect = "SELECT COUNT (" + UIComponentInputValue.ADDRESS.getValue() + ") FROM " + REVIEW_TABLE_NAME;
+        sql = sqlSelect;
+        int numResults = 0;
+        try {
+            Cursor cursor = database.rawQuery(sql, null);
+            if(cursor != null) {
+                cursor.moveToFirst();
+                numResults = cursor.getInt(0);
+            }
+            cursor.close();
+        } catch(Exception e) {
+            Log.v("PUCCI", "QUERY Exception: " + e.getMessage());
+        }
+        Log.v("PUCCI", "numResults = " + numResults);
+        return "" + numResults;
+    }
+
     public boolean existsInDatabase(HashMap<UIComponentInputValue, String> hashMap) {
         UIComponentInputValue[] keys = PRIMARY_KEYS.toArray(new UIComponentInputValue[PRIMARY_KEYS.size()]);
         if(keys.length == 0) return false;
