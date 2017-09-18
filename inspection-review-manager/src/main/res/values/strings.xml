@@ -62,8 +62,8 @@
     <string name="stamp_inspection_review_label">Stamp Inspeciton Review Form</string>
 
     <!-- EMAIL ACTIVITY LABELS -->
-    <string name="email_to_label">To (separate multiple addresses with comma, space, or return)</string>
-    <string name="email_cc_label">Optional - CC (separate multiple addresses with comma, space, or return)</string>
+    <string name="email_to_label">To *(separate list with comma, space, or return)</string>
+    <string name="email_cc_label">Optional - Cc *(separate list with comma, space, or return)</string>
     <string name="email_subject_label">Subject</string>
     <string name="email_message_label">Optional - Message</string>
     <string name="email_attachment_label">Attachment</string>
