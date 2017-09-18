@@ -427,7 +427,7 @@ public class FileIO {
     public static void createEmail (
             Context context,
             String to,
-            String cc,
+            String[] cc,
             String subject,
             String bodyText,
             File[] emailAttachment,

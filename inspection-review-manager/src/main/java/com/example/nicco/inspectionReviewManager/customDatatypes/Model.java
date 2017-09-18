@@ -37,7 +37,7 @@ public class Model extends Application {
     private ExportDatabaseAsyncTask exportDatabaseTask;
     private ImportDatabaseAsyncTask importDatabaseTask;
     private File exportHTML;
-    private String viewedFile = null;
+    private String viewedFilePath = null;
     public enum SpecialValue {
         YES ("Yes"),
         NO ("No"),
@@ -327,7 +327,13 @@ public class Model extends Application {
         return exportHTML;
     }
 
-    public boolean emailExportDoc(Context context, FragmentManager fragmentManager, String to, String cc, String subject, String message) {
+    public boolean emailExportDoc(
+            Context context,
+            FragmentManager fragmentManager,
+            String to,
+            String[] cc,
+            String subject,
+            String message) {
         if(emailExportDocTask != null && (emailExportDocTask.getStatus() == AsyncTask.Status.PENDING ||
                 emailExportDocTask.getStatus() == AsyncTask.Status.RUNNING)) {
             Log.v("NICCO", "export doc already pending/running");
@@ -373,13 +379,13 @@ public class Model extends Application {
         return true;
     }
 
-    public void setViewedFile(String viewedFile) {
-        Log.v("PUCCI", "viewedFile = " + viewedFile);
-        this.viewedFile = viewedFile;
+    public void setViewedFilePath(String viewedFilePath) {
+        Log.v("PUCCI", "viewedFilePath = " + viewedFilePath);
+        this.viewedFilePath = viewedFilePath;
     }
 
-    public String getViewedFile() {
-        return viewedFile;
+    public String getViewedFilePath() {
+        return viewedFilePath;
     }
 
     public Cursor getDatabaseCursor() {
@@ -580,7 +586,7 @@ public class Model extends Application {
         private ProgressDialog progressDialog;
         private File emailAttachment;
         private String to;
-        private String cc;
+        private String[] cc;
         private String subject;
         private String message;
 
@@ -606,7 +612,7 @@ public class Model extends Application {
             this.to = to;
         }
 
-        public void addEmailcc(String cc) {
+        public void addEmailcc(String[] cc) {
             this.cc = cc;
         }
 
@@ -648,7 +654,7 @@ public class Model extends Application {
             String address = hashMap.get(DatabaseWriter.UIComponentInputValue.ADDRESS);
             if(address != null) project = address;
 
-            String attachmentPath = getViewedFile();
+            String attachmentPath = getViewedFilePath();
             if(attachmentPath != null) {
                 emailAttachment = new File(attachmentPath);
             }
@@ -671,6 +677,10 @@ public class Model extends Application {
         protected void onPostExecute( Boolean result ) {
             super.onPostExecute( result );
             progressDialog.finished( result );
+            Log.v( "PUCCI", "to = " + to );
+            Log.v( "PUCCI", "cc = " + cc );
+            Log.v( "PUCCI", "subject = " + subject );
+            Log.v( "PUCCI", "message = " + message );
             FileIO.createEmail( context, to, cc, subject, message, new File[] {emailAttachment}, this );
             progressDialog.dismiss();
         }
@@ -738,12 +748,12 @@ public class Model extends Application {
 
 
             File exportedFile;
-            if( getViewedFile() == null ) {
+            if( getViewedFilePath() == null ) {
                 exportedFile = FileIO.exportInspectionReviewToDOC(context, hashMap, fileName, year, month, day, project, this);
-                setViewedFile(exportedFile.getPath());
+                setViewedFilePath(exportedFile.getPath());
             }
             else {
-                exportedFile = new File(getViewedFile());
+                exportedFile = new File(getViewedFilePath());
             }
 
             if(openAfter) {

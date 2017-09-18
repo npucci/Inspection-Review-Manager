@@ -105,7 +105,7 @@ public class MainActivity extends FragmentActivity implements RecyclerViewClickL
         ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         final Model model = (Model) getApplicationContext();
-        model.setViewedFile( null );
+        model.setViewedFilePath( null );
     }
 
     @Override

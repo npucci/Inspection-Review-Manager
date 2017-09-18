@@ -44,12 +44,12 @@ public class PrintActivity extends AppCompatActivity {
 
         final WebView webView = (WebView) findViewById(R.id.WebViewPrint);
 
-        if( model.getViewedFile() == null ) {
-            model.setViewedFile( model.getExportHTML( getBaseContext() ).getPath() );
+        if( model.getViewedFilePath() == null ) {
+            model.setViewedFilePath( model.getExportHTML( getBaseContext() ).getPath() );
         }
         webView.loadUrl("about:blank");
         try {
-            webView.loadUrl(new File(model.getViewedFile()).toURI().toURL().toString());
+            webView.loadUrl(new File(model.getViewedFilePath()).toURI().toURL().toString());
         } catch (MalformedURLException e) {
             Log.v("NICCO", e.getMessage());
         }
@@ -103,15 +103,14 @@ public class PrintActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         Model model = (Model) getApplicationContext();
-        Log.v("PUCCI", "onResume(), viewedFile = " + model.getViewedFile());
 
-        if( model.getViewedFile() == null ) {
-            model.setViewedFile( model.getExportHTML( getBaseContext() ).getPath() );
+        if( model.getViewedFilePath() == null ) {
+            model.setViewedFilePath( model.getExportHTML( getBaseContext() ).getPath() );
         }
         final WebView webView = (WebView) findViewById(R.id.WebViewPrint);
         webView.loadUrl("about:blank");
         try {
-            webView.loadUrl(new File(model.getViewedFile()).toURI().toURL().toString());
+            webView.loadUrl(new File(model.getViewedFilePath()).toURI().toURL().toString());
         } catch (MalformedURLException e) {
             Log.v("NICCO", e.getMessage());
         }

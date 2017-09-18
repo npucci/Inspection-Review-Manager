@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
 import com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView;
 import com.example.nicco.inspectionReviewManager.interfaces.AutoFillActivity;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -64,7 +66,30 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
         backButton = (Button) findViewById(R.id.buttonEmailBack);
 
         final Model model = (Model) getApplicationContext();
-        if( model.getViewedFile() == null ) {
+
+        createEmailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkReady();
+                if (ready) {
+                    createEmail();
+                    model.addEmailsToDatabase(getEmails());
+                }
+            }
+        });
+
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Model model = (Model) getApplicationContext();
+                model.reset();
+                Intent intent = new Intent(EmailActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        if( model.getViewedFilePath() == null ) {
             String officeEmailAddress = getResources().getString(R.string.office_email_address);
             emailTo.setText(R.string.office_email_address);
             emailTo.set(this, model, this, DatabaseWriter.EMAIL_TABLE_NAME, DatabaseWriter.EMAIL_ADDRESS_COLUMN, new String[]{officeEmailAddress});
@@ -74,28 +99,6 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
             subject.setText(model.createEmailSubject());
 
             attachment.setText(model.makeReviewTitle() + ".doc");
-
-            createEmailButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    checkReady();
-                    if (ready) {
-                        createEmail();
-                        model.addEmailsToDatabase(getEmails());
-                    }
-                }
-            });
-
-
-            backButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Model model = (Model) getApplicationContext();
-                    model.reset();
-                    Intent intent = new Intent(EmailActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }
-            });
 
             emailTo.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -143,7 +146,7 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
         super.onStart();
 
         Model model = (Model) getApplicationContext();
-        if( model.getViewedFile() == null ) {
+        if( model.getViewedFilePath() == null ) {
             model.exportReviewToDoc(this, getFragmentManager(), false);
         }
     }
@@ -154,28 +157,19 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
 
         Model model = (Model) getApplicationContext();
 
-        if( !model.reviewStarted() && model.getViewedFile() == null ) {
+        Log.v("PUCCI", "onResume(), viewedFile = " + model.getViewedFilePath());
+
+        if( model.getViewedFilePath() == null ) {
             String officeEmailAddress = getResources().getString(R.string.office_email_address);
 
-            emailToLabel = (TextView) findViewById(R.id.textViewEmailTo);
-            emailTo = (QueryingAutoCompleteTextView) findViewById(R.id.autocompleteEmailTo);
             emailTo.setText(R.string.office_email_address);
             emailTo.set(this, model, this, DatabaseWriter.EMAIL_TABLE_NAME, DatabaseWriter.EMAIL_ADDRESS_COLUMN, new String[]{officeEmailAddress});
-
-            emailCCLabel = (TextView) findViewById(R.id.textViewEmailCC);
-            emailCC = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteEmailCC);
             emailCC.set(this, model, this, DatabaseWriter.EMAIL_TABLE_NAME, DatabaseWriter.EMAIL_ADDRESS_COLUMN, new String[]{officeEmailAddress});
-
-            subjectLabel = (TextView) findViewById(R.id.textViewSubject);
-            subject = (EditText) findViewById(R.id.editTextSubject);
             subject.setText(model.createEmailSubject());
-
-            messageLabel = (TextView) findViewById(R.id.textViewMessage);
-            message = (EditText) findViewById(R.id.editTextMessage);
-
-            attachmentLabel = (TextView) findViewById(R.id.textViewAttachmentLabel);
-            attachment = (TextView) findViewById(R.id.textViewAttachment);
             attachment.setText(model.makeReviewTitle() + ".doc");
+        }
+        else {
+            attachment.setText(new File(model.getViewedFilePath()).getName());
         }
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("AppPref", 0);
@@ -185,18 +179,20 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
 
     private void checkReady() {
         boolean isFilled = true;
+        int invalid = Color.RED;
+        int valid = Color.GRAY;
 
-        if(emailTo.getText().toString().isEmpty()) {
-            emailToLabel.setTextColor(Color.RED);
+        String toStr = emailTo.getText().toString().replace("\n", "");
+        if (toStr.isEmpty()) {
+            emailToLabel.setTextColor(invalid);
             isFilled = false;
-        }
-        else emailToLabel.setTextColor(Color.BLACK);
+        } else emailToLabel.setTextColor(valid);
 
-        if(subject.getText().toString().isEmpty()) {
-            subjectLabel.setTextColor(Color.RED);
+        String subjectStr = subject.getText().toString().replace("\n", "");
+        if (subjectStr.isEmpty()) {
+            subjectLabel.setTextColor(invalid);
             isFilled = false;
-        }
-        else subjectLabel.setTextColor(Color.BLACK);
+        } else subjectLabel.setTextColor(valid);
 
         ready = isFilled;
     }
@@ -222,12 +218,31 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
     }
 
     private void createEmail() {
+        ArrayList<String> cc = new ArrayList();
+
         String to = emailTo.getText().toString();
-        String cc = emailCC.getText().toString();
+        String[] temp = to.split( "( )|(,)|(, )|(\n)" );
+        to = temp[0];
+        for ( int i = 1; i < temp.length; i++ ) {
+            cc.add( temp[i] );
+        }
+
+        String ccTotal = emailCC.getText().toString();
+        temp = ccTotal.split( "( )|(,)|(, )|(\n)" );
+        for ( int i = 0; i < temp.length; i++ ) {
+            cc.add( temp[i] );
+        }
+
         String emailSubject = subject.getText().toString();
-        String emailMessage = message.getText().toString();;
-        Model model = (Model) getApplicationContext();
-        model.emailExportDoc(getBaseContext(), getFragmentManager(), to, cc, emailSubject, emailMessage);
+        String emailMessage = message.getText().toString();
+        Model model = ( Model ) getApplicationContext();
+        model.emailExportDoc(
+                getBaseContext(),
+                getFragmentManager(),
+                to,
+                cc.toArray( new String[]{} ),
+                emailSubject,
+                emailMessage );
     }
 
     private ArrayList<String> getEmails() {
