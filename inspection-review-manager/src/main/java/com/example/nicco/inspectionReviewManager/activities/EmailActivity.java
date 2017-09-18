@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.example.nicco.inspectionReviewManager.R;
 import com.example.nicco.inspectionReviewManager.customDatatypes.DatabaseWriter;
 import com.example.nicco.inspectionReviewManager.customDatatypes.Model;
-import com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView;
+import com.example.nicco.inspectionReviewManager.customDatatypes.QueryingMultiAutoCompleteTextView;
 import com.example.nicco.inspectionReviewManager.interfaces.AutoFillActivity;
 
 import java.io.File;
@@ -28,9 +28,9 @@ import java.util.ArrayList;
 
 public class EmailActivity extends FragmentActivity implements AutoFillActivity {
     private TextView emailToLabel;
-    private QueryingAutoCompleteTextView emailTo;
+    private QueryingMultiAutoCompleteTextView emailTo;
     private TextView emailCCLabel;
-    private QueryingAutoCompleteTextView emailCC;
+    private QueryingMultiAutoCompleteTextView emailCC;
     private TextView subjectLabel;
     private EditText subject;
     private TextView messageLabel;
@@ -48,10 +48,10 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
         setContentView(R.layout.activity_email);
 
         emailToLabel = (TextView) findViewById(R.id.textViewEmailTo);
-        emailTo = (QueryingAutoCompleteTextView) findViewById(R.id.autocompleteEmailTo);
+        emailTo = (QueryingMultiAutoCompleteTextView) findViewById(R.id.autocompleteEmailTo);
 
         emailCCLabel = (TextView) findViewById(R.id.textViewEmailCC);
-        emailCC = (QueryingAutoCompleteTextView) findViewById(R.id.autoCompleteEmailCC);
+        emailCC = (QueryingMultiAutoCompleteTextView) findViewById(R.id.autoCompleteEmailCC);
 
         subjectLabel = (TextView) findViewById(R.id.textViewSubject);
         subject = (EditText) findViewById(R.id.editTextSubject);
@@ -91,12 +91,15 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
 
         if( model.getViewedFilePath() == null ) {
             String officeEmailAddress = getResources().getString(R.string.office_email_address);
-            emailTo.setText(R.string.office_email_address);
+
             emailTo.set(this, model, this, DatabaseWriter.EMAIL_TABLE_NAME, DatabaseWriter.EMAIL_ADDRESS_COLUMN, new String[]{officeEmailAddress});
+            emailTo.setText(officeEmailAddress + ", ");
 
             emailCC.set(this, model, this, DatabaseWriter.EMAIL_TABLE_NAME, DatabaseWriter.EMAIL_ADDRESS_COLUMN, new String[]{officeEmailAddress});
+            emailCC.setText("");
 
             subject.setText(model.createEmailSubject());
+            message.setText("");
 
             attachment.setText(model.makeReviewTitle() + ".doc");
 
@@ -162,10 +165,14 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
         if( model.getViewedFilePath() == null ) {
             String officeEmailAddress = getResources().getString(R.string.office_email_address);
 
-            emailTo.setText(R.string.office_email_address);
             emailTo.set(this, model, this, DatabaseWriter.EMAIL_TABLE_NAME, DatabaseWriter.EMAIL_ADDRESS_COLUMN, new String[]{officeEmailAddress});
+            emailTo.setText(officeEmailAddress + ", ");
+
             emailCC.set(this, model, this, DatabaseWriter.EMAIL_TABLE_NAME, DatabaseWriter.EMAIL_ADDRESS_COLUMN, new String[]{officeEmailAddress});
+            emailCC.setText("");
+
             subject.setText(model.createEmailSubject());
+            message.setText("");
             attachment.setText(model.makeReviewTitle() + ".doc");
         }
         else {
@@ -218,19 +225,23 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
     }
 
     private void createEmail() {
-        ArrayList<String> cc = new ArrayList();
+        ArrayList<String> toList = new ArrayList<>();
 
-        String to = emailTo.getText().toString();
-        String[] temp = to.split( "( )|(,)|(, )|(\n)" );
-        to = temp[0];
-        for ( int i = 1; i < temp.length; i++ ) {
-            cc.add( temp[i] );
+        String toTotal = emailTo.getText().toString();
+        String[] temp = toTotal.split( "( )|(,)|(, )|(\n)" );
+        for ( int i = 0; i < temp.length; i++ ) {
+            if( !temp[i].isEmpty() ) {
+                toList.add( temp[i] );
+            }
         }
 
+        ArrayList<String> ccList = new ArrayList<>();
         String ccTotal = emailCC.getText().toString();
         temp = ccTotal.split( "( )|(,)|(, )|(\n)" );
         for ( int i = 0; i < temp.length; i++ ) {
-            cc.add( temp[i] );
+            if( !temp[i].isEmpty() ) {
+                ccList.add( temp[i] );
+            }
         }
 
         String emailSubject = subject.getText().toString();
@@ -239,21 +250,30 @@ public class EmailActivity extends FragmentActivity implements AutoFillActivity 
         model.emailExportDoc(
                 getBaseContext(),
                 getFragmentManager(),
-                to,
-                cc.toArray( new String[]{} ),
+                toList.toArray( new String[]{} ),
+                ccList.toArray( new String[]{} ),
                 emailSubject,
                 emailMessage );
     }
 
     private ArrayList<String> getEmails() {
         ArrayList<String> emails = new ArrayList<String>();
-        String to = emailTo.getText().toString();
-        String[] split = to.split("( )|(, )|( ,)|( , )|(,)|(\n)");
-        for(String email : split) if(email != null && !email.isEmpty()) emails.add(email);
 
-        String cc = emailCC.getText().toString();
-         split = cc.split("( )|(, )|( ,)|( , )|(,)|(\n)");
-        for(String email : split) if(email != null && !email.isEmpty()) emails.add(email);
+        String toTotal = emailTo.getText().toString();
+        String[] temp = toTotal.split( "( )|(,)|(, )|(\n)" );
+        for ( int i = 0; i < temp.length; i++ ) {
+            if( !temp[i].isEmpty() ) {
+                emails.add( temp[i] );
+            }
+        }
+
+        String ccTotal = emailCC.getText().toString();
+        temp = ccTotal.split( "( )|(,)|(, )|(\n)" );
+        for ( int i = 0; i < temp.length; i++ ) {
+            if( !temp[i].isEmpty() ) {
+                emails.add( temp[i] );
+            }
+        }
 
         return emails;
     }

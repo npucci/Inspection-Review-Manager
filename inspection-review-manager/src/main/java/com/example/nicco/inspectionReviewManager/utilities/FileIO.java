@@ -426,7 +426,7 @@ public class FileIO {
 
     public static void createEmail (
             Context context,
-            String to,
+            String[] to,
             String[] cc,
             String subject,
             String bodyText,
@@ -443,7 +443,7 @@ public class FileIO {
 
         if(asyncTask != null) asyncTask.doProgress(50);
 
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
+        intent.putExtra(Intent.EXTRA_EMAIL, to);
         intent.putExtra(Intent.EXTRA_CC, cc);
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, bodyText);

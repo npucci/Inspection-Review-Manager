@@ -24,7 +24,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/email_to_label" />
 
-            <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingMultiAutoCompleteTextView
                 android:id="@+id/autocompleteEmailTo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/email_cc_label" />
 
-            <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingAutoCompleteTextView
+            <com.example.nicco.inspectionReviewManager.customDatatypes.QueryingMultiAutoCompleteTextView
                 android:id="@+id/autoCompleteEmailCC"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

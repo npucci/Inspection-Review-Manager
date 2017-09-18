@@ -14,13 +14,13 @@ import com.example.nicco.inspectionReviewManager.interfaces.AutoFillActivity;
 import java.util.ArrayList;
 
 /**
- * Created by Nicco on 2017-08-16.
+ * Created by Nicco on 2017-09-17.
  */
 
-public class QueryingAutoCompleteTextView extends android.support.v7.widget.AppCompatAutoCompleteTextView {
+public class QueryingMultiAutoCompleteTextView extends android.support.v7.widget.AppCompatMultiAutoCompleteTextView {
     private ArrayList<String> values = new ArrayList<String>();
 
-    public QueryingAutoCompleteTextView(Context context, AttributeSet attrs) {
+    public QueryingMultiAutoCompleteTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -31,16 +31,20 @@ public class QueryingAutoCompleteTextView extends android.support.v7.widget.AppC
         setAdapter(new ArrayAdapter<>(activity.getBaseContext(),
                 android.R.layout.simple_selectable_list_item, values));
         setThreshold(1);
+        setTokenizer( new QueryingMultiAutoCompleteTextView.CommaTokenizer() );
 
         addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(charSequence.toString() == null && charSequence.toString().isEmpty()) return;
+                String item = charSequence.toString();
+                String[] temp = item.split(", ");
+                item = temp[ temp.length - 1 ];
+                if(item.toString() == null && item.toString().isEmpty()) return;
                 values = new ArrayList<String>();
                 values.addAll(model.combineArraysLinkedHashSet(
-                        model.queryMatchSearchDatabase(databaseTable, databaseColumn, charSequence.toString()),
+                        model.queryMatchSearchDatabase(databaseTable, databaseColumn, item.toString()),
                         defaultValues));
-                QueryingAutoCompleteTextView.this.setAdapter(new ArrayAdapter<>(activity.getBaseContext(),
+                QueryingMultiAutoCompleteTextView.this.setAdapter(new ArrayAdapter<>(activity.getBaseContext(),
                         android.R.layout.simple_selectable_list_item, values));
             }
 
@@ -49,13 +53,13 @@ public class QueryingAutoCompleteTextView extends android.support.v7.widget.AppC
 
             @Override
             public void afterTextChanged(Editable editable) {
-                autofillActivity.autofill(QueryingAutoCompleteTextView.this);
+                autofillActivity.autofill(QueryingMultiAutoCompleteTextView.this);
             }
         });
         setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                autofillActivity.autofill(QueryingAutoCompleteTextView.this);
+                autofillActivity.autofill(QueryingMultiAutoCompleteTextView.this);
             }
         });
     }

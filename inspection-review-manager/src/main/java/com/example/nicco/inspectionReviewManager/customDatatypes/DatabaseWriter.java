@@ -336,16 +336,18 @@ public class DatabaseWriter extends SQLiteOpenHelper {
     }
 
     public boolean addEmailAddresses(ArrayList<String> emailAddresses) {
-        try {
             for(String emailAddress : emailAddresses) {
-                String sql = "INSERT INTO " + EMAIL_TABLE_NAME +  " (" + EMAIL_ADDRESS_COLUMN + ")" +
-                        "VALUES (" + "'" + emailAddress + "'" + ")";
-                database.execSQL(sql);
+                try {
+                    String sql = "INSERT INTO " +
+                            EMAIL_TABLE_NAME +
+                            " (" + EMAIL_ADDRESS_COLUMN + ")" +
+                            "VALUES (" + "'" + emailAddress + "'" + ")";
+                    database.execSQL(sql);
+                }
+                catch(Exception e) {
+                    Log.v("PUCCI", "EXCEPTION: " + e.getMessage());
+                }
             }
-        } catch(Exception e) {
-            Log.v("PUCCI", "EXCEPTION: " + e.getMessage());
-            return false;
-        }
         return true;
     }
 

@@ -330,7 +330,7 @@ public class Model extends Application {
     public boolean emailExportDoc(
             Context context,
             FragmentManager fragmentManager,
-            String to,
+            String[] to,
             String[] cc,
             String subject,
             String message) {
@@ -585,7 +585,7 @@ public class Model extends Application {
         private FragmentManager fragmentManager;
         private ProgressDialog progressDialog;
         private File emailAttachment;
-        private String to;
+        private String[] to;
         private String[] cc;
         private String subject;
         private String message;
@@ -608,7 +608,7 @@ public class Model extends Application {
 
         }
 
-        public void addEmailTo(String to) {
+        public void addEmailTo(String[] to) {
             this.to = to;
         }
 
